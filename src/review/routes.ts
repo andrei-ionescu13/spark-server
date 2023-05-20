@@ -3,7 +3,6 @@ import { deleteReviewController } from './useCases/deleteReview';
 import { getReviewController } from './useCases/getReview';
 import { searchReviewsController } from './useCases/searchReviews';
 import { updateReviewStatusController } from './useCases/updateReviewStatus';
-import { deleteReviewsBulkController } from './useCases/deleteReviewsBulk';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => searchReviewsController.execute(req, res));
