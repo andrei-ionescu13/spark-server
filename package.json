@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && node build/app.js",
+    "start": "ts-node --transpile-only ./src/index.ts",
     "dev": "npx nodemon",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf ./build && tsc"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -30,11 +29,11 @@
     "node-fetch": "^2.6.9",
     "node-schedule": "^2.1.0",
     "nodemailer": "^6.6.5",
+    "rimraf": "^4.4.1",
     "streamifier": "^0.1.1",
     "stripe": "^8.176.0",
     "typescript": "^5.0.4",
-    "zod": "^3.21.4",
-    "rimraf": "^4.4.1"
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",
