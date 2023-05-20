@@ -5,7 +5,7 @@ export class AuthService {
   generateRefreshToken = (admin) =>
     jwt.sign(
       {
-        adminId: admin.id,
+        adminId: admin._id,
         username: admin.username,
         role: 'admin',
       },
@@ -16,7 +16,7 @@ export class AuthService {
   generateAccessToken = (admin) =>
     jwt.sign(
       {
-        adminId: admin.id,
+        adminId: admin._id,
         username: admin.username,
         role: 'admin',
       },
