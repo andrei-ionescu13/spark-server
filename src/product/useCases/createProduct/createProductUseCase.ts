@@ -1,16 +1,41 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { keyServices } from '../../../key';
+import { KeyRepoI } from '../../../key/keyRepo';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
 import { ProductRepoI } from '../../productRepo';
-import { productServices } from '../../services';
 import { CreateProductRequestDto } from './createProductRequestDto';
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Response> {
-  constructor(private productRepo: ProductRepoI, private uploaderService: UploaderService) {}
+  constructor(
+    private productRepo: ProductRepoI,
+    private keyRepo: KeyRepoI,
+    private uploaderService: UploaderService,
+  ) {}
+
+  createKey = async (productId, value) => {
+    try {
+      const product = await this.productRepo.getProduct(productId);
+
+      if (!product) {
+        return left(new AppError.NotFound('Product not found'));
+      }
+
+      const key = await this.keyRepo.createKey({
+        product: productId,
+        value,
+      });
+
+      await this.productRepo.addProductKey(productId, key);
+
+      return right(Result.ok<any>(key._id));
+    } catch (error) {
+      console.log(error);
+      return left(new AppError.UnexpectedError(error));
+    }
+  };
 
   execute = async (request: CreateProductRequestDto): Promise<Response> => {
     const { shouldPublish, coverFile, imageFiles, keysFile, ...rest } = request;
@@ -45,7 +70,7 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
         .toString()
         .split('\n')
         .map((key) => key.trim());
-      await Promise.all(keys.map((key) => keyServices.createKey(product._id, key)));
+      await Promise.all(keys.map((key) => this.createKey(product._id, key)));
 
       return right(Result.ok<any>(product._id));
     } catch (error) {

@@ -1,6 +1,5 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { productDb } from '../../../product';
 import { ProductRepoI } from '../../../product/productRepo';
 import { UseCase } from '../../../use-case';
 import { GenreRepoI } from '../../genreRepo';

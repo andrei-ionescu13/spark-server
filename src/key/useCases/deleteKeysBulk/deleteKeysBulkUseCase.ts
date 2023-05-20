@@ -3,7 +3,6 @@ import { Either, Result, left, right } from '../../../Result';
 import { ProductRepoI } from '../../../product/productRepo';
 import { UseCase } from '../../../use-case';
 import { KeyRepoI } from '../../keyRepo';
-import { keyServices } from '../../services';
 import { DeleteKeysBulkRequestDto } from './deleteKeysBulkRequestDto';
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
@@ -34,7 +33,7 @@ export class DeleteKeysBulkUseCase implements UseCase<DeleteKeysBulkRequestDto, 
     const { keyIds } = request;
 
     try {
-      await Promise.all(keyIds.map((id) => keyServices.deleteKey(id)));
+      await Promise.all(keyIds.map((id) => this.deleteKey(id)));
       return right(Result.ok());
     } catch (error) {
       console.log(error);

@@ -1,10 +1,9 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { NotFoundError } from '../../../errors';
-import { productServices } from '../../../product';
 import { ProductRepoI } from '../../../product/productRepo';
+import { productServices } from '../../../product/services';
 import { UseCase } from '../../../use-case';
-import { userDb } from '../../../users';
 import { UserRepoI } from '../../../users/userRepo';
 import { ReviewRepoI } from '../../reviewRepo';
 import { DeleteReviewRequestDto } from './deleteReviewRequestDto';

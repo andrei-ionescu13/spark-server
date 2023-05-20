@@ -2,7 +2,6 @@ import { CollectionRepo } from '../../../collection/collectionRepo';
 import { CollectionModel } from '../../../collection/model';
 import { DiscountRepo } from '../../../discount/discountRepo';
 import { DiscountModel } from '../../../discount/model';
-import { KeyModel } from '../../../key';
 import { KeyRepo } from '../../../key/keyRepo';
 import { CouponModel } from '../../../coupon/model';
 import { CouponRepo } from '../../../coupon/couponRepo';
@@ -15,6 +14,7 @@ import { ProductModel } from '../../model';
 import { ProductRepo } from '../../productRepo';
 import { DeleteProductController } from './deleteProductController';
 import { DeleteProductUseCase } from './deleteProductUseCase';
+import { KeyModel } from '../../../key/model';
 
 const productRepo = new ProductRepo(ProductModel);
 const collectionRepo = new CollectionRepo(CollectionModel);

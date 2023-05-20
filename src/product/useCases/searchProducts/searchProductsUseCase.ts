@@ -1,4 +1,3 @@
-import { productDb } from '../..';
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';

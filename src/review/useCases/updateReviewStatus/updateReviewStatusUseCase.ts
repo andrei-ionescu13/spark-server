@@ -1,6 +1,6 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { productServices } from '../../../product';
+import { productServices } from '../../../product/services';
 import { UseCase } from '../../../use-case';
 import { ReviewRepoI } from '../../reviewRepo';
 import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';
