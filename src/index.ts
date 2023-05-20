@@ -28,8 +28,12 @@ const port = process.env.PORT || 3001;
 
 const run = async () => {
   mongoose.connect(process.env.MONGO_URI as string);
-  console.log(process.env.CLIENT_URL);
-  app.use(cors());
+  app.use(
+    cors({
+      origin: ['http://localhost:3000'],
+      credentials: true,
+    }),
+  );
 
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
