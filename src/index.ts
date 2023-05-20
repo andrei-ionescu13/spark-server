@@ -31,7 +31,7 @@ const run = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: process.env.CLIENT,
+      origin: process.env.CLIENT_URL,
     }),
   );
 
