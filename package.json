@@ -33,7 +33,6 @@
     "nodemailer": "^6.6.5",
     "streamifier": "^0.1.1",
     "stripe": "^8.176.0",
-    "tsc": "^2.0.4",
     "zod": "^3.21.4"
   },
   "devDependencies": {
