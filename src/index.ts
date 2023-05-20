@@ -30,8 +30,9 @@ const run = async () => {
   mongoose.connect(process.env.MONGO_URI as string);
   app.use(
     cors({
+      origin: [process.env.CLIENT_URL || 'http://localhost:3000'],
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true,
-      origin: process.env.CLIENT_URL,
     }),
   );
 
