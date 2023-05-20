@@ -32,7 +32,6 @@ const run = async () => {
   app.use(
     cors({
       origin: [process.env.CLIENT_URL as string],
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
       credentials: true,
     }),
   );
