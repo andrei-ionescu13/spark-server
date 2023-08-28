@@ -11,15 +11,17 @@ export interface Article {
   description: string;
   slug: string;
   status: Status;
-  category: Category;
+  category: any;
   markdown: string;
   cover: Asset;
   meta: Meta;
   createdAt: Date;
   updatedAt: Date;
+  tags: any;
 }
 
 const ArticleSchema = new Schema<Article>({
+  tags: [{ type: Schema.Types.ObjectId, ref: 'ArticleTag' }],
   title: {
     type: String,
     required: true,
@@ -37,11 +39,7 @@ const ArticleSchema = new Schema<Article>({
     enum: ['draft', 'published', 'archived'],
     default: 'draft',
   },
-  category: {
-    type: String,
-    enum: ['news', 'games', 'reviews'],
-    required: true,
-  },
+  category: { type: Schema.Types.ObjectId, ref: 'ArticleCategory' },
   markdown: {
     type: String,
     required: true,

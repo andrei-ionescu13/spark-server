@@ -1,6 +1,7 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
+import { textUtils } from '../../../utils/textUtils';
 import { ProductRepoI } from '../../productRepo';
 import { productServices } from '../../services';
 import { UpdateProductDetailsRequestDto } from './updateProductDetailsRequestDto';
@@ -15,6 +16,7 @@ export class UpdateProductDetailsUseCase
   execute = async (request: UpdateProductDetailsRequestDto): Promise<Response> => {
     const { productId, ...rest } = request;
     const props: any = rest;
+    props.slug ??= textUtils.generateSlug(props.title);
 
     try {
       const product = await this.productRepo.getProduct(productId);

@@ -1,12 +1,23 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { NotFoundError } from '../../../errors';
+import { UseCaseError } from '../../../UseCaseError';
 import { ProductRepoI } from '../../../product/productRepo';
 import { UseCase } from '../../../use-case';
 import { KeyRepoI } from '../../keyRepo';
 import { CreateKeyRequestDto } from './createKeyRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+export namespace CreateKeyErrors {
+  export class KeyForPlatformExists extends Result<UseCaseError> {
+    constructor(productId, platform) {
+      super(false, { message: `Key for ${productId} exists for the ${platform} platform` });
+    }
+  }
+}
+
+type Response = Either<
+  CreateKeyErrors.KeyForPlatformExists | AppError.UnexpectedError | AppError.NotFound,
+  Result<any>
+>;
 
 export class CreateKeyUseCase implements UseCase<CreateKeyRequestDto, Response> {
   constructor(private keyRepo: KeyRepoI, private productRepo: ProductRepoI) {}
@@ -16,12 +27,38 @@ export class CreateKeyUseCase implements UseCase<CreateKeyRequestDto, Response> 
 
     try {
       const product = await this.productRepo.getProduct(productId);
+      const productFound = !!product;
 
-      if (!product) {
+      if (!productFound) {
         return left(new AppError.NotFound('Product not found'));
       }
 
-      const key = await this.keyRepo.createKey({
+      let key = await this.keyRepo.getKeyByValue(value);
+      const keyFound = !!key;
+
+      if (keyFound) {
+        const productsByKeyFound = await this.productRepo.searchProductsByKeys(value);
+        let samePlatform;
+
+        if (productsByKeyFound.length) {
+          for (const productByKeyFound of productsByKeyFound) {
+            if (
+              productByKeyFound.platform._id.toString() ===
+              productByKeyFound.platform._id.toString()
+            ) {
+              samePlatform = productByKeyFound.platform;
+              break;
+            }
+          }
+        }
+
+        const isSamePlatform = !!samePlatform;
+        if (isSamePlatform) {
+          return left(new CreateKeyErrors.KeyForPlatformExists(productId, samePlatform.name));
+        }
+      }
+
+      key = await this.keyRepo.createKey({
         product: productId,
         value,
       });

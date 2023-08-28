@@ -13,12 +13,16 @@ const KeySchema = new Schema<Key>({
   product: {
     type: Schema.Types.ObjectId,
     ref: 'Product',
+    required: true,
   },
   createdAt: {
     default: Date.now(),
     type: Date,
   },
-  value: String,
+  value: {
+    type: String,
+    required: true,
+  },
   availability: {
     type: String,
     enum: ['available', 'unavailable'],

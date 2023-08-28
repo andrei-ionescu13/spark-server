@@ -10,7 +10,6 @@ export interface Product {
   status: any;
   title: any;
   price: any;
-  initialPrice: any;
   genres: any;
   releaseDate: any;
   createdAt: any;
@@ -47,7 +46,6 @@ const ProductSchema = new Schema<Product>({
   },
   title: String,
   price: Number,
-  initialPrice: Number,
   genres: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],
   releaseDate: Date,
   createdAt: {

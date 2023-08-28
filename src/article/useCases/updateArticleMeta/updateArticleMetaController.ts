@@ -38,7 +38,7 @@ export class UpdateArticleMetaController extends BaseController {
       }
 
       const value = result.value.getValue();
-      console.log(value);
+
       return this.ok(res, value);
     } catch (error) {
       console.log(error);

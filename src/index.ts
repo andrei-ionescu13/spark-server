@@ -18,9 +18,13 @@ import { discountRoutes } from './discount/index';
 import { reviewsRoutes } from './review/index';
 import { promoCodeRoutes } from './coupon/index';
 import { collectionsRoutes } from './collection/index';
+import { articleCategoryRoutes } from './article-category/index';
+import { articleTagRoutes } from './article-tag/index';
 import { verifyToken } from './middleware/verify-token';
 import cookieParser from 'cookie-parser';
 import * as dotenv from 'dotenv';
+import { developerRoutes } from './developer';
+import { featureRoutes } from './feature';
 dotenv.config();
 
 const app = express();
@@ -28,6 +32,7 @@ const port = process.env.PORT || 3001;
 
 const run = async () => {
   mongoose.connect(process.env.MONGO_URI as string);
+  console.log(process.env.MONGO_URI);
   app.use(
     cors({
       origin: '*',
@@ -57,6 +62,10 @@ const run = async () => {
   });
 
   app.use('/articles', articlesRoutes);
+  app.use('/developers', developerRoutes);
+  app.use('/features', featureRoutes);
+  app.use('/article-categories', articleCategoryRoutes);
+  app.use('/article-tags', articleTagRoutes);
   app.use('/publishers', publisherRoutes);
   app.use('/platforms', platformRoutes);
   app.use('/currencies', currencyRoutes);

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
-import { DuplicateArticleUseCase } from './duplicateArticleUseCase';
+import { DuplicateArticleErrors, DuplicateArticleUseCase } from './duplicateArticleUseCase';
 
 export class DuplicateArticleController extends BaseController {
   constructor(private useCase: DuplicateArticleUseCase) {
@@ -10,7 +10,11 @@ export class DuplicateArticleController extends BaseController {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DuplicateArticleRequestDto = { articleId: req.params.articleId };
+    const dto: DuplicateArticleRequestDto = {
+      articleId: req.params.articleId,
+      slug: req.body.slug,
+      title: req.body.title,
+    };
 
     try {
       const result = await this.useCase.execute(dto);
@@ -19,6 +23,12 @@ export class DuplicateArticleController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
+          case DuplicateArticleErrors.TitleNotAvailableError:
+            return this.forbidden(res, error.getErrorValue().message);
+
+          case DuplicateArticleErrors.SlugNotAvailableError:
+            return this.forbidden(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error.getErrorValue().message);
         }

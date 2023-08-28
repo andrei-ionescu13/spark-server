@@ -12,6 +12,12 @@ export namespace CreateDiscountErrors {
       super(false, { message: `${productTitle} has a discount already` });
     }
   }
+
+  export class ProductPriceError extends Result<UseCaseError> {
+    constructor(productTitle: string) {
+      super(false, { message: `Discount can't be bigger thant ${productTitle} price` });
+    }
+  }
 }
 
 type Response = Either<
@@ -37,6 +43,10 @@ export class CreateDiscountUseCase implements UseCase<CreateDiscountRequestDto, 
 
         if (!endDate || (endDate && endDate.getTime() > now)) {
           return left(new CreateDiscountErrors.ProductHasDiscountError(product.title));
+        }
+
+        if (props.type === 'amount' || product.price - props.value <= 0) {
+          return left(new CreateDiscountErrors.ProductPriceError(product.title));
         }
       });
 

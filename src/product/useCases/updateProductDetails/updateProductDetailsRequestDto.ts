@@ -5,7 +5,6 @@ export interface UpdateProductDetailsRequestDto {
   recommendedRequirements: string;
   markdown: string;
   price: number;
-  initialPrice: number;
   genres: string[];
   developers: string[];
   features: string[];
