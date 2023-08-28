@@ -11,6 +11,7 @@ import { createArticleController } from './useCases/createArticle';
 import { deleteArticlesBulkController } from './useCases/deleteArticlesBulk';
 import { updateArticleDetailsController } from './useCases/updateArticleDetails';
 import { duplicateArticleController } from './useCases/duplicateArticle';
+import { updateArticleTagsController } from './useCases/updateArticleTags';
 const router = express.Router();
 
 router.get('/', (req: Request, res: Response) => searchArticlesController.execute(req, res));
@@ -24,6 +25,10 @@ router.put('/:articleId/status', (req: Request, res: Response) =>
 
 router.put('/:articleId/meta', (req: Request, res: Response) =>
   updateArticleMetaController.execute(req, res),
+);
+
+router.put('/:articleId/tags', (req: Request, res: Response) =>
+  updateArticleTagsController.execute(req, res),
 );
 
 router.delete('/:articleId', (req: Request, res: Response) =>

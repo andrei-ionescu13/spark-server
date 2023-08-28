@@ -11,4 +11,5 @@ export interface CreateArticleRequestDto {
   title: string;
   markdown: string;
   coverFile: Express.Multer.File;
+  tags: string[];
 }

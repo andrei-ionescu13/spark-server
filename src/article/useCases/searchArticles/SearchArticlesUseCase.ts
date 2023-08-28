@@ -1,5 +1,6 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
+import { ArticleCategory } from '../../../article-category/model';
 import { UseCase } from '../../../use-case';
 import { ArticleRepoI } from '../../articleRepo';
 import { SearchArticlesRequestDto } from './SearchArticlesRequestDto';
@@ -7,7 +8,10 @@ import { SearchArticlesRequestDto } from './SearchArticlesRequestDto';
 const MAX_LIMIT = 36;
 const LIMIT = 12;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Either<
+  AppError.UnexpectedError,
+  Result<{ articles: ArticleCategory[]; count: number }>
+>;
 
 export class SearchArticlesUseCase implements UseCase<SearchArticlesRequestDto, Response> {
   constructor(private articleRepo: ArticleRepoI) {}

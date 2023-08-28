@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { CreateProductRequestDto } from './createProductRequestDto';
-import { CreateProductUseCase } from './createProductUseCase';
+import { CreateProductErrors, CreateProductUseCase } from './createProductUseCase';
 
 export class CreateProductController extends BaseController {
   constructor(private useCase: CreateProductUseCase) {
@@ -18,7 +18,6 @@ export class CreateProductController extends BaseController {
       shouldPublish: body.shouldPublish,
       markdown: body.markdown,
       price: body.price,
-      initialPrice: body.initialPrice,
       genres: body.genres,
       selectedImages: body.selectedImages,
       videos: body.videos,
@@ -41,14 +40,20 @@ export class CreateProductController extends BaseController {
       //@ts-ignore
       keysFile: req.files.keys[0] as Express.Multer.File,
     };
-
+    console.log(dto);
     try {
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {
-        const error = result.value;
+        const error = result.value.getErrorValue();
 
         switch (error.constructor) {
+          case CreateProductErrors.TitleNotAvailableError:
+            return this.forbidden(res, error.message);
+
+          case CreateProductErrors.SlugNotAvailableError:
+            return this.forbidden(res, error.message);
+
           default:
             return this.fail(res, error);
         }

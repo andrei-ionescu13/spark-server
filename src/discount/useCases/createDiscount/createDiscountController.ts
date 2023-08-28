@@ -30,6 +30,9 @@ export class CreateDiscountController extends BaseController {
           case CreateDiscountErrors.ProductHasDiscountError:
             return this.forbidden(res, error.getErrorValue().message);
 
+          case CreateDiscountErrors.ProductPriceError:
+            return this.forbidden(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error);
         }

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
-import { CreateArticleUseCase } from './createArticleUseCase';
+import { CreateArticleCategoryErrors, CreateArticleUseCase } from './createArticleUseCase';
 import { CreateArticleRequestDto } from './createArticleRequestDto';
 
 export class CreateArticleController extends BaseController {
@@ -12,6 +12,7 @@ export class CreateArticleController extends BaseController {
   executeImpl = async (req: any, res: Response) => {
     const body = req.body;
     const dto: CreateArticleRequestDto = {
+      tags: body.tags,
       description: body.description,
       meta: {
         description: body.meta.description,
@@ -30,9 +31,15 @@ export class CreateArticleController extends BaseController {
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {
-        const error = result.value.getErrorValue();
+        const error = result.value;
 
         switch (error.constructor) {
+          case CreateArticleCategoryErrors.TitleNotAvailableError:
+            return this.forbidden(res, error.getErrorValue().message);
+
+          case CreateArticleCategoryErrors.SlugNotAvailableError:
+            return this.forbidden(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error);
         }

@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { ImportKeysRequestDto } from './importKeysRequestDto';
-import { ImportKeysUseCase } from './importKeysUseCase';
+import { ImportKeysErrors, ImportKeysUseCase } from './importKeysUseCase';
+import { AppError } from '../../../AppError';
 
 export class ImportKeysController extends BaseController {
   constructor(private useCase: ImportKeysUseCase) {
@@ -21,6 +22,12 @@ export class ImportKeysController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
+          case ImportKeysErrors.KeyForPlatformExists:
+            return this.forbidden(res, error.getErrorValue().message);
+
+          case AppError.NotFound:
+            return this.notFound(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error);
         }

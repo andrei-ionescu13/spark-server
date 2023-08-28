@@ -21,6 +21,11 @@ export interface ProductRepoI {
   getProductReviewsCount: any;
   listProductReviews: any;
   deleteReview: any;
+  getProductByProps: any;
+
+  searchProductsByKeys: any;
+  deleteDeveloper: any;
+  deleteFeature: any;
 }
 
 export class ProductRepo implements ProductRepoI {
@@ -29,7 +34,10 @@ export class ProductRepo implements ProductRepoI {
   createProduct = (props) => this.productModel.create(props);
 
   getProduct = (id) =>
-    this.productModel.findOne({ _id: id }).populate('genres publisher platform').exec();
+    this.productModel.findOne({ _id: id }).populate('genres publisher platform discount').exec();
+
+  getProductByProps = (props: Array<Record<string, any>>) =>
+    this.productModel.findOne({ $or: props }).lean();
 
   getProducts = (ids) =>
     this.productModel
@@ -42,6 +50,41 @@ export class ProductRepo implements ProductRepoI {
   deleteProduct = (id) => this.productModel.deleteOne({ _id: id });
 
   deleteMultipleProducts = (ids) => this.productModel.deleteMany({ _id: { $in: ids } });
+
+  searchProductsByKeys = (keyValue) =>
+    this.productModel.aggregate([
+      {
+        $unwind: '$keys',
+      },
+      {
+        $lookup: {
+          from: 'keys',
+          localField: 'keys',
+          foreignField: '_id',
+          as: 'keys',
+        },
+      },
+      {
+        $match: {
+          'keys.value': keyValue,
+        },
+      },
+      {
+        $lookup: {
+          from: 'platforms',
+          localField: 'platform',
+          foreignField: '_id',
+          as: 'platform',
+        },
+      },
+      {
+        $addFields: {
+          platform: {
+            $arrayElemAt: ['$platform', 0],
+          },
+        },
+      },
+    ]);
 
   listProducts = () =>
     this.productModel.aggregate([
@@ -182,7 +225,7 @@ export class ProductRepo implements ProductRepoI {
   };
 
   deleteProductsGenre = (genreId) =>
-    this.productModel.updateOne({ genres: genreId }, { $pull: { genres: genreId } });
+    this.productModel.updateMany({ genres: genreId }, { $pull: { genres: genreId } });
 
   deleteProductKey = (productId, keyId) => {
     return this.productModel.updateOne(
@@ -228,11 +271,18 @@ export class ProductRepo implements ProductRepoI {
   //   return newProduct
   // }
 
+  deleteDeveloper = (developerId) =>
+    this.productModel.updateMany(
+      { developers: developerId },
+      { $pull: { developers: developerId } },
+    );
+
+  deleteFeature = (featureId) =>
+    this.productModel.updateMany({ features: featureId }, { $pull: { features: featureId } });
+
   searchProductReviews = async (id, query) => {
     const { keyword = '', status, sortOrder = 'desc', page = 0, limit = 10 } = query;
     let { sortBy = 'createdAt' } = query;
-
-    console.log({ id, keyword, status, sortOrder, page, limit });
 
     if (sortBy === 'user') {
       sortBy = 'user.email';

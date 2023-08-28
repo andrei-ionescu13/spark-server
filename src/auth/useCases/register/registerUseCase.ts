@@ -23,7 +23,7 @@ export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
     const { username, password } = request;
 
     try {
-      const foundByUsername = this.adminRepo.findByUsername(username);
+      const foundByUsername = await this.adminRepo.findByUsername(username);
 
       if (foundByUsername) {
         return left(new RegisterErrors.UsernameTakenError());

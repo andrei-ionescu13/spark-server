@@ -5,7 +5,6 @@ export interface CreateProductRequestDto {
   shouldPublish: any;
   markdown: any;
   price: any;
-  initialPrice: any;
   genres: any;
   selectedImages: any;
   videos: any;

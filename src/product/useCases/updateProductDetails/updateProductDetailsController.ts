@@ -18,7 +18,6 @@ export class UpdateProductDetailsController extends BaseController {
       recommendedRequirements: body.recommendedRequirements,
       markdown: body.markdown,
       price: body.price,
-      initialPrice: body.initialPrice,
       genres: body.genres,
       developers: body.developers,
       features: body.features,

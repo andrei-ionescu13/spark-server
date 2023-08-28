@@ -10,10 +10,12 @@ import { searchProductKeysController } from './useCases/searchProductKeys';
 import { searchProductReviewsController } from './useCases/searchProductReviews';
 import { deleteProductController } from './useCases/deleteProduct';
 import { updateProductDetailsController } from './useCases/updateProductDetails';
+import { importProductKeysController } from './useCases/importProductKeys';
 const router = express.Router();
 
 const storage = multer.memoryStorage();
-const upload = multer({
+
+const createProductMulter = multer({
   storage: storage,
   fileFilter: (_, file, cb) => {
     const whitelistImages = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'text/plain'];
@@ -35,16 +37,29 @@ const upload = multer({
   },
 });
 
-const cpUpload = upload.fields([
+const createProductUpload = createProductMulter.fields([
   { name: 'cover', maxCount: 1 },
   { name: 'images[]', maxCount: 8 },
   { name: 'keys', maxCount: 1 },
 ]);
 
+const upload = multer({
+  storage: storage,
+  fileFilter: (_, file, cb) => {
+    const whitelist = ['text/plain'];
+
+    if (!whitelist.includes(file.mimetype)) {
+      return cb(new Error('file is not allowed'));
+    }
+
+    cb(null, true);
+  },
+});
+
 router.get('/', (req: Request, res: Response) => searchProductsController.execute(req, res));
 router.get('/:productId', (req: Request, res: Response) => getProductController.execute(req, res));
 
-router.post('/', cpUpload, (req: Request, res: Response) =>
+router.post('/', createProductUpload, (req: Request, res: Response) =>
   createProductController.execute(req, res),
 );
 
@@ -61,11 +76,11 @@ router.put('/:productId/meta', (req: Request, res: Response) =>
   updateProductMetaController.execute(req, res),
 );
 
-router.put('/:productId/media', cpUpload, (req: Request, res: Response) =>
+router.put('/:productId/media', createProductUpload, (req: Request, res: Response) =>
   updateProductMediaController.execute(req, res),
 );
 
-router.put('/:productId/general', cpUpload, (req: Request, res: Response) =>
+router.put('/:productId/general', createProductUpload, (req: Request, res: Response) =>
   updateProductDetailsController.execute(req, res),
 );
 
@@ -75,7 +90,9 @@ router.get('/:productId/keys', (req: Request, res: Response) =>
 
 // router.delete('/:id/keys/:keyId', productController.deleteProductKey);
 // router.post('/:productId/keys', productController.addProductKey);
-// router.post('/:id/keys/import', upload.single('keys'), productController.importProductKeys);
+router.post('/:productId/keys/import', upload.single('keys'), (req: Request, res: Response) =>
+  importProductKeysController.execute(req, res),
+);
 router.get('/:productId/reviews', (req: Request, res: Response) =>
   searchProductReviewsController.execute(req, res),
 );

@@ -8,6 +8,7 @@ export interface KeyRepoI {
   updateKey: any;
   searchKeys: any;
   getKeysCount: any;
+  getKeyByValue: any;
 }
 
 export class KeyRepo implements KeyRepoI {
@@ -16,6 +17,8 @@ export class KeyRepo implements KeyRepoI {
   createKey = (props) => this.keyModel.create(props);
 
   getKey = (id) => this.keyModel.findOne({ _id: id }).exec();
+
+  getKeyByValue = (value) => this.keyModel.findOne({ value }).exec();
 
   deleteKey = (id) => this.keyModel.deleteOne({ _id: id });
 

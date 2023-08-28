@@ -1,5 +1,4 @@
 import { ObjectId } from 'mongodb';
-// import { uploader } from '../services/uploaderService';
 import { Model } from 'mongoose';
 import { Article } from './model';
 
@@ -12,7 +11,9 @@ export interface ArticleRepoI {
   updateArticle: (id: string, props: any) => Promise<Article | null>;
   searchArticles: any;
   getArticlesCount: any;
-  // duplicateArticle: any;
+  getArticleByCategory: any;
+  deleteArticleTag: any;
+  getArticleByProps: any;
 }
 
 export class ArticleRepo implements ArticleRepoI {
@@ -20,7 +21,14 @@ export class ArticleRepo implements ArticleRepoI {
 
   createArticle = (props) => this.articleModel.create(props);
 
-  getArticle = (id) => this.articleModel.findOne({ _id: new ObjectId(id) }).lean();
+  getArticle = (id) =>
+    this.articleModel
+      .findOne({ _id: new ObjectId(id) })
+      .populate('category tags')
+      .lean();
+
+  getArticleByProps = (props: Array<Record<string, any>>) =>
+    this.articleModel.findOne({ $or: props }).lean();
 
   deleteArticle = (id) => this.articleModel.deleteOne({ _id: id });
 
@@ -29,11 +37,16 @@ export class ArticleRepo implements ArticleRepoI {
   listArticles = (ids) => this.articleModel.find({ _id: { $in: ids } });
 
   updateArticle = (id, props): Promise<Article | null> =>
-    this.articleModel.findOneAndUpdate(
-      { _id: new ObjectId(id) },
-      { $set: { ...props, updatedAt: Date.now() } },
-      { new: true },
-    );
+    this.articleModel
+      .findOneAndUpdate(
+        { _id: new ObjectId(id) },
+        { $set: { ...props, updatedAt: Date.now() } },
+        { new: true },
+      )
+      .populate('tags');
+
+  deleteArticleTag = (tagId) =>
+    this.articleModel.updateMany({ tags: tagId }, { $pull: { tags: tagId } });
 
   searchArticles = (query) => {
     const {
@@ -68,10 +81,14 @@ export class ArticleRepo implements ArticleRepoI {
   };
 
   getArticlesCount = (query) => {
-    const { status, category } = query;
+    const { keyword = '', status, category } = query;
 
     return this.articleModel
       .find({
+        title: {
+          $regex: keyword,
+          $options: 'i',
+        },
         ...(status && {
           status,
         }),
@@ -81,6 +98,8 @@ export class ArticleRepo implements ArticleRepoI {
       })
       .count();
   };
+
+  getArticleByCategory = (categoryId) => this.articleModel.findOne({ category: categoryId });
 
   // duplicateArticle = async (id) => {
   //   const article = await this.getArticle(id);
