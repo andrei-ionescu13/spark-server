@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { DeletePublisherRequestDto } from './deletePublisherRequestDto';
-import { DeletePublisherUseCase } from './deletePublisherUseCase';
+import { DeletePublisherErrors, DeletePublisherUseCase } from './deletePublisherUseCase';
 import { AppError } from '../../../AppError';
 
 export class DeletePublisherController extends BaseController {
@@ -22,6 +22,9 @@ export class DeletePublisherController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
+          case DeletePublisherErrors.PublisherInUse:
+            return this.forbidden(res, error.getErrorValue().message);
+
           case AppError.NotFound:
             return this.notFound(res, error.getErrorValue().message);
 

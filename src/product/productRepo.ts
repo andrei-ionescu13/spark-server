@@ -26,6 +26,8 @@ export interface ProductRepoI {
   searchProductsByKeys: any;
   deleteDeveloper: any;
   deleteFeature: any;
+  getProductByPublisher: any;
+  deleteProductsOperatingSystem: any;
 }
 
 export class ProductRepo implements ProductRepoI {
@@ -34,7 +36,10 @@ export class ProductRepo implements ProductRepoI {
   createProduct = (props) => this.productModel.create(props);
 
   getProduct = (id) =>
-    this.productModel.findOne({ _id: id }).populate('genres publisher platform discount').exec();
+    this.productModel
+      .findOne({ _id: id })
+      .populate('genres publisher platform discount developers features os languages')
+      .exec();
 
   getProductByProps = (props: Array<Record<string, any>>) =>
     this.productModel.findOne({ $or: props }).lean();
@@ -50,6 +55,8 @@ export class ProductRepo implements ProductRepoI {
   deleteProduct = (id) => this.productModel.deleteOne({ _id: id });
 
   deleteMultipleProducts = (ids) => this.productModel.deleteMany({ _id: { $in: ids } });
+
+  getProductByPublisher = (publisherId) => this.productModel.findOne({ publisher: publisherId });
 
   searchProductsByKeys = (keyValue) =>
     this.productModel.aggregate([
@@ -279,6 +286,12 @@ export class ProductRepo implements ProductRepoI {
 
   deleteFeature = (featureId) =>
     this.productModel.updateMany({ features: featureId }, { $pull: { features: featureId } });
+
+  deleteProductsOperatingSystem = (operatingSystemId) =>
+    this.productModel.updateMany(
+      { operatingSystems: operatingSystemId },
+      { $pull: { operatingSystems: operatingSystemId } },
+    );
 
   searchProductReviews = async (id, query) => {
     const { keyword = '', status, sortOrder = 'desc', page = 0, limit = 10 } = query;

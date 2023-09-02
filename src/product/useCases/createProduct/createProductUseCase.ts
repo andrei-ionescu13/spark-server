@@ -7,6 +7,12 @@ import { ProductRepoI } from '../../productRepo';
 import { CreateProductRequestDto } from './createProductRequestDto';
 import { textUtils } from '../../../utils/textUtils';
 import { UseCaseError } from '../../../UseCaseError';
+import { GenreRepoI } from '../../../genre/genreRepo';
+import { PublisherRepoI } from '../../../publisher/publisherRepo';
+import { DeveloperRepoI } from '../../../developer/developerRepo';
+import { FeatureRepoI } from '../../../feature/featureRepo';
+import { OperatingSystemRepoI } from '../../../operating-system/operatingSystemRepo';
+import { LanguageRepoI } from '../../../language/languageRepo';
 
 export namespace CreateProductErrors {
   export class KeyForPlatformExists extends Result<UseCaseError> {
@@ -32,6 +38,12 @@ type Response = Either<AppError.UnexpectedError, Result<any>>;
 export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Response> {
   constructor(
     private productRepo: ProductRepoI,
+    private genreRepo: GenreRepoI,
+    private publisherRepo: PublisherRepoI,
+    private developerRepo: DeveloperRepoI,
+    private featureRepo: FeatureRepoI,
+    private operatingSystemRepo: OperatingSystemRepoI,
+    private languageRepo: LanguageRepoI,
     private keyRepo: KeyRepoI,
     private uploaderService: UploaderService,
   ) {}
@@ -94,6 +106,47 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
     return Result.ok<string>(key._id);
   };
 
+  applyGuard = async (props): Promise<Either<AppError.NotFound, Result<any>>> => {
+    const result = await Promise.all([
+      this.publisherRepo.getPublisher(props.publisher),
+      this.developerRepo.getDevelopers(props.developers),
+      this.genreRepo.getGenres(props.genres),
+      this.featureRepo.getFeatures(props.features),
+      this.languageRepo.getLanguages(props.languages),
+      this.operatingSystemRepo.getOperatingSystems(props.os),
+    ]);
+
+    const [publisher, developers, genres, features, languages, operatingSystems] = result;
+
+    const publisherFound = !!publisher;
+
+    if (!publisherFound) {
+      return left(new AppError.NotFound('Publisher not found'));
+    }
+
+    if (developers.length !== props.developers.length) {
+      return left(new AppError.NotFound('Developer not found'));
+    }
+
+    if (genres.length !== props.genres.length) {
+      return left(new AppError.NotFound('Genre not found'));
+    }
+
+    if (features.length !== props.features.length) {
+      return left(new AppError.NotFound('Feature not found'));
+    }
+
+    if (languages.length !== props.languages.length) {
+      return left(new AppError.NotFound('Language not found'));
+    }
+
+    if (operatingSystems.length !== props.os.length) {
+      return left(new AppError.NotFound('Operating System not found'));
+    }
+
+    return right(Result.ok());
+  };
+
   execute = async (request: CreateProductRequestDto): Promise<Response> => {
     const { shouldPublish, coverFile, imageFiles, keysFile, ...rest } = request;
     const props: any = rest;
@@ -109,6 +162,12 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
 
       if (productExists) {
         return left(this.comparePropsToProduct(props, existingProduct));
+      }
+
+      const guardResult = await this.applyGuard(props);
+
+      if (guardResult.isLeft()) {
+        return guardResult;
       }
 
       const uploadedCover = await this.uploaderService.uploadFile(coverFile, 'products');
@@ -143,7 +202,6 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
       const combinedResult = Result.combine(results);
 
       return combinedResult.isFailure ? left(combinedResult) : right(Result.ok<any>(product._id));
-      return right(Result.ok());
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

@@ -1,17 +1,19 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
-import { DeleteLanguageRequestDto } from './deleteLanguageRequestDto';
-import { DeleteLanguageUseCase } from './deleteLanguageUseCase';
+import { DeleteTranslationsLanguageRequestDto } from './deleteTranslationsLanguageRequestDto';
+import { DeleteTranslationsLanguageUseCase } from './deleteTranslationsLanguageUseCase';
 import { AppError } from '../../../AppError';
 
-export class DeleteLanguageController extends BaseController {
-  constructor(private useCase: DeleteLanguageUseCase) {
+export class DeleteTranslationsLanguageController extends BaseController {
+  constructor(private useCase: DeleteTranslationsLanguageUseCase) {
     super();
     this.useCase = useCase;
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteLanguageRequestDto = { languageId: req.params.languageId };
+    const dto: DeleteTranslationsLanguageRequestDto = {
+      translationsLanguageId: req.params.translationsLanguageId,
+    };
 
     try {
       const result = await this.useCase.execute(dto);

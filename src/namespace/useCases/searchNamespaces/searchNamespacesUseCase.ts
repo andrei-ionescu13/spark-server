@@ -1,6 +1,6 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { LanguageRepoI } from '../../../language/languageRepo';
+import { TranslationsLanguageRepoI } from '../../../translations-language/languageRepo';
 import { UseCase } from '../../../use-case';
 import { NamespaceRepoI } from '../../namespaceRepo';
 import { SearchNamespacesRequestDto } from './searchNamespacesRequestDto';
@@ -11,11 +11,14 @@ const LIMIT = 12;
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 export class SearchNamespacesUseCase implements UseCase<SearchNamespacesRequestDto, Response> {
-  constructor(private namespaceRepo: NamespaceRepoI, private languageRepo: LanguageRepoI) {}
+  constructor(
+    private namespaceRepo: NamespaceRepoI,
+    private translationsLanguageRepo: TranslationsLanguageRepoI,
+  ) {}
 
-  searchNamespaces = async (query, languageCodes) => {
-    const namespaces = await this.namespaceRepo.searchNamespaces(query, languageCodes);
-    const count = await this.namespaceRepo.getNamespacesCount(query, languageCodes);
+  searchNamespaces = async (query, translationsLanguageCodes) => {
+    const namespaces = await this.namespaceRepo.searchNamespaces(query, translationsLanguageCodes);
+    const count = await this.namespaceRepo.getNamespacesCount(query, translationsLanguageCodes);
 
     return {
       namespaces,
@@ -24,22 +27,25 @@ export class SearchNamespacesUseCase implements UseCase<SearchNamespacesRequestD
   };
 
   execute = async (request: SearchNamespacesRequestDto): Promise<Response> => {
-    let { searchFor = 'namespaces', languageCodes, ...rest } = request;
+    let { searchFor = 'namespaces', translationsLanguageCodes, ...rest } = request;
     const query = rest;
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      if (!languageCodes) {
-        const languages = await this.languageRepo.listLanguages();
-        languageCodes = languages.map((language) => language.code);
+      if (!translationsLanguageCodes) {
+        const translationsLanguages =
+          await this.translationsLanguageRepo.listTranslationsLanguages();
+        translationsLanguageCodes = translationsLanguages.map(
+          (translationsLanguage) => translationsLanguage.code,
+        );
       } else {
-        languageCodes = languageCodes.split(',');
+        translationsLanguageCodes = translationsLanguageCodes.split(',');
       }
 
       const promise =
         searchFor === 'translations'
-          ? this.namespaceRepo.searchTranslations(query, languageCodes)
-          : this.searchNamespaces(query, languageCodes);
+          ? this.namespaceRepo.searchTranslations(query, translationsLanguageCodes)
+          : this.searchNamespaces(query, translationsLanguageCodes);
 
       const result = await promise;
       console.log(result);

@@ -24,9 +24,9 @@ export class ListLanguagesController extends BaseController {
         }
       }
 
-      const languages = result.value.getValue();
+      const Languages = result.value.getValue();
 
-      return this.ok(res, languages);
+      return this.ok(res, Languages);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

@@ -1,6 +1,6 @@
 export interface SearchNamespacesRequestDto {
   searchFor?: string;
-  languageCodes: any;
+  translationsLanguageCodes: any;
   keyword?: string;
   sortBy?: string;
   sortOrder?: string;

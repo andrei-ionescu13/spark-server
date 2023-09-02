@@ -1,20 +1,24 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
-import { AddLanguageRequestDto } from './addLanguageRequestDto';
-import { AddLanguageErrors, AddLanguageUseCase } from './addLanguageUseCase';
+import { AddTranslationsLanguageRequestDto } from './addTranslationsLanguageRequestDto';
+import {
+  AddTranslationsLanguageErrors,
+  AddTranslationsLanguageUseCase,
+} from './addTranslationsLanguageUseCase';
 
-export class AddLanguageController extends BaseController {
-  constructor(private useCase: AddLanguageUseCase) {
+export class AddTranslationsLanguageController extends BaseController {
+  constructor(private useCase: AddTranslationsLanguageUseCase) {
     super();
     this.useCase = useCase;
   }
 
   executeImpl = async (req: Request, res: Response) => {
     const body = req.body;
-    const dto: AddLanguageRequestDto = {
+    const dto: AddTranslationsLanguageRequestDto = {
       name: body.name,
       code: body.code,
       nativeName: body.nativeName,
+      _id: body._id,
     };
 
     try {
@@ -24,7 +28,7 @@ export class AddLanguageController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case AddLanguageErrors.LanguageExistsError:
+          case AddTranslationsLanguageErrors.TranslationsLanguageExistsError:
             return this.forbidden(res, error.getErrorValue().message);
 
           default:
@@ -32,9 +36,9 @@ export class AddLanguageController extends BaseController {
         }
       }
 
-      const language = result.value.getValue();
+      const translationsLanguage = result.value.getValue();
 
-      return this.ok(res, language);
+      return this.ok(res, translationsLanguage);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

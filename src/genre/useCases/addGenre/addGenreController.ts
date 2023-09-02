@@ -12,6 +12,7 @@ export class AddGenreController extends BaseController {
   executeImpl = async (req: Request, res: Response) => {
     const dto: AddGenreRequestDto = {
       name: req.body.name,
+      slug: req.body?.slug,
     };
 
     try {

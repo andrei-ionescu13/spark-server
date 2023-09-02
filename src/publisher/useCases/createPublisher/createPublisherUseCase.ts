@@ -2,6 +2,7 @@ import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
+import { textUtils } from '../../../utils/textUtils';
 import { PublisherRepoI } from '../../publisherRepo';
 import { CreatePublisherRequestDto } from './createPublisherRequestDto';
 
@@ -13,6 +14,7 @@ export class CreatePublisherUseCase implements UseCase<CreatePublisherRequestDto
   execute = async (request: CreatePublisherRequestDto): Promise<Response> => {
     const { logoFile, ...rest } = request;
     const props: any = rest;
+    props.slug ||= textUtils.generateSlug(props.name);
 
     try {
       const uploadedLogo = await this.uploaderService.uploadFile(logoFile, 'publishers');

@@ -17,7 +17,7 @@ export class SearchNamespacesController extends BaseController {
       sortOrder: query.sortOrder as string,
       page: query?.page ? Number.parseInt(query.page as string) : undefined,
       limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
-      languageCodes: query.language,
+      translationsLanguageCodes: query.translationsLanguage,
       searchFor: query.searchFor as string,
     };
 

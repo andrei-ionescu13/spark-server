@@ -1,11 +1,11 @@
 import express from 'express';
 import type { Request, Response } from 'express';
-import { createFeatureController } from './useCases/createDeveloper';
-import { deleteFeatureController } from './useCases/deleteDeveloper';
-import { deleteFeatureBulkController } from './useCases/deleteDeveloperBulk';
-import { listFeaturesController } from './useCases/listDevelopers';
-import { searchArticleCategoriesController } from './useCases/searchDevelopers';
-import { updateFeatureController } from './useCases/updateDeveloper';
+import { searchArticleCategoriesController } from './useCases/searchFeatures';
+import { listFeaturesController } from './useCases/listFeatures';
+import { createFeatureController } from './useCases/createFeature';
+import { deleteFeatureController } from './useCases/deleteFeature';
+import { deleteFeatureBulkController } from './useCases/deleteFeatureBulk';
+import { updateFeatureController } from './useCases/updateFeature';
 
 const router = express.Router();
 
