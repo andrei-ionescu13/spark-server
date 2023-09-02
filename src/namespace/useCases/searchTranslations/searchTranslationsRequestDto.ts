@@ -1,6 +1,6 @@
 export interface SearchTranslationsRequestDto {
   namespaceId: string;
-  languageCodes?: any;
+  translationsLanguageCodes?: any;
   keyword?: string;
   sortBy?: string;
   sortOrder?: string;

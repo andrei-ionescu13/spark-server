@@ -5,6 +5,8 @@ const { Schema } = mongoose;
 export interface Publisher {
   name: string;
   logo: Asset;
+  createdAt: Date;
+  updatedAt: Date | null;
 }
 
 const PublisherSchema = new Schema<Publisher>({
@@ -15,6 +17,13 @@ const PublisherSchema = new Schema<Publisher>({
   logo: {
     type: AssetSchema,
     required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
   },
 });
 

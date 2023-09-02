@@ -20,7 +20,6 @@ export abstract class BaseController {
       const result = this.getSchema().safeParse(req);
 
       if (!result.success) {
-        console.log(result.error.issues);
         return this.fail(res, result.error.issues?.[0].message);
       }
 

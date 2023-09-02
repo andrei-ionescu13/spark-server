@@ -10,8 +10,9 @@ export class ListLanguagesUseCase implements UseCase<undefined, Response> {
 
   execute = async (): Promise<Response> => {
     try {
-      const languages = await this.languageRepo.listLanguages();
-      return right(Result.ok<any>(languages));
+      const Languages = await this.languageRepo.listLanguages();
+      console.log(Languages);
+      return right(Result.ok<any>(Languages));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

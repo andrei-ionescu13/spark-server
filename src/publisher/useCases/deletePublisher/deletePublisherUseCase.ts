@@ -1,14 +1,31 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
+import { UseCaseError } from '../../../UseCaseError';
+import { ProductRepoI } from '../../../product/productRepo';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
 import { PublisherRepoI } from '../../publisherRepo';
 import { DeletePublisherRequestDto } from './deletePublisherRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+export namespace DeletePublisherErrors {
+  export class PublisherInUse extends Result<UseCaseError> {
+    constructor() {
+      super(false, { message: 'An Product is using this publisher' });
+    }
+  }
+}
+
+type Response = Either<
+  DeletePublisherErrors.PublisherInUse | AppError.UnexpectedError,
+  Result<any>
+>;
 
 export class DeletePublisherUseCase implements UseCase<DeletePublisherRequestDto, Response> {
-  constructor(private publisherRepo: PublisherRepoI, private uploaderService: UploaderService) {}
+  constructor(
+    private publisherRepo: PublisherRepoI,
+    private productRepo: ProductRepoI,
+    private uploaderService: UploaderService,
+  ) {}
 
   execute = async (request: DeletePublisherRequestDto): Promise<Response> => {
     const { publisherId } = request;
@@ -19,6 +36,13 @@ export class DeletePublisherUseCase implements UseCase<DeletePublisherRequestDto
 
       if (!found) {
         return left(new AppError.NotFound('Publisher not found'));
+      }
+
+      const product = await this.productRepo.getProductByPublisher(publisherId);
+      const productFound = !!product;
+
+      if (productFound) {
+        return left(new DeletePublisherErrors.PublisherInUse());
       }
 
       await this.publisherRepo.deletePublisher(publisherId);

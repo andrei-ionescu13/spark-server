@@ -11,6 +11,7 @@ export interface GenreRepoI {
   updateGenre: any;
   searchGenres: any;
   getGenresCount: any;
+  getGenres: any;
 }
 
 export class GenreRepo implements GenreRepoI {
@@ -19,6 +20,8 @@ export class GenreRepo implements GenreRepoI {
   createGenre = (props) => this.genreModel.create(props);
 
   getGenre = (id) => this.genreModel.findOne({ _id: new ObjectId(id) }).exec();
+
+  getGenres = (ids) => this.genreModel.find({ _id: { $in: ids } });
 
   deleteGenre = (id) => this.genreModel.deleteOne({ _id: id });
 

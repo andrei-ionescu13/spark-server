@@ -1,6 +1,7 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
+import { textUtils } from '../../../utils/textUtils';
 import { GenreRepoI } from '../../genreRepo';
 import { AddGenreRequestDto } from './addGenreRequestDto';
 
@@ -11,6 +12,7 @@ export class AddGenreUseCase implements UseCase<AddGenreRequestDto, Response> {
 
   execute = async (request: AddGenreRequestDto): Promise<Response> => {
     const props = request;
+    props.slug ||= textUtils.generateSlug(props.name);
 
     try {
       const genre = await this.genreRepo.createGenre(props);

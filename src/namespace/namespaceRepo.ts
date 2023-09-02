@@ -69,10 +69,10 @@ export class NamespaceRepo implements NamespaceRepoI {
       )
       .exec();
 
-  deleteTranslations = (languageCode) =>
+  deleteTranslations = (translationsLanguageCode) =>
     this.namespaceModel.updateOne(
       {},
-      { $unset: { [`translations.$[].${languageCode}`]: 1 } },
+      { $unset: { [`translations.$[].${translationsLanguageCode}`]: 1 } },
       { multi: true },
     );
 
@@ -102,7 +102,7 @@ export class NamespaceRepo implements NamespaceRepoI {
   updateNamespace = (id, props) =>
     this.namespaceModel.findOneAndUpdate({ _id: id }, { $set: props }, { new: true }).exec();
 
-  searchNamespaces = (query, languageCodes = []) => {
+  searchNamespaces = (query, translationsLanguageCodes = []) => {
     const { keyword = '', page, perPage: limit, sortBy = 'name', sortOrder = 'asc' } = query;
 
     return this.namespaceModel
@@ -120,7 +120,7 @@ export class NamespaceRepo implements NamespaceRepoI {
       .exec();
   };
 
-  getNamespacesCount = (query, languageCodes = []) => {
+  getNamespacesCount = (query, translationsLanguageCodes = []) => {
     const { keyword = '' } = query;
 
     return this.namespaceModel
@@ -133,9 +133,9 @@ export class NamespaceRepo implements NamespaceRepoI {
       .count();
   };
 
-  searchTranslations = async (query, languageCodes = []) => {
+  searchTranslations = async (query, translationsLanguageCodes = []) => {
     const { keyword = '', page, perPage, sortBy = 'name', sortOrder = 'asc' } = query;
-    const orQuery = languageCodes.map((code) => ({
+    const orQuery = translationsLanguageCodes.map((code) => ({
       [`translations.${code}`]: {
         $regex: keyword,
         $options: 'i',
@@ -214,10 +214,10 @@ export class NamespaceRepo implements NamespaceRepoI {
     )[0];
   };
 
-  searchNamespaceTranslations = (id, query, languageCodes = []) => {
+  searchNamespaceTranslations = (id, query, translationsLanguageCodes = []) => {
     const { keyword = '', page, perPage, sortBy = 'key', sortOrder = 'asc' } = query;
 
-    const orQuery = languageCodes.map((code) => ({
+    const orQuery = translationsLanguageCodes.map((code) => ({
       [`translations.${code}`]: {
         $regex: keyword,
         $options: 'i',
