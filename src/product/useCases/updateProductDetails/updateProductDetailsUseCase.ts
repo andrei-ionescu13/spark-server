@@ -3,7 +3,6 @@ import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { textUtils } from '../../../utils/textUtils';
 import { ProductRepoI } from '../../productRepo';
-import { productServices } from '../../services';
 import { UpdateProductDetailsRequestDto } from './updateProductDetailsRequestDto';
 
 type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;

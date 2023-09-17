@@ -112,11 +112,13 @@ export class ProductRepo implements ProductRepoI {
       },
     ]);
 
-  updateProduct = (id, props) =>
-    this.productModel
+  updateProduct = (id, props) => {
+    console.log(props);
+    return this.productModel
       .findOneAndUpdate({ _id: id }, { $set: props }, { new: true })
-      .populate('genres publisher platform')
+      .populate('genres publisher platform discount developers features os languages')
       .exec();
+  };
 
   searchProducts = (query) => {
     const {
