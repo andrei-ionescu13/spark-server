@@ -15,7 +15,7 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage: storage,
   fileFilter: (_, file, cb) => {
-    const whitelist = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
+    const whitelist = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml'];
 
     if (!whitelist.includes(file.mimetype)) {
       return cb(new Error('file is not allowed'));
