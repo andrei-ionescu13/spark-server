@@ -17,10 +17,9 @@ export class SearchPlatformsUseCase implements UseCase<SearchPlatformsRequestDto
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      const platforms = await this.platformRepo.searchPlatforms(query);
-      const count = await this.platformRepo.getPlatformsCount(query);
+      const platformsAndCount = await this.platformRepo.searchPlatforms(query);
 
-      return right(Result.ok<any>({ platforms, count }));
+      return right(Result.ok<any>(platformsAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

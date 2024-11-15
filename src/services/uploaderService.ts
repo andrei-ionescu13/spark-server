@@ -13,7 +13,7 @@ cloudinary.v2.config({
 export interface UploaderService {
   uploadFile: (file, folder?: string | undefined) => Promise<UploadApiResponse | undefined>;
   delete: (publicId: string) => Promise<any>;
-  upload: (url: string, folder?: string | undefined) => Promise<any>;
+  uploadFromUrl: (url: string, folder?: string | undefined, resource_type?: string, public_id?: string) => Promise<any>;
 }
 
 export class CloudinaryUploaderService implements UploaderService {
@@ -38,6 +38,6 @@ export class CloudinaryUploaderService implements UploaderService {
 
   delete = (publicId): Promise<any> => cloudinary.v2.uploader.destroy(publicId);
 
-  upload = (url: string, folder: string | undefined = undefined): Promise<any> =>
-    cloudinary.v2.uploader.upload(url, { folder });
+  uploadFromUrl = (url: string, folder: string | undefined = undefined, resource_type, public_id): Promise<any> =>
+    cloudinary.v2.uploader.upload(url, { folder, resource_type, public_id });
 }

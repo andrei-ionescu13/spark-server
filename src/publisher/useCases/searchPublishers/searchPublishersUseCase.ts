@@ -1,4 +1,3 @@
-import { query } from 'express';
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
@@ -18,10 +17,9 @@ export class SearchPublishersUseCase implements UseCase<SearchPublishersRequestD
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      const publishers = await this.publisherRepo.searchPublishers(query);
-      const count = await this.publisherRepo.getPublishersCount(query);
+      const publishersAndCount = await this.publisherRepo.searchPublishers(query);
 
-      return right(Result.ok<any>({ publishers, count }));
+      return right(Result.ok<any>(publishersAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

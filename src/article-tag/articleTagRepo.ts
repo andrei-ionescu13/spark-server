@@ -28,22 +28,66 @@ export class ArticleTagRepo implements ArticleTagRepoI {
       { $set: { ...props, updatedAt: Date.now() } },
       { new: true },
     );
-  searchArticleCategories = (query) => {
+  searchArticleCategories = async (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
 
-    return this.articleTagModel
-      .find({
-        name: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.articleTagModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: keyword,
+            $options: 'i',
+          },
         },
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          tags: [
+            { $skip: page },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'articletags',
+                localField: 'tag',
+                foreignField: '_id',
+                as: 'tag',
+              },
+            },
+            {
+              $addFields: {
+                tag: { $arrayElemAt: ['$tag', 0] },
+              },
+            },
+          ],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+      {
+        $project: {
+          tags: 1,
+          count: { $ifNull: ['$count', 0] },
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getArticleCategoriesCount = (query) => {

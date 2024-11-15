@@ -27,9 +27,25 @@ const buildIntervalQuery = (status) => {
 
   if (status === 'active') {
     return {
-      startDate: {
-        $lte: Date.now(),
-      },
+      $and: [
+        {
+          startDate: {
+            $lte: Date.now(),
+          },
+        },
+        {
+          $or: [
+            {
+              endDate: {
+                $gt: Date.now(),
+              },
+            },
+            {
+              endDate: null,
+            },
+          ],
+        },
+      ],
     };
   }
 
@@ -93,6 +109,7 @@ export class CouponRepo implements CouponRepoI {
 
   searchCoupons = (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit, status } = query;
+    console.log(status);
     const intervalQuery = buildIntervalQuery(status);
 
     return this.promoCodeModel

@@ -19,11 +19,9 @@ export class SearchOperatingSystemsUseCase
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      console.log(query);
-      const operatingSystems = await this.operatingSystemRepo.searchOperatingSystems(query);
-      const count = await this.operatingSystemRepo.getOperatingSystemsCount(query);
+      const operatingSystemsAndCount = await this.operatingSystemRepo.searchOperatingSystems(query);
 
-      return right(Result.ok<any>({ operatingSystems, count }));
+      return right(Result.ok<any>(operatingSystemsAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

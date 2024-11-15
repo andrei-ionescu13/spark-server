@@ -149,6 +149,12 @@ export class NamespaceRepo implements NamespaceRepoI {
             $match: {
               $or: [
                 {
+                  name: {
+                    $regex: keyword,
+                    $options: 'i',
+                  },
+                },
+                {
                   'translations.key': {
                     $regex: keyword,
                     $options: 'i',
@@ -166,6 +172,12 @@ export class NamespaceRepo implements NamespaceRepoI {
           {
             $match: {
               $or: [
+                {
+                  name: {
+                    $regex: keyword,
+                    $options: 'i',
+                  },
+                },
                 {
                   'translations.key': {
                     $regex: keyword,
@@ -214,7 +226,7 @@ export class NamespaceRepo implements NamespaceRepoI {
     )[0];
   };
 
-  searchNamespaceTranslations = (id, query, translationsLanguageCodes = []) => {
+  searchNamespaceTranslations = async (id, query, translationsLanguageCodes = []) => {
     const { keyword = '', page, perPage, sortBy = 'key', sortOrder = 'asc' } = query;
 
     const orQuery = translationsLanguageCodes.map((code) => ({
@@ -224,7 +236,7 @@ export class NamespaceRepo implements NamespaceRepoI {
       },
     }));
 
-    return this.namespaceModel
+    const result = await this.namespaceModel
       .aggregate([
         { $match: { _id: new ObjectId(id) } },
         {
@@ -258,6 +270,7 @@ export class NamespaceRepo implements NamespaceRepoI {
               },
               {
                 $group: {
+                  count: { $sum: 1 },
                   _id: '$_id',
                   translations: {
                     $push: '$translations',
@@ -281,10 +294,21 @@ export class NamespaceRepo implements NamespaceRepoI {
           $project: {
             name: '$data.name',
             _id: '$data._id',
+            count: '$translations.count',
             translations: '$translations.translations',
+          },
+        },
+        {
+          $project: {
+            name: 1,
+            _id: 1,
+            count: { $ifNull: ['$count', 0] },
+            translations: { $ifNull: ['$translations', []] },
           },
         },
       ])
       .exec();
+
+    return result[0];
   };
 }

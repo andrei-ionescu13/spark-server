@@ -29,22 +29,66 @@ export class PublisherRepo implements PublisherRepoI {
   updatePublisher = (id, props) =>
     this.publisherModel.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: props }, { new: true });
 
-  searchPublishers = (query) => {
+  searchPublishers = async (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
 
-    return this.publisherModel
-      .find({
-        name: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.publisherModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: keyword,
+            $options: 'i',
+          },
         },
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          publishers: [
+            { $skip: page },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'articletags',
+                localField: 'tag',
+                foreignField: '_id',
+                as: 'tag',
+              },
+            },
+            {
+              $addFields: {
+                tag: { $arrayElemAt: ['$tag', 0] },
+              },
+            },
+          ],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+      {
+        $project: {
+          publishers: 1,
+          count: { $ifNull: ['$count', 0] },
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getPublishersCount = (query) => {

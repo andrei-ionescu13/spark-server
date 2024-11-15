@@ -8,12 +8,15 @@ export interface CurrencyRepoI {
   deleteCurrency: any;
   searchCurrencies: any;
   getCurrenciesCount: any;
+  getCurrencyByCode: any;
 }
 
 export class CurrencyRepo implements CurrencyRepoI {
   constructor(private currencyModel: Model<Currency>) {}
 
   getCurrency = (id) => this.currencyModel.findOne({ _id: id }).exec();
+
+  getCurrencyByCode = (code) => this.currencyModel.findOne({ code }).exec();
 
   listCurrencies = () => this.currencyModel.find({});
 
@@ -23,7 +26,7 @@ export class CurrencyRepo implements CurrencyRepoI {
 
   searchCurrencies = (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit } = query;
-    console.log('repo', keyword);
+
     return this.currencyModel
       .find({
         $or: [

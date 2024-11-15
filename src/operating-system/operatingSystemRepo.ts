@@ -37,22 +37,66 @@ export class OperatingSystemRepo implements OperatingSystemRepoI {
       { new: true },
     );
 
-  searchOperatingSystems = (query) => {
-    console.log('db', query);
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit } = query;
-    return this.operatingSystemModel
-      .find({
-        name: {
-          $regex: keyword,
-          $options: 'i',
+  searchOperatingSystems = async (query) => {
+    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page = 0, limit = 10 } = query;
+
+    const result = await this.operatingSystemModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: keyword,
+            $options: 'i',
+          },
         },
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          operatingSystems: [
+            { $skip: page },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'articletags',
+                localField: 'tag',
+                foreignField: '_id',
+                as: 'tag',
+              },
+            },
+            {
+              $addFields: {
+                tag: { $arrayElemAt: ['$tag', 0] },
+              },
+            },
+          ],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+      {
+        $project: {
+          operatingSystems: 1,
+          count: { $ifNull: ['$count', 0] },
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getOperatingSystemsCount = (query) => {

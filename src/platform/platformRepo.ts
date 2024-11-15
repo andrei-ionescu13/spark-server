@@ -29,22 +29,50 @@ export class PlatformRepo implements PlatformRepoI {
   updatePlatform = (id, props) =>
     this.platformModel.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: props }, { new: true });
 
-  searchPlatforms = (query) => {
+  searchPlatforms = async (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
 
-    return this.platformModel
-      .find({
-        name: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.platformModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: keyword,
+            $options: 'i',
+          },
         },
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          platforms: [{ $skip: page }, { $limit: limit }],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+      {
+        $project: {
+          platforms: 1,
+          count: { $ifNull: ['$count', 0] },
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getPlatformsCount = (query) => {

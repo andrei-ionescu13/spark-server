@@ -32,7 +32,6 @@ export class SearchArticlesController extends BaseController {
             return this.fail(res, error);
         }
       }
-
       const value = result.value.getValue();
 
       return this.ok(res, value);

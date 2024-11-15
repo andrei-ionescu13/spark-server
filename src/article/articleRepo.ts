@@ -48,7 +48,7 @@ export class ArticleRepo implements ArticleRepoI {
   deleteArticleTag = (tagId) =>
     this.articleModel.updateMany({ tags: tagId }, { $pull: { tags: tagId } });
 
-  searchArticles = (query) => {
+  searchArticles = async (query) => {
     const {
       keyword = '',
       sortBy = 'createdAt',
@@ -59,25 +59,63 @@ export class ArticleRepo implements ArticleRepoI {
       limit = 10,
     } = query;
 
-    return this.articleModel
-      .find({
-        title: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.articleModel.aggregate([
+      {
+        $match: {
+          title: {
+            $regex: keyword,
+            $options: 'i',
+          },
+          ...(status && {
+            status,
+          }),
+          ...(category && {
+            category,
+          }),
         },
-        ...(status && {
-          status,
-        }),
-        ...(category && {
-          category,
-        }),
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          articles: [
+            { $skip: page },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'articlecategories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'category',
+              },
+            },
+            {
+              $addFields: {
+                category: { $arrayElemAt: ['$category', 0] },
+              },
+            },
+          ],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getArticlesCount = (query) => {
@@ -100,21 +138,4 @@ export class ArticleRepo implements ArticleRepoI {
   };
 
   getArticleByCategory = (categoryId) => this.articleModel.findOne({ category: categoryId });
-
-  // duplicateArticle = async (id) => {
-  //   const article = await this.getArticle(id);
-
-  //   //TODO: change this
-  //   if (!article) {
-  //     return;
-  //   }
-  //   let { _id, ...articleProps } = article;
-
-  //   articleProps.status = 'draft';
-  //   articleProps.createdAt = new Date();
-  //   articleProps.cover = await uploader.upload(articleProps.cover.url);
-
-  //   const newArticle = await this.createArticle(articleProps);
-  //   return newArticle;
-  // };
 }

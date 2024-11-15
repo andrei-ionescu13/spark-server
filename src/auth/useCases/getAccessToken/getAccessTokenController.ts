@@ -15,6 +15,7 @@ export class GetAccessTokenController extends BaseController {
     };
 
     try {
+      console.log(dto);
       const result = await this.useCase.execute(dto);
 
       if (result.isLeft()) {

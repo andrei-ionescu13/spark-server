@@ -17,11 +17,9 @@ export class SearchGenresUseCase implements UseCase<SearchGenresRequestDto, Resp
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      console.log(query);
-      const genres = await this.genreRepo.searchGenres(query);
-      const count = await this.genreRepo.getGenresCount(query);
+      const genresAndCount = await this.genreRepo.searchGenres(query);
 
-      return right(Result.ok<any>({ genres, count }));
+      return right(Result.ok<any>(genresAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

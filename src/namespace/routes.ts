@@ -11,18 +11,27 @@ import { updateTranslationController } from './useCases/updateTranslation';
 import { deleteNamespaceController } from './useCases/deleteNamespace';
 import { deleteTranslationController } from './useCases/deleteTranslation';
 import { updateNamespaceController } from './useCases/updateNamespace';
+import { uploadNamespacesController } from './useCases/uploadNamespaces';
 const router = express.Router();
 
 router.get('/search', (req: Request, res: Response) =>
   searchNamespacesController.execute(req, res),
 );
+
+router.post('/upload', (req: Request, res: Response) =>
+  uploadNamespacesController.execute(req, res),
+);
+
 router.get('/', (req: Request, res: Response) => listNamespacesController.execute(req, res));
+
 router.get('/export', (req: Request, res: Response) =>
   exportNamespacesController.execute(req, res),
 );
+
 router.get('/:namespaceId', (req: Request, res: Response) =>
   getNamespaceController.execute(req, res),
 );
+
 router.get('/:namespaceId/translations/search', (req: Request, res: Response) =>
   searchTranslationsController.execute(req, res),
 );

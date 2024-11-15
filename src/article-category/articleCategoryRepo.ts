@@ -27,22 +27,66 @@ export class ArticleCategoryRepo implements ArticleCategoryRepoI {
       { $set: { ...props, updatedAt: Date.now() } },
       { new: true },
     );
-  searchArticleCategories = (query) => {
+  searchArticleCategories = async (query) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
 
-    return this.articleCategoryModel
-      .find({
-        name: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.articleCategoryModel.aggregate([
+      {
+        $match: {
+          name: {
+            $regex: keyword,
+            $options: 'i',
+          },
         },
-      })
-      .sort({
-        [sortBy]: sortOrder,
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .exec();
+      },
+      { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
+      {
+        $facet: {
+          categories: [
+            { $skip: page },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'articlecategories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'category',
+              },
+            },
+            {
+              $addFields: {
+                category: { $arrayElemAt: ['$category', 0] },
+              },
+            },
+          ],
+          count: [
+            {
+              $count: 'count',
+            },
+          ],
+        },
+      },
+      {
+        $addFields: {
+          count: {
+            $arrayElemAt: ['$count', 0],
+          },
+        },
+      },
+      {
+        $addFields: {
+          count: '$count.count',
+        },
+      },
+      {
+        $project: {
+          categories: 1,
+          count: { $ifNull: ['$count', 0] },
+        },
+      },
+    ]);
+
+    return result[0];
   };
 
   getArticleCategoryByPropsOr = (props: Array<Record<string, any>>) =>

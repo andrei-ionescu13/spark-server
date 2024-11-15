@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { AddCurrencyRequestDto } from './addCurrencyRequestDto';
-import { AddCurrencyUseCase } from './addCurrencyUseCase';
+import { AddCurrencyErrors, AddCurrencyUseCase } from './addCurrencyUseCase';
 
 export class AddCurrencyController extends BaseController {
   constructor(private useCase: AddCurrencyUseCase) {
@@ -24,6 +24,9 @@ export class AddCurrencyController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
+          case AddCurrencyErrors.TitleNotAvailableError:
+            return this.forbidden(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error);
         }

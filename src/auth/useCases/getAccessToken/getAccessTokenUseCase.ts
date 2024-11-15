@@ -32,7 +32,7 @@ export class GetAccessTokenUseCase implements UseCase<GetAccessTokenRequestDto, 
 
   execute = async (request: GetAccessTokenRequestDto): Promise<Response> => {
     const { refreshToken } = request;
-
+    console.log(refreshToken);
     try {
       if (!refreshToken) {
         return left(new GetAccessTokenErrors.RefreshTokenRequiredError());

@@ -1,5 +1,6 @@
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
+import { ArticleCategoryRepoI } from '../../../article-category/articleCategoryRepo';
 import { ArticleCategory } from '../../../article-category/model';
 import { UseCase } from '../../../use-case';
 import { ArticleRepoI } from '../../articleRepo';
@@ -14,17 +15,26 @@ type Response = Either<
 >;
 
 export class SearchArticlesUseCase implements UseCase<SearchArticlesRequestDto, Response> {
-  constructor(private articleRepo: ArticleRepoI) {}
+  constructor(
+    private articleRepo: ArticleRepoI,
+    private articleCategoryRepo: ArticleCategoryRepoI,
+  ) {}
 
   execute = async (request: SearchArticlesRequestDto): Promise<Response> => {
     const query = request;
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      const articles = await this.articleRepo.searchArticles(request);
-      const count = await this.articleRepo.getArticlesCount(request);
+      if (query.category) {
+        const articleCategory = await this.articleCategoryRepo.getArticleCategoryByName(
+          query.category,
+        );
+        query.category = articleCategory._id;
+      }
 
-      return right(Result.ok<any>({ articles, count }));
+      const articlesAndCount = await this.articleRepo.searchArticles(query);
+
+      return right(Result.ok<any>(articlesAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

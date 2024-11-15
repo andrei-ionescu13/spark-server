@@ -29,7 +29,7 @@ type Response = Either<
 >;
 
 export class DuplicateArticleUseCase implements UseCase<DuplicateArticleRequestDto, Response> {
-  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) {}
+  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) { }
 
   comparePropsToArticle = (props, article): Result<UseCaseError> => {
     if (props.title === article.title) {
@@ -72,7 +72,7 @@ export class DuplicateArticleUseCase implements UseCase<DuplicateArticleRequestD
       };
       articleProps.status = 'draft';
       articleProps.createdAt = new Date();
-      articleProps.cover = await this.uploaderService.upload(articleProps.cover.url);
+      articleProps.cover = await this.uploaderService.uploadFromUrl(articleProps.cover.url);
 
       const articleCreated = await this.articleRepo.createArticle(articleProps);
 

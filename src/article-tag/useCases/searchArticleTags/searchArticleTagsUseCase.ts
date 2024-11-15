@@ -19,10 +19,9 @@ export class SearchArticleCategoriesUseCase
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
 
     try {
-      const tags = await this.articleTagRepo.searchArticleCategories(request);
-      const count = await this.articleTagRepo.getArticleCategoriesCount(request);
-
-      return right(Result.ok<any>({ tags, count }));
+      const tagsAndCount = await this.articleTagRepo.searchArticleCategories(request);
+      console.log(tagsAndCount);
+      return right(Result.ok<any>(tagsAndCount));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

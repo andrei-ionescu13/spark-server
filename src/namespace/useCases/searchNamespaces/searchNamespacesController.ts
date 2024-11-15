@@ -18,7 +18,6 @@ export class SearchNamespacesController extends BaseController {
       page: query?.page ? Number.parseInt(query.page as string) : undefined,
       limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
       translationsLanguageCodes: query.translationsLanguage,
-      searchFor: query.searchFor as string,
     };
 
     try {

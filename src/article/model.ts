@@ -4,7 +4,6 @@ import { Meta, MetaSchema } from '../Meta';
 const { Schema } = mongoose;
 
 type Status = 'draft' | 'published' | 'archived';
-type Category = 'news' | 'games' | 'reviews';
 
 export interface Article {
   title: string;

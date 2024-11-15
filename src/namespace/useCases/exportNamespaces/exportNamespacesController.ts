@@ -22,11 +22,12 @@ export class ExportNamespacesController extends BaseController {
         }
       }
 
-      const { directoryPath, filePath } = result.value.getValue();
+      const { filePath, directoryPath } = result.value.getValue();
 
-      res.download(filePath, 'translations', function (err) {
+      res.download(filePath, function (err) {
+        //remove translations zip and directory after download
+        fs.rmSync(filePath, { recursive: true, force: true });
         fs.rmSync(directoryPath, { recursive: true, force: true });
-        // fs.unlinkSync(filePath);
       });
     } catch (error) {
       console.log(error);

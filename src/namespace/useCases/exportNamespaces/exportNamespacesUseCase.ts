@@ -7,6 +7,7 @@ import { join } from 'path';
 import fs from 'fs';
 import AdmZip from 'adm-zip';
 import { TranslationsLanguageRepoI } from '../../../translations-language/languageRepo';
+import { TranslationServiceI } from '../../../services/translationService';
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
@@ -14,38 +15,35 @@ export class ExportNamespacesUseCase implements UseCase<ExportNamespacesRequestD
   constructor(
     private namespaceRepo: NamespaceRepoI,
     private translationsLanguageRepo: TranslationsLanguageRepoI,
-  ) {}
+    private translationService: TranslationServiceI,
+  ) { }
 
   execute = async (): Promise<Response> => {
     try {
-      const translationsLanguages = await this.translationsLanguageRepo.listTranslationsLanguages();
+      const languages = await this.translationsLanguageRepo.listTranslationsLanguages();
       const namespaces = await this.namespaceRepo.listNamespaces();
-      const translationsLanguagesCodes = translationsLanguages.map(
-        (translationsLanguage) => translationsLanguage.code,
+      const languagesCodes = languages.map(
+        (language) => language.code,
       );
+
+      //create directory
       const rootDirectory = join(process.cwd(), '/', 'translations');
 
       fs.rmSync(rootDirectory, { recursive: true, force: true });
       fs.mkdirSync(rootDirectory);
 
-      translationsLanguagesCodes.forEach((code) => {
-        fs.mkdirSync(join(rootDirectory, code));
-        namespaces.forEach((namespace) => {
-          const namespacesName = namespace.name;
-          const mappedTranslations = {};
-
-          namespace.translations.forEach((translation) => {
-            mappedTranslations[translation.key] = translation?.[code] || '';
-          });
-
-          fs.writeFileSync(
-            join(rootDirectory, code, `${namespacesName}.json`),
-            JSON.stringify(mappedTranslations),
-          );
-        });
+      languagesCodes.forEach((code) => {
+        const translations = this.translationService.convertNamespacesToJson(namespaces, code);
+        //add translations to the directory
+        fs.writeFileSync(
+          join(rootDirectory, `${code}.json`),
+          JSON.stringify(translations),
+        );
       });
+
       const zip = new AdmZip();
-      const outputFile = `${'translations'}.zip`;
+      const outputFile = 'translations.zip';
+      //add the directory to the zip file
       await zip.addLocalFolderPromise(rootDirectory);
       await zip.writeZipPromise(join(process.cwd(), '/', outputFile));
 

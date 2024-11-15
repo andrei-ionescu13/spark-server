@@ -28,8 +28,6 @@ export class SearchTranslationsUseCase implements UseCase<SearchTranslationsRequ
         translationsLanguageCodes = translationsLanguages.map(
           (translationsLanguage) => translationsLanguage.code,
         );
-      } else {
-        translationsLanguageCodes = translationsLanguageCodes.split(',');
       }
 
       const namespace = await this.namespaceRepo.searchNamespaceTranslations(
@@ -38,13 +36,7 @@ export class SearchTranslationsUseCase implements UseCase<SearchTranslationsRequ
         translationsLanguageCodes,
       );
 
-      //TODO finish db query
-      return right(
-        Result.ok<any>({
-          count: 10,
-          ...namespace[0],
-        }),
-      );
+      return right(Result.ok<any>(namespace));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

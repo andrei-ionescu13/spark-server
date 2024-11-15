@@ -29,7 +29,7 @@ type Response = Either<
 >;
 
 export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Response> {
-  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) {}
+  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) { }
 
   comparePropsToArticle = (props, article): Result<UseCaseError> => {
     if (props.title === article.title) {
@@ -63,7 +63,7 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
 
       props.cover = uploadedCover;
       props.status = shouldPublish ? 'published' : 'draft';
-      console.log(props);
+
       const article = await this.articleRepo.createArticle(props);
 
       return right(Result.ok(article._id));
