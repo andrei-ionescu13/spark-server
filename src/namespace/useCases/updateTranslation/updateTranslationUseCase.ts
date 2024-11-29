@@ -25,7 +25,7 @@ export class UpdateTranslationUseCase implements UseCase<UpdateTranslationReques
 
       await this.namespaceRepo.updateNamespaceTranslation(namespaceId, key, props);
 
-      return right(Result.ok<any>());
+      return right(Result.ok<any>(namespaceId));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

@@ -48,5 +48,12 @@ export class CloudinaryUploaderService implements UploaderService {
     folder: string | undefined = undefined,
     resource_type?: any,
     public_id?: any,
-  ): Promise<any> => cloudinary.v2.uploader.upload(url, { folder, resource_type, public_id });
+  ): Promise<any> =>
+    cloudinary.v2.uploader.upload(url, {
+      folder,
+      resource_type,
+      public_id,
+      overwrite: true,
+      invalidate: true,
+    });
 }

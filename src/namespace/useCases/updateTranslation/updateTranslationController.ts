@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import { AppError } from '../../../AppError';
 import { BaseController } from '../../../BaseController';
 import { UpdateTranslationRequestDto } from './updateTranslationRequestDto';
 import { UpdateTranslationUseCase } from './updateTranslationUseCase';
-import { AppError } from '../../../AppError';
 
 export class UpdateTranslationController extends BaseController {
   constructor(private useCase: UpdateTranslationUseCase) {
