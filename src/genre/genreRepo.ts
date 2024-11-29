@@ -33,7 +33,7 @@ export class GenreRepo implements GenreRepoI {
     this.genreModel.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: props }, { new: true });
 
   searchGenres = async (query) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page = 0, limit = 10 } = query;
+    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page = 1, limit = 10 } = query;
 
     const result = await this.genreModel.aggregate([
       {
@@ -48,7 +48,7 @@ export class GenreRepo implements GenreRepoI {
       {
         $facet: {
           genres: [
-            { $skip: page },
+            { $skip: (page - 1) * limit },
             { $limit: limit },
             {
               $lookup: {

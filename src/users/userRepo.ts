@@ -50,7 +50,7 @@ export class UserRepo implements UserRepoI {
       sortBy = 'createdAt',
       sortOrder = 'desc',
       status,
-      page = 0,
+      page = 1,
       limit = 10,
     } = query;
 
@@ -67,7 +67,7 @@ export class UserRepo implements UserRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };
@@ -95,7 +95,7 @@ export class UserRepo implements UserRepoI {
     if (sortBy === 'product') {
       sortBy = 'product.title';
     }
-    console.log(id);
+
     const result = await this.userModel.aggregate([
       {
         $match: {

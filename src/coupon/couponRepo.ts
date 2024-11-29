@@ -108,8 +108,14 @@ export class CouponRepo implements CouponRepoI {
     this.promoCodeModel.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: props }, { new: true });
 
   searchCoupons = (query) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit, status } = query;
-    console.log(status);
+    const {
+      keyword = '',
+      sortBy = 'createdAt',
+      sortOrder = 'asc',
+      page = 1,
+      limit = 10,
+      status,
+    } = query;
     const intervalQuery = buildIntervalQuery(status);
 
     return this.promoCodeModel
@@ -127,7 +133,7 @@ export class CouponRepo implements CouponRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .populate('products users')
       .exec();

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import { AppError } from '../../../AppError';
 import { BaseController } from '../../../BaseController';
 import { DeleteTranslationRequestDto } from './deleteTranslationRequestDto';
 import { DeleteTranslationUseCase } from './deleteTranslationUseCase';
-import { AppError } from '../../../AppError';
 
 export class DeleteTranslationController extends BaseController {
   constructor(private useCase: DeleteTranslationUseCase) {
@@ -31,7 +31,9 @@ export class DeleteTranslationController extends BaseController {
         }
       }
 
-      return this.ok(res);
+      const key = result.value;
+
+      return this.ok(res, key);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

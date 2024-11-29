@@ -71,7 +71,7 @@ export class OrderRepo implements OrderRepoI {
       keyword = '',
       sortBy = 'createdAt',
       sortOrder = 'desc',
-      page = 0,
+      page = 1,
       limit = 10,
       status,
       paymentStatus,
@@ -125,7 +125,7 @@ export class OrderRepo implements OrderRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .populate('customer')
       .exec();

@@ -5,7 +5,7 @@ import { KeyRepoI } from '../../keyRepo';
 import { SearchKeysRequestDto } from './searchKeysRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
@@ -15,12 +15,11 @@ export class SearchKeysUseCase implements UseCase<SearchKeysRequestDto, Response
   execute = async (request: SearchKeysRequestDto): Promise<Response> => {
     const query = request;
     query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
-
+    console.log(query);
     try {
-      const keys = await this.keyRepo.searchKeys(query);
-      const count = await this.keyRepo.getKeysCount(query);
+      const result = await this.keyRepo.searchKeys(query);
 
-      return right(Result.ok<any>({ keys, count }));
+      return right(Result.ok<any>(result));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

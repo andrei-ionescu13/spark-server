@@ -7,7 +7,7 @@ import { ArticleRepoI } from '../../articleRepo';
 import { SearchArticlesRequestDto } from './SearchArticlesRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<
   AppError.UnexpectedError,

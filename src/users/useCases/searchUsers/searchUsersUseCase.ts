@@ -7,7 +7,7 @@ import { SearchUsersRequestDto } from './searchUsersRequestDto';
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 export class SearchUsersUseCase implements UseCase<SearchUsersRequestDto, Response> {
   constructor(private userRepo: UserRepoI) {}

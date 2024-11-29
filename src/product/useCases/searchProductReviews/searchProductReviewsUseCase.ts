@@ -1,11 +1,11 @@
 import { AppError } from '../../../AppError';
-import { Either, Result, right, left } from '../../../Result';
+import { Either, left, Result, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { ProductRepoI } from '../../productRepo';
 import { SearchProductReviewsRequestDto } from './searchProductReviewsRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

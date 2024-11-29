@@ -101,7 +101,7 @@ export class CollectionRepo implements CollectionRepoI {
       keyword = '',
       sortBy = 'createdAt',
       sortOrder = 'desc',
-      page = 0,
+      page = 1,
       limit = 10,
       status,
     } = query;
@@ -122,7 +122,7 @@ export class CollectionRepo implements CollectionRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };

@@ -5,7 +5,7 @@ import { OperatingSystemRepoI } from '../../operatingSystemRepo';
 import { SearchOperatingSystemsRequestDto } from './searchOperatingSystemsRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

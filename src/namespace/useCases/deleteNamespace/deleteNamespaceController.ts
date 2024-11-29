@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
+import { AppError } from '../../../AppError';
 import { BaseController } from '../../../BaseController';
 import { DeleteNamespaceRequestDto } from './deleteNamespaceRequestDto';
 import { DeleteNamespaceUseCase } from './deleteNamespaceUseCase';
-import { AppError } from '../../../AppError';
 
 export class DeleteNamespaceController extends BaseController {
   constructor(private useCase: DeleteNamespaceUseCase) {
@@ -30,7 +30,8 @@ export class DeleteNamespaceController extends BaseController {
         }
       }
 
-      return this.ok(res);
+      const value = result.value.getValue();
+      return this.ok(res, value);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

@@ -5,7 +5,7 @@ import { PublisherRepoI } from '../../publisherRepo';
 import { SearchPublishersRequestDto } from './searchPublishersRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

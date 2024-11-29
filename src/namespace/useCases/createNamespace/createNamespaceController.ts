@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { BaseController } from '../../../BaseController';
 import { CreateNamespaceRequestDto } from './createNamespaceRequestDto';
-import { CreateNamespaceUseCase } from './createNamespaceUseCase';
+import { CreateNamespaceErrors, CreateNamespaceUseCase } from './createNamespaceUseCase';
 
 export class CreateNamespaceController extends BaseController {
   constructor(private useCase: CreateNamespaceUseCase) {
@@ -21,6 +21,9 @@ export class CreateNamespaceController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
+          case CreateNamespaceErrors.NameNotAvailable:
+            return this.forbidden(res, error.getErrorValue().message);
+
           default:
             return this.fail(res, error);
         }

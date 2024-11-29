@@ -1,5 +1,5 @@
 import { AppError } from '../../../AppError';
-import { Either, Result, right, left } from '../../../Result';
+import { Either, left, Result, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { ArticleTagRepoI } from '../../articleTagRepo';
 import { SearchArticleCategoriesRequestDto } from './searchArticleTagsRequestDto';
@@ -7,7 +7,7 @@ import { SearchArticleCategoriesRequestDto } from './searchArticleTagsRequestDto
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 export class SearchArticleCategoriesUseCase
   implements UseCase<SearchArticleCategoriesRequestDto, Response>

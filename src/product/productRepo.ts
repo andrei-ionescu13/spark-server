@@ -126,7 +126,7 @@ export class ProductRepo implements ProductRepoI {
       sortBy = 'createdAt',
       sortOrder = 'desc',
       status,
-      page = 0,
+      page = 1,
       limit = 10,
     } = query;
 
@@ -143,7 +143,7 @@ export class ProductRepo implements ProductRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };
@@ -161,7 +161,7 @@ export class ProductRepo implements ProductRepoI {
   };
 
   searchProductKeys = async (id, query) => {
-    let { keyword = '', status, page = 0, limit = 10 } = query;
+    let { keyword = '', status, page = 1, limit = 10 } = query;
 
     const result = await this.productModel
       .aggregate([
@@ -195,7 +195,7 @@ export class ProductRepo implements ProductRepoI {
           $facet: {
             count: [{ $count: 'count' }],
             keys: [
-              { $skip: page * limit },
+              { $skip: (page - 1) * limit },
               { $limit: limit },
               {
                 $group: {
@@ -296,7 +296,7 @@ export class ProductRepo implements ProductRepoI {
     );
 
   searchProductReviews = async (id, query) => {
-    const { keyword = '', status, sortOrder = 'desc', page = 0, limit = 10 } = query;
+    const { keyword = '', status, sortOrder = 'desc', page = 1, limit = 10 } = query;
     let { sortBy = 'createdAt' } = query;
 
     if (sortBy === 'user') {
@@ -363,7 +363,7 @@ export class ProductRepo implements ProductRepoI {
       {
         $facet: {
           count: [{ $count: 'count' }],
-          reviews: [{ $skip: page * limit }, { $limit: limit }],
+          reviews: [{ $skip: (page - 1) * limit }, { $limit: limit }],
         },
       },
       {

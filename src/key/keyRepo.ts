@@ -29,26 +29,65 @@ export class KeyRepo implements KeyRepoI {
   updateKey = (id, props) =>
     this.keyModel.findOneAndUpdate({ _id: id }, { $set: props }, { new: true }).exec();
 
-  searchKeys = (query) => {
-    const { keyword = '', status, page = 0, limit = 10 } = query;
+  searchKeys = async (query) => {
+    const { keyword = '', status, page = 1, limit = 10 } = query;
 
-    return this.keyModel
-      .find({
-        value: {
-          $regex: keyword,
-          $options: 'i',
+    const result = await this.keyModel
+      .aggregate([
+        {
+          $match: {
+            value: {
+              $regex: keyword,
+              $options: 'i',
+            },
+            ...(status && {
+              status: status,
+            }),
+          },
         },
-        ...(status && {
-          status,
-        }),
-      })
-      .sort({
-        createdAt: 'desc',
-      })
-      .skip(page * limit)
-      .limit(limit)
-      .populate('product')
+        {
+          $sort: {
+            createdAt: 1,
+          },
+        },
+        {
+          $facet: {
+            count: [{ $count: 'count' }],
+            keys: [
+              { $skip: (page - 1) * limit },
+              { $limit: limit },
+              {
+                $lookup: {
+                  from: 'products',
+                  localField: 'product',
+                  foreignField: '_id',
+                  as: 'product',
+                },
+              },
+              { $unwind: '$product' },
+            ],
+          },
+        },
+        {
+          $addFields: {
+            count: {
+              $arrayElemAt: ['$count', 0],
+            },
+          },
+        },
+        {
+          $project: {
+            count: '$count.count',
+            keys: '$keys',
+          },
+        },
+      ])
       .exec();
+
+    return {
+      count: result[0].count,
+      keys: result[0]?.keys || [],
+    };
   };
 
   getKeysCount = (query) => {

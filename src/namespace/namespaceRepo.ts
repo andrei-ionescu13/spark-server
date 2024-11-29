@@ -5,6 +5,7 @@ import { Namespace } from './model';
 export interface NamespaceRepoI {
   getKey: any;
   getNamespace: any;
+  getNamespaceByName: any;
   listNamespaces: any;
   createNamespace: any;
   deleteNamespace: any;
@@ -23,6 +24,8 @@ export class NamespaceRepo implements NamespaceRepoI {
   constructor(private namespaceModel: Model<Namespace>) {}
 
   getKey = (id) => this.namespaceModel.findOne({ _id: id }).exec();
+
+  getNamespaceByName = (name: string) => this.namespaceModel.findOne({ name }).exec();
 
   getNamespace = (id, props = {}) => this.namespaceModel.findOne({ _id: id, ...props }).exec();
 
@@ -102,8 +105,8 @@ export class NamespaceRepo implements NamespaceRepoI {
   updateNamespace = (id, props) =>
     this.namespaceModel.findOneAndUpdate({ _id: id }, { $set: props }, { new: true }).exec();
 
-  searchNamespaces = (query, translationsLanguageCodes = []) => {
-    const { keyword = '', page, perPage: limit, sortBy = 'name', sortOrder = 'asc' } = query;
+  searchNamespaces = (query) => {
+    const { keyword = '', page, limit, sortBy = 'name', sortOrder = 'asc' } = query;
 
     return this.namespaceModel
       .find({
@@ -115,12 +118,12 @@ export class NamespaceRepo implements NamespaceRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };
 
-  getNamespacesCount = (query, translationsLanguageCodes = []) => {
+  getNamespacesCount = (query) => {
     const { keyword = '' } = query;
 
     return this.namespaceModel
@@ -134,7 +137,7 @@ export class NamespaceRepo implements NamespaceRepoI {
   };
 
   searchTranslations = async (query, translationsLanguageCodes = []) => {
-    const { keyword = '', page, perPage, sortBy = 'name', sortOrder = 'asc' } = query;
+    const { keyword = '', page = 1, limit = 10, sortBy = 'name', sortOrder = 'asc' } = query;
     const orQuery = translationsLanguageCodes.map((code) => ({
       [`translations.${code}`]: {
         $regex: keyword,
@@ -167,6 +170,7 @@ export class NamespaceRepo implements NamespaceRepoI {
           {
             $unwind: {
               path: '$translations',
+              preserveNullAndEmptyArrays: true,
             },
           },
           {
@@ -204,7 +208,7 @@ export class NamespaceRepo implements NamespaceRepoI {
           },
           {
             $facet: {
-              namespaces: [{ $match: {} }],
+              namespaces: [{ $skip: (page - 1) * limit }, { $limit: limit }],
               count: [{ $count: 'count' }],
             },
           },

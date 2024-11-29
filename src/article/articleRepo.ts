@@ -55,7 +55,7 @@ export class ArticleRepo implements ArticleRepoI {
       sortOrder = 'desc',
       status,
       category,
-      page = 0,
+      page = 1,
       limit = 10,
     } = query;
 
@@ -78,7 +78,7 @@ export class ArticleRepo implements ArticleRepoI {
       {
         $facet: {
           articles: [
-            { $skip: page },
+            { $skip: (page - 1) * limit },
             { $limit: limit },
             {
               $lookup: {

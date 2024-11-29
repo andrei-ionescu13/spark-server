@@ -22,7 +22,7 @@ export class DeleteNamespaceUseCase implements UseCase<DeleteNamespaceRequestDto
 
       await this.namespaceRepo.deleteNamespace(namespaceId);
 
-      return right(Result.ok());
+      return right(Result.ok(namespace._id));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

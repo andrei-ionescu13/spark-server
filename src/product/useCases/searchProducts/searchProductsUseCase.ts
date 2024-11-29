@@ -5,7 +5,7 @@ import { ProductRepoI } from '../../productRepo';
 import { SearchProductsRequestDto } from './searchProductsRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

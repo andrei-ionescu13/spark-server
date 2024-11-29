@@ -1,5 +1,5 @@
 import { AppError } from '../../../AppError';
-import { Either, Result, right, left } from '../../../Result';
+import { Either, left, Result, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { CollectionRepoI } from '../../collectionRepo';
 import { SearchCollectionsRequestDto } from './searchCollectionsRequestDto';
@@ -7,7 +7,7 @@ import { SearchCollectionsRequestDto } from './searchCollectionsRequestDto';
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 export class SearchCollectionsUseCase implements UseCase<SearchCollectionsRequestDto, Response> {
   constructor(private collectionRepo: CollectionRepoI) {}

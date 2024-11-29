@@ -6,7 +6,7 @@ import { NamespaceRepoI } from '../../namespaceRepo';
 import { SearchNamespacesRequestDto } from './searchNamespacesRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

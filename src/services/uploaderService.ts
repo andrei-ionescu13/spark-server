@@ -1,6 +1,6 @@
 import cloudinary, { UploadApiResponse } from 'cloudinary';
-import streamifier from 'streamifier';
 import * as dotenv from 'dotenv';
+import streamifier from 'streamifier';
 dotenv.config();
 
 cloudinary.v2.config({
@@ -13,7 +13,12 @@ cloudinary.v2.config({
 export interface UploaderService {
   uploadFile: (file, folder?: string | undefined) => Promise<UploadApiResponse | undefined>;
   delete: (publicId: string) => Promise<any>;
-  uploadFromUrl: (url: string, folder?: string | undefined, resource_type?: string, public_id?: string) => Promise<any>;
+  uploadFromUrl: (
+    url: string,
+    folder?: string | undefined,
+    resource_type?: string,
+    public_id?: string,
+  ) => Promise<any>;
 }
 
 export class CloudinaryUploaderService implements UploaderService {
@@ -38,6 +43,10 @@ export class CloudinaryUploaderService implements UploaderService {
 
   delete = (publicId): Promise<any> => cloudinary.v2.uploader.destroy(publicId);
 
-  uploadFromUrl = (url: string, folder: string | undefined = undefined, resource_type, public_id): Promise<any> =>
-    cloudinary.v2.uploader.upload(url, { folder, resource_type, public_id });
+  uploadFromUrl = (
+    url: string,
+    folder: string | undefined = undefined,
+    resource_type?: any,
+    public_id?: any,
+  ): Promise<any> => cloudinary.v2.uploader.upload(url, { folder, resource_type, public_id });
 }

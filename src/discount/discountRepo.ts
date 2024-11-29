@@ -92,7 +92,14 @@ export class DiscountRepo implements DiscountRepoI {
     this.discountModel.findOneAndUpdate({ _id: new ObjectId(id) }, { $set: props }, { new: true });
 
   searchDiscounts = (query) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit, status } = query;
+    const {
+      keyword = '',
+      sortBy = 'createdAt',
+      sortOrder = 'asc',
+      page = 1,
+      limit = 10,
+      status,
+    } = query;
     const intervalQuery = buildIntervalQuery(status);
 
     return this.discountModel
@@ -110,7 +117,7 @@ export class DiscountRepo implements DiscountRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .populate('products')
       .exec();

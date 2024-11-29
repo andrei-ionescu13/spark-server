@@ -25,7 +25,7 @@ export class CurrencyRepo implements CurrencyRepoI {
   deleteCurrency = (id) => this.currencyModel.deleteOne({ _id: id });
 
   searchCurrencies = (query) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page, limit } = query;
+    const { keyword = '', sortBy = 'createdAt', sortOrder = 'asc', page = 1, limit = 10 } = query;
 
     return this.currencyModel
       .find({
@@ -53,7 +53,7 @@ export class CurrencyRepo implements CurrencyRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };

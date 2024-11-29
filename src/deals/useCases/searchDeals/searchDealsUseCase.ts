@@ -7,7 +7,7 @@ import { SearchDealsRequestDto } from './searchDealsRequestDto';
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 export class SearchDealsUseCase implements UseCase<SearchDealsRequestDto, Response> {
   constructor(private dealRepo: DealRepoI) {}

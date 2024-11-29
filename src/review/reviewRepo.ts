@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { Model } from 'mongoose';
 import { Review } from './model';
 
@@ -21,7 +20,7 @@ export class ReviewRepo implements ReviewRepoI {
   getReview = (id) => this.reviewModel.findOne({ _id: id }).populate('product user').exec();
 
   searchReviews = async (query) => {
-    const { keyword = '', status, sortOrder = 'desc', page = 0, limit = 10 } = query;
+    const { keyword = '', status, sortOrder = 'desc', page = 1, limit = 10 } = query;
 
     let { sortBy = 'createdAt' } = query;
 
@@ -88,7 +87,7 @@ export class ReviewRepo implements ReviewRepoI {
         },
       },
       { $sort: { [sortBy]: sortOrder === 'asc' ? 1 : -1 } },
-      { $skip: page * limit },
+      { $skip: (page - 1) * limit },
       { $limit: limit },
     ]);
 

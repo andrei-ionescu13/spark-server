@@ -5,7 +5,7 @@ import { GenreRepoI } from '../../genreRepo';
 import { SearchGenresRequestDto } from './searchGenresRequestDto';
 
 const MAX_LIMIT = 36;
-const LIMIT = 12;
+const LIMIT = 10;
 
 type Response = Either<AppError.UnexpectedError, Result<any>>;
 

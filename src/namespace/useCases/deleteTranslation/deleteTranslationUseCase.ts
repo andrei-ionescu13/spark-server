@@ -24,7 +24,7 @@ export class DeleteTranslationUseCase implements UseCase<DeleteTranslationReques
 
       await this.namespaceRepo.deleteNamespaceTranslation(namespaceId, key);
 
-      return right(Result.ok());
+      return right(Result.ok(key));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

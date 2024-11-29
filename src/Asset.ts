@@ -22,8 +22,8 @@ export interface Asset {
   original_filename: string;
   moderation: Array<string>;
   access_control: Array<string>;
-  context: object; //won't change since it's response, we need to discuss documentation team about it before implementing.
-  metadata: object; //won't change since it's response, we need to discuss documentation team about it before implementing.
+  context: object;
+  metadata: object;
   colors?: [string, number][];
 }
 

@@ -33,9 +33,10 @@
     "rimraf": "^4.4.1",
     "streamifier": "^0.1.1",
     "stripe": "^8.176.0",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "zod": "^3.21.4",
-    "ts-node": "^10.9.1"
+    "uuid": "^11.0.3",
+    "zod": "^3.21.4"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

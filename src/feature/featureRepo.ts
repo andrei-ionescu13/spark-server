@@ -29,7 +29,7 @@ export class FeatureRepo implements FeatureRepoI {
       { new: true },
     );
   searchArticleCategories = (query) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
+    const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 1, limit = 10 } = query;
 
     return this.featureModel
       .find({
@@ -41,7 +41,7 @@ export class FeatureRepo implements FeatureRepoI {
       .sort({
         [sortBy]: sortOrder,
       })
-      .skip(page * limit)
+      .skip((page - 1) * limit)
       .limit(limit)
       .exec();
   };
@@ -72,78 +72,4 @@ export class FeatureRepo implements FeatureRepoI {
     this.featureModel.findOne({ $or: props }).lean();
 
   getFeatures = (ids) => this.featureModel.find({ _id: { $in: ids } });
-  // deleteMultipleArticles = (ids) => this.articleModel.deleteMany({ _id: { $in: ids } });
-
-  // listArticles = (ids) => this.articleModel.find({ _id: { $in: ids } });
-
-  // updateArticle = (id, props): Promise<Article | null> =>
-  //   this.articleModel.findOneAndUpdate(
-  //     { _id: new ObjectId(id) },
-  //     { $set: { ...props, updatedAt: Date.now() } },
-  //     { new: true },
-  //   );
-
-  // searchArticles = (query) => {
-  //   const {
-  //     keyword = '',
-  //     sortBy = 'createdAt',
-  //     sortOrder = 'desc',
-  //     status,
-  //     category,
-  //     page = 0,
-  //     limit = 10,
-  //   } = query;
-
-  //   return this.articleModel
-  //     .find({
-  //       title: {
-  //         $regex: keyword,
-  //         $options: 'i',
-  //       },
-  //       ...(status && {
-  //         status,
-  //       }),
-  //       ...(category && {
-  //         category,
-  //       }),
-  //     })
-  //     .sort({
-  //       [sortBy]: sortOrder,
-  //     })
-  //     .skip(page * limit)
-  //     .limit(limit)
-  //     .exec();
-  // };
-
-  // getArticlesCount = (query) => {
-  //   const { status, category } = query;
-
-  //   return this.articleModel
-  //     .find({
-  //       ...(status && {
-  //         status,
-  //       }),
-  //       ...(category && {
-  //         category,
-  //       }),
-  //     })
-  //     .count();
-  // };
-
-  // duplicateArticle = async (id) => {
-  //   const article = await this.getArticle(id);
-
-  //   //TODO: change this
-  //   if (!article) {
-  //     return;
-  //   }
-  //   let { _id, ...articleProps } = article;
-
-  //   articleProps.status = 'draft';
-  //   articleProps.createdAt = new Date();
-  //   articleProps.cover = await uploader.upload(articleProps.cover.url);
-
-  //   const newArticle = await this.createArticle(articleProps);
-  //   return newArticle;
-  // };
 }
