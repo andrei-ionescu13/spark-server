@@ -43,17 +43,18 @@ export class CloudinaryUploaderService implements UploaderService {
 
   delete = (publicId): Promise<any> => cloudinary.v2.uploader.destroy(publicId);
 
-  uploadFromUrl = (
+  uploadFromUrl = async (
     url: string,
     folder: string | undefined = undefined,
     resource_type?: any,
     public_id?: any,
-  ): Promise<any> =>
-    cloudinary.v2.uploader.upload(url, {
+  ): Promise<any> => {
+    await cloudinary.v2.uploader.upload(url, {
       folder,
       resource_type,
       public_id,
       overwrite: true,
       invalidate: true,
     });
+  };
 }
