@@ -1,30 +1,33 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CurrencyRepoI } from '../../currencyRepo';
+import { CurrencyCommandsRepoI } from '../../repo/commands';
+import { CurrencyQueriesRepoI } from '../../repo/queries';
 import { DeleteCurrencyRequestDto } from './deleteCurrencyRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<undefined, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class DeleteCurrencyUseCase implements UseCase<DeleteCurrencyRequestDto, Response> {
-  constructor(private currencyRepo: CurrencyRepoI) {}
+  constructor(
+    private currencyCommandsRepo: CurrencyCommandsRepoI,
+    private currencyQueriesRepo: CurrencyQueriesRepoI,
+  ) {}
 
   execute = async (request: DeleteCurrencyRequestDto): Promise<Response> => {
     const { currencyId } = request;
 
     try {
-      const currency = await this.currencyRepo.getCurrency(currencyId);
+      const currency = await this.currencyQueriesRepo.getCurrency(currencyId);
 
       if (!currency) {
-        return left(new AppError.NotFound('Currency not found'));
+        return Result.fail(new UseCaseErrors.NotFound('Currency not found'));
       }
 
-      await this.currencyRepo.deleteCurrency(currencyId);
-
-      return right(Result.ok());
+      await this.currencyCommandsRepo.deleteCurrency(currencyId);
+      return Result.ok();
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

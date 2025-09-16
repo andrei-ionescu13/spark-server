@@ -1,14 +1,18 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { Collection } from '../../collection';
+import { CollectionCommandsRepoI } from '../../repo/commands';
 import { CreateCollectionRequestDto } from './createCollectionRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<Collection, UseCaseErrors.ValidationError | UseCaseErrors.UnexpectedError>;
 
 export class CreateCollectionUseCase implements UseCase<CreateCollectionRequestDto, Response> {
-  constructor(private collectionRepo: CollectionRepoI, private uploaderService: UploaderService) {}
+  constructor(
+    private collectionCommandsRepo: CollectionCommandsRepoI,
+    private uploaderService: UploaderService,
+  ) {}
 
   execute = async (request: CreateCollectionRequestDto): Promise<Response> => {
     const { coverFile, ...rest } = request;
@@ -20,12 +24,19 @@ export class CreateCollectionUseCase implements UseCase<CreateCollectionRequestD
       props.cover = uploadedFile;
       props.endDate = !!props.endDate ? props.endDate : null;
 
-      const collection = await this.collectionRepo.createCollection(props);
+      const collectionOrError = Collection.create(props);
 
-      return right(Result.ok<any>(collection));
+      if (collectionOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(collectionOrError.error.message));
+      }
+
+      const collection = collectionOrError.value;
+      await this.collectionCommandsRepo.save(collection);
+
+      return Result.ok(collection);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

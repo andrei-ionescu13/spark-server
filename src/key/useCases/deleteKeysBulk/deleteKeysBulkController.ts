@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { DeleteKeysBulkRequestDto } from './deleteKeysBulkRequestDto';
 import { DeleteKeysBulkUseCase } from './deleteKeysBulkUseCase';
 
-export class DeleteKeysBulkController extends BaseController {
+export class DeleteKeysBulkController extends Controller {
   constructor(private useCase: DeleteKeysBulkUseCase) {
     super();
     this.useCase = useCase;
@@ -17,10 +18,16 @@ export class DeleteKeysBulkController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
+
+          case UseCaseErrors.DomainValidation:
+            return this.conflict(res, error.message);
+
           default:
             return this.fail(res, error);
         }

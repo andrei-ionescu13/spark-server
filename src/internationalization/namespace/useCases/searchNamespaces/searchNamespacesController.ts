@@ -1,0 +1,65 @@
+import { Request, Response } from 'express';
+import * as z from 'zod';
+import { Controller } from '../../../../Controller';
+import { zodRequestValidationError } from '../../../../zodErrors';
+import { SearchNamespacesRequestDto } from './searchNamespacesRequestDto';
+import { SearchNamespacesUseCase } from './searchNamespacesUseCase';
+
+export class SearchNamespacesController extends Controller {
+  constructor(private useCase: SearchNamespacesUseCase) {
+    super();
+    this.useCase = useCase;
+  }
+
+  executeImpl = async (req: Request, res: Response) => {
+    const query = req.query;
+    const input = {
+      keyword: query?.keyword,
+      sortBy: query?.sortBy,
+      sortOrder: query?.sortOrder,
+      page: query?.page,
+      limit: query?.limit,
+      languageCodes: query?.languageCodes,
+    };
+
+    const schema = z.object({
+      keyword: z.string().optional(),
+      sortBy: z.string().optional(),
+      sortOrder: z.enum(['asc', 'desc']).optional(),
+      page: z.coerce.number().int().positive().optional(),
+      limit: z.coerce.number().int().positive().optional(),
+      languageCodes: z.preprocess((val) => {
+        if (val === undefined) return undefined;
+        if (typeof val === 'string') return [val];
+        if (Array.isArray(val)) return val;
+        return undefined;
+      }, z.array(z.string().min(2).max(2)).optional()),
+    });
+
+    const result = schema.safeParse(input);
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: SearchNamespacesRequestDto = result.data;
+    try {
+      const result = await this.useCase.execute(dto);
+
+      if (result.isErr()) {
+        const error = result.error;
+
+        switch (error.constructor) {
+          default:
+            return this.fail(res, error);
+        }
+      }
+
+      const searchResult = result.value;
+      return this.ok(res, searchResult);
+    } catch (error) {
+      console.log(error);
+      return this.fail(res, error);
+    }
+  };
+}

@@ -1,40 +1,53 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { ProductRepoI } from '../../../product/productRepo';
+import { UseCaseErrors } from '../../../AppError';
+import { ProductCommandsRepoI } from '../../../product/repo/commands';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { KeyRepoI } from '../../keyRepo';
+import { KeyCommandsRepoI } from '../../repo/commands';
+import { KeyQueriesRepoI } from '../../repo/queries';
 import { DeleteKeyRequestDto } from './deleteKeyRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<undefined, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class DeleteKeyUseCase implements UseCase<DeleteKeyRequestDto, Response> {
-  constructor(private keyRepo: KeyRepoI, private productRepo: ProductRepoI) {}
+  constructor(
+    private keyCommandsRepo: KeyCommandsRepoI,
+    private keyQueriesRepo: KeyQueriesRepoI,
+    private productCommandsRepo: ProductCommandsRepoI,
+  ) {}
 
   execute = async (request: DeleteKeyRequestDto): Promise<Response> => {
     const { keyId } = request;
 
     try {
-      const key = await this.keyRepo.getKey(keyId);
+      const key = await this.keyQueriesRepo.getKey(keyId);
       const keyFound = !!key;
 
       if (!keyFound) {
-        return left(new AppError.NotFound('Key not found'));
+        return Result.fail(new UseCaseErrors.NotFound('Key not found'));
       }
 
-      const product = await this.productRepo.getProductByKey(keyId);
-      const productFound = !!product;
-
-      if (!productFound) {
-        return left(new AppError.NotFound('Product not found'));
+      const productOrError = await this.productCommandsRepo.getProductByKey(keyId);
+      if (productOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
       }
 
-      await this.keyRepo.deleteKey(keyId);
-      await this.productRepo.deleteProductKey(product._id, keyId);
+      const product = productOrError.value;
+      if (!product) {
+        return Result.fail(new UseCaseErrors.NotFound('Product not found'));
+      }
 
-      return right(Result.ok());
+      const removeResult = product.removeKey(key._id);
+      if (removeResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(removeResult.error.message));
+      }
+
+      await this.keyCommandsRepo.deleteKey(keyId);
+      await this.productCommandsRepo.save(product);
+
+      return Result.ok();
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

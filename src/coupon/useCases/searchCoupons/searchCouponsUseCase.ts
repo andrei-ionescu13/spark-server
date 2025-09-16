@@ -1,29 +1,31 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CouponRepoI } from '../../couponRepo';
+import { CouponDto } from '../../couponMapper';
+import { CouponQueriesRepoI } from '../../repo/queries';
 import { SearchCouponsRequestDto } from './searchCouponsRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<{ coupons: CouponDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 
 export class SearchCouponsUseCase implements UseCase<SearchCouponsRequestDto, Response> {
-  constructor(private couponRepo: CouponRepoI) {}
+  constructor(private couponQueriesRepo: CouponQueriesRepoI) {}
 
   execute = async (request: SearchCouponsRequestDto): Promise<Response> => {
-    const query = request;
-    query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
+    const query = {
+      ...request,
+      limit: request?.limit && request.limit <= MAX_LIMIT ? request.limit : LIMIT,
+    };
 
     try {
-      const promoCodes = await this.couponRepo.searchCoupons(query);
-      const count = await this.couponRepo.getCouponsCount(query);
+      const { coupons, count } = await this.couponQueriesRepo.searchCoupons(query);
 
-      return right(Result.ok<any>({ promoCodes, count }));
+      return Result.ok({ coupons, count });
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

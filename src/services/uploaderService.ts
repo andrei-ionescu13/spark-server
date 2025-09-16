@@ -3,6 +3,13 @@ import * as dotenv from 'dotenv';
 import streamifier from 'streamifier';
 dotenv.config();
 
+interface UploadFileResponse extends UploadApiResponse {
+  publicId: string;
+  createdAt: string;
+  secureUrl: string;
+  originalFilename: string;
+}
+
 cloudinary.v2.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -11,7 +18,7 @@ cloudinary.v2.config({
 });
 
 export interface UploaderService {
-  uploadFile: (file, folder?: string | undefined) => Promise<UploadApiResponse | undefined>;
+  uploadFile: (file, folder?: string | undefined) => Promise<UploadFileResponse>;
   delete: (publicId: string) => Promise<any>;
   uploadFromUrl: (
     url: string,
@@ -22,10 +29,7 @@ export interface UploaderService {
 }
 
 export class CloudinaryUploaderService implements UploaderService {
-  uploadFile = (
-    file,
-    folder: string | undefined = undefined,
-  ): Promise<UploadApiResponse | undefined> =>
+  uploadFile = (file, folder: string | undefined = undefined): Promise<UploadFileResponse> =>
     new Promise((resolve, reject) => {
       const cld_upload_stream = cloudinary.v2.uploader.upload_stream(
         { folder },
@@ -34,7 +38,15 @@ export class CloudinaryUploaderService implements UploaderService {
             reject(error);
           }
 
-          resolve(result);
+          if (result) {
+            resolve({
+              ...result,
+              publicId: result?.public_id,
+              createdAt: result?.created_at,
+              secureUrl: result?.secure_url,
+              originalFilename: result?.original_filename,
+            });
+          }
         },
       );
 

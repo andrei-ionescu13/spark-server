@@ -1,22 +1,25 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCaseError } from '../../../UseCaseError';
-import { AuthService } from '../../../services/authService';
+import bcrypt from 'bcrypt';
+import { UseCaseErrors } from '../../../AppError';
+import { AuthService } from '../../../authService';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
+import { UseCaseError } from '../../../UseCaseError';
 import { AdminRepoI } from '../../adminRepo';
 import { TokenRepoI } from '../../tokenRepo';
 import { LoginRequestDto } from './loginRequestDto';
-import bcrypt from 'bcrypt';
 
 export namespace LoginErrors {
-  export class WrongCredentials extends Result<UseCaseError> {
+  export class WrongCredentials extends UseCaseError {
     constructor() {
-      super(false, { message: 'Wrong username or password' });
+      super('Wrong username or password');
     }
   }
 }
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<
+  { accessToken: string; refreshToken: string },
+  UseCaseErrors.UnexpectedError
+>;
 
 export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
   constructor(
@@ -29,17 +32,16 @@ export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
     const { username, password } = request;
 
     try {
-      const admin = await this.adminRepo.findByUsername(username);
-      const found = !!admin;
+      const admin = await this.adminRepo.getAdminByUsername(username);
 
-      if (!found) {
-        return left(new LoginErrors.WrongCredentials());
+      if (!admin) {
+        return Result.fail(new LoginErrors.WrongCredentials());
       }
 
       const valid = await bcrypt.compare(password, admin.password);
 
       if (!valid) {
-        return left(new LoginErrors.WrongCredentials());
+        return Result.fail(new LoginErrors.WrongCredentials());
       }
 
       const accessToken = this.authService.generateAccessToken(admin);
@@ -55,10 +57,10 @@ export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
         type: 'refresh-token',
       });
 
-      return right(Result.ok<any>({ accessToken, refreshToken }));
+      return Result.ok({ accessToken, refreshToken });
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

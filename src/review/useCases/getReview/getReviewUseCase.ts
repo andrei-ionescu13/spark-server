@@ -1,29 +1,29 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { ReviewRepoI } from '../../reviewRepo';
+import { ReviewQueriesRepoI } from '../../repo/queries';
+import { ReviewDto } from '../../reviewMapper';
 import { GetReviewRequestDto } from './getReviewRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<ReviewDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class GetReviewUseCase implements UseCase<GetReviewRequestDto, Response> {
-  constructor(private reviewRepo: ReviewRepoI) {}
+  constructor(private reviewQueriesRepo: ReviewQueriesRepoI) {}
 
   execute = async (request: GetReviewRequestDto): Promise<Response> => {
     const { reviewId } = request;
 
     try {
-      const review = await this.reviewRepo.getReview(reviewId);
-      const found = !!review;
+      const review = await this.reviewQueriesRepo.getReview(reviewId);
 
-      if (!found) {
-        return left(new AppError.NotFound('Review not found'));
+      if (!review) {
+        return Result.fail(new UseCaseErrors.NotFound('Review not found'));
       }
 
-      return right(Result.ok<any>(review));
+      return Result.ok(review);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

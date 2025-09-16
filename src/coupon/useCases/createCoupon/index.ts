@@ -1,11 +1,13 @@
 import { UserModel } from '../../../users/model';
-import { UserRepo } from '../../../users/userRepo';
-import { CouponRepo } from '../../couponRepo';
+import { UserCommandsRepo } from '../../../users/repo/commands';
 import { CouponModel } from '../../model';
+import { CouponCommandsRepo } from '../../repo/commands';
 import { CreateCouponController } from './createCouponController';
 import { CreateCouponUseCase } from './createCouponUseCase';
 
-const couponRepo = new CouponRepo(CouponModel);
-const userRepo = new UserRepo(UserModel);
-const createCouponUseCase = new CreateCouponUseCase(couponRepo, userRepo);
+const couponCommandsRepo = new CouponCommandsRepo(CouponModel);
+const userCommandsRepo = new UserCommandsRepo(UserModel);
+
+const createCouponUseCase = new CreateCouponUseCase(couponCommandsRepo, userCommandsRepo);
+
 export const createCouponController = new CreateCouponController(createCouponUseCase);

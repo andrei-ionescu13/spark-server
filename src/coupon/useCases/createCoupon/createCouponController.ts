@@ -1,33 +1,43 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import * as z from 'zod';
+import { Controller } from '../../../Controller';
+import { zodRequestValidationError } from '../../../zodErrors';
 import { CreateCouponRequestDto } from './createCouponRequestDto';
 import { CreateCouponUseCase } from './createCouponUseCase';
 
-export class CreateCouponController extends BaseController {
+export class CreateCouponController extends Controller {
   constructor(private useCase: CreateCouponUseCase) {
     super();
     this.useCase = useCase;
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const body = req.body;
-    const dto: CreateCouponRequestDto = {
-      code: body.code,
-      endDate: body.endDate,
-      productSelection: body.productSelection,
-      products: body.products,
-      startDate: body.startDate,
-      type: body.type,
-      userSelection: body.userSelection,
-      users: body.users,
-      value: body.value,
-    };
+    const schema = z.object({
+      code: z.string().min(3),
+      endDate: z.coerce
+        .date()
+        .refine((date) => date > new Date(), { message: 'End date must be in the future' }),
+      productSelection: z.enum(['general', 'selected']),
+      products: z.array(z.string()),
+      startDate: z.coerce.date(),
+      type: z.enum(['amount', 'percentage']),
+      userSelection: z.enum(['general', 'selected']),
+      users: z.array(z.string()),
+      value: z.coerce.number().positive(),
+    });
+    const result = schema.safeParse(req.body);
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: CreateCouponRequestDto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           default:
@@ -35,7 +45,7 @@ export class CreateCouponController extends BaseController {
         }
       }
 
-      const value = result.value.getValue();
+      const value = result.value;
 
       return this.ok(res, value);
     } catch (error) {

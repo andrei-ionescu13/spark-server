@@ -1,11 +1,11 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UploaderService } from '../../../services/uploaderService';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UploaderService } from '../../../src/services/uploaderService';
+import { UseCase } from '../../../src/use-case';
 import { ProductRepoI } from '../../productRepo';
 import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class UpdateProductMediaUseCase implements UseCase<UpdateProductMediaRequestDto, Response> {
   constructor(private productRepo: ProductRepoI, private uploaderService: UploaderService) {}
@@ -19,7 +19,7 @@ export class UpdateProductMediaUseCase implements UseCase<UpdateProductMediaRequ
       const found = !!product;
 
       if (!product) {
-        return left(new AppError.NotFound('Product not found'));
+        return left(new UseCaseErrors.NotFound('Product not found'));
       }
 
       if (coverFile) {
@@ -57,7 +57,7 @@ export class UpdateProductMediaUseCase implements UseCase<UpdateProductMediaRequ
       return right(Result.ok<any>(updatedProduct));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

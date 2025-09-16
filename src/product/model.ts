@@ -1,40 +1,56 @@
 import mongoose from 'mongoose';
 import { AssetSchema } from '../Asset';
+import { Asset } from '../blog/article/asset';
+import { MetaDoc, MetaSchema } from '../Meta';
 const { Schema } = mongoose;
 
-export interface Product {
-  cover: any;
-  images: any;
-  selectedImages: any;
-  videos: any;
-  status: any;
-  title: any;
-  price: any;
-  genres: any;
-  releaseDate: any;
-  createdAt: any;
-  updatedAt: any;
-  publisher: any;
-  platform: any;
-  developers: any;
-  languages: any;
-  features: any;
-  link: any;
-  os: any;
-  markdown: any;
-  metaTitle: any;
-  metaDescription: any;
-  minimumRequirements: any;
-  recommendedRequirements: any;
-  slug: any;
-  metaKeywords: any;
-  keys: any;
-  rating: any;
-  reviews: any;
-  discount: any;
+type Status = 'draft' | 'published' | 'archived';
+
+export interface ProductDoc {
+  _id: string;
+  cover: Asset;
+  images: Asset[];
+  selectedImages: Asset[];
+  videos: string[];
+  status: Status;
+  title: string;
+  price: number;
+  genres: string[];
+  releaseDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+  publisher: string;
+  platform: string;
+  developers: string[];
+  features: string[];
+  link: string;
+  os: string;
+  markdown: string;
+  meta: MetaDoc;
+  minimumRequirements: string;
+  recommendedRequirements: string;
+  slug: string;
+  keys: string[];
+  rating: {
+    average: number;
+    distribution: {
+      1: number;
+      2: number;
+      3: number;
+      4: number;
+      5: number;
+    };
+  };
+  reviews: string[];
+  discount: string;
 }
 
-const ProductSchema = new Schema<Product>({
+const ProductSchema = new Schema<ProductDoc>({
+  _id: {
+    type: String,
+    requi: true,
+    unique: true,
+  },
   cover: AssetSchema,
   images: [AssetSchema],
   selectedImages: [AssetSchema],
@@ -46,28 +62,25 @@ const ProductSchema = new Schema<Product>({
   },
   title: String,
   price: Number,
-  genres: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],
+  genres: [{ type: String, ref: 'Genre' }],
   releaseDate: Date,
   createdAt: {
     type: Date,
     default: Date.now,
   },
   updatedAt: Date,
-  publisher: { type: Schema.Types.ObjectId, ref: 'Publisher' },
-  platform: { type: Schema.Types.ObjectId, ref: 'Platform' },
-  developers: [{ type: Schema.Types.ObjectId, ref: 'Developer' }],
-  features: [{ type: Schema.Types.ObjectId, ref: 'Feature' }],
-  languages: [{ type: Schema.Types.ObjectId, ref: 'Language' }],
+  publisher: { type: String, ref: 'Publisher' },
+  platform: { type: String, ref: 'Platform' },
+  developers: [{ type: String, ref: 'Developer' }],
+  features: [{ type: String, ref: 'Feature' }],
   link: String,
-  os: [{ type: Schema.Types.ObjectId, ref: 'OperatingSystem' }],
+  os: [{ type: String, ref: 'OperatingSystem' }],
   markdown: String,
-  metaTitle: String,
-  metaDescription: String,
   minimumRequirements: String,
   recommendedRequirements: String,
   slug: String,
-  metaKeywords: [String],
-  keys: [{ type: Schema.Types.ObjectId, ref: 'Key', default: [] }],
+  meta: MetaSchema,
+  keys: [{ type: String, ref: 'Key', default: [] }],
   rating: {
     average: {
       type: Number,
@@ -96,12 +109,12 @@ const ProductSchema = new Schema<Product>({
       },
     },
   },
-  reviews: [{ type: Schema.Types.ObjectId, ref: 'Review', default: [] }],
+  reviews: [{ type: String, ref: 'Review', default: [] }],
   discount: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Discount',
     default: null,
   },
 });
 
-export const ProductModel = mongoose.model<Product>('Product', ProductSchema);
+export const ProductModel = mongoose.model<ProductDoc>('Product', ProductSchema);

@@ -1,10 +1,10 @@
-import { CollectionRepo } from '../../collectionRepo';
 import { CollectionModel } from '../../model';
+import { CollectionCommandsRepo } from '../../repo/commands';
 import { DeactivateCollectionController } from './deactivateCollectionController';
 import { DeactivateCollectionUseCase } from './deactivateCollectionUseCase';
 
-const collectionRepo = new CollectionRepo(CollectionModel);
-const deactivateCollectionUseCase = new DeactivateCollectionUseCase(collectionRepo);
+const collectionCommandsRepo = new CollectionCommandsRepo(CollectionModel);
+const deactivateCollectionUseCase = new DeactivateCollectionUseCase(collectionCommandsRepo);
 export const deactivateCollectionController = new DeactivateCollectionController(
   deactivateCollectionUseCase,
 );

@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { DeleteReviewRequestDto } from './deleteReviewRequestDto';
 import { DeleteReviewUseCase } from './deleteReviewUseCase';
 
-export class DeleteReviewController extends BaseController {
+export class DeleteReviewController extends Controller {
   constructor(private useCase: DeleteReviewUseCase) {
     super();
     this.useCase = useCase;
@@ -17,17 +18,22 @@ export class DeleteReviewController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
+
+          case UseCaseErrors.DomainValidation:
+            return this.unprocessable(res, error.message);
+
           default:
             return this.fail(res, error);
         }
       }
 
-      const review = result.value.getValue();
-
+      const review = result.value;
       return this.ok(res, { review });
     } catch (error) {
       console.log(error);

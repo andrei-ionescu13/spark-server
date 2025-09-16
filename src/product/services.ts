@@ -1,4 +1,4 @@
-import { NotFoundError } from '../errors';
+import { NotFoundError } from '../src/errors';
 import { ProductModel } from './model';
 import { ProductRepo } from './productRepo';
 

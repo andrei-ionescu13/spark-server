@@ -1,4 +1,4 @@
-import { CloudinaryUploaderService } from '../../../services/uploaderService';
+import { CloudinaryUploaderService } from '../../../src/services/uploaderService';
 import { ProductModel } from '../../model';
 import { ProductRepo } from '../../productRepo';
 import { UpdateProductMediaController } from './updateProductMediaController';

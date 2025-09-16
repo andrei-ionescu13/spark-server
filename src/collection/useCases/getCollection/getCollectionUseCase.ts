@@ -1,10 +1,10 @@
-import { AppError } from '../../../AppError';
+import { UseCaseErrors } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { CollectionRepoI } from '../../collectionRepo';
 import { GetCollectionRequestDto } from './getCollectionRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class GetCollectionUseCase implements UseCase<GetCollectionRequestDto, Response> {
   constructor(private collectionRepo: CollectionRepoI) {}
@@ -17,13 +17,13 @@ export class GetCollectionUseCase implements UseCase<GetCollectionRequestDto, Re
       const found = !!collection;
 
       if (!found) {
-        return left(new AppError.NotFound('Collection not found'));
+        return left(new UseCaseErrors.NotFound('Collection not found'));
       }
 
       return right(Result.ok<any>(collection));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

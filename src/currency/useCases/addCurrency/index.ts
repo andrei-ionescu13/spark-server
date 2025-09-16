@@ -1,8 +1,11 @@
-import { CurrencyRepo } from '../../currencyRepo';
 import { CurrencyModel } from '../../model';
+import { CurrencyCommandsRepo } from '../../repo/commands';
+import { CurrencyQueriesRepo } from '../../repo/queries';
 import { AddCurrencyController } from './addCurrencyController';
 import { AddCurrencyUseCase } from './addCurrencyUseCase';
 
-const currencyRepo = new CurrencyRepo(CurrencyModel);
-const addCurrencyUseCase = new AddCurrencyUseCase(currencyRepo);
+const currencyCommandsRepo = new CurrencyCommandsRepo(CurrencyModel);
+const currencyQueriesRepo = new CurrencyQueriesRepo(CurrencyModel);
+
+const addCurrencyUseCase = new AddCurrencyUseCase(currencyCommandsRepo, currencyQueriesRepo);
 export const addCurrencyController = new AddCurrencyController(addCurrencyUseCase);

@@ -1,33 +1,40 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { Collection } from '../../collection';
+import { CollectionCommandsRepoI } from '../../repo/commands';
 import { DeactivateCollectionRequestDto } from './deactivateCollectionRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<Collection, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class DeactivateCollectionUseCase
   implements UseCase<DeactivateCollectionRequestDto, Response>
 {
-  constructor(private collectionRepo: CollectionRepoI) {}
+  constructor(private collectionCommandsRepo: CollectionCommandsRepoI) {}
 
   execute = async (request: DeactivateCollectionRequestDto): Promise<Response> => {
     const { collectionId } = request;
 
     try {
-      const collection = await this.collectionRepo.getCollection(collectionId);
-      const found = !!collection;
-
-      if (!found) {
-        return left(new AppError.NotFound('Collection not found'));
+      const collectionOrError = await this.collectionCommandsRepo.getCollection(collectionId);
+      if (collectionOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(collectionOrError.error.message));
       }
 
-      await this.collectionRepo.updateCollection(collectionId, { endDate: Date.now() });
+      const collection = collectionOrError.value;
+      if (!collection) {
+        return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
+      }
 
-      return right(Result.ok(collection));
+      const deactivationResult = collection.deactivate();
+      if (deactivationResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(deactivationResult.error.message));
+      }
+
+      return Result.ok(collection);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

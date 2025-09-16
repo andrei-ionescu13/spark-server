@@ -1,29 +1,29 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { ReviewRepoI } from '../../reviewRepo';
+import { ReviewQueriesRepoI } from '../../repo/queries';
 import { SearchReviewsRequestDto } from './searchReviewsRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<any, UseCaseErrors.UnexpectedError>;
 
 export class SearchReviewsUseCase implements UseCase<SearchReviewsRequestDto, Response> {
-  constructor(private reviewRepo: ReviewRepoI) {}
+  constructor(private reviewQueriesRepo: ReviewQueriesRepoI) {}
 
   execute = async (request: SearchReviewsRequestDto): Promise<Response> => {
-    const query = request;
-    query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
+    const query = {
+      ...request,
+      limit: request?.limit && request.limit <= MAX_LIMIT ? request.limit : LIMIT,
+    };
 
     try {
-      const reviews = await this.reviewRepo.searchReviews(query);
-      const count = await this.reviewRepo.getReviewsCount(query);
-
-      return right(Result.ok<any>({ reviews, count }));
+      const { reviews, count } = await this.reviewQueriesRepo.searchReviews(query);
+      return Result.ok({ reviews, count });
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

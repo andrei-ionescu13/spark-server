@@ -1,20 +1,21 @@
 import { Schema, model } from 'mongoose';
-import type { Types } from 'mongoose';
 
-export interface Admin {
-  username: String;
-  password: String;
+export interface AdminDoc {
+  username: string;
+  _id: string;
+  password: string;
 }
 
-export interface Token {
-  admin: Types.ObjectId;
+export interface TokenDoc {
+  _id: string;
+  admin: string;
   token: string;
   expiresAt: Date;
   createdAt: Date;
-  type: string;
+  type: 'refresh-token';
 }
 
-const adminSchema = new Schema<Admin>({
+const adminSchema = new Schema<AdminDoc>({
   username: {
     type: String,
     required: true,
@@ -25,10 +26,11 @@ const adminSchema = new Schema<Admin>({
   },
 });
 
-const tokenSchema = new Schema<Token>({
+const tokenSchema = new Schema<TokenDoc>({
   admin: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Admin',
+    required: true,
   },
   token: {
     type: String,
@@ -45,5 +47,5 @@ const tokenSchema = new Schema<Token>({
   type: { type: String, enum: ['refresh-token'] },
 });
 
-export const AdminModel = model<Admin>('Admin', adminSchema);
-export const TokenModel = model<Token>('Token', tokenSchema);
+export const AdminModel = model<AdminDoc>('Admin', adminSchema);
+export const TokenModel = model<TokenDoc>('Token', tokenSchema);

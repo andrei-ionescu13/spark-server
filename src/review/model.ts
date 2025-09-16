@@ -1,25 +1,30 @@
-import mongoose, { ObjectId } from 'mongoose';
+import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 type Status = 'published' | 'unpublished' | 'flagged';
 
-export interface Review {
+export interface ReviewDoc {
   userName: string;
-  user: ObjectId;
-  product: ObjectId;
+  user: string;
+  product: string;
   rating: number;
   content: string;
   createdAt: Date;
   status: Status;
+  _id: string;
 }
 
-const ReviewSchema = new Schema<Review>({
+const ReviewSchema = new Schema<ReviewDoc>({
+  _id: {
+    type: String,
+    required: true,
+  },
   userName: {
     type: String,
     required: true,
   },
-  user: { type: Schema.Types.ObjectId, ref: 'User' },
-  product: { type: Schema.Types.ObjectId, ref: 'Product' },
+  user: { type: String, ref: 'User' },
+  product: { type: String, ref: 'Product' },
   rating: {
     type: Number,
     required: true,
@@ -39,4 +44,4 @@ const ReviewSchema = new Schema<Review>({
   },
 });
 
-export const ReviewModel = mongoose.model<Review>('Review', ReviewSchema);
+export const ReviewModel = mongoose.model<ReviewDoc>('Review', ReviewSchema);

@@ -1,13 +1,13 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UseCase } from '../../../src/use-case';
 import { ProductRepoI } from '../../productRepo';
 import { SearchProductKeysRequestDto } from './searchProductKeysRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError, Result<any>>;
 
 export class SearchProductKeysUseCase implements UseCase<SearchProductKeysRequestDto, Response> {
   constructor(private productRepo: ProductRepoI) {}
@@ -23,7 +23,7 @@ export class SearchProductKeysUseCase implements UseCase<SearchProductKeysReques
       return right(Result.ok<any>(keys));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

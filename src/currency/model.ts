@@ -1,13 +1,19 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-export interface Currency {
+export interface CurrencyDoc {
   name: string;
   code: string;
   symbol: string;
+  _id: string;
 }
 
-const CurrencySchema = new Schema<Currency>({
+const CurrencySchema = new Schema<CurrencyDoc>({
+  _id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   name: {
     type: String,
     required: true,
@@ -25,4 +31,4 @@ const CurrencySchema = new Schema<Currency>({
   },
 });
 
-export const CurrencyModel = mongoose.model<Currency>('Currency', CurrencySchema);
+export const CurrencyModel = mongoose.model<CurrencyDoc>('Currency', CurrencySchema);

@@ -1,18 +1,18 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
 import { CollectionRepoI } from '../../../collection/collectionRepo';
+import { CouponRepoI } from '../../../coupon/couponRepo';
 import { DiscountRepoI } from '../../../discount/discountRepo';
 import { KeyRepoI } from '../../../key/keyRepo';
-import { CouponRepoI } from '../../../coupon/couponRepo';
 import { ReviewRepoI } from '../../../review/reviewRepo';
-import { UploaderService } from '../../../services/uploaderService';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UploaderService } from '../../../src/services/uploaderService';
+import { UseCase } from '../../../src/use-case';
 import { UserRepoI } from '../../../users/userRepo';
 import { ProductRepoI } from '../../productRepo';
 import { productServices } from '../../services';
 import { DeleteProductRequestDto } from './deleteProductRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Response> {
   constructor(
@@ -30,7 +30,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
     const review = await this.reviewRepo.getReview(id);
 
     if (!review) {
-      return left(new AppError.NotFound('Review not found'));
+      return left(new UseCaseErrors.NotFound('Review not found'));
     }
 
     await this.reviewRepo.deleteReview(id);
@@ -38,7 +38,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
     const product = await this.productRepo.getProduct(review.product._id);
 
     if (!product) {
-      return left(new AppError.NotFound('Product not found'));
+      return left(new UseCaseErrors.NotFound('Product not found'));
     }
 
     await this.productRepo.deleteReview(review.product._id, review._id);
@@ -47,7 +47,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
     const user = await this.userRepo.getUser(review.user._id);
 
     if (!user) {
-      return left(new AppError.NotFound('User not found'));
+      return left(new UseCaseErrors.NotFound('User not found'));
     }
 
     await this.userRepo.deleteReview(review.user._id, review);
@@ -59,13 +59,13 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
     const key = await this.keyRepo.getKey(id);
 
     if (!key) {
-      return left(new AppError.NotFound('Key not found'));
+      return left(new UseCaseErrors.NotFound('Key not found'));
     }
 
     const product = await this.productRepo.getProductByKey(id);
 
     if (!product) {
-      return left(new AppError.NotFound('Product not found'));
+      return left(new UseCaseErrors.NotFound('Product not found'));
     }
 
     await this.keyRepo.deleteKey(id);
@@ -79,7 +79,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
       const product = await this.productRepo.getProduct(productId);
 
       if (!product) {
-        return left(new AppError.NotFound('Product not found'));
+        return left(new UseCaseErrors.NotFound('Product not found'));
       }
 
       await Promise.all(product.reviews.map((review) => this.deleteReview(review)));
@@ -98,7 +98,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
       return right(Result.ok());
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

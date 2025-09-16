@@ -1,29 +1,29 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CouponRepoI } from '../../couponRepo';
+import { CouponDto } from '../../couponMapper';
+import { CouponQueriesRepoI } from '../../repo/queries';
 import { GetCouponRequestDto } from './getCouponRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<CouponDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class GetCouponUseCase implements UseCase<GetCouponRequestDto, Response> {
-  constructor(private couponRepo: CouponRepoI) {}
+  constructor(private couponQueriesRepo: CouponQueriesRepoI) {}
 
   execute = async (request: GetCouponRequestDto): Promise<Response> => {
     const { couponId } = request;
 
     try {
-      const coupon = await this.couponRepo.getCoupon(couponId);
-      const found = !!coupon;
+      const coupon = await this.couponQueriesRepo.getCoupon(couponId);
 
-      if (!found) {
-        return left(new AppError.NotFound('Coupon not found'));
+      if (!coupon) {
+        return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
       }
 
-      return right(Result.ok<any>(coupon));
+      return Result.ok(coupon);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

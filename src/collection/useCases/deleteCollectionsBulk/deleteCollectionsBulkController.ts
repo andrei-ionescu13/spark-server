@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { Controller } from '../../../Controller';
 import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkRequestDto';
 import { DeleteCollectionsBulkUseCase } from './deleteCollectionsBulkUseCase';
 
-export class DeleteCollectionsBulkController extends BaseController {
+export class DeleteCollectionsBulkController extends Controller {
   constructor(private useCase: DeleteCollectionsBulkUseCase) {
     super();
     this.useCase = useCase;

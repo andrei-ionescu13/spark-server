@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { Controller } from '../../../src/Controller';
 import { DeleteProductRequestDto } from './deleteProductRequestDto';
 import { DeleteProductUseCase } from './deleteProductUseCase';
 
-export class DeleteProductController extends BaseController {
+export class DeleteProductController extends Controller {
   constructor(private useCase: DeleteProductUseCase) {
     super();
     this.useCase = useCase;

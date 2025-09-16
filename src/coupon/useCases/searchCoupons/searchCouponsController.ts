@@ -1,30 +1,39 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import * as z from 'zod';
+import { Controller } from '../../../Controller';
+import { zodRequestValidationError } from '../../../zodErrors';
 import { SearchCouponsRequestDto } from './searchCouponsRequestDto';
 import { SearchCouponsUseCase } from './searchCouponsUseCase';
 
-export class SearchCouponsController extends BaseController {
+export class SearchCouponsController extends Controller {
   constructor(private useCase: SearchCouponsUseCase) {
     super();
     this.useCase = useCase;
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const query = req.query;
-    const dto: SearchCouponsRequestDto = {
-      keyword: query.keyword as string,
-      sortBy: query.sortBy as string,
-      sortOrder: query.sortOrder as string,
-      status: query.status as string,
-      page: query?.page ? Number.parseInt(query.page as string) : undefined,
-      limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
-    };
+    const schema = z.object({
+      keyword: z.string().optional(),
+      sortBy: z.string().optional(),
+      sortOrder: z.enum(['asc', 'desc']).optional(),
+      status: z.enum(['expired', 'active', 'scheduled']).optional(),
+      page: z.coerce.number().int().positive().optional(),
+      limit: z.coerce.number().int().positive().optional(),
+    });
+
+    const result = schema.safeParse(req.query);
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: SearchCouponsRequestDto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           default:
@@ -32,7 +41,7 @@ export class SearchCouponsController extends BaseController {
         }
       }
 
-      const value = result.value.getValue();
+      const value = result.value;
 
       return this.ok(res, value);
     } catch (error) {

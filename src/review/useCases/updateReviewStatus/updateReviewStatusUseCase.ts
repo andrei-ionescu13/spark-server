@@ -1,26 +1,47 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { productServices } from '../../../product/services';
+import { productServices } from '../../../../product/services';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { ReviewRepoI } from '../../reviewRepo';
+import { ReviewCommandsRepoI } from '../../repo/commands';
+import { ReviewStatus } from '../../reviewStatus';
 import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<
+  string,
+  UseCaseErrors.DomainValidation | UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError
+>;
 
 export class UpdateReviewStatusUseCase implements UseCase<UpdateReviewStatusRequestDto, Response> {
-  constructor(private reviewRepo: ReviewRepoI) {}
+  constructor(private reviewCommandsRepo: ReviewCommandsRepoI) {}
 
   execute = async (request: UpdateReviewStatusRequestDto): Promise<Response> => {
     const { reviewId, status } = request;
 
     try {
-      const updatedReview = await this.reviewRepo.updateReview(reviewId, { status });
-      await productServices.calculateRating(updatedReview.product._id);
+      const reviewOrError = await this.reviewCommandsRepo.getReview(reviewId);
+      if (reviewOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(reviewOrError.error.message));
+      }
 
-      return right(Result.ok<string>(updatedReview.status));
+      const review = reviewOrError.value;
+      if (!review) {
+        return Result.fail(new UseCaseErrors.NotFound('Review not found'));
+      }
+
+      const newStatusOrError = ReviewStatus.create(status);
+      if (newStatusOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(newStatusOrError.error.message));
+      }
+
+      const newStatus = newStatusOrError.value;
+      review.updateStatus(newStatus);
+      //change this
+      await productServices.calculateRating(review.product);
+
+      return Result.ok(review.status.value);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

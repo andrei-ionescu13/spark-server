@@ -1,11 +1,19 @@
 import { UserModel } from '../../../users/model';
-import { UserRepo } from '../../../users/userRepo';
-import { CouponRepo } from '../../couponRepo';
+import { UserCommandsRepo } from '../../../users/repo/commands';
 import { CouponModel } from '../../model';
+import { CouponCommandsRepo } from '../../repo/commands';
+import { CouponQueriesRepo } from '../../repo/queries';
 import { DeleteCouponController } from './deleteCouponController';
 import { DeleteCouponUseCase } from './deleteCouponUseCase';
 
-const couponRepo = new CouponRepo(CouponModel);
-const userRepo = new UserRepo(UserModel);
-const deleteCouponUseCase = new DeleteCouponUseCase(couponRepo, userRepo);
+const couponCommandsRepo = new CouponCommandsRepo(CouponModel);
+const couponQueriesRepo = new CouponQueriesRepo(CouponModel);
+const userCommandsRepo = new UserCommandsRepo(UserModel);
+
+const deleteCouponUseCase = new DeleteCouponUseCase(
+  couponCommandsRepo,
+  couponQueriesRepo,
+  userCommandsRepo,
+);
+
 export const deleteCouponController = new DeleteCouponController(deleteCouponUseCase);

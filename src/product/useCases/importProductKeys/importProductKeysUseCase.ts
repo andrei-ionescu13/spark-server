@@ -1,9 +1,9 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCaseError } from '../../../UseCaseError';
-import { ProductRepoI } from '../../productRepo';
-import { UseCase } from '../../../use-case';
 import { KeyRepoI } from '../../../key/keyRepo';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UseCase } from '../../../src/use-case';
+import { UseCaseError } from '../../../src/UseCaseError';
+import { ProductRepoI } from '../../productRepo';
 import { ImportProductKeysRequestDto } from './importProductKeysRequestDto';
 
 export namespace ImportProductKeysErrors {
@@ -15,7 +15,7 @@ export namespace ImportProductKeysErrors {
 }
 
 type Response = Either<
-  ImportProductKeysErrors.KeyForPlatformExists | AppError.UnexpectedError,
+  ImportProductKeysErrors.KeyForPlatformExists | UseCaseErrors.UnexpectedError,
   Result<any>
 >;
 
@@ -25,12 +25,14 @@ export class ImportProductKeysUseCase implements UseCase<ImportProductKeysReques
   createKey = async (
     productId,
     value,
-  ): Promise<AppError.NotFound | ImportProductKeysErrors.KeyForPlatformExists | Result<string>> => {
+  ): Promise<
+    UseCaseErrors.NotFound | ImportProductKeysErrors.KeyForPlatformExists | Result<string>
+  > => {
     const product = await this.productRepo.getProduct(productId);
     const productFound = !!product;
 
     if (!productFound) {
-      return new AppError.NotFound('Product not found');
+      return new UseCaseErrors.NotFound('Product not found');
     }
 
     let key = await this.keyRepo.getKeyByValue(value);
@@ -83,7 +85,7 @@ export class ImportProductKeysUseCase implements UseCase<ImportProductKeysReques
       return combinedResult.isFailure ? left(combinedResult) : right(combinedResult);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

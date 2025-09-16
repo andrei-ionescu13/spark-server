@@ -1,46 +1,119 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { NotFoundError } from '../../../errors';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { UserRepoI } from '../../../users/userRepo';
-import { CouponRepoI } from '../../couponRepo';
+import { UserCommandsRepoI } from '../../../users/repo/commands';
+import { Coupon } from '../../coupon';
+import { CouponCode } from '../../couponCode';
+import { CouponType } from '../../couponType';
+import { CouponValue } from '../../couponValue';
+import { CouponCommandsRepoI } from '../../repo/commands';
 import { UpdateCouponRequestDto } from './updateCouponRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<Coupon, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateCouponUseCase implements UseCase<UpdateCouponRequestDto, Response> {
-  constructor(private couponRepo: CouponRepoI, private userRepo: UserRepoI) {}
+  constructor(
+    private couponCommandsRepo: CouponCommandsRepoI,
+    private userCommandsRepo: UserCommandsRepoI,
+  ) {}
+
+  removeUserCoupon = async (
+    id: string,
+    couponId: string,
+  ): Promise<Result<undefined, UseCaseErrors.DomainValidation | UseCaseErrors.NotFound>> => {
+    const userOrError = await this.userCommandsRepo.getUser(id);
+    if (userOrError.isErr()) {
+      return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
+    }
+
+    const user = userOrError.value;
+    if (!user) {
+      return Result.fail(new UseCaseErrors.NotFound('User not found'));
+    }
+
+    user.removeCoupon(couponId);
+    await this.userCommandsRepo.save(user);
+
+    return Result.ok();
+  };
+
+  addUserCoupon = async (
+    id: string,
+    couponId: string,
+  ): Promise<Result<undefined, UseCaseErrors.DomainValidation | UseCaseErrors.NotFound>> => {
+    const userOrError = await this.userCommandsRepo.getUser(id);
+    if (userOrError.isErr()) {
+      return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
+    }
+
+    const user = userOrError.value;
+    if (!user) {
+      return Result.fail(new UseCaseErrors.NotFound('User not found'));
+    }
+
+    user.addCoupon(couponId);
+    await this.userCommandsRepo.save(user);
+
+    return Result.ok();
+  };
 
   execute = async (request: UpdateCouponRequestDto): Promise<Response> => {
-    const { couponId, ...rest } = request;
-    const props = rest;
+    const { couponId, ...props } = request;
 
     try {
-      const promoCode = await this.couponRepo.getCoupon(couponId);
-      const found = !!promoCode;
-
-      if (!found) {
-        return left(new AppError.NotFound('Coupon not found'));
+      const couponOrError = await this.couponCommandsRepo.getCoupon(couponId);
+      if (couponOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(couponOrError.error.message));
       }
 
-      if (!!promoCode.users?.length) {
-        if (props.userSelection === 'selected') {
-          const prevUsers = promoCode.users.map((user) => user._id.toString());
-          const removedUsers = prevUsers.filter((user) => !props.users.includes(user));
-          await removedUsers.map((user) => this.userRepo.deleteCoupon(user, promoCode._id));
-        } else {
-          const prevUsers = promoCode.users.map((user) => user._id.toString());
-          await prevUsers.map((user) => this.userRepo.deleteCoupon(user, promoCode._id));
-        }
+      const coupon = couponOrError.value;
+
+      if (!coupon) {
+        return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
       }
 
-      const updatedCoupon = await this.couponRepo.updateCoupon(couponId, props);
-      await updatedCoupon.users?.map((user) => this.userRepo.addCoupon(user, promoCode));
+      const codeOrError = CouponCode.create(props.code);
+      const typeOrError = CouponType.create(props.type);
+      const valueOrError = CouponValue.create(props.value);
 
-      return right(Result.ok<any>(updatedCoupon));
+      const result = Result.combine([codeOrError, typeOrError, valueOrError]);
+
+      if (result.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(result.error.message));
+      }
+
+      const code = codeOrError.value;
+      const type = typeOrError.value;
+      const value = valueOrError.value;
+
+      const updateResult = coupon.update({
+        ...props,
+        code,
+        type,
+        value,
+      });
+
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
+      }
+
+      const { newUsers, removedUsers } = updateResult.value;
+
+      const userCouponResult = Result.combine(
+        await Promise.all([
+          ...removedUsers.map((user) => this.removeUserCoupon(user, coupon._id)),
+          ...newUsers.map((user) => this.addUserCoupon(user, couponId)),
+        ]),
+      );
+
+      if (userCouponResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(userCouponResult.error.message));
+      }
+
+      this.couponCommandsRepo.save(coupon);
+      return Result.ok(coupon);
     } catch (error) {
-      console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

@@ -1,28 +1,37 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { KeyRepoI } from '../../keyRepo';
+import { KeyDto } from '../../keyMapper';
+import { KeyQueriesRepoI } from '../../repo/queries';
 import { SearchKeysRequestDto } from './searchKeysRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<
+  {
+    keys: KeyDto[];
+    count: number;
+  },
+  UseCaseErrors.UnexpectedError
+>;
 
 export class SearchKeysUseCase implements UseCase<SearchKeysRequestDto, Response> {
-  constructor(private keyRepo: KeyRepoI) {}
+  constructor(private keyQueriesRepo: KeyQueriesRepoI) {}
 
   execute = async (request: SearchKeysRequestDto): Promise<Response> => {
-    const query = request;
-    query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
-    console.log(query);
-    try {
-      const result = await this.keyRepo.searchKeys(query);
+    const query = {
+      ...request,
+      limit: request?.limit && request.limit <= MAX_LIMIT ? request.limit : LIMIT,
+    };
 
-      return right(Result.ok<any>(result));
+    try {
+      const searchResult = await this.keyQueriesRepo.searchKeys(query);
+
+      return Result.ok(searchResult);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

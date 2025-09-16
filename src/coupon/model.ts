@@ -1,19 +1,24 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-export interface Coupon {
-  code: any;
-  userSelection: any;
-  products: any;
-  users: any;
-  type: any;
-  productSelection: any;
-  value: any;
-  startDate: any;
-  endDate: any;
+export interface CouponDoc {
+  _id: string;
+  code: string;
+  userSelection: 'general' | 'selected';
+  type: 'amount' | 'percentage';
+  productSelection: 'general' | 'selected';
+  products: string[];
+  users: string[];
+  value: number;
+  startDate: Date;
+  endDate: Date;
 }
 
-const CouponSchema = new Schema<Coupon>({
+const CouponSchema = new Schema<CouponDoc>({
+  _id: {
+    type: String,
+    required: true,
+  },
   code: {
     type: String,
     required: true,
@@ -55,4 +60,4 @@ const CouponSchema = new Schema<Coupon>({
   },
 });
 
-export const CouponModel = mongoose.model<Coupon>('Coupon', CouponSchema);
+export const CouponModel = mongoose.model<CouponDoc>('Coupon', CouponSchema);

@@ -1,10 +1,10 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UseCase } from '../../../src/use-case';
 import { ProductRepoI } from '../../productRepo';
 import { GetProductRequestDto } from './getProductRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class GetProductUseCase implements UseCase<GetProductRequestDto, Response> {
   constructor(private productRepo: ProductRepoI) {}
@@ -17,13 +17,13 @@ export class GetProductUseCase implements UseCase<GetProductRequestDto, Response
       const found = !!product;
 
       if (!found) {
-        return left(new AppError.NotFound('Product not found'));
+        return left(new UseCaseErrors.NotFound('Product not found'));
       }
 
       return right(Result.ok<any>(product));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

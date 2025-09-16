@@ -1,17 +1,23 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-export interface Key {
-  product: any;
-  createdAt: any;
-  value: any;
-  availability: any;
-  status: any;
+export interface KeyDoc {
+  product: string;
+  createdAt: Date;
+  value: string;
+  availability: 'available' | 'unavailable';
+  status: 'secret' | 'revealed' | 'reported';
+  _id: string;
 }
 
-const KeySchema = new Schema<Key>({
+const KeySchema = new Schema<KeyDoc>({
+  _id: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   product: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'Product',
     required: true,
   },
@@ -35,4 +41,4 @@ const KeySchema = new Schema<Key>({
   },
 });
 
-export const KeyModel = mongoose.model<Key>('Key', KeySchema);
+export const KeyModel = mongoose.model<KeyDoc>('Key', KeySchema);

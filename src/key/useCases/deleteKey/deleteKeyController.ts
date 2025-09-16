@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { DeleteKeyRequestDto } from './deleteKeyRequestDto';
 import { DeleteKeyUseCase } from './deleteKeyUseCase';
-import { AppError } from '../../../AppError';
 
-export class DeleteKeyController extends BaseController {
+export class DeleteKeyController extends Controller {
   constructor(private useCase: DeleteKeyUseCase) {
     super();
     this.useCase = useCase;
@@ -18,12 +18,15 @@ export class DeleteKeyController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
-          case AppError.NotFound:
-            return this.notFound(res, error.getErrorValue().message);
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
+
+          case UseCaseErrors.DomainValidation:
+            return this.conflict(res, error.message);
 
           default:
             return this.fail(res, error);

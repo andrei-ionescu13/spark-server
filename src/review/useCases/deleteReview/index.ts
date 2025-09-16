@@ -1,15 +1,19 @@
-import { ProductModel } from '../../../product/model';
-import { ProductRepo } from '../../../product/productRepo';
+import { ProductModel } from '../../../../product/model';
+import { ProductRepo } from '../../../../product/productRepo';
 import { UserModel } from '../../../users/model';
-import { UserRepo } from '../../../users/userRepo';
+import { UserCommandsRepo } from '../../../users/repo/commands';
 import { ReviewModel } from '../../model';
-import { ReviewRepo } from '../../reviewRepo';
+import { ReviewCommandsRepo } from '../../repo/commands';
 import { DeleteReviewController } from './deleteReviewController';
 import { DeleteReviewUseCase } from './deleteReviewUseCase';
 
-const reviewRepo = new ReviewRepo(ReviewModel);
+const reviewCommandsRepo = new ReviewCommandsRepo(ReviewModel);
 const productRepo = new ProductRepo(ProductModel);
-const userRepo = new UserRepo(UserModel);
+const userCommandsRepo = new UserCommandsRepo(UserModel);
 
-const deleteReviewUseCase = new DeleteReviewUseCase(reviewRepo, productRepo, userRepo);
+const deleteReviewUseCase = new DeleteReviewUseCase(
+  reviewCommandsRepo,
+  productRepo,
+  userCommandsRepo,
+);
 export const deleteReviewController = new DeleteReviewController(deleteReviewUseCase);

@@ -1,6 +1,6 @@
 export interface CreateCollectionRequestDto {
   products: string[];
-  description: string;
+  description?: string;
   meta: {
     description: string;
     keywords: string[];
@@ -8,7 +8,12 @@ export interface CreateCollectionRequestDto {
   };
   slug: string;
   title: string;
-  coverFile: Express.Multer.File;
+  coverFile: {
+    originalname: string;
+    mimetype: 'image/png' | 'image/jpeg' | 'image/jpg' | 'image/webp';
+    size: number;
+    buffer: Buffer;
+  };
   startDate: Date;
   isDeal: boolean;
   endDate?: Date;

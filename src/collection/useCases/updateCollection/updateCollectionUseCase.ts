@@ -1,12 +1,11 @@
-import { AppError } from '../../../AppError';
+import { UseCaseErrors } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
-import { NotFoundError } from '../../../errors';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
 import { CollectionRepoI } from '../../collectionRepo';
 import { UpdateCollectionRequestDto } from './updateCollectionRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class UpdateCollectionUseCase implements UseCase<UpdateCollectionRequestDto, Response> {
   constructor(private collectionRepo: CollectionRepoI, private uploaderService: UploaderService) {}
@@ -20,7 +19,7 @@ export class UpdateCollectionUseCase implements UseCase<UpdateCollectionRequestD
       const found = !!collection;
 
       if (!found) {
-        return left(new AppError.NotFound('Collection not found'));
+        return left(new UseCaseErrors.NotFound('Collection not found'));
       }
 
       if (coverFile) {
@@ -36,7 +35,7 @@ export class UpdateCollectionUseCase implements UseCase<UpdateCollectionRequestD
       return right(Result.ok(updatedCollection));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

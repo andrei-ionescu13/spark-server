@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { DeleteCurrencyRequestDto } from './deleteCurrencyRequestDto';
 import { DeleteCurrencyUseCase } from './deleteCurrencyUseCase';
-import { AppError } from '../../../AppError';
 
-export class DeleteCurrencyController extends BaseController {
+export class DeleteCurrencyController extends Controller {
   constructor(private useCase: DeleteCurrencyUseCase) {
     super();
     this.useCase = useCase;
@@ -18,12 +18,12 @@ export class DeleteCurrencyController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
-          case AppError.NotFound:
-            return this.notFound(res, error.getErrorValue().message);
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
 
           default:
             return this.fail(res, error);

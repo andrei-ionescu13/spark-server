@@ -1,71 +1,112 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCaseError } from '../../../UseCaseError';
-import { ProductRepoI } from '../../../product/productRepo';
+import { v7 as uuidv7 } from 'uuid';
+import { UseCaseErrors } from '../../../AppError';
+import { ProductCommandsRepoI } from '../../../product/repo/commands';
+import { ProductQueriesRepoI } from '../../../product/repo/queries';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { KeyRepoI } from '../../keyRepo';
+import { UseCaseError } from '../../../UseCaseError';
+import { Key } from '../../key';
+import { KeyAvailability } from '../../keyAvailability';
+import { KeyStatus } from '../../keyStatus';
+import { KeyValue } from '../../keyValue';
+import { KeyCommandsRepoI } from '../../repo/commands';
+import { KeyQueriesRepoI } from '../../repo/queries';
 import { ImportKeysRequestDto } from './importKeysRequestDto';
 
 export namespace ImportKeysErrors {
-  export class KeyForPlatformExists extends Result<UseCaseError> {
+  export class KeyForPlatformExists extends UseCaseError {
     constructor() {
-      super(false, { message: 'One or more keys could not be added' });
+      super('One or more keys could not be added');
     }
   }
 }
 
-type Response = Either<
-  ImportKeysErrors.KeyForPlatformExists | AppError.UnexpectedError,
-  Result<any>
+type Response = Result<
+  undefined,
+  ImportKeysErrors.KeyForPlatformExists | UseCaseErrors.UnexpectedError
 >;
 
 export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response> {
-  constructor(private keyRepo: KeyRepoI, private productRepo: ProductRepoI) {}
+  constructor(
+    private keyCommandsRepo: KeyCommandsRepoI,
+    private keyQueriesRepo: KeyQueriesRepoI,
+    private productCommandsRepo: ProductCommandsRepoI,
+    private productQueriesRepo: ProductQueriesRepoI,
+  ) {}
 
   createKey = async (
-    productId,
-    value,
-  ): Promise<AppError.NotFound | ImportKeysErrors.KeyForPlatformExists | Result<string>> => {
-    const product = await this.productRepo.getProduct(productId);
-    const productFound = !!product;
+    productId: string,
+    value: string,
+  ): Promise<Result<string, UseCaseErrors.NotFound | ImportKeysErrors.KeyForPlatformExists>> => {
+    const productOrError = await this.productCommandsRepo.getProduct(productId);
 
-    if (!productFound) {
-      return new AppError.NotFound('Product not found');
+    if (productOrError.error) {
+      return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
     }
 
-    let key = await this.keyRepo.getKeyByValue(value);
-    const keyFound = !!key;
+    const product = productOrError.value;
+
+    if (!product) {
+      return Result.fail(new UseCaseErrors.NotFound('Product not found'));
+    }
+
+    const keyFound = await this.keyQueriesRepo.getKeyByValue(value);
 
     if (keyFound) {
-      const productsByKeyFound = await this.productRepo.searchProductsByKeys(value);
-      let samePlatform;
+      const productsByKeyFound = await this.productQueriesRepo.searchProductsByKeys(value);
+      let isSamePlatform = false;
 
       if (productsByKeyFound.length) {
         for (const productByKeyFound of productsByKeyFound) {
           if (
             productByKeyFound.platform._id.toString() === productByKeyFound.platform._id.toString()
           ) {
-            samePlatform = productByKeyFound.platform;
+            isSamePlatform = true;
             break;
           }
         }
       }
 
-      const isSamePlatform = !!samePlatform;
-
       if (isSamePlatform) {
-        return new ImportKeysErrors.KeyForPlatformExists();
+        return Result.fail(new ImportKeysErrors.KeyForPlatformExists());
       }
     }
 
-    key = await this.keyRepo.createKey({
+    const keyValueOrError = KeyValue.create(value);
+    const statusOrError = KeyStatus.create();
+    const availabilityOrError = KeyAvailability.create();
+    const valueObjectResult = Result.combine([keyValueOrError, statusOrError, availabilityOrError]);
+
+    if (valueObjectResult.isErr()) {
+      return Result.fail(valueObjectResult.error);
+    }
+
+    const keyValue = keyValueOrError.value;
+    const status = statusOrError.value;
+    const availability = availabilityOrError.value;
+    const keyOrError = Key.create({
+      value: keyValue,
       product: productId,
-      value,
+      status,
+      availability,
+      _id: uuidv7(),
     });
 
-    await this.productRepo.addProductKey(productId, key);
+    if (keyOrError.error) {
+      return Result.fail(new UseCaseErrors.DomainValidation(keyOrError.error.message));
+    }
 
-    return Result.ok<string>(key._id);
+    const key = keyOrError.value;
+    const addResult = product.addKey(key._id);
+
+    if (addResult.error) {
+      return Result.fail(new UseCaseErrors.DomainValidation(addResult.error.message));
+    }
+
+    this.keyCommandsRepo.save(key);
+    this.productCommandsRepo.save(product);
+
+    return Result.ok();
   };
 
   execute = async (request: ImportKeysRequestDto): Promise<Response> => {
@@ -77,12 +118,16 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
         keysItems.map((item) => item.keys.map((key) => this.createKey(item.productId, key))),
       );
 
-      const combinedResult = Result.combine(results);
+      const combinedResults = Result.combine(results);
 
-      return combinedResult.isFailure ? left(combinedResult) : right(combinedResult);
+      if (combinedResults.isErr()) {
+        return Result.fail(combinedResults.error);
+      }
+
+      return Result.ok();
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

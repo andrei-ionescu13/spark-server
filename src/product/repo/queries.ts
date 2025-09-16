@@ -1,0 +1,68 @@
+import { Model } from 'mongoose';
+import { ProductDoc } from '../model';
+import { ProductDto, ProductMapper } from '../productMapper';
+
+export interface ProductQueriesRepoI {
+  getProduct: (id: string) => Promise<ProductDto | null>;
+  searchProductsByKeys: (keyValue: string) => Promise<ProductDto[]>;
+  getProductByProps: (props: Array<Record<string, any>>) => Promise<ProductDto | null>;
+}
+
+export class ProductQueriesRepo implements ProductQueriesRepoI {
+  constructor(private productModel: Model<ProductDoc>) {}
+
+  getProduct = async (id: string): Promise<ProductDto | null> => {
+    const doc = await this.productModel
+      .findOne({ _id: id })
+      .populate('genres publisher platform discount developers features os')
+      .lean();
+
+    if (!doc) return null;
+    return ProductMapper.toDto(doc);
+  };
+
+  searchProductsByKeys = async (keyValue: string): Promise<ProductDto[]> => {
+    const docs = await this.productModel.aggregate([
+      {
+        $unwind: '$keys',
+      },
+      {
+        $lookup: {
+          from: 'keys',
+          localField: 'keys',
+          foreignField: '_id',
+          as: 'keys',
+        },
+      },
+      {
+        $match: {
+          'keys.value': keyValue,
+        },
+      },
+      {
+        $lookup: {
+          from: 'platforms',
+          localField: 'platform',
+          foreignField: '_id',
+          as: 'platform',
+        },
+      },
+      {
+        $addFields: {
+          platform: {
+            $arrayElemAt: ['$platform', 0],
+          },
+        },
+      },
+    ]);
+
+    return ProductMapper.toDtoList(docs);
+  };
+
+  getProductByProps = async (props: Array<Record<string, any>>) => {
+    const doc = await this.productModel.findOne({ $or: props }).lean();
+    if (!doc) return null;
+
+    return ProductMapper.toDto(doc);
+  };
+}

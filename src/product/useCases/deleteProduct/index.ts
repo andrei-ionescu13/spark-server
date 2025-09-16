@@ -1,20 +1,20 @@
 import { CollectionRepo } from '../../../collection/collectionRepo';
 import { CollectionModel } from '../../../collection/model';
+import { CouponRepo } from '../../../coupon/couponRepo';
+import { CouponModel } from '../../../coupon/model';
 import { DiscountRepo } from '../../../discount/discountRepo';
 import { DiscountModel } from '../../../discount/model';
 import { KeyRepo } from '../../../key/keyRepo';
-import { CouponModel } from '../../../coupon/model';
-import { CouponRepo } from '../../../coupon/couponRepo';
+import { KeyModel } from '../../../key/model';
 import { ReviewModel } from '../../../review/model';
 import { ReviewRepo } from '../../../review/reviewRepo';
-import { CloudinaryUploaderService } from '../../../services/uploaderService';
+import { CloudinaryUploaderService } from '../../../src/services/uploaderService';
 import { UserModel } from '../../../users/model';
 import { UserRepo } from '../../../users/userRepo';
 import { ProductModel } from '../../model';
 import { ProductRepo } from '../../productRepo';
 import { DeleteProductController } from './deleteProductController';
 import { DeleteProductUseCase } from './deleteProductUseCase';
-import { KeyModel } from '../../../key/model';
 
 const productRepo = new ProductRepo(ProductModel);
 const collectionRepo = new CollectionRepo(CollectionModel);

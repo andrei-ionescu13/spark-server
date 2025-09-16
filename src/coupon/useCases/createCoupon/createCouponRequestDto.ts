@@ -7,5 +7,5 @@ export interface CreateCouponRequestDto {
   type: string;
   userSelection: string;
   users: string[];
-  value: string;
+  value: number;
 }

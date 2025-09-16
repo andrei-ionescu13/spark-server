@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Controller } from '../../../src/Controller';
 import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 import { UpdateProductMediaUseCase } from './updateProductMediaUseCase';
-import { AppError } from '../../../AppError';
 
-export class UpdateProductMediaController extends BaseController {
+export class UpdateProductMediaController extends Controller {
   constructor(private useCase: UpdateProductMediaUseCase) {
     super();
     this.useCase = useCase;
@@ -28,7 +28,7 @@ export class UpdateProductMediaController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case AppError.NotFound:
+          case UseCaseErrors.NotFound:
             return this.notFound(res, error.getErrorValue().message);
 
           default:

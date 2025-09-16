@@ -1,11 +1,10 @@
-import { query } from 'express';
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UseCase } from '../../../src/use-case';
 import { UserRepoI } from '../../userRepo';
 import { SearchUserReviewsRequestDto } from './searchUserReviewsRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError, Result<any>>;
 
 export class SearchUserReviewsUseCase implements UseCase<SearchUserReviewsRequestDto, Response> {
   constructor(private userRepo: UserRepoI) {}
@@ -21,7 +20,7 @@ export class SearchUserReviewsUseCase implements UseCase<SearchUserReviewsReques
       return right(Result.ok<any>({ reviews, count }));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

@@ -1,30 +1,31 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CurrencyRepoI } from '../../currencyRepo';
+import { CurrencyDto } from '../../currencyMapper';
+import { CurrencyQueriesRepoI } from '../../repo/queries';
 import { SearchCurrenciesRequestDto } from './searchCurrenciesRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<{ currencies: CurrencyDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 
 export class SearchCurrenciesUseCase implements UseCase<SearchCurrenciesRequestDto, Response> {
-  constructor(private currencyRepo: CurrencyRepoI) {}
+  constructor(private currencyQueriesRepo: CurrencyQueriesRepoI) {}
 
   execute = async (request: SearchCurrenciesRequestDto): Promise<Response> => {
-    const query = request;
-    query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
-    console.log('query', query.keyword);
+    const query = {
+      ...request,
+      limit: request?.limit && request.limit <= MAX_LIMIT ? request.limit : LIMIT,
+    };
 
     try {
-      const currencies = await this.currencyRepo.searchCurrencies(query);
-      const count = await this.currencyRepo.getCurrenciesCount(query);
+      const searchResult = await this.currencyQueriesRepo.searchCurrencies(query);
 
-      return right(Result.ok<any>({ currencies, count }));
+      return Result.ok(searchResult);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

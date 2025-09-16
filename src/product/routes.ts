@@ -1,16 +1,16 @@
 import express, { Request, Response } from 'express';
 import multer from 'multer';
-import { searchProductsController } from './useCases/searchProducts';
-import { getProductController } from './useCases/getProduct';
 import { createProductController } from './useCases/createProduct';
-import { updateProductStatusController } from './useCases/updateProductStatus';
-import { updateProductMetaController } from './useCases/updateProductMeta';
-import { updateProductMediaController } from './useCases/updateProductMedia';
+import { deleteProductController } from './useCases/deleteProduct';
+import { getProductController } from './useCases/getProduct';
+import { importProductKeysController } from './useCases/importProductKeys';
 import { searchProductKeysController } from './useCases/searchProductKeys';
 import { searchProductReviewsController } from './useCases/searchProductReviews';
-import { deleteProductController } from './useCases/deleteProduct';
+import { searchProductsController } from './useCases/searchProducts';
 import { updateProductDetailsController } from './useCases/updateProductDetails';
-import { importProductKeysController } from './useCases/importProductKeys';
+import { updateProductMediaController } from './useCases/updateProductMedia';
+import { updateProductMetaController } from './useCases/updateProductMeta';
+import { updateProductStatusController } from './useCases/updateProductStatus';
 const router = express.Router();
 
 const storage = multer.memoryStorage();
@@ -19,7 +19,6 @@ const createProductMulter = multer({
   storage: storage,
   fileFilter: (_, file, cb) => {
     const whitelistImages = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'text/plain'];
-
     const whitelistKeys = ['text/plain'];
 
     if (

@@ -1,1 +1,1 @@
-export { default as promoCodeRoutes } from './routes';
+export { default as couponRoutes } from './routes';

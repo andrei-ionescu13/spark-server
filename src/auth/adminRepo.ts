@@ -1,21 +1,34 @@
 import { Model } from 'mongoose';
-import { Admin } from './model';
+import { Admin } from './admin';
+import { AdminMapper } from './adminMapper';
+import { AdminDoc } from './model';
 
 export interface AdminRepoI {
-  createAdmin: any;
-  exists: any;
-  findByUsername: any;
-  getAdmin: any;
+  createAdmin: (props: { username: string; password: string }) => Promise<Admin>;
+  getAdminByUsername: (username: string) => Promise<Admin | null>;
+  getAdmin: (id: string) => Promise<Admin | null>;
 }
 
 export class AdminRepo implements AdminRepoI {
-  constructor(private adminModel: Model<Admin>) {}
+  constructor(private adminModel: Model<AdminDoc>) {}
 
-  createAdmin = (props) => this.adminModel.create(props);
+  createAdmin = async (props: { username: string; password: string }) => {
+    const entity = await this.adminModel.create(props);
 
-  exists = async (username) => !!(await this.adminModel.findOne({ username: username }));
+    return AdminMapper.toDomain(entity);
+  };
 
-  findByUsername = (username) => this.adminModel.findOne({ username: username });
+  getAdminByUsername = async (username: string) => {
+    const entity = await this.adminModel.findOne({ username: username });
+    if (!entity) return null;
 
-  getAdmin = (id) => this.adminModel.findOne({ _id: id });
+    return AdminMapper.toDomain(entity);
+  };
+
+  getAdmin = async (id: string) => {
+    const entity = await this.adminModel.findOne({ _id: id });
+    if (!entity) return null;
+
+    return AdminMapper.toDomain(entity);
+  };
 }

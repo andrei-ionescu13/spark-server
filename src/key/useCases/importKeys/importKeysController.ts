@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { ImportKeysRequestDto } from './importKeysRequestDto';
 import { ImportKeysErrors, ImportKeysUseCase } from './importKeysUseCase';
-import { AppError } from '../../../AppError';
 
-export class ImportKeysController extends BaseController {
+export class ImportKeysController extends Controller {
   constructor(private useCase: ImportKeysUseCase) {
     super();
     this.useCase = useCase;
@@ -18,15 +18,15 @@ export class ImportKeysController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           case ImportKeysErrors.KeyForPlatformExists:
-            return this.forbidden(res, error.getErrorValue().message);
+            return this.forbidden(res, error.message);
 
-          case AppError.NotFound:
-            return this.notFound(res, error.getErrorValue().message);
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
 
           default:
             return this.fail(res, error);

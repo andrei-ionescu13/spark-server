@@ -1,23 +1,30 @@
 import mongoose from 'mongoose';
-import { AssetSchema } from '../Asset';
+import { AssetDoc, AssetSchema } from '../Asset';
+import { MetaDoc } from '../Meta';
 const { Schema } = mongoose;
 
-export interface Collection {
-  cover: any;
-  title: any;
-  description: any;
-  slug: any;
-  startDate: any;
-  endDate: any;
-  meta: any;
-  createdAt: any;
-  updatedAt: any;
-  products: any;
-  isDeal: any;
+export interface CollectionDoc {
+  cover: AssetDoc;
+  title: string;
+  description: string | null;
+  slug: string;
+  startDate: Date;
+  endDate: Date;
+  meta: MetaDoc;
+  createdAt: Date;
+  updatedAt: Date;
+  products: string[];
+  isDeal: boolean;
+  _id: string;
 }
 
-const CollectionSchema = new Schema<Collection>({
+const CollectionSchema = new Schema<CollectionDoc>({
   cover: AssetSchema,
+  _id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   title: {
     type: String,
     required: true,
@@ -67,4 +74,4 @@ const CollectionSchema = new Schema<Collection>({
   },
 });
 
-export const CollectionModel = mongoose.model<Collection>('Collection', CollectionSchema);
+export const CollectionModel = mongoose.model<CollectionDoc>('Collection', CollectionSchema);

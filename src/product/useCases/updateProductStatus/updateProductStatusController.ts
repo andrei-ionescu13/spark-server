@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Controller } from '../../../src/Controller';
 import { UpdateProductStatusRequestDto } from './updateProductStatusRequestDto';
 import { UpdateProductStatusUseCase } from './updateProductStatusUseCase';
-import { AppError } from '../../../AppError';
 
-export class UpdateProductStatusController extends BaseController {
+export class UpdateProductStatusController extends Controller {
   constructor(private useCase: UpdateProductStatusUseCase) {
     super();
     this.useCase = useCase;
@@ -23,7 +23,7 @@ export class UpdateProductStatusController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case AppError.NotFound:
+          case UseCaseErrors.NotFound:
             return this.notFound(res, error.getErrorValue().message);
 
           default:

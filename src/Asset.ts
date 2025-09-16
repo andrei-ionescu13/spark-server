@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-export interface Asset {
+export interface AssetDoc {
   public_id: string;
   version: number;
   signature: string;

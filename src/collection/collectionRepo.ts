@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { Model } from 'mongoose';
-import { Collection } from './model';
+import { CollectionDoc } from './model';
 
 export interface CollectionRepoI {
   createCollection: any;
@@ -73,7 +73,7 @@ const buildIntervalQuery = (status) => {
 };
 
 export class CollectionRepo implements CollectionRepoI {
-  constructor(private collectionModel: Model<Collection>) {}
+  constructor(private collectionModel: Model<CollectionDoc>) {}
 
   createCollection = (props) => this.collectionModel.create(props);
 

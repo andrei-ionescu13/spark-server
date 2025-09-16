@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Controller } from '../../../src/Controller';
 import { UpdateProductMetaRequestDto } from './updateProductMetaRequestDto';
 import { UpdateProductMetaUseCase } from './updateProductMetaUseCase';
-import { AppError } from '../../../AppError';
 
-export class UpdateProductMetaController extends BaseController {
+export class UpdateProductMetaController extends Controller {
   constructor(private useCase: UpdateProductMetaUseCase) {
     super();
     this.useCase = useCase;
@@ -26,7 +26,7 @@ export class UpdateProductMetaController extends BaseController {
         const error = result.value;
 
         switch (error.constructor) {
-          case AppError.NotFound:
+          case UseCaseErrors.NotFound:
             return this.notFound(res, error.getErrorValue().message);
 
           default:

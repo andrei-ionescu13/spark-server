@@ -1,20 +1,20 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCaseError } from '../../../UseCaseError';
+import bcrypt from 'bcrypt';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
+import { UseCaseError } from '../../../UseCaseError';
 import { AdminRepoI } from '../../adminRepo';
 import { RegisterRequestDto } from './registerRequestDto';
-import bcrypt from 'bcrypt';
 
 export namespace RegisterErrors {
-  export class UsernameTakenError extends Result<UseCaseError> {
+  export class UsernameTakenError extends UseCaseError {
     constructor() {
-      super(false, { message: 'Username taken' });
+      super('Username taken');
     }
   }
 }
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<string, UseCaseErrors.UnexpectedError>;
 
 export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
   constructor(private adminRepo: AdminRepoI) {}
@@ -23,10 +23,10 @@ export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
     const { username, password } = request;
 
     try {
-      const foundByUsername = await this.adminRepo.findByUsername(username);
+      const foundByUsername = await this.adminRepo.getAdminByUsername(username);
 
       if (foundByUsername) {
-        return left(new RegisterErrors.UsernameTakenError());
+        return Result.fail(new RegisterErrors.UsernameTakenError());
       }
 
       const hash = await bcrypt.hash(password, 10);
@@ -35,10 +35,10 @@ export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
         password: hash,
       });
 
-      return right(Result.ok<any>(admin._id));
+      return Result.ok(admin.id);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

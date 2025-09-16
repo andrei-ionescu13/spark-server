@@ -4,37 +4,43 @@ import cors from 'cors';
 import * as dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import { articleCategoryRoutes } from './article-category/index';
-import { articleTagRoutes } from './article-tag/index';
-import { articlesRoutes } from './article/index';
-import { authRoutes } from './auth/index';
-import { collectionsRoutes } from './collection/index';
-import { promoCodeRoutes } from './coupon/index';
-import { currencyRoutes } from './currency/index';
-import { dealsRoutes } from './deals/index';
-import { developerRoutes } from './developer';
-import { discountRoutes } from './discount/index';
-import { featureRoutes } from './feature';
-import { genreRoutes } from './genre/index';
-import { keysRoutes } from './key/index';
-import { languageRoutes } from './language/index';
-import { verifyToken } from './middleware/verify-token';
-import { namespaceRoutes } from './namespace/index';
-import { operatingSystemRoutes } from './operating-system';
-import { orderRoutes } from './orders/index';
-import { platformRoutes } from './platform/index';
-import { productRoutes } from './product/index';
-import { publisherRoutes } from './publisher/index';
-import { reviewsRoutes } from './review/index';
-import { translationsLanguageRoutes } from './translations-language/index';
-import { userRoutes } from './users/index';
+// import { collectionsRoutes } from '../collection/index';
+import { currencyRoutes } from './currency';
+// import { dealsRoutes } from '../deals/index';
+import { developerRoutes } from './product/developer';
+// import { discountRoutes } from '../discount/index';
+import { languageRoutes } from './internationalization/language';
+import { namespaceRoutes } from './internationalization/namespace';
+import { keysRoutes } from './key';
+import { featureRoutes } from './product/feature';
+import { genreRoutes } from './product/genre';
+// import { verifyToken } from '../middleware/verify-token';
+import { operatingSystemRoutes } from './product/operatingSystem';
+// import { orderRoutes } from '../orders/index';
+import { platformRoutes } from './product/platform';
+// import { productRoutes } from '../product/index';
+import { publisherRoutes } from './product/publisher';
+// import { reviewsRoutes } from '../review/index';
+// import { translationsLanguageRoutes } from '../translations-language/index';
+// import { userRoutes } from '../users/index';
+// import { authRoutes } from './auth';
+import { articleCategoryRoutes } from './blog/article-category/index';
+import { articleTagRoutes } from './blog/article-tag/index';
+import { articlesRoutes } from './blog/article/index';
+import { couponRoutes } from './coupon';
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 const run = async () => {
-  mongoose.connect(process.env.MONGO_URI as string);
+  try {
+    await mongoose.connect(process.env.MONGO_URI as string);
+    console.log('connected to db');
+  } catch (error) {
+    console.log(error);
+  }
+
   app.use(
     cors({
       origin: '*',
@@ -46,9 +52,9 @@ const run = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use('/public', express.static('public'));
-  app.use('/', authRoutes);
+  // app.use('/', authRoutes);
 
-  app.use(verifyToken);
+  // app.use(verifyToken);
 
   app.use((req, res, next) => {
     const { sort } = req.query;
@@ -64,27 +70,26 @@ const run = async () => {
   });
 
   app.use('/languages', languageRoutes);
+  app.use('/namespaces', namespaceRoutes);
   app.use('/articles', articlesRoutes);
+  app.use('/article-categories', articleCategoryRoutes);
+  app.use('/article-tags', articleTagRoutes);
   app.use('/operating-systems', operatingSystemRoutes);
   app.use('/developers', developerRoutes);
   app.use('/features', featureRoutes);
-  app.use('/article-categories', articleCategoryRoutes);
-  app.use('/article-tags', articleTagRoutes);
   app.use('/publishers', publisherRoutes);
   app.use('/platforms', platformRoutes);
   app.use('/currencies', currencyRoutes);
   app.use('/genres', genreRoutes);
-  app.use('/translations/languages', translationsLanguageRoutes);
-  app.use('/translations/namespaces', namespaceRoutes);
-  app.use('/products', productRoutes);
-  app.use('/users', userRoutes);
+  // app.use('/products', productRoutes);
+  // app.use('/users', userRoutes);
   app.use('/keys', keysRoutes);
-  app.use('/collections', collectionsRoutes);
-  app.use('/deals', dealsRoutes);
-  app.use('/reviews', reviewsRoutes);
-  app.use('/discounts', discountRoutes);
-  app.use('/orders', orderRoutes);
-  app.use('/promo-codes', promoCodeRoutes);
+  // app.use('/collections', collectionsRoutes);
+  // app.use('/deals', dealsRoutes);
+  // app.use('/reviews', reviewsRoutes);
+  // app.use('/discounts', discountRoutes);
+  // app.use('/orders', orderRoutes);
+  app.use('/promo-codes', couponRoutes);
 
   app.use((error, req, res, next) => {
     if (error) {

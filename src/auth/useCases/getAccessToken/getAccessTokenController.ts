@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { Controller } from '../../../Controller';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 import { GetAccessTokenErrors, GetAccessTokenUseCase } from './getAccessTokenUseCase';
 
-export class GetAccessTokenController extends BaseController {
+export class GetAccessTokenController extends Controller {
   constructor(private useCase: GetAccessTokenUseCase) {
     super();
     this.useCase = useCase;
@@ -15,25 +15,24 @@ export class GetAccessTokenController extends BaseController {
     };
 
     try {
-      console.log(dto);
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const { error } = result;
 
         switch (error.constructor) {
           case GetAccessTokenErrors.RefreshTokenRequiredError:
-            return this.forbidden(res, error.getErrorValue().message);
+            return this.forbidden(res, error.message);
 
           case GetAccessTokenErrors.RefreshTokenInvalidError:
-            return this.unauthorized(res, error.getErrorValue().message);
+            return this.unauthorized(res, error.message);
 
           default:
             return this.fail(res, error);
         }
       }
 
-      const accessToken = result.value.getValue();
+      const accessToken = result.value;
       res.cookie('accessToken', accessToken, { maxAge: 24 * 60 * 1000, httpOnly: true });
       return this.ok(res, accessToken);
     } catch (error) {

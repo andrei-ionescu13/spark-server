@@ -1,5 +1,5 @@
 import { Model } from 'mongoose';
-import { Key } from './model';
+import { KeyDoc } from './model';
 
 export interface KeyRepoI {
   createKey: any;
@@ -12,7 +12,7 @@ export interface KeyRepoI {
 }
 
 export class KeyRepo implements KeyRepoI {
-  constructor(private keyModel: Model<Key>) {}
+  constructor(private keyModel: Model<KeyDoc>) {}
 
   createKey = (props) => this.keyModel.create(props);
 

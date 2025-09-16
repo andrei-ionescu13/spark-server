@@ -1,31 +1,38 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CouponRepoI } from '../../couponRepo';
+import { Coupon } from '../../coupon';
+import { CouponCommandsRepoI } from '../../repo/commands';
 import { DeactivateCouponRequestDto } from './deactivateCouponRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<Coupon, UseCaseErrors.UnexpectedError>;
 
 export class DeactivateCouponUseCase implements UseCase<DeactivateCouponRequestDto, Response> {
-  constructor(private couponRepo: CouponRepoI) {}
+  constructor(private couponCommandsRepo: CouponCommandsRepoI) {}
 
   execute = async (request: DeactivateCouponRequestDto): Promise<Response> => {
     const { couponId } = request;
 
     try {
-      const coupon = await this.couponRepo.getCoupon(couponId);
-      const found = !!coupon;
-
-      if (!found) {
-        return left(new AppError.NotFound('Coupon not found'));
+      const couponOrError = await this.couponCommandsRepo.getCoupon(couponId);
+      if (couponOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.ValidationError(couponOrError.error.message));
       }
 
-      await this.couponRepo.updateCoupon(couponId, { endDate: Date.now() });
+      const coupon = couponOrError.value;
 
-      return coupon;
+      if (!coupon) {
+        return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
+      }
+
+      coupon.deactivate();
+
+      await this.couponCommandsRepo.save(coupon);
+
+      return Result.ok(coupon);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

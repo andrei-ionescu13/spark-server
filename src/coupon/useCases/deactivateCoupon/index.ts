@@ -1,8 +1,10 @@
-import { CouponRepo } from '../../couponRepo';
 import { CouponModel } from '../../model';
+import { CouponCommandsRepo } from '../../repo/commands';
 import { DeactivateCouponController } from './deactivateCouponController';
 import { DeactivateCouponUseCase } from './deactivateCouponUseCase';
 
-const couponRepo = new CouponRepo(CouponModel);
-const deactivateCouponUseCase = new DeactivateCouponUseCase(couponRepo);
+const couponCommandsRepo = new CouponCommandsRepo(CouponModel);
+
+const deactivateCouponUseCase = new DeactivateCouponUseCase(couponCommandsRepo);
+
 export const deactivateCouponController = new DeactivateCouponController(deactivateCouponUseCase);

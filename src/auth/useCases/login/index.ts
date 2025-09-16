@@ -1,4 +1,4 @@
-import { AuthService } from '../../../services/authService';
+import { AuthService } from '../../../authService';
 import { AdminRepo } from '../../adminRepo';
 import { AdminModel, TokenModel } from '../../model';
 import { TokenRepo } from '../../tokenRepo';

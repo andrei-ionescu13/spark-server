@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-const router = express.Router();
-import { loginController } from './useCases/login';
 import { getAccessTokenController } from './useCases/getAccessToken';
-import { registerController } from './useCases/register';
+import { loginController } from './useCases/login';
 import { logoutController } from './useCases/logout';
+import { registerController } from './useCases/register';
+const router = express.Router();
 
 router.post('/signup', (req: Request, res: Response) => registerController.execute(req, res));
 

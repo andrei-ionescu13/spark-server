@@ -1,15 +1,17 @@
-export class Result<T> {
+export class Result<T, U extends Error> {
   public isSuccess: boolean;
   public isFailure: boolean;
-  private error: T | string | null;
-  private _value: T | null;
+  public error?: U;
+  public _value?: T;
 
-  public constructor(isSuccess: boolean, error: T | string | null, value: T | null = null) {
+  private constructor(isSuccess: boolean, error?: U, value?: T) {
     if (isSuccess && error) {
-      throw new Error('InvalidOperation: A result cannot be successful and contain an error');
+      throw new Error(`InvalidOperation: A result cannot be 
+        successful and contain an error`);
     }
     if (!isSuccess && !error) {
-      throw new Error('InvalidOperation: A failing result needs to contain an error message');
+      throw new Error(`InvalidOperation: A failing result 
+        needs to contain an error message`);
     }
 
     this.isSuccess = isSuccess;
@@ -20,73 +22,88 @@ export class Result<T> {
     Object.freeze(this);
   }
 
-  public getValue(): T {
-    if (!this.isSuccess) {
-      console.log(this.error);
-      throw new Error("Can't get the value of an error result. Use 'errorValue' instead.");
-    }
-
-    return this._value as T;
+  public isOk(): this is { isSuccess: true; error: undefined; _value: T } {
+    return this.isSuccess;
   }
 
-  public getErrorValue(): T {
-    return this.error as T;
+  public isErr(): this is { isSuccess: false; error: U; _value: undefined } {
+    return !this.isSuccess;
   }
 
-  public static ok<U>(value?: U): Result<U> {
-    return new Result<U>(true, null, value);
+  public static ok<T, U extends Error>(value?: T): Result<T, U> {
+    return new Result<T, U>(true, undefined, value);
   }
 
-  public static fail<U>(error: string): Result<U> {
-    return new Result<U>(false, error);
+  public static fail<T, U extends Error>(error: U): Result<T, U> {
+    return new Result<T, U>(false, error);
   }
 
-  public static combine(results: Result<any>[]): Result<any> {
+  // public static firstError<T, U extends Error>(results: Result<T, U>[]): Result<T, U> {
+  //   const error = results.find((r) => r.isFailure);
+
+  //   return error || Result.ok();
+  // }
+
+  public static combine<U extends Error>(results: Result<any, U>[]): Result<any, U> {
     for (let result of results) {
       if (result.isFailure) return result;
     }
-    return Result.ok();
+
+    return Result.ok<any, any>();
+  }
+
+  public get value(): T {
+    if (!this.isSuccess || !this._value) {
+      throw new Error(`Can't retrieve the value from a failed result.`);
+    }
+    return this._value;
   }
 }
 
-export type Either<L, A> = Left<L, A> | Right<L, A>;
+// export type Either<L, A> = Left<L, A> | Right<L, A>;
 
-export class Left<L, A> {
-  readonly value: L;
+// export class Left<L, A> {
+//   readonly value: A | null = null;
+//   readonly error: L;
 
-  constructor(value: L) {
-    this.value = value;
-  }
+//   constructor(error: L) {
+//     this.error = error;
+//   }
 
-  isLeft(): this is Left<L, A> {
-    return true;
-  }
+//   isLeft(): this is Left<L, A> {
+//     return true;
+//   }
 
-  isRight(): this is Right<L, A> {
-    return false;
-  }
-}
+//   isRight(): this is Right<L, A> {
+//     return false;
+//   }
+// }
 
-export class Right<L, A> {
-  readonly value: A;
+// export class Right<L, A> {
+//   readonly value: A;
+//   readonly error: null = null;
 
-  constructor(value: A) {
-    this.value = value;
-  }
+//   constructor(value: A) {
+//     this.props.value = value;
+//   }
 
-  isLeft(): this is Left<L, A> {
-    return false;
-  }
+//   isLeft(): this is Left<L, A> {
+//     return false;
+//   }
 
-  isRight(): this is Right<L, A> {
-    return true;
-  }
-}
+//   isRight(): this is Right<L, A> {
+//     return true;
+//   }
+// }
 
-export const left = <L, A>(l: L): Left<L, A> => {
-  return new Left(l);
-};
+// export const left = <L, A>(l: L): Left<L, A> => {
+//   return new Left(l);
+// };
 
-export const right = <L, A>(a: A): Right<L, A> => {
-  return new Right<L, A>(a);
-};
+// export const right = <L, A>(a: A): Right<L, A> => {
+//   return new Right<L, A>(a);
+// };
+
+// export function firstLeft<L, A>(results: Either<L, A>[]): Left<L, A> | undefined {
+//   return results.find((r): r is Left<L, A> => r.isLeft());
+// }

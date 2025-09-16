@@ -1,33 +1,37 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { UseCaseErrors } from '../../../AppError';
+import { Result } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { CollectionDto } from '../../collectionMapper';
+import { CollectionCommandsRepoI } from '../../repo/commands';
+import { CollectionQueriesRepoI } from '../../repo/queries';
 import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Result<CollectionDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class DeleteCollectionUseCase implements UseCase<DeleteCollectionRequestDto, Response> {
-  constructor(private collectionRepo: CollectionRepoI, private uplouaderService: UploaderService) {}
+  constructor(
+    private collectionCommandsRepo: CollectionCommandsRepoI,
+    private collectionQueriesRepo: CollectionQueriesRepoI,
+    private uplouaderService: UploaderService,
+  ) {}
 
   execute = async (request: DeleteCollectionRequestDto): Promise<Response> => {
     const { collectionId } = request;
 
     try {
-      const collection = await this.collectionRepo.getCollection(collectionId);
-      const found = !!collection;
-
-      if (!found) {
-        return left(new AppError.NotFound('Collection not found'));
+      const collection = await this.collectionQueriesRepo.getCollection(collectionId);
+      if (!collection) {
+        return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
       }
 
-      await this.collectionRepo.deleteCollection(collectionId);
-      await this.uplouaderService.delete(collection.cover.public_id);
+      await this.collectionCommandsRepo.deleteCollection(collectionId);
+      await this.uplouaderService.delete(collection.cover.publicId);
 
-      return right(Result.ok<any>(collection));
+      return Result.ok(collection);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

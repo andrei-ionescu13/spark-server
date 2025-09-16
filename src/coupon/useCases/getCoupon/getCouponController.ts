@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { GetCouponRequestDto } from './getCouponRequestDto';
 import { GetCouponUseCase } from './getCouponUseCase';
-import { AppError } from '../../../AppError';
 
-export class GetCouponController extends BaseController {
+export class GetCouponController extends Controller {
   constructor(private useCase: GetCouponUseCase) {
     super();
     this.useCase = useCase;
@@ -18,21 +18,20 @@ export class GetCouponController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
-          case AppError.NotFound:
-            return this.notFound(res, error.getErrorValue().message);
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
 
           default:
             return this.fail(res, error);
         }
       }
 
-      const value = result.value.getValue();
-
-      return this.ok(res, value);
+      const coupon = result.value;
+      return this.ok(res, coupon);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

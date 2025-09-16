@@ -35,8 +35,8 @@
     "stripe": "^8.176.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
-    "uuid": "^11.0.3",
-    "zod": "^3.21.4"
+    "uuid": "^11.1.0",
+    "zod": "^4.1.8"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.3",

@@ -1,27 +1,27 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCaseError } from '../../../UseCaseError';
-import { AuthService } from '../../../services/authService';
+import { UseCaseErrors } from '../../../AppError';
+import { AuthService } from '../../../authService';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
+import { UseCaseError } from '../../../UseCaseError';
 import { AdminRepoI } from '../../adminRepo';
 import { TokenRepoI } from '../../tokenRepo';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 
 export namespace GetAccessTokenErrors {
-  export class RefreshTokenRequiredError extends Result<UseCaseError> {
+  export class RefreshTokenRequiredError extends UseCaseError {
     constructor() {
-      super(false, { message: 'Refresh token required' });
+      super('Refresh token required');
     }
   }
 
-  export class RefreshTokenInvalidError extends Result<UseCaseError> {
+  export class RefreshTokenInvalidError extends UseCaseError {
     constructor() {
-      super(false, { message: 'Invalid refresh token' });
+      super('Invalid refresh token');
     }
   }
 }
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Result<string, UseCaseErrors.UnexpectedError>;
 
 export class GetAccessTokenUseCase implements UseCase<GetAccessTokenRequestDto, Response> {
   constructor(
@@ -32,26 +32,26 @@ export class GetAccessTokenUseCase implements UseCase<GetAccessTokenRequestDto, 
 
   execute = async (request: GetAccessTokenRequestDto): Promise<Response> => {
     const { refreshToken } = request;
-    console.log(refreshToken);
+
     try {
       if (!refreshToken) {
-        return left(new GetAccessTokenErrors.RefreshTokenRequiredError());
+        return Result.fail(new GetAccessTokenErrors.RefreshTokenRequiredError());
       }
 
       const { adminId } = await this.authService.decodeRefreshToken(refreshToken);
       const refreshTokenDoc = await this.tokeRepo.findOne(refreshToken, adminId);
 
       if (!refreshTokenDoc || refreshTokenDoc.expiresAt.getTime < Date.now()) {
-        return left(new GetAccessTokenErrors.RefreshTokenRequiredError());
+        return Result.fail(new GetAccessTokenErrors.RefreshTokenRequiredError());
       }
 
       const admin = await this.adminRepo.getAdmin(adminId);
       const accessToken = this.authService.generateAccessToken(admin);
 
-      return right(Result.ok<any>(accessToken));
+      return Result.ok(accessToken);
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

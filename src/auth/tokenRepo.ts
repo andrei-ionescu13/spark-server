@@ -1,17 +1,25 @@
 import { Model } from 'mongoose';
-import { Token } from './model';
+import { TokenDoc } from './model';
+import { Token } from './token';
+import { ToukenMapper } from './tokenMapper';
 
 export interface TokenRepoI {
-  createToken: any;
-  findOne: any;
+  createToken: (props: any) => Promise<Token>;
+  findOne: (token: string, admin: string) => Promise<Token | null>;
 }
 
 export class TokenRepo implements TokenRepoI {
-  constructor(private tokenModel: Model<Token>) {}
+  constructor(private tokenModel: Model<TokenDoc>) {}
 
-  createToken = (props) => this.tokenModel.create(props);
+  createToken = async (props: any) => {
+    const entity = await this.tokenModel.create(props);
+    return ToukenMapper.toDomain(entity);
+  };
 
-  findOne = async (token, admin) => this.tokenModel.findOne({ token, admin });
+  findOne = async (token: string, admin: string) => {
+    const entity = await this.tokenModel.findOne({ token, admin });
+    if (!entity) return null;
 
-  // findByUsername = (username) => this.tokenModel.findOne({ username: username })
+    return ToukenMapper.toDomain(entity);
+  };
 }

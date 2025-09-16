@@ -1,11 +1,11 @@
-import { AppError } from '../../../AppError';
+import { UseCaseErrors } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
 import { CollectionRepoI } from '../../collectionRepo';
 import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkRequestDto';
 
-type Response = Either<AppError.UnexpectedError, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError, Result<any>>;
 
 export class DeleteCollectionsBulkUseCase
   implements UseCase<DeleteCollectionsBulkRequestDto, Response>
@@ -17,7 +17,7 @@ export class DeleteCollectionsBulkUseCase
     const found = !!collection;
 
     if (!found) {
-      return left(new AppError.NotFound('Collection not found'));
+      return left(new UseCaseErrors.NotFound('Collection not found'));
     }
 
     await this.collectionRepo.deleteCollection(collectionId);
@@ -34,7 +34,7 @@ export class DeleteCollectionsBulkUseCase
       return right(Result.ok());
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

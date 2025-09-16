@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { Controller } from '../../../src/Controller';
 import { SearchUserReviewsRequestDto } from './searchUserReviewsRequestDto';
 import { SearchUserReviewsUseCase } from './searchUserReviewsUseCase';
 
-export class SearchUserReviewsController extends BaseController {
+export class SearchUserReviewsController extends Controller {
   constructor(private useCase: SearchUserReviewsUseCase) {
     super();
     this.useCase = useCase;

@@ -1,10 +1,10 @@
-import { AppError } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
-import { UseCase } from '../../../use-case';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Either, Result, left, right } from '../../../src/Result';
+import { UseCase } from '../../../src/use-case';
 import { ProductRepoI } from '../../productRepo';
 import { UpdateProductMetaRequestDto } from './updateProductMetaRequestDto';
 
-type Response = Either<AppError.UnexpectedError | AppError.NotFound, Result<any>>;
+type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
 
 export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaRequestDto, Response> {
   constructor(private productRepo: ProductRepoI) {}
@@ -18,7 +18,7 @@ export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaReques
       const found = !!product;
 
       if (!found) {
-        return left(new AppError.NotFound('Product not found'));
+        return left(new UseCaseErrors.NotFound('Product not found'));
       }
 
       const updatedProduct = await this.productRepo.updateProduct(productId, props);
@@ -27,7 +27,7 @@ export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaReques
       return right(Result.ok<any>({ metaTitle, metaKeywords, metaDescription }));
     } catch (error) {
       console.log(error);
-      return left(new AppError.UnexpectedError(error));
+      return left(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

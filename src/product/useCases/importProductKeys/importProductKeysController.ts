@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
-import { ImportProductKeysErrors, ImportProductKeysUseCase } from './importProductKeysUseCase';
+import { UseCaseErrors } from '../../../src/AppError';
+import { Controller } from '../../../src/Controller';
 import { ImportProductKeysRequestDto } from './importProductKeysRequestDto';
-import { AppError } from '../../../AppError';
+import { ImportProductKeysErrors, ImportProductKeysUseCase } from './importProductKeysUseCase';
 
-export class ImportProductKeysController extends BaseController {
+export class ImportProductKeysController extends Controller {
   constructor(private useCase: ImportProductKeysUseCase) {
     super();
     this.useCase = useCase;
@@ -26,7 +26,7 @@ export class ImportProductKeysController extends BaseController {
           case ImportProductKeysErrors.KeyForPlatformExists:
             return this.forbidden(res, error.getErrorValue().message);
 
-          case AppError.NotFound:
+          case UseCaseErrors.NotFound:
             return this.notFound(res, error.getErrorValue().message);
 
           default:

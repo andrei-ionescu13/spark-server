@@ -1,29 +1,38 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import * as z from 'zod';
+import { Controller } from '../../../Controller';
+import { zodRequestValidationError } from '../../../zodErrors';
 import { SearchReviewsRequestDto } from './searchReviewsRequestDto';
 import { SearchReviewsUseCase } from './searchReviewsUseCase';
 
-export class SearchReviewsController extends BaseController {
+export class SearchReviewsController extends Controller {
   constructor(private useCase: SearchReviewsUseCase) {
     super();
     this.useCase = useCase;
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const query = req.query;
-    const dto: SearchReviewsRequestDto = {
-      keyword: query.keyword as string,
-      status: query.status as string,
-      sortOrder: query.sortOrder as string,
-      page: query.page ? Number.parseInt(query.page as string) : undefined,
-      limit: query.limit ? Number.parseInt(query.limit as string) : undefined,
-      sortBy: query.sortBy as string,
-    };
+    const schema = z.object({
+      keyword: z.string().optional(),
+      sortBy: z.string().optional(),
+      sortOrder: z.enum(['asc', 'desc']).optional(),
+      status: z.enum(['published', 'unpublished', 'flagged']).optional(),
+      page: z.coerce.number().int().positive().optional(),
+      limit: z.coerce.number().int().positive().optional(),
+    });
+
+    const result = schema.safeParse(req.query);
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: SearchReviewsRequestDto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
+      if (result.isErr()) {
         const error = result.value;
 
         switch (error.constructor) {

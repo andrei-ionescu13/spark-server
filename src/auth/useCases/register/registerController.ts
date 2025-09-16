@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import { BaseController } from '../../../BaseController';
+import { Controller } from '../../../Controller';
 import { RegisterRequestDto } from './registerRequestDto';
 import { RegisterErrors, RegisterUseCase } from './registerUseCase';
 
-export class RegisterController extends BaseController {
+export class RegisterController extends Controller {
   constructor(private useCase: RegisterUseCase) {
     super();
     this.useCase = useCase;
@@ -18,19 +18,19 @@ export class RegisterController extends BaseController {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const { error } = result;
 
         switch (error.constructor) {
           case RegisterErrors.UsernameTakenError:
-            return this.forbidden(res, error.getErrorValue().message);
+            return this.forbidden(res, error.message);
 
           default:
             return this.fail(res, error);
         }
       }
 
-      const adminId = result.value.getValue();
+      const adminId = result.value;
 
       return this.ok(res, adminId);
     } catch (error) {

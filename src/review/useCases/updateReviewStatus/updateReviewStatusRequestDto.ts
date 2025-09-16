@@ -1,4 +1,4 @@
 export interface UpdateReviewStatusRequestDto {
   reviewId: string;
-  status: string;
+  status: 'published' | 'unpublished' | 'flagged';
 }

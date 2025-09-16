@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 import { Model } from 'mongoose';
-import { Product } from './model';
+import { ProductDoc } from './model';
 
 export interface ProductRepoI {
   createProduct: any;
@@ -27,11 +27,12 @@ export interface ProductRepoI {
   deleteDeveloper: any;
   deleteFeature: any;
   getProductByPublisher: any;
+  getProductByDeveloper: any;
   deleteProductsOperatingSystem: any;
 }
 
 export class ProductRepo implements ProductRepoI {
-  constructor(private productModel: Model<Product>) {}
+  constructor(private productModel: Model<ProductDoc>) {}
 
   createProduct = (props) => this.productModel.create(props);
 
@@ -57,6 +58,8 @@ export class ProductRepo implements ProductRepoI {
   deleteMultipleProducts = (ids) => this.productModel.deleteMany({ _id: { $in: ids } });
 
   getProductByPublisher = (publisherId) => this.productModel.findOne({ publisher: publisherId });
+
+  getProductByDeveloper = (developerid) => this.productModel.findOne({ developers: developerid });
 
   searchProductsByKeys = (keyValue) =>
     this.productModel.aggregate([
