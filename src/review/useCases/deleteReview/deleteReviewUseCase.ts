@@ -1,6 +1,6 @@
-import { ProductRepoI } from '../../../../product/productRepo';
-import { productServices } from '../../../../product/services';
 import { UseCaseErrors } from '../../../AppError';
+import { ProductRepoI } from '../../../product/productRepo';
+import { productServices } from '../../../product/services';
 import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
 import { UserCommandsRepoI } from '../../../users/repo/commands';

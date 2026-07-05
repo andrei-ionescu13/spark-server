@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../src/AppError';
-import { Controller } from '../../../src/Controller';
+import { UseCaseErrors } from '../../../AppError';
+import { Controller } from '../../../Controller';
 import { GetProductRequestDto } from './getProductRequestDto';
 import { GetProductUseCase } from './getProductUseCase';
 

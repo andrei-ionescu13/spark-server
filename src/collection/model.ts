@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { AssetDoc, AssetSchema } from '../Asset';
-import { MetaDoc } from '../Meta';
+import { MetaDoc } from '../meta';
 const { Schema } = mongoose;
 
 export interface CollectionDoc {
@@ -23,7 +23,6 @@ const CollectionSchema = new Schema<CollectionDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   title: {
     type: String,

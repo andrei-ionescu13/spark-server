@@ -1,4 +1,3 @@
-import { ObjectId } from 'mongodb';
 import { Model } from 'mongoose';
 import { Result } from '../../Result';
 import { DomainValidationError } from '../../blog/article/status';
@@ -10,6 +9,9 @@ export interface CollectionCommandsRepoI {
   save: (collection: Collection) => Promise<void>;
   deleteCollection: (id: string) => Promise<void>;
   getCollection: (id: string) => Promise<Result<Collection | null, DomainValidationError>>;
+  getCollectionsByProduct: (
+    productId: string,
+  ) => Promise<Result<Collection[], DomainValidationError>>;
 }
 
 export class CollectionCommandsRepo implements CollectionCommandsRepoI {
@@ -26,7 +28,7 @@ export class CollectionCommandsRepo implements CollectionCommandsRepoI {
   };
 
   getCollection = async (id: string): Promise<Result<Collection | null, DomainValidationError>> => {
-    const doc = await this.collectionModel.findOne({ _id: new ObjectId(id) }).lean();
+    const doc = await this.collectionModel.findOne({ _id: id }).lean();
     if (!doc) return Result.ok(null);
 
     const collectionOrError = CollectionMapper.toDomain(doc);
@@ -36,6 +38,19 @@ export class CollectionCommandsRepo implements CollectionCommandsRepoI {
 
     const collection = collectionOrError.value;
     return Result.ok(collection);
+  };
+
+  getCollectionsByProduct = async (
+    productId: string,
+  ): Promise<Result<Collection[], DomainValidationError>> => {
+    const docs = await this.collectionModel.find({ products: productId }).lean();
+    const collectionOrError = CollectionMapper.toDomainList(docs);
+    if (collectionOrError.isErr()) {
+      return Result.fail(new DomainValidationError(collectionOrError.error.message));
+    }
+
+    const collections = collectionOrError.value;
+    return Result.ok(collections);
   };
 
   deleteCollection = async (id: string) => {

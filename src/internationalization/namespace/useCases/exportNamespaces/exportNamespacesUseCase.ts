@@ -21,7 +21,7 @@ export class ExportNamespacesUseCase implements UseCase<ExportNamespacesRequestD
 
   execute = async (): Promise<Response> => {
     try {
-      const languages = await this.languageQueriesRepoI.listTranslationsLanguages();
+      const languages = await this.languageQueriesRepoI.listLanguages();
       const namespaces = await this.namespaceQueriesRepo.listNamespaces();
       const languagesCodes = languages.map((language) => language.code);
 

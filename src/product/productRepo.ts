@@ -22,7 +22,6 @@ export interface ProductRepoI {
   listProductReviews: any;
   deleteReview: any;
   getProductByProps: any;
-
   searchProductsByKeys: any;
   deleteDeveloper: any;
   deleteFeature: any;

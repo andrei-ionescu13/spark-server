@@ -1,41 +1,51 @@
 import { UseCaseErrors } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { Result } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { Collection } from '../../collection';
+import { CollectionCommandsRepoI } from '../../repo/commands';
 import { UpdateCollectionRequestDto } from './updateCollectionRequestDto';
 
-type Response = Either<UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound, Result<any>>;
+type Response = Result<Collection, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateCollectionUseCase implements UseCase<UpdateCollectionRequestDto, Response> {
-  constructor(private collectionRepo: CollectionRepoI, private uploaderService: UploaderService) {}
+  constructor(
+    private collectionCommandsRepo: CollectionCommandsRepoI,
+    private uploaderService: UploaderService,
+  ) {}
 
   execute = async (request: UpdateCollectionRequestDto): Promise<Response> => {
     const { collectionId, coverFile, ...rest } = request;
     const props: any = rest;
 
     try {
-      const collection = await this.collectionRepo.getCollection(collectionId);
-      const found = !!collection;
+      const collectionOrError = await this.collectionCommandsRepo.getCollection(collectionId);
+      if (collectionOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(collectionOrError.error.message));
+      }
 
-      if (!found) {
-        return left(new UseCaseErrors.NotFound('Collection not found'));
+      const collection = collectionOrError.value;
+      if (!collection) {
+        return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
       }
 
       if (coverFile) {
-        await this.uploaderService.delete(collection.cover.public_id);
+        await this.uploaderService.delete(collection.cover.publicId);
         const uploadedCover = await this.uploaderService.uploadFile(coverFile);
         props.cover = uploadedCover;
       }
 
       props.endDate = !!props.endDate ? props.endDate : null;
 
-      const updatedCollection = await this.collectionRepo.updateCollection(collectionId, props);
+      const updateResult = collection.update(props);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
+      }
 
-      return right(Result.ok(updatedCollection));
+      return Result.ok(collection);
     } catch (error) {
       console.log(error);
-      return left(new UseCaseErrors.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

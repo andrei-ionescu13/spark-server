@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../AppError';
 import { Controller } from '../../../../Controller';
-import { DeleteGenreUseCase } from './deleteGenreUseCase';
+import { DeleteGenreErrors, DeleteGenreUseCase } from './deleteGenreUseCase';
 import { DeleteGenreRequestDto } from './deleteGenrerRequestDto';
 
 export class DeleteGenreController extends Controller {
@@ -22,6 +22,9 @@ export class DeleteGenreController extends Controller {
         const error = result.error;
 
         switch (error.constructor) {
+          case DeleteGenreErrors.GenreIsUsed:
+            return this.forbidden(res, error.message);
+
           case UseCaseErrors.NotFound:
             return this.notFound(res, error.message);
 

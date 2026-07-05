@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { Result } from '../Result';
-import { zodError } from '../blog/article/status';
+import { zodDomainValidationError } from '../zodErrors';
 
 interface TokenProps {
   _id: string;
@@ -29,7 +29,7 @@ export class Token {
     const validation = schema.safeParse(props);
 
     if (validation.error) {
-      return Result.fail(zodError(validation.error));
+      return Result.fail(zodDomainValidationError(validation.error));
     }
 
     return Result.ok(new Token(props));

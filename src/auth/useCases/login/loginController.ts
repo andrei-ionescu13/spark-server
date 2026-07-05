@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { zodError } from '../../../blog/article/status';
 import { Controller } from '../../../Controller';
+import { zodRequestValidationError } from '../../../zodErrors';
 import { LoginRequestDto } from './loginRequestDto';
 import { LoginErrors, LoginUseCase } from './loginUseCase';
 
@@ -12,6 +12,7 @@ export class LoginController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
+    console.log('dasdasd');
     const schema = z.object({
       username: z.string(),
       password: z.string(),
@@ -20,7 +21,7 @@ export class LoginController extends Controller {
     const result = schema.safeParse({ password: req.body.password, username: req.body.username });
 
     if (result.error) {
-      return this.forbidden(res, zodError(result.error).message);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
     const dto: LoginRequestDto = result.data;

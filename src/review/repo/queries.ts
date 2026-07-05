@@ -17,6 +17,7 @@ export interface ReviewQueriesRepoI {
     reviews: ReviewDto[];
     count: number;
   }>;
+  getReviews: (ids: string[]) => Promise<ReviewDto[]>;
 }
 
 export class ReviewQueriesRepo implements ReviewQueriesRepoI {
@@ -27,6 +28,11 @@ export class ReviewQueriesRepo implements ReviewQueriesRepoI {
     if (!doc) return null;
 
     return ReviewMapper.toDto(doc);
+  };
+
+  getReviews = async (ids: string[]): Promise<ReviewDto[]> => {
+    const docs = await this.reviewModel.find({ _id: { $in: ids } }).lean();
+    return ReviewMapper.toDtoList(docs);
   };
 
   searchReviews = async (

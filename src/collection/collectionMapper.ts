@@ -1,12 +1,12 @@
 import { Asset } from '../blog/article/asset';
 import { AssetDto, AssetMapper, AssetPersistance } from '../blog/article/assetMapper';
 import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../Meta';
+import { Meta } from '../meta';
 import { MetaDto, MetaMapper, MetaPersistance } from '../metaMapper';
 import { Result } from '../Result';
 import { Collection } from './collection';
-import { CollectionDescription } from './CollectionDescription';
-import { CollectionTitle } from './CollectionTitle';
+import { CollectionDescription } from './collectionDescription';
+import { CollectionTitle } from './collectionTitle';
 import { CollectionDoc } from './model';
 
 export interface CollectionDto {
@@ -83,6 +83,19 @@ export class CollectionMapper {
 
     const developer = collectionOrError.value;
     return Result.ok(developer);
+  }
+
+  public static toDomainList(
+    entities: CollectionDoc[],
+  ): Result<Collection[], DomainValidationError> {
+    const colelctionsOrErrors = entities.map((entity) => this.toDomain(entity));
+    const combinedResults = Result.combine(colelctionsOrErrors);
+
+    if (combinedResults.isErr()) {
+      return Result.fail(new DomainValidationError(combinedResults.error.message));
+    }
+
+    return Result.ok(combinedResults.value);
   }
 
   static toDto(entity: CollectionDoc): CollectionDto {

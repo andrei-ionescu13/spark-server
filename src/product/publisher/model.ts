@@ -15,7 +15,6 @@ const PublisherSchema = new Schema<PublisherDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

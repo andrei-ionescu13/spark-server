@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../AppError';
 import { Controller } from '../../../../Controller';
 import { DeleteFeatureBulkRequestDto } from './deleteFeatureBulkRequestDto';
-import { DeleteFeatureBulkUseCase } from './deleteFeaturerBulkUseCase';
+import { DeleteFeatureBulkError, DeleteFeatureBulkUseCase } from './deleteFeaturerBulkUseCase';
 
 export class DeleteFeatureBulkController extends Controller {
   constructor(private useCase: DeleteFeatureBulkUseCase) {
@@ -22,6 +22,9 @@ export class DeleteFeatureBulkController extends Controller {
         const error = result.error;
 
         switch (error.constructor) {
+          case DeleteFeatureBulkError.FeatureIsUsed:
+            return this.notFound(res, error.message);
+
           case UseCaseErrors.NotFound:
             return this.notFound(res, error.message);
 

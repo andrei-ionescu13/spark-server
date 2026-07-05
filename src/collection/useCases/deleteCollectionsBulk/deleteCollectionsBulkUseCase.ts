@@ -1,40 +1,53 @@
 import { UseCaseErrors } from '../../../AppError';
-import { Either, Result, left, right } from '../../../Result';
+import { Result } from '../../../Result';
 import { UploaderService } from '../../../services/uploaderService';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { CollectionCommandsRepoI } from '../../repo/commands';
+import { CollectionQueriesRepoI } from '../../repo/queries';
 import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkRequestDto';
 
-type Response = Either<UseCaseErrors.UnexpectedError, Result<any>>;
+type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class DeleteCollectionsBulkUseCase
   implements UseCase<DeleteCollectionsBulkRequestDto, Response>
 {
-  constructor(private collectionRepo: CollectionRepoI, private uplouaderService: UploaderService) {}
+  constructor(
+    private collectionCommandsRepo: CollectionCommandsRepoI,
+    private collectionQueriesRepo: CollectionQueriesRepoI,
+    private uploaderService: UploaderService,
+  ) {}
 
-  deleteCollection = async (collectionId) => {
-    const collection = await this.collectionRepo.getCollection(collectionId);
+  deleteCollection = async (
+    collectionId: string,
+  ): Promise<Result<undefined, UseCaseErrors.NotFound>> => {
+    const collection = await this.collectionQueriesRepo.getCollection(collectionId);
     const found = !!collection;
 
     if (!found) {
-      return left(new UseCaseErrors.NotFound('Collection not found'));
+      return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
     }
 
-    await this.collectionRepo.deleteCollection(collectionId);
-    await this.uplouaderService.delete(collection.cover.public_id);
+    await this.collectionCommandsRepo.deleteCollection(collectionId);
+    await this.uploaderService.delete(collection.cover.publicId);
 
-    return collection;
+    return Result.ok();
   };
 
   execute = async (request: DeleteCollectionsBulkRequestDto): Promise<Response> => {
     const { ids } = request;
     try {
-      await Promise.all(ids.map((id) => this.deleteCollection(id)));
+      const deletionResults = Result.combine(
+        await Promise.all(ids.map((id) => this.deleteCollection(id))),
+      );
 
-      return right(Result.ok());
+      if (deletionResults.isErr()) {
+        return Result.fail(deletionResults.error);
+      }
+
+      return Result.ok();
     } catch (error) {
       console.log(error);
-      return left(new UseCaseErrors.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

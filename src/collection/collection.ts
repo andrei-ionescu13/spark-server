@@ -2,7 +2,7 @@ import * as z from 'zod';
 import { textUtils } from '../../utils/textUtils';
 import { Asset } from '../blog/article/asset';
 import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../Meta';
+import { Meta } from '../meta';
 import { Result } from '../Result';
 import { zodDomainValidationError } from '../zodErrors';
 import { CollectionDescription } from './collectionDescription';
@@ -20,6 +20,7 @@ interface CollectionProps {
   updatedAt: Date | null;
   isDeal: boolean;
   _id: string;
+  products: string[];
 }
 
 interface CollectionCreateProps
@@ -43,6 +44,7 @@ export class Collection {
         _id: z.uuidv7(),
         startDate: z.date(),
         endDate: z.date().optional(),
+        products: z.array(z.uuidv7()).min(1),
       })
       .refine((data) => data.endDate && data.startDate < data.endDate, {
         message: 'Start date must be before end date',
@@ -70,6 +72,41 @@ export class Collection {
     );
   }
 
+  public update(props: CollectionCreateProps): Result<undefined, DomainValidationError> {
+    const schema = z
+      .object({
+        slug: z.string().min(1).optional(),
+        isDeal: z.boolean(),
+        startDate: z.date(),
+        endDate: z.date().optional(),
+        products: z.array(z.uuidv7()).min(1),
+      })
+      .refine((data) => data.endDate && data.startDate < data.endDate, {
+        message: 'Start date must be before end date',
+        path: ['startDate'],
+      })
+      .refine((data) => data.endDate && data.endDate > data.startDate, {
+        message: 'End date must be after start date',
+        path: ['endDate'],
+      });
+
+    const result = schema.safeParse(props);
+
+    if (result.error) {
+      return Result.fail(zodDomainValidationError(result.error));
+    }
+
+    this.props = {
+      ...this.props,
+      ...props,
+      updatedAt: new Date(),
+      slug: props.slug || textUtils.generateSlug(props.title.value),
+      endDate: props.endDate || this.props.endDate,
+    };
+
+    return Result.ok();
+  }
+
   public deactivate(): Result<undefined, DomainValidationError> {
     const now = new Date();
     if (this.props.endDate && this.props.endDate < now) {
@@ -77,6 +114,16 @@ export class Collection {
     }
 
     this.props.endDate = now;
+    return Result.ok();
+  }
+
+  public removeProduct(productId: string): Result<undefined, DomainValidationError> {
+    const index = this.props.products.findIndex((product) => product === productId);
+    if (index === -1) {
+      return Result.fail(new DomainValidationError('Product is not in this collection'));
+    }
+
+    this.props.products.splice(index, 1);
     return Result.ok();
   }
 
@@ -122,5 +169,9 @@ export class Collection {
 
   get _id() {
     return this.props._id;
+  }
+
+  get products() {
+    return this.props.products;
   }
 }

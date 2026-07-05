@@ -1,5 +1,5 @@
-import { ProductModel } from '../../../../../product/model';
-import { ProductRepo } from '../../../../../product/productRepo';
+import { ProductModel } from '../../../model';
+import { ProductRepo } from '../../../productRepo';
 import { OperatingSystemModel } from '../../model';
 import { OperatingSystemCommandsRepo } from '../../repo/commands';
 import { OperatingSystemQueriesRepo } from '../../repo/queries';

@@ -1,6 +1,6 @@
-import { ProductModel } from '../../../../../product/model';
-import { ProductRepo } from '../../../../../product/productRepo';
 import { CloudinaryUploaderService } from '../../../../services/uploaderService';
+import { ProductModel } from '../../../model';
+import { ProductRepo } from '../../../productRepo';
 import { PublisherModel } from '../../model';
 import { PublisherCommandsRepo } from '../../repo/commands';
 import { PublisherQueriesRepo } from '../../repo/queries';

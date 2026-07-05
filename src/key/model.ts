@@ -13,7 +13,6 @@ export interface KeyDoc {
 const KeySchema = new Schema<KeyDoc>({
   _id: {
     type: String,
-    unique: true,
     required: true,
   },
   product: {

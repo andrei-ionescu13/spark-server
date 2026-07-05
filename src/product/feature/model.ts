@@ -13,7 +13,6 @@ const FeatureSchema = new Schema<FeatureDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

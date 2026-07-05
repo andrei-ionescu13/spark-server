@@ -32,7 +32,7 @@ export class SearchTranslationsUseCase implements UseCase<SearchTranslationsRequ
 
     try {
       if (!query.languageCodes) {
-        const translationsLanguages = await this.languageQueriesRepoI.listTranslationsLanguages();
+        const translationsLanguages = await this.languageQueriesRepoI.listLanguages();
         query.languageCodes = translationsLanguages.map(
           (translationsLanguage) => translationsLanguage.code,
         );

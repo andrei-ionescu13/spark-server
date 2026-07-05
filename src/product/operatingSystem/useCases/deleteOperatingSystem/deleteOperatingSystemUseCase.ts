@@ -1,7 +1,7 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
+import { ProductRepoI } from '../../../productRepo';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
 import { DeleteOperatingSystemRequestDto } from './deleteOperatingSystemrRequestDto';

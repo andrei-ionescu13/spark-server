@@ -1,29 +1,41 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
+import { UseCaseError } from '../../../../UseCaseError';
+import { ProductQueriesRepoI } from '../../../repo/queries';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
 import { DeleteFeatureBulkRequestDto } from './deleteFeatureBulkRequestDto';
 
-type Response = Result<undefined, UseCaseErrors.UnexpectedError>;
+export namespace DeleteFeatureBulkError {
+  export class FeatureIsUsed extends UseCaseError {
+    constructor() {
+      super('A Product is using this feature');
+    }
+  }
+}
+
+type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class DeleteFeatureBulkUseCase implements UseCase<DeleteFeatureBulkRequestDto, Response> {
   constructor(
-    private productRepo: ProductRepoI,
+    private productQueriesRepo: ProductQueriesRepoI,
     private featureCommandsRepo: FeatureCommandsRepoI,
     private featureQueriesRepo: FeatureQueriesRepoI,
   ) {}
 
   deleteFeature = async (featureId: string) => {
     const feature = await this.featureQueriesRepo.getFeature(featureId);
-
     if (!feature) {
       return Result.fail(new UseCaseErrors.NotFound('Feature not found'));
     }
 
+    const product = await this.productQueriesRepo.getProductByGenre(featureId);
+    if (!product) {
+      return Result.fail(new DeleteFeatureBulkError.FeatureIsUsed());
+    }
+
     await this.featureCommandsRepo.deleteFeature(featureId);
-    await this.productRepo.deleteFeature(featureId);
 
     return Result.ok();
   };

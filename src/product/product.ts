@@ -40,7 +40,7 @@ interface ProductProps {
   keys: string[];
   rating: ProductRating;
   reviews: string[];
-  discount: string;
+  discount: string | null;
 }
 
 interface ProductCreateProps extends Omit<ProductProps, 'createdAt' | 'updatedAt' | 'slug'> {
@@ -104,6 +104,26 @@ export class Product {
     }
 
     this.props.keys.splice(index, 1);
+    return Result.ok();
+  }
+
+  public addDiscount(discountId: string): Result<undefined, DomainValidationError> {
+    if (this.props.discount === discountId) {
+      return Result.fail(
+        new DomainValidationError(`Discount ${discountId} is already applied to product`),
+      );
+    }
+
+    this.props.discount = discountId;
+    return Result.ok();
+  }
+
+  public removeDiscount(): Result<undefined, DomainValidationError> {
+    if (!this.props.discount) {
+      return Result.fail(new DomainValidationError('Products does not have a discount'));
+    }
+
+    this.props.discount = null;
     return Result.ok();
   }
 

@@ -1,29 +1,41 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
+import { UseCaseError } from '../../../../UseCaseError';
+import { ProductQueriesRepoI } from '../../../repo/queries';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';
 import { DeleteGenreBulkRequestDto } from './deleteGenreBulkRequestDto';
+
+export namespace DeleteGenreBulkErrors {
+  export class GenreIsUsed extends UseCaseError {
+    constructor() {
+      super('A Product is using this genre');
+    }
+  }
+}
 
 type Response = Result<undefined, UseCaseErrors.UnexpectedError>;
 
 export class DeleteGenreBulkUseCase implements UseCase<DeleteGenreBulkRequestDto, Response> {
   constructor(
-    private productRepo: ProductRepoI,
+    private productQueriesRepo: ProductQueriesRepoI,
     private genreCommandsRepo: GenreCommandsRepoI,
     private genreQueriesRepo: GenreQueriesRepoI,
   ) {}
 
   deleteGenre = async (genreId: string) => {
     const genre = await this.genreQueriesRepo.getGenre(genreId);
-
     if (!genre) {
       return Result.fail(new UseCaseErrors.NotFound('Genre not found'));
     }
 
+    const product = await this.productQueriesRepo.getProductByGenre(genreId);
+    if (!product) {
+      return Result.fail(new DeleteGenreBulkErrors.GenreIsUsed());
+    }
+
     await this.genreCommandsRepo.deleteGenre(genreId);
-    await this.productRepo.deleteProductsGenre(genreId);
 
     return Result.ok();
   };

@@ -1,6 +1,6 @@
-import { AssetDto, AssetPersistance } from '../blog/article/assetMapper';
+import { AssetDto, AssetMapper, AssetPersistance } from '../blog/article/assetMapper';
 import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../Meta';
+import { Meta } from '../meta';
 import { MetaDto, MetaPersistance } from '../metaMapper';
 import { Result } from '../Result';
 import { ProductDoc } from './model';
@@ -89,7 +89,7 @@ interface ProductPersistance {
     };
   };
   reviews: string[];
-  discount: string;
+  discount: string | null;
 }
 
 export class ProductMapper {
@@ -98,7 +98,6 @@ export class ProductMapper {
     const statusOrError = ProductStatus.create(entity.status);
     const titleOrError = ProductTitle.create(entity.title);
     const priceOrError = ProductPrice.create(entity.price);
-    const linkOrError = ProductLink.create(entity.link);
     const markdownOrError = ProductMarkdown.create(entity.markdown);
     const minimumRequirementsOrError = ProductRequirements.create(entity.minimumRequirements);
     const recommendedRequirementsOrError = ProductRequirements.create(
@@ -106,17 +105,33 @@ export class ProductMapper {
     );
     const ratingOrError = ProductRating.create(entity.rating);
 
-    const result = Result.combine([
+    let linkOrError: Result<ProductLink, DomainValidationError> | undefined;
+    if (entity.link) {
+      linkOrError = ProductLink.create(entity.link);
+    }
+
+    const coverOrError = AssetMapper.toDomain(entity.cover);
+    const imagesOrError = AssetMapper.toDomainList(entity.images);
+    const selectedImagesOrError = AssetMapper.toDomainList(entity.selectedImages);
+
+    const results = [
       metaOrError,
       statusOrError,
       titleOrError,
       priceOrError,
-      linkOrError,
       markdownOrError,
       minimumRequirementsOrError,
       recommendedRequirementsOrError,
       ratingOrError,
-    ]);
+      coverOrError,
+      imagesOrError,
+      selectedImagesOrError,
+    ];
+    if (linkOrError) {
+      results.push(linkOrError);
+    }
+
+    const result = Result.combine(results);
 
     if (result.isErr()) {
       return Result.fail(new DomainValidationError(result.error.message));
@@ -126,17 +141,20 @@ export class ProductMapper {
     const status = statusOrError.value;
     const title = titleOrError.value;
     const price = priceOrError.value;
-    const link = linkOrError.value;
+    const link = linkOrError ? linkOrError.value : null;
     const markdown = markdownOrError.value;
     const minimumRequirements = minimumRequirementsOrError.value;
     const recommendedRequirements = recommendedRequirementsOrError.value;
     const rating = ratingOrError.value;
+    const cover = coverOrError.value;
+    const images = imagesOrError.value;
+    const selectedImages = selectedImagesOrError.value;
 
     const productOrError = Product.create({
       _id: entity._id,
-      cover: entity.cover,
-      images: entity.images,
-      selectedImages: entity.selectedImages,
+      cover,
+      images,
+      selectedImages,
       videos: entity.videos,
       genres: entity.genres,
       releaseDate: entity.releaseDate,
@@ -168,6 +186,10 @@ export class ProductMapper {
 
     const developer = productOrError.value;
     return Result.ok(developer);
+  }
+
+  static toDomainList(entities: ProductDoc[]): Array<Result<Product, DomainValidationError>> {
+    return entities.map((entity) => this.toDomain(entity));
   }
 
   static toDto(entity: any): ProductDto {
@@ -209,9 +231,9 @@ export class ProductMapper {
   static toPersistance(entity: Product): ProductPersistance {
     return {
       _id: entity._id,
-      cover: entity.cover,
-      images: entity.images,
-      selectedImages: entity.selectedImages,
+      cover: AssetMapper.toPersistance(entity.cover),
+      images: AssetMapper.toPersistanceList(entity.images),
+      selectedImages: AssetMapper.toPersistanceList(entity.selectedImages),
       videos: entity.videos,
       genres: entity.genres,
       releaseDate: entity.releaseDate,
@@ -240,5 +262,9 @@ export class ProductMapper {
       recommendedRequirements: entity.recommendedRequirements.value,
       rating: entity.rating,
     };
+  }
+
+  static toPersistanceList(entities: Product[]): ProductPersistance[] {
+    return entities.map((entity) => this.toPersistance(entity));
   }
 }

@@ -20,7 +20,6 @@ export class DeactivateCouponUseCase implements UseCase<DeactivateCouponRequestD
       }
 
       const coupon = couponOrError.value;
-
       if (!coupon) {
         return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
       }

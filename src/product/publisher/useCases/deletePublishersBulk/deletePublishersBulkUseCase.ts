@@ -1,9 +1,9 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../use-case';
 import { UseCaseError } from '../../../../UseCaseError';
+import { ProductRepoI } from '../../../productRepo';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { PublisherQueriesRepoI } from '../../repo/queries';
 import { DeletePublishersBulkRequestDto } from './deletePublishersBulkRequestDto';

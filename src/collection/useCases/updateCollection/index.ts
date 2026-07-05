@@ -1,12 +1,15 @@
 import { CloudinaryUploaderService } from '../../../services/uploaderService';
-import { CollectionRepo } from '../../collectionRepo';
 import { CollectionModel } from '../../model';
+import { CollectionCommandsRepo } from '../../repo/commands';
 import { UpdateCollectionController } from './updateCollectionController';
 import { UpdateCollectionUseCase } from './updateCollectionUseCase';
 
-const collectionRepo = new CollectionRepo(CollectionModel);
+const collectionCommandsRepo = new CollectionCommandsRepo(CollectionModel);
 
 const uploaderService = new CloudinaryUploaderService();
 
-const updateCollectionUseCase = new UpdateCollectionUseCase(collectionRepo, uploaderService);
+const updateCollectionUseCase = new UpdateCollectionUseCase(
+  collectionCommandsRepo,
+  uploaderService,
+);
 export const updateCollectionController = new UpdateCollectionController(updateCollectionUseCase);

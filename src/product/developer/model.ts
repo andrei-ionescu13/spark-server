@@ -15,7 +15,6 @@ const DeveloperSchema = new Schema<DeveloperDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

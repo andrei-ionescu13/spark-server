@@ -1,9 +1,9 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../use-case';
 import { UseCaseError } from '../../../../UseCaseError';
+import { ProductQueriesRepoI } from '../../../repo/queries';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
 import { DeleteDevelopersBulkRequestDto } from './deleteDevelopersBulkRequestDto';
@@ -29,7 +29,7 @@ export class DeleteDevelopersBulkUseCase
   constructor(
     private developerCommandsRepo: DeveloperCommandsRepoI,
     private developerQueriesRepo: DeveloperQueriesRepoI,
-    private productRepo: ProductRepoI,
+    private productQueriesRepo: ProductQueriesRepoI,
     private uploaderService: UploaderService,
   ) {}
 
@@ -43,8 +43,7 @@ export class DeleteDevelopersBulkUseCase
       return Result.fail(new UseCaseErrors.NotFound('Developer not found'));
     }
 
-    //change this
-    const product = await this.productRepo.getProductByDeveloper(developerId);
+    const product = await this.productQueriesRepo.getProductByGenre(developerId);
     if (!product) {
       return Result.fail(new DeleteDevelopersBulkErrors.DeveloperIsUsed());
     }

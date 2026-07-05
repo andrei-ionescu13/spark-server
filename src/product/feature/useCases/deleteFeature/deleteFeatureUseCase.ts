@@ -1,18 +1,28 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
+import { UseCaseError } from '../../../../UseCaseError';
+import { ProductQueriesRepoI } from '../../../repo/queries';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
 import { DeleteFeatureRequestDto } from './deleteFeaturerRequestDto';
 
-//change this check if there s products using this feature
+export namespace DeleteFeatureErrors {
+  export class FeatureInUse extends UseCaseError {
+    constructor() {
+      super('A product is using this feature');
+    }
+  }
+}
 
-type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
+type Response = Result<
+  undefined,
+  DeleteFeatureErrors.FeatureInUse | UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError
+>;
 
 export class DeleteFeatureUseCase implements UseCase<DeleteFeatureRequestDto, Response> {
   constructor(
-    private productRepo: ProductRepoI,
+    private productQueriesRepo: ProductQueriesRepoI,
     private featureCommandsRepo: FeatureCommandsRepoI,
     private featureQueriesRepo: FeatureQueriesRepoI,
   ) {}
@@ -27,9 +37,12 @@ export class DeleteFeatureUseCase implements UseCase<DeleteFeatureRequestDto, Re
         return Result.fail(new UseCaseErrors.NotFound('Feature not found'));
       }
 
-      await this.featureCommandsRepo.deleteFeature(featureId);
-      await this.productRepo.deleteFeature(featureId);
+      const product = await this.productQueriesRepo.getProductByFeature(featureId);
+      if (product) {
+        return Result.fail(new DeleteFeatureErrors.FeatureInUse());
+      }
 
+      await this.featureCommandsRepo.deleteFeature(featureId);
       return Result.ok();
     } catch (error) {
       console.log(error);

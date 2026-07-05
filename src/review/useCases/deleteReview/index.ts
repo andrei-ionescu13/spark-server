@@ -1,5 +1,5 @@
-import { ProductModel } from '../../../../product/model';
-import { ProductRepo } from '../../../../product/productRepo';
+import { ProductModel } from '../../../product/model';
+import { ProductRepo } from '../../../product/productRepo';
 import { UserModel } from '../../../users/model';
 import { UserCommandsRepo } from '../../../users/repo/commands';
 import { ReviewModel } from '../../model';

@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../src/AppError';
+import { UseCaseErrors } from '../../../AppError';
 import { Either, left, Result, right } from '../../../src/Result';
 import { UseCase } from '../../../src/use-case';
 import { ProductRepoI } from '../../productRepo';

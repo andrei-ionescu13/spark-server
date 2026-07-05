@@ -1,16 +1,15 @@
 import mongoose from 'mongoose';
-import { AssetSchema } from '../Asset';
-import { Asset } from '../blog/article/asset';
-import { MetaDoc, MetaSchema } from '../Meta';
+import { AssetDoc, AssetSchema } from '../Asset';
+import { MetaDoc, MetaSchema } from '../meta';
 const { Schema } = mongoose;
 
 type Status = 'draft' | 'published' | 'archived';
 
 export interface ProductDoc {
   _id: string;
-  cover: Asset;
-  images: Asset[];
-  selectedImages: Asset[];
+  cover: AssetDoc;
+  images: AssetDoc[];
+  selectedImages: AssetDoc[];
   videos: string[];
   status: Status;
   title: string;
@@ -18,12 +17,12 @@ export interface ProductDoc {
   genres: string[];
   releaseDate: Date;
   createdAt: Date;
-  updatedAt: Date;
+  updatedAt: Date | null;
   publisher: string;
   platform: string;
   developers: string[];
   features: string[];
-  link: string;
+  link: string | null;
   os: string;
   markdown: string;
   meta: MetaDoc;
@@ -42,14 +41,13 @@ export interface ProductDoc {
     };
   };
   reviews: string[];
-  discount: string;
+  discount: string | null;
 }
 
 const ProductSchema = new Schema<ProductDoc>({
   _id: {
     type: String,
-    requi: true,
-    unique: true,
+    required: true,
   },
   cover: AssetSchema,
   images: [AssetSchema],

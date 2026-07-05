@@ -1,9 +1,9 @@
-import { ProductRepoI } from '../../../../../product/productRepo';
 import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../use-case';
 import { UseCaseError } from '../../../../UseCaseError';
+import { ProductRepoI } from '../../../productRepo';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
 import { DeleteDeveloperRequestDto } from './deleteDeveloperRequestDto';
@@ -38,7 +38,6 @@ export class DeleteDeveloperUseCase implements UseCase<DeleteDeveloperRequestDto
         return Result.fail(new UseCaseErrors.NotFound('Developer not found'));
       }
 
-      //change this
       const product = await this.productRepo.getProductByDeveloper(developerId);
       if (!product) {
         return Result.fail(new DeleteDeveloperErrors.DeveloperIsUsed());

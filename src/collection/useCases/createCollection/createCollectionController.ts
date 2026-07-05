@@ -39,7 +39,7 @@ export class CreateCollectionController extends Controller {
       }),
       description: z.string().min(8).optional(),
       isDeal: z.coerce.boolean(),
-      products: z.array(z.uuidv7()),
+      products: z.array(z.uuidv7()).min(1),
       slug: z.string().min(1),
       startDate: z.date(),
       endDate: z.coerce.date().optional(),

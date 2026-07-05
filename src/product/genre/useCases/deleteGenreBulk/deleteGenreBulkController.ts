@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../AppError';
 import { Controller } from '../../../../Controller';
 import { DeleteGenreBulkRequestDto } from './deleteGenreBulkRequestDto';
-import { DeleteGenreBulkUseCase } from './deleteGenrerBulkUseCase';
+import { DeleteGenreBulkErrors, DeleteGenreBulkUseCase } from './deleteGenrerBulkUseCase';
 
 export class DeleteGenreBulkController extends Controller {
   constructor(private useCase: DeleteGenreBulkUseCase) {
@@ -22,6 +22,9 @@ export class DeleteGenreBulkController extends Controller {
         const error = result.error;
 
         switch (error.constructor) {
+          case DeleteGenreBulkErrors.GenreIsUsed:
+            return this.forbidden(res, error.message);
+
           case UseCaseErrors.NotFound:
             return this.notFound(res, error.message);
 

@@ -12,7 +12,6 @@ const CurrencySchema = new Schema<CurrencyDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

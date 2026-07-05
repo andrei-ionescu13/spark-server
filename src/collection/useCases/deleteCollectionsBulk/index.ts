@@ -1,15 +1,18 @@
 import { CloudinaryUploaderService } from '../../../services/uploaderService';
-import { CollectionRepo } from '../../collectionRepo';
 import { CollectionModel } from '../../model';
+import { CollectionCommandsRepo } from '../../repo/commands';
+import { CollectionQueriesRepo } from '../../repo/queries';
 import { DeleteCollectionsBulkController } from './deleteCollectionsBulkController';
 import { DeleteCollectionsBulkUseCase } from './deleteCollectionsBulkUseCase';
 
-const collectionRepo = new CollectionRepo(CollectionModel);
+const collectionCommandsRepo = new CollectionCommandsRepo(CollectionModel);
+const collectionQueriesRepo = new CollectionQueriesRepo(CollectionModel);
 
 const uploaderService = new CloudinaryUploaderService();
 
 const deleteCollectionsBulkUseCase = new DeleteCollectionsBulkUseCase(
-  collectionRepo,
+  collectionCommandsRepo,
+  collectionQueriesRepo,
   uploaderService,
 );
 export const deleteCollectionsBulkController = new DeleteCollectionsBulkController(

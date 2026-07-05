@@ -1,29 +1,36 @@
 import { UseCaseErrors } from '../../../AppError';
-import { Either, left, Result, right } from '../../../Result';
+import { Result } from '../../../Result';
 import { UseCase } from '../../../use-case';
-import { CollectionRepoI } from '../../collectionRepo';
+import { CollectionDto } from '../../collectionMapper';
+import { CollectionQueriesRepoI } from '../../repo/queries';
 import { SearchCollectionsRequestDto } from './searchCollectionsRequestDto';
 
-type Response = Either<UseCaseErrors.UnexpectedError, Result<any>>;
+type Response = Result<
+  {
+    collections: CollectionDto[];
+    count: number;
+  },
+  UseCaseErrors.UnexpectedError
+>;
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
 export class SearchCollectionsUseCase implements UseCase<SearchCollectionsRequestDto, Response> {
-  constructor(private collectionRepo: CollectionRepoI) {}
+  constructor(private collectionQueriesRepo: CollectionQueriesRepoI) {}
 
   execute = async (request: SearchCollectionsRequestDto): Promise<Response> => {
-    const query = request;
-    query.limit = query?.limit && query.limit <= MAX_LIMIT ? query.limit : LIMIT;
+    const query = {
+      ...request,
+      limit: request?.limit && request.limit <= MAX_LIMIT ? request.limit : LIMIT,
+    };
 
     try {
-      const collections = await this.collectionRepo.searchCollections(query);
-      const count = await this.collectionRepo.getCollectionsCount(query);
-
-      return right(Result.ok<any>({ collections, count }));
+      const searchResult = await this.collectionQueriesRepo.searchCollections(query);
+      return Result.ok(searchResult);
     } catch (error) {
       console.log(error);
-      return left(new UseCaseErrors.UnexpectedError(error));
+      return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }
   };
 }

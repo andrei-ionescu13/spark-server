@@ -1,5 +1,5 @@
 import { DomainValidationError } from './blog/article/status';
-import { Meta, MetaDoc } from './Meta';
+import { Meta, MetaDoc } from './meta';
 import { Result } from './Result';
 
 export interface MetaDto {

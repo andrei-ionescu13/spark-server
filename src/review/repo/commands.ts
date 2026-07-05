@@ -8,6 +8,7 @@ import { ReviewMapper } from '../reviewMapper';
 export interface ReviewCommandsRepoI {
   save: (review: Review) => Promise<void>;
   deleteReview: (id: string) => Promise<void>;
+  deleteReviews: (ids: string[]) => Promise<void>;
   getReview: (id: string) => Promise<Result<Review | null, DomainValidationError>>;
 }
 
@@ -21,6 +22,10 @@ export class ReviewCommandsRepo implements ReviewCommandsRepoI {
 
   deleteReview = async (id: string): Promise<void> => {
     await this.reviewModel.deleteOne({ _id: id });
+  };
+
+  deleteReviews = async (ids: string[]): Promise<void> => {
+    await this.reviewModel.deleteMany({ _id: { $in: ids } });
   };
 
   getReview = async (id: String): Promise<Result<Review | null, DomainValidationError>> => {

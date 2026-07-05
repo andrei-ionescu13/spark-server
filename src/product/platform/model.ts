@@ -16,7 +16,6 @@ const PlatformSchema = new Schema<PlatformDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

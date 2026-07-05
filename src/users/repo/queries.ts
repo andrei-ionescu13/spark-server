@@ -19,7 +19,7 @@ type SearchUserReviewsQuery = {
   limit: number;
 };
 
-export interface UserRepoI {
+export interface UserQueriesRepoI {
   getUser: (id: string) => Promise<UserDto | null>;
   searchUsers: (query: SearchUsersQuery) => Promise<{ users: UserDto[]; count: number }>;
   searchUserReviews: (
@@ -29,7 +29,7 @@ export interface UserRepoI {
   ) => Promise<{ reviews: any[]; count: number }>;
 }
 
-export class UserRepo implements UserRepoI {
+export class UserQueriesRepo implements UserQueriesRepoI {
   constructor(private userModel: Model<UserDoc>) {}
 
   getUser = async (id: string): Promise<UserDto | null> => {

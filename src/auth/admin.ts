@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { Result } from '../Result';
-import { zodError } from '../blog/article/status';
+import { zodDomainValidationError } from '../zodErrors';
 
 interface AdminProps {
   _id: string;
@@ -20,7 +20,7 @@ export class Admin {
     const result = schema.safeParse(props);
 
     if (result.error) {
-      return Result.fail(zodError(result.error));
+      return Result.fail(zodDomainValidationError(result.error));
     }
 
     return Result.ok(new Admin(props));

@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ProductModel } from '../product/model';
-import { ProductRepo } from '../product/productRepo';
 import { KeyRepo } from '../src/key/keyRepo';
 import { KeyModel } from '../src/key/model';
+import { ProductModel } from '../src/product/model';
+import { ProductRepo } from '../src/product/productRepo';
 
 export const generateKeys = async () => {
   const productRepo = new ProductRepo(ProductModel);

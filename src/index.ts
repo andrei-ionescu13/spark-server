@@ -18,16 +18,16 @@ import { genreRoutes } from './product/genre';
 import { operatingSystemRoutes } from './product/operatingSystem';
 // import { orderRoutes } from '../orders/index';
 import { platformRoutes } from './product/platform';
-// import { productRoutes } from '../product/index';
 import { publisherRoutes } from './product/publisher';
 // import { reviewsRoutes } from '../review/index';
 // import { translationsLanguageRoutes } from '../translations-language/index';
 // import { userRoutes } from '../users/index';
-// import { authRoutes } from './auth';
+import { authRoutes } from './auth';
 import { articleCategoryRoutes } from './blog/article-category/index';
 import { articleTagRoutes } from './blog/article-tag/index';
 import { articlesRoutes } from './blog/article/index';
 import { couponRoutes } from './coupon';
+import { productRoutes } from './product';
 dotenv.config();
 
 const app = express();
@@ -43,7 +43,7 @@ const run = async () => {
 
   app.use(
     cors({
-      origin: '*',
+      origin: 'http://localhost:5173',
       credentials: true,
     }),
   );
@@ -52,7 +52,7 @@ const run = async () => {
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use('/public', express.static('public'));
-  // app.use('/', authRoutes);
+  app.use('/', authRoutes);
 
   // app.use(verifyToken);
 
@@ -81,7 +81,7 @@ const run = async () => {
   app.use('/platforms', platformRoutes);
   app.use('/currencies', currencyRoutes);
   app.use('/genres', genreRoutes);
-  // app.use('/products', productRoutes);
+  app.use('/products', productRoutes);
   // app.use('/users', userRoutes);
   app.use('/keys', keysRoutes);
   // app.use('/collections', collectionsRoutes);

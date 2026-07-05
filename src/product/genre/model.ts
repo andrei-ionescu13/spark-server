@@ -13,7 +13,6 @@ const GenreSchema = new Schema<GenreDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

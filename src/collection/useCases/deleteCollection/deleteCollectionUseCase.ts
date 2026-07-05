@@ -7,13 +7,13 @@ import { CollectionCommandsRepoI } from '../../repo/commands';
 import { CollectionQueriesRepoI } from '../../repo/queries';
 import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
 
-type Response = Result<CollectionDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<CollectionDto, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class DeleteCollectionUseCase implements UseCase<DeleteCollectionRequestDto, Response> {
   constructor(
     private collectionCommandsRepo: CollectionCommandsRepoI,
     private collectionQueriesRepo: CollectionQueriesRepoI,
-    private uplouaderService: UploaderService,
+    private uploaderService: UploaderService,
   ) {}
 
   execute = async (request: DeleteCollectionRequestDto): Promise<Response> => {
@@ -26,7 +26,7 @@ export class DeleteCollectionUseCase implements UseCase<DeleteCollectionRequestD
       }
 
       await this.collectionCommandsRepo.deleteCollection(collectionId);
-      await this.uplouaderService.delete(collection.cover.publicId);
+      await this.uploaderService.delete(collection.cover.publicId);
 
       return Result.ok(collection);
     } catch (error) {

@@ -9,7 +9,12 @@ export interface UpdateCollectionRequestDto {
   };
   slug: string;
   title: string;
-  coverFile?: Express.Multer.File;
+  coverFile?: {
+    originalname: string;
+    mimetype: 'image/png' | 'image/jpeg' | 'image/jpg' | 'image/webp';
+    size: number;
+    buffer: Buffer;
+  };
   startDate: Date;
   isDeal: boolean;
   endDate?: Date;

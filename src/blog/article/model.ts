@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { AssetDoc, AssetSchema } from '../../Asset';
-import { Meta, MetaSchema } from '../../Meta';
+import { Meta, MetaSchema } from '../../meta';
 const { Schema } = mongoose;
 
 type Status = 'draft' | 'published' | 'archived';

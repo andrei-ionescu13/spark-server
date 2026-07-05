@@ -24,7 +24,7 @@ export class SearchNamespacesUseCase implements UseCase<SearchNamespacesRequestD
 
     try {
       if (!query.languageCodes) {
-        const languages = await this.languageQueriesRepo.listTranslationsLanguages();
+        const languages = await this.languageQueriesRepo.listLanguages();
         query.languageCodes = languages.map((translationsLanguage) => translationsLanguage.code);
       }
 

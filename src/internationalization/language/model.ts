@@ -12,7 +12,6 @@ const LanguageSchema = new Schema<LanguageDoc>({
   _id: {
     type: String,
     required: true,
-    unique: true,
   },
   name: {
     type: String,

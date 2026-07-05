@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../src/Controller';
+import { Controller } from '../../../Controller';
 import { DeleteProductRequestDto } from './deleteProductRequestDto';
 import { DeleteProductUseCase } from './deleteProductUseCase';
 

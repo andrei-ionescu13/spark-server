@@ -10,7 +10,7 @@ export class UserEmail extends ValueObject<{ value: string }> {
   }
 
   static create(email: string): Result<UserEmail, DomainValidationError> {
-    const schema = z.string().email();
+    const schema = z.email();
     const validation = schema.safeParse(email);
 
     if (validation.error) return Result.fail(zodDomainValidationError(validation.error));

@@ -4,6 +4,9 @@ import { ProductDto, ProductMapper } from '../productMapper';
 
 export interface ProductQueriesRepoI {
   getProduct: (id: string) => Promise<ProductDto | null>;
+  getProductByDeveloper: (developerId: string) => Promise<ProductDto | null>;
+  getProductByGenre: (genreId: string) => Promise<ProductDto | null>;
+  getProductByFeature: (featureId: string) => Promise<ProductDto | null>;
   searchProductsByKeys: (keyValue: string) => Promise<ProductDto[]>;
   getProductByProps: (props: Array<Record<string, any>>) => Promise<ProductDto | null>;
 }
@@ -14,6 +17,36 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
   getProduct = async (id: string): Promise<ProductDto | null> => {
     const doc = await this.productModel
       .findOne({ _id: id })
+      .populate('genres publisher platform discount developers features os')
+      .lean();
+
+    if (!doc) return null;
+    return ProductMapper.toDto(doc);
+  };
+
+  getProductByDeveloper = async (developerId: string): Promise<ProductDto | null> => {
+    const doc = await this.productModel
+      .findOne({ developers: developerId })
+      .populate('genres publisher platform discount developers features os')
+      .lean();
+
+    if (!doc) return null;
+    return ProductMapper.toDto(doc);
+  };
+
+  getProductByGenre = async (genreId: string): Promise<ProductDto | null> => {
+    const doc = await this.productModel
+      .findOne({ genres: genreId })
+      .populate('genres publisher platform discount developers features os')
+      .lean();
+
+    if (!doc) return null;
+    return ProductMapper.toDto(doc);
+  };
+
+  getProductByFeature = async (featureId: string): Promise<ProductDto | null> => {
+    const doc = await this.productModel
+      .findOne({ features: featureId })
       .populate('genres publisher platform discount developers features os')
       .lean();
 

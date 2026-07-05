@@ -1,3 +1,4 @@
+import { AssetDoc } from '../../Asset';
 import { Result } from '../../Result';
 import { Asset } from './asset';
 import { DomainValidationError } from './status';
@@ -15,40 +16,52 @@ export interface AssetDto {
 }
 
 export interface AssetPersistance {
-  publicId: string;
+  public_id: string;
   width: number;
   height: number;
   format: string;
-  resourceType?: 'image' | 'video' | 'raw' | 'auto';
-  createdAt: string;
+  resource_type?: 'image' | 'video' | 'raw' | 'auto';
+  created_at: string;
   url: string;
-  secureUrl: string;
-  originalFilename: string;
+  secure_url: string;
+  original_filename: string;
 }
 
 export class AssetMapper {
-  public static toDomain(entity): Result<Asset, DomainValidationError> {
-    const AssetOrError = Asset.create({
-      publicId: entity.publicId,
+  public static toDomain(entity: AssetDoc): Result<Asset, DomainValidationError> {
+    const assetOrError = Asset.create({
+      publicId: entity.public_id,
       width: entity.width,
       height: entity.height,
       format: entity.format,
-      resourceType: entity.resourceType,
-      createdAt: entity.createdAt,
+      resourceType: entity.resource_type,
+      createdAt: entity.created_at,
       url: entity.url,
-      secureUrl: entity.secureUrl,
-      originalFilename: entity.originalFilename,
+      secureUrl: entity.secure_url,
+      originalFilename: entity.original_filename,
     });
 
-    if (AssetOrError.isErr()) {
-      return Result.fail(new DomainValidationError(AssetOrError.error.message));
+    if (assetOrError.isErr()) {
+      return Result.fail(new DomainValidationError(assetOrError.error.message));
     }
 
-    const asset = AssetOrError.value;
+    const asset = assetOrError.value;
     return Result.ok(asset);
   }
 
-  static toDto(entity: any): AssetDto {
+  public static toDomainList(entities: AssetDoc[]): Result<Asset[], DomainValidationError> {
+    const results = entities.map((entity) => this.toDomain(entity));
+    const assetsOrError = Result.combine(results);
+
+    if (assetsOrError.isErr()) {
+      return Result.fail(new DomainValidationError(assetsOrError.error.message));
+    }
+
+    const assets = results.map((assetOrError) => assetOrError.value);
+    return Result.ok(assets);
+  }
+
+  public static toDto(entity: any): AssetDto {
     return {
       publicId: entity.publicId,
       width: entity.width,
@@ -62,21 +75,25 @@ export class AssetMapper {
     };
   }
 
-  static toDtoList(entities: any[]): AssetDto[] {
+  public static toDtoList(entities: any[]): AssetDto[] {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: Asset): AssetPersistance {
+  public static toPersistance(entity: Asset): AssetPersistance {
     return {
-      publicId: entity.publicId,
+      public_id: entity.publicId,
       width: entity.width,
       height: entity.height,
       format: entity.format,
-      resourceType: entity.resourceType,
-      createdAt: entity.createdAt,
+      resource_type: entity.resourceType,
+      created_at: entity.createdAt,
       url: entity.url,
-      secureUrl: entity.secureUrl,
-      originalFilename: entity.originalFilename,
+      secure_url: entity.secureUrl,
+      original_filename: entity.originalFilename,
     };
+  }
+
+  public static toPersistanceList(entities: Asset[]): AssetPersistance[] {
+    return entities.map((entity) => this.toPersistance(entity));
   }
 }

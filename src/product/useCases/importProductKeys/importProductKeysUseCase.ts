@@ -1,5 +1,5 @@
+import { UseCaseErrors } from '../../../AppError';
 import { KeyRepoI } from '../../../key/keyRepo';
-import { UseCaseErrors } from '../../../src/AppError';
 import { Either, Result, left, right } from '../../../src/Result';
 import { UseCase } from '../../../src/use-case';
 import { UseCaseError } from '../../../src/UseCaseError';

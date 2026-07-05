@@ -21,7 +21,7 @@ export class UploadNamespacesUseCase implements UseCase<UploadNamespacesRequestD
 
   execute = async (request: UploadNamespacesRequestDto): Promise<Response> => {
     try {
-      const languages = await this.languageQueriesRepo.listTranslationsLanguages();
+      const languages = await this.languageQueriesRepo.listLanguages();
       const namespaces = await this.namespaceQueriesRepo.listNamespaces();
       const languagesCodes = languages.map((language) => language.code);
 

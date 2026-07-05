@@ -54,8 +54,15 @@ export class User {
     this.props.coupons = [...this.props.coupons, couponId];
   };
 
-  removeReview = (reviewId: string) => {
-    this.props.reviews = this.props.reviews.filter((id) => id !== reviewId);
+  removeReview = (reviewId: string): Result<undefined, DomainValidationError> => {
+    const index = this.props.reviews.indexOf(reviewId);
+
+    if (index === -1) {
+      return Result.fail(new DomainValidationError('Review not found'));
+    }
+
+    this.props.reviews.slice(index, 1);
+    return Result.ok();
   };
 
   get email() {

@@ -16,7 +16,7 @@ export interface LanguageQueriesRepoI {
     query: SearchLanguagesQuery,
   ) => Promise<{ languages: LanguageDto[]; count: number }>;
   getLanguage: (id: string) => Promise<LanguageDto | null>;
-  listTranslationsLanguages: () => Promise<LanguageDto[]>;
+  listLanguages: () => Promise<LanguageDto[]>;
 }
 
 export class LanguageQueriesRepo implements LanguageQueriesRepoI {
@@ -80,7 +80,7 @@ export class LanguageQueriesRepo implements LanguageQueriesRepoI {
     return LanguageMapper.toDto(doc);
   };
 
-  listTranslationsLanguages = async () => {
+  listLanguages = async () => {
     const docs = await this.languageModel.find({});
     return LanguageMapper.toDtoList(docs);
   };

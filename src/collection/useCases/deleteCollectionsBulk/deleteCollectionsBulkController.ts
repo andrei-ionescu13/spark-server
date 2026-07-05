@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { UseCaseErrors } from '../../../AppError';
 import { Controller } from '../../../Controller';
 import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkRequestDto';
 import { DeleteCollectionsBulkUseCase } from './deleteCollectionsBulkUseCase';
@@ -17,10 +18,13 @@ export class DeleteCollectionsBulkController extends Controller {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
+          case UseCaseErrors.NotFound:
+            return this.notFound(res, error.message);
+
           default:
             return this.fail(res, error);
         }
