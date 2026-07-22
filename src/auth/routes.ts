@@ -1,9 +1,15 @@
 import express, { Request, Response } from 'express';
-const router = express.Router();
-import { loginController } from './useCases/login';
+import { verifyToken } from '../middleware/verify-token';
 import { getAccessTokenController } from './useCases/getAccessToken';
-import { registerController } from './useCases/register';
+import { getUserController } from './useCases/getUser';
+import { loginController } from './useCases/login';
 import { logoutController } from './useCases/logout';
+import { registerController } from './useCases/register';
+const router = express.Router();
+
+router.get('/me', verifyToken, (req: Request, res: Response) =>
+  getUserController.execute(req, res),
+);
 
 router.post('/signup', (req: Request, res: Response) => registerController.execute(req, res));
 

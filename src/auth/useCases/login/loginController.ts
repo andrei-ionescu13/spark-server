@@ -30,11 +30,11 @@ export class LoginController extends BaseController {
         }
       }
 
-      const { accessToken, refreshToken } = result.value.getValue();
+      const { accessToken, refreshToken, username } = result.value.getValue();
 
       res.cookie('accessToken', accessToken, { maxAge: 24 * 60 * 1000, httpOnly: true });
       res.cookie('refreshToken', refreshToken, { maxAge: 7 * 24 * 60 * 1000, httpOnly: true });
-      return this.ok(res, { accessToken, refreshToken });
+      return this.ok(res, { username });
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

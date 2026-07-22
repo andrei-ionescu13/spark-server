@@ -3,7 +3,7 @@ import { authConfig } from '../config';
 
 export const verifyToken = (req, res, next) => {
   const { accessToken } = req.cookies || {};
-  console.log(6, accessToken);
+
   if (!accessToken) {
     return res.status(401).send({ message: 'Access token required' });
   }

@@ -37,7 +37,7 @@ const run = async () => {
   mongoose.connect(process.env.MONGO_URI as string);
   app.use(
     cors({
-      origin: '*',
+      origin: 'http://localhost:5173',
       credentials: true,
     }),
   );

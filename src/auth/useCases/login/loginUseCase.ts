@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCaseError } from '../../../UseCaseError';
@@ -6,7 +7,6 @@ import { UseCase } from '../../../use-case';
 import { AdminRepoI } from '../../adminRepo';
 import { TokenRepoI } from '../../tokenRepo';
 import { LoginRequestDto } from './loginRequestDto';
-import bcrypt from 'bcrypt';
 
 export namespace LoginErrors {
   export class WrongCredentials extends Result<UseCaseError> {
@@ -55,7 +55,7 @@ export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
         type: 'refresh-token',
       });
 
-      return right(Result.ok<any>({ accessToken, refreshToken }));
+      return right(Result.ok<any>({ accessToken, refreshToken, username: admin.username }));
     } catch (error) {
       console.log(error);
       return left(new AppError.UnexpectedError(error));

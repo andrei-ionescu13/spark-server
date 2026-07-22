@@ -1,10 +1,10 @@
+import bcrypt from 'bcrypt';
 import { AppError } from '../../../AppError';
 import { Either, Result, left, right } from '../../../Result';
 import { UseCaseError } from '../../../UseCaseError';
 import { UseCase } from '../../../use-case';
 import { AdminRepoI } from '../../adminRepo';
 import { RegisterRequestDto } from './registerRequestDto';
-import bcrypt from 'bcrypt';
 
 export namespace RegisterErrors {
   export class UsernameTakenError extends Result<UseCaseError> {

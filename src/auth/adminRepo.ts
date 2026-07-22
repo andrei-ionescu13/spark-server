@@ -17,5 +17,5 @@ export class AdminRepo implements AdminRepoI {
 
   findByUsername = (username) => this.adminModel.findOne({ username: username });
 
-  getAdmin = (id) => this.adminModel.findOne({ _id: id });
+  getAdmin = (id) => this.adminModel.findOne({ _id: id }).select('username');
 }
