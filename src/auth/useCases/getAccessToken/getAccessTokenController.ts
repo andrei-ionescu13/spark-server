@@ -34,7 +34,12 @@ export class GetAccessTokenController extends BaseController {
       }
 
       const accessToken = result.value.getValue();
-      res.cookie('accessToken', accessToken, { maxAge: 24 * 60 * 1000, httpOnly: true });
+      res.cookie('accessToken', accessToken, {
+        maxAge: 24 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      });
       return this.ok(res, accessToken);
     } catch (error) {
       console.log(error);
