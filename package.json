@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node build/index.js",
-    "dev": "npx nodemon",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
@@ -23,7 +23,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.3",
     "mongodb": "^5.1.0",
     "mongoose": "^7.0.3",
     "multer": "^1.4.5-lts.1",
@@ -33,7 +33,6 @@
     "rimraf": "^4.4.1",
     "streamifier": "^0.1.1",
     "stripe": "^8.176.0",
-    "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "uuid": "^11.0.3",
     "zod": "^3.21.4"
@@ -47,7 +46,7 @@
     "@types/node": "^18.14.6",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
-    "nodemon": "^2.0.21",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "tsx": "^4.23.1"
   }
 }
