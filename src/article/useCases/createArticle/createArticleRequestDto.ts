@@ -6,7 +6,7 @@ export interface CreateArticleRequestDto {
     title: string;
   };
   shouldPublish: boolean;
-  category: string;
+  category?: string;
   slug: string;
   title: string;
   markdown: string;

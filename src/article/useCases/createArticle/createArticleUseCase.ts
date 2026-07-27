@@ -29,7 +29,7 @@ type Response = Either<
 >;
 
 export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Response> {
-  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) { }
+  constructor(private articleRepo: ArticleRepoI, private uploaderService: UploaderService) {}
 
   comparePropsToArticle = (props, article): Result<UseCaseError> => {
     if (props.title === article.title) {
@@ -46,7 +46,7 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
   execute = async (request: CreateArticleRequestDto): Promise<Response> => {
     let { shouldPublish, coverFile, ...rest } = request;
     const props: any = rest;
-    props.slug ??= textUtils.generateSlug(props.title);
+    props.slug = props.slug || textUtils.generateSlug(props.title);
 
     try {
       const existingArticle = await this.articleRepo.getArticleByProps([
@@ -62,7 +62,6 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
       const uploadedCover = await this.uploaderService.uploadFile(coverFile);
 
       props.cover = uploadedCover;
-      props.status = shouldPublish ? 'published' : 'draft';
 
       const article = await this.articleRepo.createArticle(props);
 
