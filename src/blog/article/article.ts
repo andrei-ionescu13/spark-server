@@ -1,5 +1,6 @@
 import { textUtils } from '../../../utils/textUtils';
-import { Meta } from '../../meta';
+import { Entity } from '../../entity';
+import { Meta } from '../../Meta';
 import { Asset } from './asset';
 import { Description } from './description';
 import { Markdown } from './markdown';
@@ -21,8 +22,10 @@ interface ArticleProps {
   cover: Asset;
 }
 
-export class Article {
-  private constructor(private readonly props: ArticleProps) {}
+export class Article extends Entity<ArticleProps> {
+  private constructor(props: ArticleProps) {
+    super(props);
+  }
 
   static create(props: ArticleProps) {
     return new Article({ ...props, slug: props.slug || textUtils.generateSlug(props.title.value) });

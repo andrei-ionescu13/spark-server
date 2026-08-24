@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { zodError } from '../blog/article/status';
-import { ValueObject } from '../blog/article/valueObject';
+import { ValueObject } from '../valueObject';
 import { Result } from '../Result';
 
 export class Type extends ValueObject<{ value: string }> {

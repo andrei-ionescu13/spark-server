@@ -12,19 +12,21 @@ export class LoginController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    console.log('dasdasd');
     const schema = z.object({
       username: z.string(),
       password: z.string(),
     });
 
-    const result = schema.safeParse({ password: req.body.password, username: req.body.username });
+    const validation = schema.safeParse({
+      password: req.body.password,
+      username: req.body.username,
+    });
 
-    if (result.error) {
-      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    if (validation.error) {
+      return this.forbidden(res, zodRequestValidationError(validation.error).message);
     }
 
-    const dto: LoginRequestDto = result.data;
+    const dto: LoginRequestDto = validation.data;
 
     try {
       const result = await this.useCase.execute(dto);

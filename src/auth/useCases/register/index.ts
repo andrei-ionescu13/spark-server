@@ -1,8 +1,10 @@
-import { AdminRepo } from '../../adminRepo';
 import { AdminModel } from '../../model';
+import { AdminCommandsRepo } from '../../repo/admin/commands';
+import { AdminQueriesRepo } from '../../repo/admin/queries';
 import { RegisterController } from './registerController';
 import { RegisterUseCase } from './registerUseCase';
 
-const adminRepo = new AdminRepo(AdminModel);
-const registerUseCase = new RegisterUseCase(adminRepo);
+const adminCommandsRepo = new AdminCommandsRepo(AdminModel);
+const adminQueriesRepo = new AdminQueriesRepo(AdminModel);
+const registerUseCase = new RegisterUseCase(adminCommandsRepo, adminQueriesRepo);
 export const registerController = new RegisterController(registerUseCase);

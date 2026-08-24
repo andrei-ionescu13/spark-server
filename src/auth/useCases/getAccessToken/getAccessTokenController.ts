@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Controller } from '../../../Controller';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 import { GetAccessTokenErrors, GetAccessTokenUseCase } from './getAccessTokenUseCase';
+import { UseCaseErrors } from '../../../AppError';
 
 export class GetAccessTokenController extends Controller {
   constructor(private useCase: GetAccessTokenUseCase) {
@@ -25,6 +26,12 @@ export class GetAccessTokenController extends Controller {
             return this.forbidden(res, error.message);
 
           case GetAccessTokenErrors.RefreshTokenInvalidError:
+            return this.unauthorized(res, error.message);
+
+          case GetAccessTokenErrors.RefreshTokenExpiredError:
+            return this.unauthorized(res, error.message);
+
+          case UseCaseErrors.NotFound:
             return this.unauthorized(res, error.message);
 
           default:

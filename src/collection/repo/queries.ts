@@ -131,21 +131,11 @@ export class CollectionQueriesRepo implements CollectionQueriesRepoI {
         },
       },
       {
-        $addFields: {
-          count: {
-            $arrayElemAt: ['$count', 0],
-          },
-        },
-      },
-      {
-        $addFields: {
-          count: '$count.count',
-        },
-      },
-      {
         $project: {
           collections: 1,
-          count: { $ifNull: ['$count', 0] },
+          count: {
+            $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+          },
         },
       },
     ]);

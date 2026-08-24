@@ -55,15 +55,19 @@ export class ArticleCategory {
   get _id() {
     return this.props._id;
   }
+
   get name() {
     return this.props.name;
   }
+
   get slug() {
     return this.props.slug;
   }
+
   get createdAt() {
     return this.props.createdAt;
   }
+
   get updatedAt() {
     return this.props.updatedAt;
   }

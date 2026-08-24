@@ -2,7 +2,7 @@ import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
 import { ArticleTag } from '../../articleTag';
-import { ArticleTagRepoI } from '../../articleTagRepo';
+import { ArticleTagQueryRepoI } from '../../repo/queries';
 import { SearchArticleTagsRequestDto } from './searchArticleTagsRequestDto';
 
 type Response = Result<{ tags: ArticleTag[]; count: number }, UseCaseErrors.UnexpectedError>;
@@ -13,7 +13,7 @@ const LIMIT = 10;
 export class SearchArticleCategoriesUseCase
   implements UseCase<SearchArticleTagsRequestDto, Response>
 {
-  constructor(private articleTagRepo: ArticleTagRepoI) {}
+  constructor(private articleTagQueryRepo: ArticleTagQueryRepoI) {}
 
   execute = async (request: SearchArticleTagsRequestDto): Promise<Response> => {
     const query = {
@@ -22,8 +22,7 @@ export class SearchArticleCategoriesUseCase
     };
 
     try {
-      const tagsAndCount = await this.articleTagRepo.searchArticleCategories(query);
-
+      const tagsAndCount = await this.articleTagQueryRepo.searchArticleCategories(query);
       return Result.ok(tagsAndCount);
     } catch (error) {
       console.log(error);

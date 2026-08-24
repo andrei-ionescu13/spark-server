@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
-import { ValueObject } from './valueObject';
+import { ValueObject } from '../../valueObject';
 
 export class DomainValidationError extends Error {
   constructor(public readonly message: string) {

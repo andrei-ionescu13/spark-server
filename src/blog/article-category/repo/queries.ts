@@ -28,7 +28,7 @@ export class ArticleCategoryQueryRepo implements ArticleCategoryQueryRepoI {
   constructor(private articleCategoryModel: Model<ArticleCategoryDoc>) {}
 
   searchArticleCategories = async (query: SearchArticleCategoriesQuery) => {
-    const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 0, limit = 10 } = query;
+    const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 1, limit = 10 } = query;
 
     const [result] = await this.articleCategoryModel.aggregate([
       {
@@ -43,7 +43,7 @@ export class ArticleCategoryQueryRepo implements ArticleCategoryQueryRepoI {
       {
         $facet: {
           categories: [
-            { $skip: page },
+            { $skip: (page - 1) * limit },
             { $limit: limit },
             {
               $lookup: {
@@ -67,21 +67,11 @@ export class ArticleCategoryQueryRepo implements ArticleCategoryQueryRepoI {
         },
       },
       {
-        $addFields: {
-          count: {
-            $arrayElemAt: ['$count', 0],
-          },
-        },
-      },
-      {
-        $addFields: {
-          count: '$count.count',
-        },
-      },
-      {
         $project: {
           categories: 1,
-          count: { $ifNull: ['$count', 0] },
+          count: {
+            $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+          },
         },
       },
     ]);

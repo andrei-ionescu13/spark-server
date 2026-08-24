@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { ValueObject } from '../blog/article/valueObject';
+import { ValueObject } from '../valueObject';
 import { Result } from '../Result';
 import { zodDomainValidationError } from '../zodErrors';
 

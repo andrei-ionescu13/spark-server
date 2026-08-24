@@ -78,21 +78,11 @@ export class CurrencyQueriesRepo implements CurrencyQueriesRepoI {
         },
       },
       {
-        $addFields: {
-          count: {
-            $arrayElemAt: ['$count', 0],
-          },
-        },
-      },
-      {
-        $addFields: {
-          count: '$count.count',
-        },
-      },
-      {
         $project: {
           currencies: 1,
-          count: { $ifNull: ['$count', 0] },
+          count: {
+            $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+          },
         },
       },
     ]);

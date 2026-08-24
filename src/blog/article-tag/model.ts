@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
-export interface ArticleTagEntity {
+export interface ArticleTagDoc {
   name: string;
   slug: string;
   createdAt: Date;
@@ -9,7 +9,7 @@ export interface ArticleTagEntity {
   _id: string;
 }
 
-const ArticleTagSchema = new Schema<ArticleTagEntity>({
+const ArticleTagSchema = new Schema<ArticleTagDoc>({
   _id: {
     type: String,
     required: true,
@@ -33,4 +33,4 @@ const ArticleTagSchema = new Schema<ArticleTagEntity>({
   },
 });
 
-export const ArticleTagModel = mongoose.model<ArticleTagEntity>('ArticleTag', ArticleTagSchema);
+export const ArticleTagModel = mongoose.model<ArticleTagDoc>('ArticleTag', ArticleTagSchema);

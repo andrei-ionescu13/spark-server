@@ -7,7 +7,9 @@ import { ArticleDoc } from '../model';
 import { MappingValidationError } from '../status';
 
 export interface ArticleCommandRepoI {
-  createArticle: (props) => Promise<Result<Article, MappingValidationError>>;
+  createArticle: (
+    props: Record<string, unknown>,
+  ) => Promise<Result<Article, MappingValidationError>>;
   getArticle: (id: string) => Promise<Result<Article | null, MappingValidationError>>;
   deleteArticle: (id: string) => Promise<void>;
   deleteMultipleArticles: (ids: string[]) => Promise<void>;

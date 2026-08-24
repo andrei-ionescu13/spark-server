@@ -45,7 +45,6 @@ export class ArticleQueryRepo implements ArticleQueryRepoI {
 
   listArticles = async (ids: string[]): Promise<ArticleDto[]> => {
     const articleEntities = await this.articleModel.find({ _id: { $in: ids } });
-
     return ArticleMapper.toDtoList(articleEntities);
   };
 

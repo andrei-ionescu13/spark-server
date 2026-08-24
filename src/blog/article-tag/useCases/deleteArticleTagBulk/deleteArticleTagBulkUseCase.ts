@@ -3,7 +3,8 @@ import { Result } from '../../../../Result';
 import { UseCase } from '../../../../use-case';
 import { UseCaseError } from '../../../../UseCaseError';
 import { ArticleCommandRepoI } from '../../../article/repo/commands';
-import { ArticleTagRepoI } from '../../articleTagRepo';
+import { ArticleTagCommandsRepoI } from '../../repo/commands';
+import { ArticleTagQueryRepoI } from '../../repo/queries';
 import { DeleteArticleTagBulkRequestDto } from './deleteArticleTagBulkRequestDto';
 
 export namespace DeleteArticleTagBulkErrors {
@@ -19,17 +20,20 @@ type Response = Result<void, UseCaseErrors.UnexpectedError>;
 export class DeleteArticleTagBulkUseCase
   implements UseCase<DeleteArticleTagBulkRequestDto, Response>
 {
-  constructor(private articleRepo: ArticleCommandRepoI, private articleTagRepo: ArticleTagRepoI) {}
+  constructor(
+    private articleRepo: ArticleCommandRepoI,
+    private articleTagQueryRepoI: ArticleTagQueryRepoI,
+    private articleTagCommandsRepoI: ArticleTagCommandsRepoI,
+  ) {}
 
   deleteArticleTag = async (articleTagId: string) => {
-    const articleTag = await this.articleTagRepo.getArticleTag(articleTagId);
-    const found = !!articleTag;
+    const articleTag = await this.articleTagQueryRepoI.getArticleTag(articleTagId);
 
-    if (!found) {
+    if (!articleTag) {
       return new UseCaseErrors.NotFound('Tag not found');
     }
 
-    await this.articleTagRepo.deleteArticleTag(articleTagId);
+    await this.articleTagCommandsRepoI.deleteArticleTag(articleTagId);
     await this.articleRepo.deleteArticleTag(articleTagId);
 
     return Result.ok();

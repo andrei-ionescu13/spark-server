@@ -127,21 +127,11 @@ export class DiscountQueriesRepo implements DiscountQueriesRepoI {
         },
       },
       {
-        $addFields: {
-          count: {
-            $arrayElemAt: ['$count', 0],
-          },
-        },
-      },
-      {
-        $addFields: {
-          count: '$count.count',
-        },
-      },
-      {
         $project: {
           discounts: 1,
-          count: { $ifNull: ['$count', 0] },
+          count: {
+            $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+          },
         },
       },
     ]);

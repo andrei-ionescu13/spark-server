@@ -75,7 +75,6 @@ export class ArticleCategoryCommandRepo implements ArticleCategoryCommandRepoI {
     if (!entity) return Result.ok(null);
 
     const articleCategoryOrError = ArticleCategoryMapper.toDomain(entity);
-
     if (articleCategoryOrError.isErr()) {
       return Result.fail(new MappingValidationError(articleCategoryOrError.error.message));
     }

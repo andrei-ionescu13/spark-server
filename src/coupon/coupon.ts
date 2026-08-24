@@ -6,6 +6,7 @@ import { CouponCode } from './couponCode';
 import { CouponType } from './couponType';
 import { CouponUserSelection } from './couponUserSelection';
 import { CouponValue } from './couponValue';
+import { CouponProductSelection } from './couponProductSelection';
 
 interface CouponProps {
   _id: string;
@@ -14,7 +15,7 @@ interface CouponProps {
   products: string[];
   users: string[];
   type: CouponType;
-  productSelection: CouponType;
+  productSelection: CouponProductSelection;
   value: CouponValue;
   startDate: Date;
   endDate: Date | null;
@@ -24,13 +25,22 @@ export class Coupon {
   constructor(private props: CouponProps) {}
 
   public static create(props: CouponProps): Result<Coupon, DomainValidationError> {
-    const schema = z.object({
-      _id: z.string(),
-      products: z.array(z.string()),
-      users: z.array(z.string()),
-      startDate: z.date(),
-      endDate: z.date().optional(),
-    });
+    const schema = z
+      .object({
+        _id: z.string(),
+        products: z.array(z.string()),
+        users: z.array(z.string()),
+        startDate: z.date(),
+        endDate: z.date().nullable(),
+      })
+      .refine(({ startDate, endDate }) => endDate && startDate < endDate, {
+        message: 'End date must be after start date',
+        path: ['endDate'],
+      })
+      .refine(({ startDate, endDate }) => endDate && startDate > endDate, {
+        message: 'Start date must be before end date',
+        path: ['startDate'],
+      });
 
     const result = schema.safeParse(props);
 

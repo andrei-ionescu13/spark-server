@@ -52,6 +52,10 @@ export class Result<T, U extends Error> {
     return Result.ok<any, any>();
   }
 
+  public static getValues<T, U extends Error>(results: Result<T, U>[]): T[] {
+    return results.map((result) => result.value);
+  }
+
   public get value(): T {
     if (!this.isSuccess || !this._value) {
       throw new Error(`Can't retrieve the value from a failed result.`);

@@ -138,16 +138,11 @@ export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
           },
         },
         {
-          $addFields: {
-            count: {
-              $arrayElemAt: ['$count', 0],
-            },
-          },
-        },
-        {
           $project: {
-            count: '$count.count',
             namespaces: 1,
+            count: {
+              $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+            },
           },
         },
       ])

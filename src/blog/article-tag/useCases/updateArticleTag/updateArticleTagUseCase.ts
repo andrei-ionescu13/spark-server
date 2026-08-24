@@ -2,8 +2,11 @@ import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCaseError } from '../../../../UseCaseError';
 import { UseCase } from '../../../../use-case';
+import { ArticleCommandRepo } from '../../../article/repo/commands';
+import { DomainValidationError } from '../../../article/status';
 import { ArticleTag } from '../../articleTag';
-import { ArticleTagRepoI } from '../../articleTagRepo';
+import { ArticleTagCommandsRepoI } from '../../repo/commands';
+import { ArticleTagQueryRepoI } from '../../repo/queries';
 import { UpdateArticleTagRequestDto } from './updateArticleTagRequestDto';
 
 export namespace UpdateArticleTagErrors {
@@ -29,7 +32,10 @@ type Response = Result<
 >;
 
 export class UpdateArticleTagUseCase implements UseCase<UpdateArticleTagRequestDto, Response> {
-  constructor(private articleTagRepo: ArticleTagRepoI) {}
+  constructor(
+    private articleTagQueryRepo: ArticleTagQueryRepoI,
+    private articleTagCommandsRepo: ArticleTagCommandsRepoI,
+  ) {}
 
   comparePropsToArticleTag = (props, tag): Result<void, UseCaseError> => {
     if (props.name === tag.name) {
@@ -47,20 +53,22 @@ export class UpdateArticleTagUseCase implements UseCase<UpdateArticleTagRequestD
     const { articleTagId, ...props } = request;
 
     try {
-      const articleTagToUpdate = await this.articleTagRepo.getArticleTag(articleTagId);
-      let articleTagToUpdateFound = !!articleTagToUpdate;
+      const articleTagOrError = await this.articleTagCommandsRepo.getArticleTag(articleTagId);
+      if (articleTagOrError.isErr()) {
+        return Result.fail(new DomainValidationError(articleTagOrError.error.message));
+      }
 
-      if (!articleTagToUpdateFound) {
+      const articleTag = articleTagOrError.value;
+      if (!articleTag) {
         return Result.fail(new UseCaseErrors.NotFound('Article tag not found'));
       }
 
-      const existingArticleTag = await this.articleTagRepo.getArticleTagByPropsOr([
+      const existingArticleTag = await this.articleTagQueryRepo.getArticleTagByPropsOr([
         { slug: props.slug },
         { name: props.name },
       ]);
-      const articleTagFound = !!existingArticleTag;
 
-      if (articleTagFound) {
+      if (existingArticleTag) {
         const result = this.comparePropsToArticleTag(props, existingArticleTag);
 
         if (result.isErr()) {
@@ -70,13 +78,10 @@ export class UpdateArticleTagUseCase implements UseCase<UpdateArticleTagRequestD
         return Result.fail(new UseCaseErrors.UnexpectedError());
       }
 
-      const updatedArticleTag = await this.articleTagRepo.updateArticleTag(articleTagId, props);
+      articleTag.updateNameAndSlug(props.name, props.slug);
+      this.articleTagCommandsRepo.save(articleTag);
 
-      if (!updatedArticleTag) {
-        return Result.fail(new UseCaseErrors.NotFound('Article category not found'));
-      }
-
-      return Result.ok(updatedArticleTag);
+      return Result.ok(articleTag);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

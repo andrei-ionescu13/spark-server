@@ -1,14 +1,18 @@
 import { AuthService } from '../../../authService';
-import { AdminRepo } from '../../adminRepo';
 import { AdminModel, TokenModel } from '../../model';
-import { TokenRepo } from '../../tokenRepo';
+import { AdminQueriesRepo } from '../../repo/admin/queries';
+import { TokenCommandsRepo } from '../../repo/token/commands';
 import { GetAccessTokenController } from './getAccessTokenController';
 import { GetAccessTokenUseCase } from './getAccessTokenUseCase';
 
-const adminRepo = new AdminRepo(AdminModel);
-const tokeRepo = new TokenRepo(TokenModel);
+const adminQueriesRepo = new AdminQueriesRepo(AdminModel);
+const tokenCommandsRepo = new TokenCommandsRepo(TokenModel);
 
 const authService = new AuthService();
 
-const getAccessTokenUseCase = new GetAccessTokenUseCase(adminRepo, tokeRepo, authService);
+const getAccessTokenUseCase = new GetAccessTokenUseCase(
+  adminQueriesRepo,
+  tokenCommandsRepo,
+  authService,
+);
 export const getAccessTokenController = new GetAccessTokenController(getAccessTokenUseCase);

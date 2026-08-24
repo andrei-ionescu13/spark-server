@@ -5,7 +5,7 @@ import { zodDomainValidationError } from '../zodErrors';
 interface TokenProps {
   _id: string;
   admin: string;
-  token: string;
+  value: string;
   expiresAt: Date;
   createdAt: Date;
   type: 'refresh-token';
@@ -14,11 +14,11 @@ interface TokenProps {
 export class Token {
   constructor(private readonly props: TokenProps) {}
 
-  create(props: TokenProps): Result<Token, Error> {
+  static create(props: TokenProps): Result<Token, Error> {
     const schema = z.object({
       _id: z.string(),
       admin: z.string(),
-      token: z.string(),
+      value: z.string(),
       expiresAt: z.date().refine((date) => date.getTime() > Date.now(), {
         message: 'expiresAt must be in the future',
       }),
@@ -35,7 +35,31 @@ export class Token {
     return Result.ok(new Token(props));
   }
 
+  isExpired() {
+    return this.props.expiresAt < new Date();
+  }
+
+  get _id() {
+    return this.props._id;
+  }
+
+  get admin() {
+    return this.props.admin;
+  }
+
+  get value() {
+    return this.props.value;
+  }
+
   get expiresAt() {
-    return this.expiresAt;
+    return this.props.expiresAt;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
+  get type() {
+    return this.props.type;
   }
 }

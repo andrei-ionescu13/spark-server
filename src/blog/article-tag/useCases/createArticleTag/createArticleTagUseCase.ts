@@ -3,8 +3,11 @@ import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCaseError } from '../../../../UseCaseError';
 import { UseCase } from '../../../../use-case';
-import { ArticleTagRepoI } from '../../articleTagRepo';
+import { ArticleTag } from '../../articleTag';
+import { ArticleTagCommandsRepoI } from '../../repo/commands';
+import { ArticleTagQueryRepoI } from '../../repo/queries';
 import { CreateArticleTagRequestDto } from './createArticleTagRequestDto';
+import { v7 as uuidv7 } from 'uuid';
 
 export namespace CreateArticleTagErrors {
   export class NameNotAvailableError extends UseCaseError {
@@ -23,7 +26,10 @@ export namespace CreateArticleTagErrors {
 type Response = Result<string, UseCaseErrors.UnexpectedError>;
 
 export class CreateArticleTagUseCase implements UseCase<CreateArticleTagRequestDto, Response> {
-  constructor(private articleTagRepo: ArticleTagRepoI) {}
+  constructor(
+    private articleTagQueryRepo: ArticleTagQueryRepoI,
+    private articleTagCommandsRepo: ArticleTagCommandsRepoI,
+  ) {}
 
   comparePropsToArticleTag = (props, tag): Result<void, UseCaseError> => {
     if (props.name === tag.name) {
@@ -44,13 +50,12 @@ export class CreateArticleTagUseCase implements UseCase<CreateArticleTagRequestD
     };
 
     try {
-      let articleTag = await this.articleTagRepo.getArticleTagByPropsOr([
-        { name: props.name, slug: props.slug },
+      const articleTagFound = await this.articleTagQueryRepo.getArticleTagByPropsOr([
+        { name: request.name, slug: request.slug },
       ]);
-      const found = !!articleTag;
 
-      if (found) {
-        const result = this.comparePropsToArticleTag(props, articleTag);
+      if (articleTagFound) {
+        const result = this.comparePropsToArticleTag(request, articleTagFound);
 
         if (result.isErr()) {
           return Result.fail(result.error);
@@ -59,9 +64,20 @@ export class CreateArticleTagUseCase implements UseCase<CreateArticleTagRequestD
         return Result.fail(new UseCaseErrors.UnexpectedError());
       }
 
-      articleTag = await this.articleTagRepo.createArticleTag(props);
+      const articleTagOrError = ArticleTag.create({
+        ...props,
+        _id: uuidv7(),
+        createdAt: new Date(),
+        updatedAt: null,
+      });
+      if (articleTagOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(articleTagOrError.error.message));
+      }
 
-      return Result.ok(articleTag.props.name);
+      const articleTag = articleTagOrError.value;
+      this.articleTagCommandsRepo.save(articleTag);
+
+      return Result.ok(articleTag._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

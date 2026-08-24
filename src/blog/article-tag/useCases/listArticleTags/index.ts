@@ -1,8 +1,8 @@
-import { ArticleTagRepo } from '../../articleTagRepo';
 import { ArticleTagModel } from '../../model';
+import { ArticleTagQueryRepo } from '../../repo/queries';
 import { ListArticleTagsController } from './listArticleTagsController';
 import { ListArticleTagsUseCase } from './listArticleTagsUseCase';
 
-const articleTagRepo = new ArticleTagRepo(ArticleTagModel);
-const listArticleTagsUseCase = new ListArticleTagsUseCase(articleTagRepo);
+const articleTagQueryRepo = new ArticleTagQueryRepo(ArticleTagModel);
+const listArticleTagsUseCase = new ListArticleTagsUseCase(articleTagQueryRepo);
 export const listArticleTagsController = new ListArticleTagsController(listArticleTagsUseCase);

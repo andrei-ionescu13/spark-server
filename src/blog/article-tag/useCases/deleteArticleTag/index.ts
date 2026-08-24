@@ -1,12 +1,18 @@
 import { ArticleModel } from '../../../article/model';
 import { ArticleCommandRepo } from '../../../article/repo/commands';
-import { ArticleTagRepo } from '../../articleTagRepo';
 import { ArticleTagModel } from '../../model';
+import { ArticleTagCommandsRepo } from '../../repo/commands';
+import { ArticleTagQueryRepo } from '../../repo/queries';
 import { DeleteArticleTagController } from './deleteArticleTagController';
 import { DeleteArticleTagUseCase } from './deleteArticleTagUseCase';
 
 const articleCommandRepo = new ArticleCommandRepo(ArticleModel);
-const articleTagRepo = new ArticleTagRepo(ArticleTagModel);
+const articleTagQueryRepo = new ArticleTagQueryRepo(ArticleTagModel);
+const articleTagCommandsRepo = new ArticleTagCommandsRepo(ArticleTagModel);
 
-const deleteArticleTagUseCase = new DeleteArticleTagUseCase(articleCommandRepo, articleTagRepo);
+const deleteArticleTagUseCase = new DeleteArticleTagUseCase(
+  articleCommandRepo,
+  articleTagQueryRepo,
+  articleTagCommandsRepo,
+);
 export const deleteArticleTagController = new DeleteArticleTagController(deleteArticleTagUseCase);

@@ -1,4 +1,4 @@
-import { Meta } from '../../meta';
+import { Meta } from '../../Meta';
 import { Result } from '../../Result';
 import { Article } from './article';
 import { Asset } from './asset';
@@ -46,26 +46,26 @@ export interface ArticleDto {
 }
 
 export class ArticleMapper {
-  static toDomain(entity: ArticleDoc): Result<Article, MappingValidationError> {
+  static toDomain(doc: ArticleDoc): Result<Article, MappingValidationError> {
     const metaOrError = Meta.create({
-      title: entity.meta.title,
-      description: entity.meta.description,
-      keywords: entity.meta.keywords,
+      title: doc.meta.title,
+      description: doc.meta.description,
+      keywords: doc.meta.keywords,
     });
-    const titleOrError = Title.create({ value: entity.title });
-    const descriptionOrError = Description.create({ value: entity.description });
-    const markdownOrError = Markdown.create({ value: entity.markdown });
-    const statusOrError = Status.create({ value: entity.status });
+    const titleOrError = Title.create({ value: doc.title });
+    const descriptionOrError = Description.create({ value: doc.description });
+    const markdownOrError = Markdown.create({ value: doc.markdown });
+    const statusOrError = Status.create({ value: doc.status });
     const coverOrError = Asset.create({
-      publicId: entity.cover.public_id,
-      width: entity.cover.width,
-      height: entity.cover.height,
-      format: entity.cover.format,
-      resourceType: entity.cover.resource_type,
-      createdAt: entity.cover.created_at,
-      url: entity.cover.url,
-      secureUrl: entity.cover.secure_url,
-      originalFilename: entity.cover.original_filename,
+      publicId: doc.cover.public_id,
+      width: doc.cover.width,
+      height: doc.cover.height,
+      format: doc.cover.format,
+      resourceType: doc.cover.resource_type,
+      createdAt: doc.cover.created_at,
+      url: doc.cover.url,
+      secureUrl: doc.cover.secure_url,
+      originalFilename: doc.cover.original_filename,
     });
 
     const result = Result.combine([
@@ -89,17 +89,17 @@ export class ArticleMapper {
     const cover = coverOrError.value;
 
     const article = Article.create({
-      _id: entity._id,
+      _id: doc._id,
       title,
-      createdAt: entity.createdAt,
+      createdAt: doc.createdAt,
       description,
-      slug: entity.slug,
+      slug: doc.slug,
       markdown,
-      updatedAt: entity.updatedAt,
+      updatedAt: doc.updatedAt,
       status,
-      category: entity.category,
+      category: doc.category,
       meta,
-      tags: entity.tags,
+      tags: doc.tags,
       cover,
     });
 

@@ -11,14 +11,6 @@ export interface ArticleCategoryDto {
   updatedAt: Date | null;
 }
 
-export interface ArticleCategoryPersistance {
-  _id: string;
-  name: string;
-  slug: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-}
-
 export class ArticleCategoryMapper {
   static toDomain(entity: ArticleCategoryDoc): Result<ArticleCategory, MappingValidationError> {
     const categoryOrError = ArticleCategory.create({
@@ -49,13 +41,13 @@ export class ArticleCategoryMapper {
     return Result.ok(combinedResults.value);
   }
 
-  static toDto(entity: any): ArticleCategoryDto {
+  static toDto(doc: any): ArticleCategoryDto {
     return {
-      _id: entity._id,
-      name: entity.name,
-      slug: entity.slug,
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
+      _id: doc._id,
+      name: doc.name,
+      slug: doc.slug,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
     };
   }
 
@@ -63,7 +55,7 @@ export class ArticleCategoryMapper {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: ArticleCategory): ArticleCategoryPersistance {
+  static toPersistance(entity: ArticleCategory): ArticleCategoryDoc {
     return {
       _id: entity._id,
       name: entity.name,

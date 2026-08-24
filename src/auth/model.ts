@@ -3,36 +3,44 @@ import { Schema, model } from 'mongoose';
 export interface AdminDoc {
   username: string;
   _id: string;
-  password: string;
+  passwordHash: string;
 }
 
 export interface TokenDoc {
   _id: string;
   admin: string;
-  token: string;
+  value: string;
   expiresAt: Date;
   createdAt: Date;
   type: 'refresh-token';
 }
 
 const adminSchema = new Schema<AdminDoc>({
+  _id: {
+    type: String,
+    required: true,
+  },
   username: {
     type: String,
     required: true,
   },
-  password: {
+  passwordHash: {
     type: String,
     required: true,
   },
 });
 
 const tokenSchema = new Schema<TokenDoc>({
+  _id: {
+    type: String,
+    required: true,
+  },
   admin: {
     type: String,
     ref: 'Admin',
     required: true,
   },
-  token: {
+  value: {
     type: String,
     required: true,
   },
