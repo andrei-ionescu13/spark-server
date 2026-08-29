@@ -1,13 +1,13 @@
 import { error } from 'console';
-import { Asset } from '../blog/article/asset';
+import { Asset } from '../../asset';
 import { DomainValidationError } from '../blog/article/status';
-import { Entity } from '../../entity';
-import { Meta } from '../../meta';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { DealDescription } from './dealDescription';
 import { DealTitle } from './dealTitle';
 import * as z from 'zod';
+import { Meta } from '../../Meta';
+import { Result } from '../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface DealProps {
   _id: string;
@@ -23,13 +23,14 @@ interface DealProps {
   products: string[];
 }
 
+interface CreateDealProps extends Omit<DealProps, 'createdAt' | 'updatedAt' | '_id'> {}
+
 export class Deal {
   constructor(private props: DealProps) {}
 
-  static create(props: DealProps): Result<Deal, DomainValidationError> {
+  static create(props: CreateDealProps): Result<Deal, DomainValidationError> {
     const schema = z
       .object({
-        _id: z.string(),
         slug: z.string(),
         startDate: z.date(),
         endDate: z.date().nullable(),
@@ -50,7 +51,18 @@ export class Deal {
 
     if (validation.error) return Result.fail(zodDomainValidationError(validation.error));
 
-    return Result.ok(new Deal(props));
+    return Result.ok(
+      new Deal({
+        ...props,
+        createdAt: new Date(),
+        updatedAt: null,
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: DealProps) {
+    return new Deal(props);
   }
 
   update(

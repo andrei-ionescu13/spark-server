@@ -1,9 +1,10 @@
 import z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
-import { Asset } from '../../blog/article/asset';
+import { Asset } from '../../../asset';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../../result';
 
 interface PublisherProps {
   name: string;
@@ -14,9 +15,8 @@ interface PublisherProps {
   slug: string;
 }
 
-interface PublisherCreateProps extends Omit<PublisherProps, 'slug' | 'updatedAt'> {
+interface PublisherCreateProps extends Omit<PublisherProps, 'slug' | 'updatedAt' | '_id'> {
   slug?: string;
-  updatedAt?: Date | null;
 }
 
 export class Publisher {
@@ -26,7 +26,7 @@ export class Publisher {
     const schema = z.object({
       _id: z.string(),
       createdAt: z.date(),
-      updatedAt: z.date().optional(),
+      updatedAt: z.date().nullable(),
       name: z.string().min(3),
       slug: z.string().optional(),
     });
@@ -41,14 +41,24 @@ export class Publisher {
       new Publisher({
         ...props,
         slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuid7(),
       }),
     );
   }
 
-  public update(props: { name: string; logo?: Asset }): Result<undefined, DomainValidationError> {
+  public static reconstitute(props: PublisherProps) {
+    return new Publisher(props);
+  }
+
+  public update(props: {
+    name: string;
+    logo?: Asset;
+    slug: string;
+  }): Result<undefined, DomainValidationError> {
     const schema = z.object({
       name: z.string().min(3),
+      slug: z.string(),
     });
 
     const result = schema.safeParse(props);
@@ -58,7 +68,7 @@ export class Publisher {
     }
 
     this.props.name = props.name;
-    this.props.slug = textUtils.generateSlug(props.name);
+    this.props.slug = props.slug;
     this.props.updatedAt = new Date();
 
     if (props.logo) {

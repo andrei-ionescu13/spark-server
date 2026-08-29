@@ -3,7 +3,13 @@ import { getAccessTokenController } from './useCases/getAccessToken';
 import { loginController } from './useCases/login';
 import { logoutController } from './useCases/logout';
 import { registerController } from './useCases/register';
+import { getAdminController } from './useCases/getAdmin';
+import { verifyToken } from '../../middleware/verify-token';
 const router = express.Router();
+
+router.get('/me', verifyToken, (req: Request, res: Response) =>
+  getAdminController.execute(req, res),
+);
 
 router.post('/signup', (req: Request, res: Response) => registerController.execute(req, res));
 

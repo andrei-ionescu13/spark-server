@@ -1,12 +1,12 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../blog/article/asset';
-import { Result } from '../../../../../Result';
+import { Asset } from '../../../../../asset';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Platform } from '../../platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { CreatePlatformRequestDto } from './createPlatformRequestDto';
+import { Result } from '../../../../../result';
 
 type Response = Result<Platform, UseCaseErrors.UnexpectedError>;
 

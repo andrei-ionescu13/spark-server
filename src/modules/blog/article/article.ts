@@ -1,11 +1,12 @@
 import { textUtils } from '../../../../utils/textUtils';
 import { Entity } from '../../../entity';
 import { Meta } from '../../../Meta';
-import { Asset } from './asset';
+import { Asset } from '../../../asset';
 import { Description } from './description';
 import { Markdown } from './markdown';
 import { Status } from './status';
 import { Title } from './title';
+import { v7 as uuid7 } from 'uuid';
 
 interface ArticleProps {
   _id: string;
@@ -22,13 +23,24 @@ interface ArticleProps {
   cover: Asset;
 }
 
+interface CreateArticleProps extends Omit<ArticleProps, 'createdAt' | '_id'> {}
+
 export class Article extends Entity<ArticleProps> {
   private constructor(props: ArticleProps) {
     super(props);
   }
 
-  static create(props: ArticleProps) {
-    return new Article({ ...props, slug: props.slug || textUtils.generateSlug(props.title.value) });
+  static create(props: CreateArticleProps) {
+    return new Article({
+      ...props,
+      slug: props.slug || textUtils.generateSlug(props.title.value),
+      _id: uuid7(),
+      createdAt: new Date(),
+    });
+  }
+
+  public static reconstitute(props: ArticleProps) {
+    return new Article(props);
   }
 
   get _id() {

@@ -1,10 +1,11 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { DiscountTitle } from './discountTitle';
 import { DiscountType } from './discountType';
 import { DiscountValue } from './discountValue';
+import { Result } from '../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface DiscountProps {
   title: DiscountTitle;
@@ -14,11 +15,11 @@ interface DiscountProps {
   startDate: Date;
   endDate: Date | null;
   _id: string;
+  createdAt: Date;
+  updatedAt: Date | null;
 }
 
-interface DiscountCreateProps extends Omit<DiscountProps, 'endDate'> {
-  endDate?: Date | null;
-}
+interface DiscountCreateProps extends Omit<DiscountProps, 'createdAt' | 'updatedAt' | '_id'> {}
 
 export class Discount {
   constructor(private props: DiscountProps) {}
@@ -49,9 +50,16 @@ export class Discount {
     return Result.ok(
       new Discount({
         ...props,
-        endDate: props.endDate || null,
+        endDate: props.endDate,
+        _id: uuid7(),
+        createdAt: new Date(),
+        updatedAt: null,
       }),
     );
+  }
+
+  public static reconstitute(props: DiscountProps) {
+    return new Discount(props);
   }
 
   public update(props: Omit<DiscountCreateProps, '_id'>): Result<undefined, DomainValidationError> {

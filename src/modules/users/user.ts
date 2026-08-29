@@ -1,16 +1,17 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { UserEmail } from './userEmail';
 import { UserStatus } from './userStatus';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
 
 interface UserProps {
   email: UserEmail;
   password: string;
   createdAt: Date;
   status: UserStatus;
-  updatedAt: Date;
+  updatedAt: Date | null;
   orders: string[];
   activeOrders: string[];
   ordersCount: number;
@@ -20,10 +21,12 @@ interface UserProps {
   _id: string;
 }
 
+interface CreateUserProps extends Omit<UserProps, 'createdAt' | 'updatedAt' | '_id'> {}
+
 export class User {
   constructor(private readonly props: UserProps) {}
 
-  public static create(props: UserProps): Result<User, DomainValidationError> {
+  public static create(props: CreateUserProps): Result<User, DomainValidationError> {
     const schema = z.object({
       password: z.string(),
       createdAt: z.date(),
@@ -43,7 +46,18 @@ export class User {
       return Result.fail(zodDomainValidationError(result.error));
     }
 
-    return Result.ok(new User(props));
+    return Result.ok(
+      new User({
+        ...props,
+        createdAt: new Date(),
+        updatedAt: null,
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: UserProps) {
+    return new User(props);
   }
 
   removeCoupon = (couponId: string) => {

@@ -3,7 +3,7 @@ import { Result } from '../../../../Result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Asset } from '../../../blog/article/asset';
+import { Asset } from '../../../../asset';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 

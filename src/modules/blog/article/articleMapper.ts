@@ -1,8 +1,8 @@
 import { Meta } from '../../../Meta';
 import { Result } from '../../../Result';
 import { Article } from './article';
-import { Asset } from './asset';
-import { AssetMapper } from './assetMapper';
+import { Asset } from '../../../asset';
+import { AssetMapper } from '../../../assetMapper';
 import { Description } from './description';
 import { Markdown } from './markdown';
 import { ArticleDoc } from './model';

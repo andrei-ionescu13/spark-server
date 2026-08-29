@@ -1,6 +1,5 @@
 import { Mongo } from '../../../../../mongo';
 import { CloudinaryUploaderService } from '../../../../../services/uploaderService';
-import { PlatformModel } from '../../model';
 import { PlatformCommandsRepo } from '../../repo/commands';
 import { UpdatePlatformController } from './updatePlatformController';
 import { UpdatePlatformUseCase } from './updatePlatformUseCase';

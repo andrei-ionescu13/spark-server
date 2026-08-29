@@ -1,11 +1,12 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { OrderPaymentStatus } from './orderPaymentStatus';
 import { OrderStatus } from './orderStatus';
 import { OrderFulfillmentStatus } from './orderFulfillmentStatus';
 import { LineItem } from './lineItem';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
 
 interface OrderProps {
   _id: string;
@@ -20,12 +21,15 @@ interface OrderProps {
   totalPrice: number;
   totalDiscounts: number;
   lineItems: LineItem[];
+  updatedAt: Date | null;
 }
+
+interface CreateOrderProps extends Omit<OrderProps, 'createdAt' | 'updatedAt' | '_id'> {}
 
 export class Order {
   constructor(private props: OrderProps) {}
 
-  static create(props: OrderProps): Result<Order, DomainValidationError> {
+  static create(props: CreateOrderProps): Result<Order, DomainValidationError> {
     const schema = z.object({
       _id: z.string(),
       orderNumber: z.string(),
@@ -42,6 +46,17 @@ export class Order {
       return Result.fail(zodDomainValidationError(validation.error));
     }
 
-    return Result.ok(new Order(props));
+    return Result.ok(
+      new Order({
+        ...props,
+        createdAt: new Date(),
+        updatedAt: null,
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: OrderProps) {
+    return new Order(props);
   }
 }

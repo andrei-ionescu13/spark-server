@@ -5,6 +5,7 @@ import { updateArticleCategoryController } from './useCases/updateArticleCategor
 import { searchArticleCategoriesController } from './useCases/searchArticleCategories';
 import { listArticleCategoriesController } from './useCases/listArticleCategories';
 import { deleteArticleCategoryBulkController } from './useCases/deleteArticleCategoryBulk';
+import { deleteArticleCategoryController } from './useCases/deleteArticleCategory';
 const router = express.Router();
 
 router.get('/search', (req: Request, res: Response) =>
@@ -19,6 +20,10 @@ router.get('/', (req: Request, res: Response) => listArticleCategoriesController
 
 router.post('/', (req: Request, res: Response) =>
   createArticleCategoryController.execute(req, res),
+);
+
+router.delete('/:articleCategoryId', (req: Request, res: Response) =>
+  deleteArticleCategoryController.execute(req, res),
 );
 
 router.delete('/', (req: Request, res: Response) =>

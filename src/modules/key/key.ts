@@ -1,10 +1,11 @@
 import z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { KeyAvailability } from './keyAvailability';
 import { KeyStatus } from './keyStatus';
 import { KeyValue } from './keyValue';
+import { Result } from '../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface KeyProps {
   product: string;
@@ -13,11 +14,10 @@ interface KeyProps {
   availability: KeyAvailability;
   status: KeyStatus;
   _id: string;
+  updatedAt: Date | null;
 }
 
-interface KeyCreateProps extends Omit<KeyProps, 'createdAt'> {
-  createdAt?: Date | null;
-}
+interface KeyCreateProps extends Omit<KeyProps, 'createdAt' | 'updatedAt' | '_id'> {}
 
 export class Key {
   constructor(private props: KeyProps) {}
@@ -38,9 +38,15 @@ export class Key {
     return Result.ok(
       new Key({
         ...props,
-        createdAt: props?.createdAt || null,
+        createdAt: new Date(),
+        updatedAt: null,
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: KeyProps) {
+    return new Key(props);
   }
 
   public changeStatus(status: KeyStatus) {

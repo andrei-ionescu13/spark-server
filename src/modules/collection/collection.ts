@@ -1,12 +1,13 @@
 import * as z from 'zod';
 import { textUtils } from '../../../utils/textUtils';
-import { Asset } from '../blog/article/asset';
+import { Asset } from '../../asset';
 import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../../meta';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { CollectionDescription } from './collectionDescription';
 import { CollectionTitle } from './collectionTitle';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
+import { Meta } from '../../Meta';
 
 interface CollectionProps {
   cover: Asset;
@@ -24,11 +25,9 @@ interface CollectionProps {
 }
 
 interface CollectionCreateProps
-  extends Omit<CollectionProps, 'createdAt' | 'updatedAt' | 'slug' | 'endDate'> {
-  createdAt?: Date;
-  updatedAt?: Date | null;
+  extends Omit<CollectionProps, 'slug' | '_id' | 'createdAt' | 'updatedAt'> {
   slug?: string;
-  endDate?: Date | null;
+  endDate: Date | null;
 }
 
 export class Collection {
@@ -37,13 +36,11 @@ export class Collection {
   public static create(props: CollectionCreateProps): Result<Collection, DomainValidationError> {
     const schema = z
       .object({
-        createdAt: z.date().optional(),
-        updatedAt: z.date().optional(),
         slug: z.string().min(1).optional(),
         isDeal: z.boolean(),
         _id: z.uuidv7(),
         startDate: z.date(),
-        endDate: z.date().optional(),
+        endDate: z.date().nullable(),
         products: z.array(z.uuidv7()).min(1),
       })
       .refine((data) => data.endDate && data.startDate < data.endDate, {
@@ -64,12 +61,17 @@ export class Collection {
     return Result.ok(
       new Collection({
         ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || null,
+        createdAt: new Date(),
+        updatedAt: null,
         slug: props.slug || textUtils.generateSlug(props.title.value),
-        endDate: props.endDate || null,
+        endDate: props.endDate,
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: CollectionProps) {
+    return new Collection(props);
   }
 
   public update(props: CollectionCreateProps): Result<undefined, DomainValidationError> {

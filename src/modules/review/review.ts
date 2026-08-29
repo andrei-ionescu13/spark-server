@@ -1,10 +1,11 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { ReviewContent } from './reviewContent';
 import { ReviewRating } from './reviewRating';
 import { ReviewStatus } from './reviewStatus';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
 
 interface ReviewProps {
   userName: string;
@@ -15,12 +16,15 @@ interface ReviewProps {
   createdAt: Date;
   status: ReviewStatus;
   _id: string;
+  updatedAt: Date | null;
 }
+
+interface CreateReviewProps extends Omit<ReviewProps, 'createdAt' | 'updatedAt' | '_id'> {}
 
 export class Review {
   constructor(private props: ReviewProps) {}
 
-  public static create(props: ReviewProps): Result<Review, DomainValidationError> {
+  public static create(props: CreateReviewProps): Result<Review, DomainValidationError> {
     const schema = z.object({
       userName: z.string(),
       _id: z.string(),
@@ -35,11 +39,23 @@ export class Review {
       return Result.fail(zodDomainValidationError(result.error));
     }
 
-    return Result.ok(new Review(props));
+    return Result.ok(
+      new Review({
+        ...props,
+        createdAt: new Date(),
+        updatedAt: null,
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: ReviewProps) {
+    return new Review(props);
   }
 
   public updateStatus(status: ReviewStatus) {
     this.props.status = status;
+    this.props.updatedAt = new Date();
   }
 
   get userName() {

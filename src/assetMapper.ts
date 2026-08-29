@@ -1,7 +1,6 @@
-import { AssetDoc } from '../../../Asset';
-import { Result } from '../../../Result';
-import { Asset } from './asset';
-import { DomainValidationError } from './status';
+import { Result } from './result';
+import { Asset, AssetDoc } from './asset';
+import { DomainValidationError } from './modules/blog/article/status';
 
 export interface AssetDto {
   publicId: string;
@@ -61,17 +60,17 @@ export class AssetMapper {
     return Result.ok(assets);
   }
 
-  public static toDto(entity: any): AssetDto {
+  public static toDto(entity: AssetDoc): AssetDto {
     return {
-      publicId: entity.publicId,
+      publicId: entity.public_id,
       width: entity.width,
       height: entity.height,
       format: entity.format,
-      resourceType: entity.resourceType,
-      createdAt: entity.createdAt,
+      resourceType: entity.resource_type,
+      createdAt: entity.created_at,
       url: entity.url,
-      secureUrl: entity.secureUrl,
-      originalFilename: entity.originalFilename,
+      secureUrl: entity.secure_url,
+      originalFilename: entity.original_filename,
     };
   }
 

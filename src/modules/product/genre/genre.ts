@@ -1,8 +1,9 @@
 import * as z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
+import { v7 as uuid7 } from 'uuid';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { Result } from '../../../result';
 
 interface GenreProps {
   _id: string;
@@ -12,9 +13,8 @@ interface GenreProps {
   updatedAt: Date | null;
 }
 
-interface GenreCreateProps extends Omit<GenreProps, 'slug' | 'updatedAt'> {
+interface GenreCreateProps extends Omit<GenreProps, 'slug' | 'updatedAt' | '_id'> {
   slug?: string;
-  updatedAt?: Date | null;
 }
 
 export class Genre {
@@ -39,9 +39,14 @@ export class Genre {
       new Genre({
         ...props,
         slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: GenreProps) {
+    return new Genre(props);
   }
 
   public update(name: string, slug: string): Result<undefined, DomainValidationError> {

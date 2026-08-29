@@ -1,8 +1,7 @@
 import * as z from 'zod';
 import { textUtils } from '../../../utils/textUtils';
-import { Asset } from '../blog/article/asset';
+import { Asset } from '../../asset';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { ProductLink } from './productLink';
 import { ProductMarkdown } from './productMarkdown';
@@ -12,6 +11,8 @@ import { ProductRequirements } from './productRequirements';
 import { ProductStatus } from './productStatus';
 import { ProductTitle } from './productTitle';
 import { Meta } from '../../Meta';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
 
 interface ProductProps {
   _id: string;
@@ -67,9 +68,8 @@ interface UpdateMediaProps {
   videos: string[];
 }
 
-interface ProductCreateProps extends Omit<ProductProps, 'createdAt' | 'updatedAt' | 'slug'> {
-  createdAt?: Date;
-  updatedAt?: Date | null;
+interface ProductCreateProps
+  extends Omit<ProductProps, 'createdAt' | 'updatedAt' | 'slug' | '_id'> {
   slug?: string;
 }
 
@@ -104,11 +104,16 @@ export class Product {
     return Result.ok(
       new Product({
         ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || null,
+        createdAt: new Date(),
+        updatedAt: null,
         slug: props.slug || textUtils.generateSlug(props.title.value),
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: ProductProps) {
+    return new Product(props);
   }
 
   public addKey(keyId: string): Result<undefined, DomainValidationError> {

@@ -1,8 +1,9 @@
 import z from 'zod';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { NamespaceTranslation } from './namespaceTransation';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../../result';
 
 interface NamespaceProps {
   _id: string;
@@ -13,9 +14,7 @@ interface NamespaceProps {
 }
 
 interface NamespacePropsCreate
-  extends Omit<NamespaceProps, 'createdAt' | 'updatedAt' | 'translations'> {
-  createdAt?: Date;
-  updatedAt?: Date | null;
+  extends Omit<NamespaceProps, 'createdAt' | 'updatedAt' | 'translations' | '_id'> {
   translations?: NamespaceTranslation[];
 }
 
@@ -25,7 +24,6 @@ export class Namespace {
   public static create(props: NamespacePropsCreate): Result<Namespace, DomainValidationError> {
     const schema = z.object({
       name: z.string(),
-      _id: z.string(),
       createdAt: z.date().optional(),
       updatedAt: z.date().optional(),
     });
@@ -39,11 +37,16 @@ export class Namespace {
     return Result.ok(
       new Namespace({
         ...props,
-        createdAt: props.createdAt || new Date(),
-        updatedAt: props.updatedAt || null,
+        createdAt: new Date(),
+        updatedAt: null,
         translations: props.translations || [],
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: NamespaceProps) {
+    return new Namespace(props);
   }
 
   public addTranslation(translation: NamespaceTranslation): Result<void, DomainValidationError> {

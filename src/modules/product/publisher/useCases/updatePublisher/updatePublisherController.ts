@@ -16,6 +16,7 @@ export class UpdatePublisherController extends Controller {
     const schema = z.object({
       name: z.string().min(3),
       publisherId: z.string(),
+      slug: z.string(),
       logoFile: z
         .object({
           originalname: z.string(),

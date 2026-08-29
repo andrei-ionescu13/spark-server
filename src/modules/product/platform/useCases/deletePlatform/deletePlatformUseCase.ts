@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
@@ -32,11 +32,12 @@ export class DeletePlatformUseCase implements UseCase<DeletePlatformRequestDto, 
 
     try {
       const platform = await this.platformQueriesRepo.getPlatform(platformId);
+
       if (!platform) {
         return Result.fail(new UseCaseErrors.NotFound('Platform not found'));
       }
 
-      await this.platformCommandsRepo.deletePlatform(platformId);
+      await this.platformCommandsRepo.deletePlatform(platform._id);
       await this.uploaderService.delete(platform.logo.publicId);
 
       return Result.ok();

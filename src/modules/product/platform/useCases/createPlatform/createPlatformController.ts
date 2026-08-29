@@ -26,7 +26,7 @@ export class CreatePlatformController extends Controller {
 
     const result = schema.safeParse({
       name: req.body.name,
-      slug: req.body.slug,
+      url: req.body.url,
       logoFile: req.file,
     });
 

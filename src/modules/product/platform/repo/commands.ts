@@ -1,9 +1,9 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../../Result';
 import { DomainValidationError } from '../../../blog/article/status';
 import { PlatformDoc } from '../model';
 import { Platform } from '../platform';
 import { PlatformMapper } from '../platformMapper';
+import { Result } from '../../../../result';
 
 export interface PlatformCommandsRepoI {
   save: (platform: Platform) => Promise<void>;

@@ -1,6 +1,7 @@
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../zodErrors';
 import { Result } from '../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface TokenProps {
   _id: string;
@@ -11,12 +12,13 @@ interface TokenProps {
   type: 'refresh-token';
 }
 
+interface CreateTokenProps extends Omit<TokenProps, '_id' | 'createdAt'> {}
+
 export class Token {
   constructor(private readonly props: TokenProps) {}
 
-  static create(props: TokenProps): Result<Token, Error> {
+  static create(props: CreateTokenProps): Result<Token, Error> {
     const schema = z.object({
-      _id: z.string(),
       admin: z.string(),
       value: z.string(),
       expiresAt: z.date().refine((date) => date.getTime() > Date.now(), {
@@ -33,7 +35,17 @@ export class Token {
       return Result.fail(zodDomainValidationError(validation.error));
     }
 
-    return Result.ok(new Token(props));
+    return Result.ok(
+      new Token({
+        ...props,
+        createdAt: new Date(),
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: TokenProps) {
+    return new Token(props);
   }
 
   isExpired() {

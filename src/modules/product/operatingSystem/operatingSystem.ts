@@ -1,8 +1,9 @@
 import * as z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { Result } from '../../../result';
+import { v7 as uuidv7 } from 'uuid';
 
 interface OperatingSystemProps {
   _id: string;
@@ -12,9 +13,9 @@ interface OperatingSystemProps {
   updatedAt: Date | null;
 }
 
-interface OperatingSystemCreateProps extends Omit<OperatingSystemProps, 'slug' | 'updatedAt'> {
+interface OperatingSystemCreateProps
+  extends Omit<OperatingSystemProps, 'slug' | 'updatedAt' | '_id'> {
   slug?: string;
-  updatedAt?: Date | null;
 }
 
 export class OperatingSystem {
@@ -22,7 +23,6 @@ export class OperatingSystem {
 
   static create(props: OperatingSystemCreateProps): Result<OperatingSystem, DomainValidationError> {
     const schema = z.object({
-      _id: z.string(),
       createdAt: z.date(),
       updatedAt: z.date().optional(),
       name: z.string().min(3),
@@ -39,9 +39,14 @@ export class OperatingSystem {
       new OperatingSystem({
         ...props,
         slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuidv7(),
       }),
     );
+  }
+
+  public static reconstitute(props: OperatingSystemProps) {
+    return new OperatingSystem(props);
   }
 
   public update(name: string, slug: string): Result<undefined, DomainValidationError> {

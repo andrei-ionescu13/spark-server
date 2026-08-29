@@ -1,8 +1,9 @@
 import * as z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { Result } from '../../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface FeatureProps {
   _id: string;
@@ -12,9 +13,8 @@ interface FeatureProps {
   updatedAt: Date | null;
 }
 
-interface FeatureCreateProps extends Omit<FeatureProps, 'slug' | 'updatedAt'> {
+interface FeatureCreateProps extends Omit<FeatureProps, 'slug' | 'updatedAt' | '_id'> {
   slug?: string;
-  updatedAt?: Date | null;
 }
 
 export class Feature {
@@ -39,9 +39,14 @@ export class Feature {
       new Feature({
         ...props,
         slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: FeatureProps) {
+    return new Feature(props);
   }
 
   public update(name: string, slug: string): Result<undefined, DomainValidationError> {

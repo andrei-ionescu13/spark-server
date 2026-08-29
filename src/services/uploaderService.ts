@@ -37,12 +37,14 @@ export class CloudinaryUploaderService implements UploaderService {
           }
 
           if (result) {
+            console.log(result, 333333333333333333333333333333);
             resolve({
               ...result,
-              publicId: result?.public_id,
-              createdAt: result?.created_at,
-              secureUrl: result?.secure_url,
-              originalFilename: result?.original_filename,
+              publicId: result.public_id,
+              createdAt: result.created_at,
+              secureUrl: result.secure_url,
+              originalFilename: result.original_filename,
+              resourceType: result.resource_type,
             });
           }
         },

@@ -49,9 +49,7 @@ export class CreateArticleCategoryController extends Controller {
         }
       }
 
-      const articleCategoryName = result._value;
-
-      return this.ok(res, { name: articleCategoryName });
+      return this.ok(res);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

@@ -1,14 +1,16 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
 import { CouponCode } from './couponCode';
 import { CouponType } from './couponType';
 import { CouponUserSelection } from './couponUserSelection';
 import { CouponValue } from './couponValue';
 import { CouponProductSelection } from './couponProductSelection';
+import { Result } from '../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface CouponProps {
+  createdAt: Date;
   _id: string;
   code: CouponCode;
   userSelection: CouponUserSelection;
@@ -19,15 +21,17 @@ interface CouponProps {
   value: CouponValue;
   startDate: Date;
   endDate: Date | null;
+  updatedAt: Date | null;
 }
+
+interface CreateCouponProps extends Omit<CouponProps, '_id' | 'createdAt' | 'updatedAt'> {}
 
 export class Coupon {
   constructor(private props: CouponProps) {}
 
-  public static create(props: CouponProps): Result<Coupon, DomainValidationError> {
+  public static create(props: CreateCouponProps): Result<Coupon, DomainValidationError> {
     const schema = z
       .object({
-        _id: z.string(),
         products: z.array(z.string()),
         users: z.array(z.string()),
         startDate: z.date(),
@@ -48,7 +52,18 @@ export class Coupon {
       return Result.fail(zodDomainValidationError(result.error));
     }
 
-    return Result.ok(new Coupon(props));
+    return Result.ok(
+      new Coupon({
+        ...props,
+        _id: uuid7(),
+        createdAt: new Date(),
+        updatedAt: null,
+      }),
+    );
+  }
+
+  public static reconstitute(props: CouponProps) {
+    return new Coupon(props);
   }
 
   deactivate() {
@@ -84,6 +99,7 @@ export class Coupon {
     this.props = {
       ...this.props,
       ...props,
+      updatedAt: new Date(),
     };
 
     return Result.ok({ removedUsers, newUsers });

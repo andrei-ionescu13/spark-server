@@ -1,9 +1,10 @@
 import z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
-import { Asset } from '../../blog/article/asset';
+import { Asset } from '../../../asset';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { Result } from '../../../result';
+import { v7 as uuidv7 } from 'uuid';
 
 interface PlatformProps {
   name: string;
@@ -11,14 +12,10 @@ interface PlatformProps {
   createdAt: Date;
   updatedAt: Date | null;
   _id: string;
-  slug: string;
   url: string;
 }
 
-interface PlatformCreateProps extends Omit<PlatformProps, 'slug' | 'updatedAt'> {
-  slug?: string;
-  updatedAt?: Date | null;
-}
+interface PlatformCreateProps extends Omit<PlatformProps, '_id'> {}
 
 export class Platform {
   constructor(private props: PlatformProps) {}
@@ -27,25 +24,29 @@ export class Platform {
     const schema = z.object({
       _id: z.string(),
       createdAt: z.date(),
-      updatedAt: z.date().optional(),
+      updatedAt: z.date().nullable(),
       name: z.string().min(3),
-      slug: z.string().optional(),
       url: z.string().url(),
     });
 
     const result = schema.safeParse(props);
 
     if (result.error) {
+      console.log(result.error);
       return Result.fail(zodDomainValidationError(result.error));
     }
 
     return Result.ok(
       new Platform({
         ...props,
-        slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuidv7(),
       }),
     );
+  }
+
+  public static reconstitute(props: PlatformProps) {
+    return new Platform(props);
   }
 
   public update(props: {
@@ -66,7 +67,6 @@ export class Platform {
 
     this.props.name = props.name;
     this.props.url = props.url;
-    this.props.slug = textUtils.generateSlug(props.name);
     this.props.updatedAt = new Date();
 
     if (props.logo) {
@@ -94,10 +94,6 @@ export class Platform {
 
   get _id() {
     return this.props._id;
-  }
-
-  get slug() {
-    return this.props.slug;
   }
 
   get url() {

@@ -40,7 +40,7 @@ export class PlatformQueriesRepo implements PlatformQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          platforms: [{ $skip: page }, { $limit: limit }],
+          platforms: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',
@@ -68,7 +68,7 @@ export class PlatformQueriesRepo implements PlatformQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-
+    console.log(result);
     return {
       platforms: PlatformMapper.toDtoList(result.platforms),
       count: result.count,

@@ -1,4 +1,4 @@
-import { AssetDto, AssetMapper } from '../blog/article/assetMapper';
+import { AssetDto, AssetMapper } from '../../assetMapper';
 import { DomainValidationError } from '../blog/article/status';
 import { MetaDto, MetaMapper } from '../../metaMapper';
 import { Result } from '../../Result';

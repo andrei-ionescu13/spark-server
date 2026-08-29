@@ -41,7 +41,7 @@ export class PublisherQueriesRepo implements PublisherQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          publishers: [{ $skip: page }, { $limit: limit }],
+          publishers: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',

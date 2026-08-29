@@ -1,6 +1,6 @@
+import { Meta, MetaDoc } from './Meta';
 import { DomainValidationError } from './modules/blog/article/status';
-import { Meta, MetaDoc } from './meta';
-import { Result } from './Result';
+import { Result } from './result';
 
 export interface MetaDto {
   title: string;

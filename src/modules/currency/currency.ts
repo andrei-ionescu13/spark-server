@@ -1,7 +1,8 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
 import { zodDomainValidationError } from '../../zodErrors';
+import { v7 as uuid7 } from 'uuid';
+import { Result } from '../../result';
 
 interface CurrencyProps {
   name: string;
@@ -10,15 +11,16 @@ interface CurrencyProps {
   _id: string;
 }
 
+interface CreateCurrencyProps extends Omit<CurrencyProps, '_id'> {}
+
 export class Currency {
   constructor(private props: CurrencyProps) {}
 
-  public static create(props: CurrencyProps): Result<Currency, DomainValidationError> {
+  public static create(props: CreateCurrencyProps): Result<Currency, DomainValidationError> {
     const schema = z.object({
       name: z.string(),
       code: z.string(),
       symbol: z.string(),
-      _id: z.string(),
     });
 
     const result = schema.safeParse(props.name);
@@ -27,7 +29,11 @@ export class Currency {
       return Result.fail(zodDomainValidationError(result.error));
     }
 
-    return Result.ok(new Currency(props));
+    return Result.ok(new Currency({ ...props, _id: uuid7() }));
+  }
+
+  public static reconstitute(props: CurrencyProps) {
+    return new Currency(props);
   }
 
   get name() {

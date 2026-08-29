@@ -1,14 +1,13 @@
-import { Asset } from '../../blog/article/asset';
-import { AssetDto, AssetMapper, AssetPersistance } from '../../blog/article/assetMapper';
+import { Result } from '../../../result';
+import { Asset } from '../../../asset';
+import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { PlatformDoc } from './model';
 import { Platform } from './platform';
 
 export interface PlatformDto {
   _id: string;
   name: string;
-  slug: string;
   createdAt: Date;
   updatedAt: Date | null;
   logo: AssetDto;
@@ -18,7 +17,6 @@ export interface PlatformDto {
 interface PlatformPersistance {
   _id: string;
   name: string;
-  slug: string;
   createdAt: Date;
   updatedAt: Date | null;
   logo: AssetPersistance;
@@ -47,7 +45,6 @@ export class PlatformMapper {
     const platformOrError = Platform.create({
       _id: entity._id,
       name: entity.name,
-      slug: entity.slug,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       url: entity.url,
@@ -55,6 +52,7 @@ export class PlatformMapper {
     });
 
     if (platformOrError.isErr()) {
+      console.log(platformOrError);
       return Result.fail(new DomainValidationError(platformOrError.error.message));
     }
 
@@ -66,7 +64,6 @@ export class PlatformMapper {
     return {
       _id: entity._id,
       name: entity.name,
-      slug: entity.slug,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       url: entity.url,
@@ -82,7 +79,6 @@ export class PlatformMapper {
     return {
       _id: entity._id,
       name: entity.name,
-      slug: entity.slug,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       url: entity.url,

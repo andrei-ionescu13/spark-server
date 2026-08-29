@@ -1,9 +1,10 @@
 import z from 'zod';
 import { textUtils } from '../../../../utils/textUtils';
-import { Asset } from '../../blog/article/asset';
+import { Asset } from '../../../asset';
 import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { zodDomainValidationError } from '../../../zodErrors';
+import { Result } from '../../../result';
+import { v7 as uuid7 } from 'uuid';
 
 interface DeveloperProps {
   name: string;
@@ -14,9 +15,8 @@ interface DeveloperProps {
   slug: string;
 }
 
-interface DeveloperCreateProps extends Omit<DeveloperProps, 'slug' | 'updatedAt'> {
+interface DeveloperCreateProps extends Omit<DeveloperProps, 'slug' | 'updatedAt' | '_id'> {
   slug?: string;
-  updatedAt?: Date | null;
 }
 
 export class Developer {
@@ -41,9 +41,14 @@ export class Developer {
       new Developer({
         ...props,
         slug: props.slug || textUtils.generateSlug(props.name),
-        updatedAt: props.updatedAt || null,
+        updatedAt: null,
+        _id: uuid7(),
       }),
     );
+  }
+
+  public static reconstitute(props: DeveloperProps) {
+    return new Developer(props);
   }
 
   public update(props: { name: string; logo?: Asset }): Result<undefined, DomainValidationError> {

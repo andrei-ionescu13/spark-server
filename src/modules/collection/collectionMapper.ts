@@ -1,5 +1,5 @@
-import { Asset } from '../blog/article/asset';
-import { AssetDto, AssetMapper, AssetPersistance } from '../blog/article/assetMapper';
+import { Asset } from '../../asset';
+import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
 import { DomainValidationError } from '../blog/article/status';
 import { Meta } from '../../meta';
 import { MetaDto, MetaMapper, MetaPersistance } from '../../metaMapper';

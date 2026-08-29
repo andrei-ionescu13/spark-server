@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../blog/article/asset';
-import { Result } from '../../../../../Result';
+import { Asset } from '../../../../../asset';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Publisher } from '../../publisher';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { UpdatePublisherRequestDto } from './updatePublisherRequestDto';
+import { Result } from '../../../../../result';
 
 type Response = Result<
   Publisher,
@@ -45,7 +45,7 @@ export class UpdatePublisherUseCase implements UseCase<UpdatePublisherRequestDto
         await this.uploaderService.delete(publisher.logo.publicId);
       }
 
-      publisher.update({ name: props.name, logo: props.logo });
+      publisher.update({ name: props.name, logo: props.logo, slug: props.slug });
       await this.publisherCommandsRepo.save(publisher);
 
       return Result.ok(publisher);

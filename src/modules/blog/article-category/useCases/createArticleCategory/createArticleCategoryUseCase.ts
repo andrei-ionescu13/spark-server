@@ -1,12 +1,13 @@
 import { textUtils } from '../../../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
 import { UseCaseError } from '../../../../../UseCaseError';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategory } from '../../articleCategory';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
 import { CreateArticleCategoryRequestDto } from './createArticleCategoryRequestDto';
+import { v7 as uuid7 } from 'uuid';
 
 export namespace CreateArticleCategoryErrors {
   export class NameNotAvailableError extends UseCaseError {
@@ -23,7 +24,7 @@ export namespace CreateArticleCategoryErrors {
 }
 
 type Response = Result<
-  ArticleCategory,
+  void,
   | CreateArticleCategoryErrors.NameNotAvailableError
   | CreateArticleCategoryErrors.SlugNotAvailableError
   | UseCaseErrors.UnexpectedError
@@ -56,13 +57,12 @@ export class CreateArticleCategoryUseCase
     };
 
     try {
-      const articleCategory = await this.articleCategoryQueriesRepo.getArticleCategoryByPropsOr([
-        { name: props.name, slug: props.slug },
-      ]);
-      const found = !!articleCategory;
-
-      if (found) {
-        const result = this.comparePropsToArticleCategory(props, articleCategory);
+      const existingArticleCategory =
+        await this.articleCategoryQueriesRepo.getArticleCategoryByPropsOr([
+          { name: props.name, slug: props.slug },
+        ]);
+      if (existingArticleCategory) {
+        const result = this.comparePropsToArticleCategory(props, existingArticleCategory);
 
         if (result.isErr()) {
           return Result.fail(result.error);
@@ -71,18 +71,19 @@ export class CreateArticleCategoryUseCase
         return Result.fail(new UseCaseErrors.UnexpectedError());
       }
 
-      const createdArticleCategoryOrError =
-        await this.articleCategoryCommandsRepo.createArticleCategory(props);
+      const articleCategoryOrError = ArticleCategory.create({
+        ...props,
+        _id: uuid7(),
+        createdAt: new Date(),
+        updatedAt: null,
+      });
 
-      if (createdArticleCategoryOrError.isErr()) {
-        return Result.fail(
-          new UseCaseErrors.ValidationError(createdArticleCategoryOrError.error.message),
-        );
+      if (articleCategoryOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.ValidationError(articleCategoryOrError.error.message));
       }
-
-      const createdArticleCategory = createdArticleCategoryOrError.value;
-
-      return Result.ok(createdArticleCategory);
+      const articleCategory = articleCategoryOrError.value;
+      await this.articleCategoryCommandsRepo.save(articleCategory);
+      return Result.ok();
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));
