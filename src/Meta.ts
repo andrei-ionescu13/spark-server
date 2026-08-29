@@ -1,10 +1,8 @@
-import mongoose from 'mongoose';
 import * as z from 'zod';
-import { DomainValidationError } from './blog/article/status';
+import { DomainValidationError } from './modules/blog/article/status';
 import { ValueObject } from './valueObject';
-import { Result } from './Result';
+import { Result } from './result';
 import { zodDomainValidationError } from './zodErrors';
-const { Schema } = mongoose;
 
 interface MetaProps {
   title: string;
@@ -51,17 +49,3 @@ export interface MetaDoc {
   description: string;
   keywords: string[];
 }
-
-export const MetaSchema = new Schema<MetaDoc>({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  keywords: { type: [String], required: true },
-});
-
-export const MetaModel = mongoose.model<MetaDoc>('Meta', MetaSchema);

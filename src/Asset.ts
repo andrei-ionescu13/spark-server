@@ -1,6 +1,3 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
-
 export interface AssetDoc {
   public_id: string;
   width: number;
@@ -27,26 +24,3 @@ export interface AssetDoc {
   // metadata: object;
   // colors?: [string, number][];
 }
-
-export const AssetSchema = new Schema({
-  public_id: String,
-  width: Number,
-  height: Number,
-  resource_type: String,
-  created_at: Date,
-  url: String,
-  secure_url: String,
-  original_filename: String,
-  format: String,
-
-  // asset_id: String,
-  // version: Number,
-  // version_id: String,
-  // signature: String,
-  // tags: [String],
-  // bytes: Number,
-  // type: String,
-  // etag: String,
-  // placeholder: Boolean,
-  // api_key: String,
-});

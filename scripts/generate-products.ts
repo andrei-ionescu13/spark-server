@@ -12,8 +12,8 @@ import { PlatformModel } from '../platform/model';
 import { PlatformRepo } from '../platform/platformRepo';
 import { ProductModel } from '../product/model';
 import { ProductRepo } from '../product/productRepo';
-import { PublisherModel } from '../src/product/publisher/model';
-import { PublisherRepo } from '../src/product/publisher/publisherRepo';
+import { PublisherModel } from '../src/modules/product/publisher/model';
+import { PublisherRepo } from '../src/modules/product/publisher/publisherRepo';
 import { CloudinaryUploaderService } from '../src/services/uploaderService';
 
 const products = [

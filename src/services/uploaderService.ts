@@ -1,7 +1,5 @@
 import cloudinary, { UploadApiResponse } from 'cloudinary';
-import * as dotenv from 'dotenv';
 import streamifier from 'streamifier';
-dotenv.config();
 
 interface UploadFileResponse extends UploadApiResponse {
   publicId: string;

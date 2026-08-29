@@ -57,7 +57,7 @@ export class Result<T, U extends Error> {
   }
 
   public get value(): T {
-    if (!this.isSuccess || !this._value) {
+    if (!this.isSuccess) {
       throw new Error(`Can't retrieve the value from a failed result.`);
     }
     return this._value;
