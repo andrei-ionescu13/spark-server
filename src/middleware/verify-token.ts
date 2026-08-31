@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken';
 import { authConfig } from '../config';
 
 export const verifyToken = (req, res, next) => {
-  console.log(132123);
   const { accessToken } = req.cookies || {};
   if (!accessToken) {
     return res.status(401).send({ message: 'Access token required' });
