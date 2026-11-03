@@ -16,13 +16,11 @@ export class CreateLanguageController extends Controller {
     const schema = z.object({
       name: z.string(),
       code: z.string().min(2).max(2),
-      nativeName: z.string(),
     });
 
     const result = schema.safeParse({
       name: req.body.name,
-      slug: req.body.slug,
-      logoFile: req.file,
+      code: req.body.code,
     });
 
     if (result.error) {

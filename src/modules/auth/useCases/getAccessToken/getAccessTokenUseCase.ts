@@ -1,8 +1,8 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { AuthService } from '../../../authService';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
+import { AuthService } from '../../authService';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { TokenCommandsRepoI } from '../../repo/token/commands';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
@@ -45,11 +45,7 @@ export class GetAccessTokenUseCase implements UseCase<GetAccessTokenRequestDto, 
       }
 
       const { adminId } = await this.authService.decodeRefreshToken(refreshTokenReq);
-      const refreshTokenOrError = await this.tokenCommandsRepo.findOne(refreshTokenReq, adminId);
-      if (refreshTokenOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(refreshTokenOrError.error.message));
-
-      const refreshToken = refreshTokenOrError.value;
+      const refreshToken = await this.tokenCommandsRepo.findOne(refreshTokenReq, adminId);
 
       if (!refreshToken) {
         return Result.fail(new GetAccessTokenErrors.RefreshTokenRequiredError());

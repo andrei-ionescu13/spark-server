@@ -9,4 +9,5 @@ export interface ReviewDoc {
   createdAt: Date;
   status: Status;
   _id: string;
+  updatedAt: Date | null;
 }

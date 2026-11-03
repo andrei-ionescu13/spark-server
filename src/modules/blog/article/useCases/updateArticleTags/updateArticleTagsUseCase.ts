@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { ArticleTagQueriesRepoI } from '../../../article-tag/repo/queries';
@@ -26,42 +26,28 @@ export class UpdateArticleTagsUseCase implements UseCase<UpdateArticleTagsReques
     const { articleId, tags } = request;
 
     try {
-      const articleOrError = await this.articleCommandsRepo.getArticle(articleId);
-
-      if (articleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleOrError.error.message));
-      }
-
-      const article = articleOrError.value;
-
+      const article = await this.articleCommandsRepo.getArticle(articleId);
       if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 
-      if (article.isArchived()) {
+      if (article.isArchived) {
         return Result.fail(new UpdateArticleTagsErrors.ArchivedArticleError());
       }
 
       const articleTags = await this.articleTagQueriesRepo.getArticleTags(tags);
-
       if (tags.length !== articleTags.length) {
         return Result.fail(new UseCaseErrors.NotFound('Tags not found'));
       }
 
-      const updatedArticleOrError = await this.articleCommandsRepo.updateArticle(articleId, {
-        tags,
-      });
-      if (updatedArticleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(updatedArticleOrError.error.message));
+      const articleTagIds = articleTags.map((tag) => tag._id);
+      const updateResult = article.updateTags(articleTagIds);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      const updatedArticle = updatedArticleOrError.value;
-
-      if (!updatedArticle) {
-        return Result.fail(new UseCaseErrors.NotFound('Article not found'));
-      }
-
-      return Result.ok(updatedArticle.tags);
+      await this.articleCommandsRepo.save(article);
+      return Result.ok(articleTagIds);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

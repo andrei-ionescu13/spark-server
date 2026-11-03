@@ -2,16 +2,10 @@ export interface CreateProductRequestDto {
   title: string;
   minimumRequirements: string;
   recommendedRequirements: string;
-  shouldPublish: boolean;
   markdown: string;
   price: number;
   genres: string[];
-  selectedImages: {
-    originalname: string;
-    mimetype: 'image/png' | 'image/jpeg' | 'image/jpg' | 'image/webp';
-    size: number;
-    buffer: Buffer;
-  }[];
+  images: string[];
   videos: string[];
   developers: string[];
   features: string[];
@@ -19,7 +13,7 @@ export interface CreateProductRequestDto {
   publisher: string;
   platform: string;
   link?: string;
-  os: string;
+  os: string[];
   slug?: string;
   meta: {
     description: string;
@@ -32,16 +26,10 @@ export interface CreateProductRequestDto {
     size: number;
     buffer: Buffer;
   };
-  imageFiles: {
+  allImageFiles: {
     originalname: string;
     mimetype: 'image/png' | 'image/jpeg' | 'image/jpg' | 'image/webp';
     size: number;
     buffer: Buffer;
   }[];
-  keysFile: {
-    originalname: string;
-    mimetype: 'text/plain';
-    size: number;
-    buffer: Buffer;
-  };
 }

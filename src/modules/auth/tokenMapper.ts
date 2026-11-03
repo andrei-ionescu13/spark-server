@@ -1,8 +1,6 @@
-import { MappingValidationError } from '../blog/article/status';
-import { Mapper } from '../blog/mapper';
-import { Result } from '../../Result';
+import { MappingValidationError } from '../blog/article/domain/status';
 import { TokenDoc } from './model';
-import { Token } from './token';
+import { Token } from './domain/token';
 
 export interface TokenDto {
   _id: string;
@@ -13,13 +11,9 @@ export interface TokenDto {
 }
 
 export class TokenMapper {
-  static toDomain(doc: TokenDoc): Result<Token, MappingValidationError> {
-    const tokenOrError = Token.create(doc);
-    if (tokenOrError.isErr())
-      return Result.fail(new MappingValidationError(tokenOrError.error.message));
-
-    const token = tokenOrError.value;
-    return Result.ok(token);
+  static toDomain(doc: TokenDoc): Token {
+    const token = Token.reconstitute(doc);
+    return token;
   }
 
   static toPersistence(token: Token): TokenDoc {

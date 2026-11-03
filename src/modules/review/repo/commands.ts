@@ -1,7 +1,5 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
 import { ReviewDoc } from '../model';
-import { Review } from '../review';
+import { Review } from '../domain/review';
 import { ReviewMapper } from '../reviewMapper';
 import { Collection } from 'mongodb';
 
@@ -9,7 +7,8 @@ export interface ReviewCommandsRepoI {
   save: (review: Review) => Promise<void>;
   deleteReview: (id: string) => Promise<void>;
   deleteReviews: (ids: string[]) => Promise<void>;
-  getReview: (id: string) => Promise<Result<Review | null, DomainValidationError>>;
+  getReview: (id: string) => Promise<Review | null>;
+  getReviews: (ids: string[]) => Promise<Review[]>;
 }
 
 export class ReviewCommandsRepo implements ReviewCommandsRepoI {
@@ -28,28 +27,17 @@ export class ReviewCommandsRepo implements ReviewCommandsRepoI {
     await this.collection.deleteMany({ _id: { $in: ids } });
   };
 
-  getReview = async (id: string): Promise<Result<Review | null, DomainValidationError>> => {
+  getReview = async (id: string): Promise<Review | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const reviewOrError = ReviewMapper.toDomain(doc);
-
-    if (reviewOrError.isErr()) {
-      return Result.fail(new DomainValidationError(reviewOrError.error.message));
-    }
-    const review = reviewOrError.value;
-
-    return Result.ok(review);
+    const review = ReviewMapper.toDomain(doc);
+    return review;
   };
 
-  getReviews = async (ids: string[]): Promise<Result<Review[], DomainValidationError>> => {
+  getReviews = async (ids: string[]): Promise<Review[]> => {
     const docs = await this.collection.find({ _id: { $in: ids } }).toArray();
-    const reviewsOrError = ReviewMapper.toDomainList(docs);
-
-    if (reviewsOrError.isErr()) {
-      return Result.fail(new DomainValidationError(reviewsOrError.error.message));
-    }
-    const reviews = reviewsOrError.value;
-    return Result.ok(reviews);
+    const reviews = ReviewMapper.toDomainList(docs);
+    return reviews;
   };
 }

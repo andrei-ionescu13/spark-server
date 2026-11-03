@@ -1,12 +1,11 @@
 import { UseCaseErrors } from '../../../../AppError';
 import { Meta } from '../../../../Meta';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { ProductRepoI } from '../../productRepo';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { UpdateProductMetaRequestDto } from './updateProductMetaRequestDto';
 
-type Response = Result<void, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaRequestDto, Response> {
   constructor(private productCommandsRepo: ProductCommandsRepoI) {}
@@ -15,11 +14,7 @@ export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaReques
     const { productId, metaDescription, metaKeywords, metaTitle } = request;
 
     try {
-      const productOrError = await this.productCommandsRepo.getProduct(productId);
-      if (productOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(productId);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
@@ -35,7 +30,7 @@ export class UpdateProductMetaUseCase implements UseCase<UpdateProductMetaReques
       const meta = metaOrError.value;
       product.updateMeta(meta);
       await this.productCommandsRepo.save(product);
-      return Result.ok();
+      return Result.ok(product._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

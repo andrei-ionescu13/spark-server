@@ -1,6 +1,5 @@
 import { Mongo } from '../../../../mongo';
 import { CloudinaryUploaderService } from '../../../../services/uploaderService';
-import { ProductRepo } from '../../productRepo';
 import { ProductCommandsRepo } from '../../repo/commands';
 import { UpdateProductMediaController } from './updateProductMediaController';
 import { UpdateProductMediaUseCase } from './updateProductMediaUseCase';

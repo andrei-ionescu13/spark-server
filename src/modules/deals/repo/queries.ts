@@ -17,13 +17,15 @@ export interface DealQueriesRepoI {
   searchDeals: (query: SearchDealsQueries) => Promise<{ deals: DealDto[]; count: number }>;
 }
 
-const buildIntervalQueries = (status) => {
+const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
+  const now = new Date();
+
   if (status === 'expired') {
     return {
       endDate: {
         $exists: true,
         $ne: null,
-        $lte: Date.now(),
+        $lte: now,
       },
     };
   }
@@ -31,43 +33,18 @@ const buildIntervalQueries = (status) => {
   if (status === 'active') {
     return {
       startDate: {
-        $lte: Date.now(),
+        $lte: now,
       },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
   if (status === 'scheduled') {
     return {
-      $or: [
-        {
-          $and: [
-            {
-              endDate: {
-                $gt: Date.now(),
-                $exists: true,
-                $ne: null,
-              },
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-        {
-          $and: [
-            {
-              endDate: null,
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-      ],
+      startDate: {
+        $gt: now,
+      },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
@@ -115,7 +92,7 @@ export class DealQueriesRepo implements DealQueriesRepoI {
       limit = 10,
       status,
     } = query;
-    const intervalQueries = buildIntervalQueries(status);
+    const intervalQueries = buildIntervalQuery(status);
     const pipeline = [
       {
         $match: {
@@ -133,7 +110,7 @@ export class DealQueriesRepo implements DealQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          deals: [{ $skip: page }, { $limit: limit }],
+          deals: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',

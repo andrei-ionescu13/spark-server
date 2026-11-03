@@ -1,16 +1,15 @@
-import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
+import { DomainValidationError } from '../blog/article/domain/status';
 import { UserDoc } from './model';
-import { User } from './user';
-import { UserEmail } from './userEmail';
-import { UserStatus } from './userStatus';
+import { User } from './domain/user';
+import { UserEmail } from './domain/userEmail';
+import { UserStatus } from './domain/userStatus';
 
 export interface UserPersistance {
   email: string;
   password: string;
   createdAt: Date;
   status: 'active' | 'inactive' | 'banned';
-  updatedAt: Date;
+  updatedAt: Date | null;
   orders: string[];
   activeOrders: string[];
   ordersCount: number;
@@ -24,7 +23,7 @@ export interface UserDto {
   email: string;
   createdAt: Date;
   status: 'active' | 'inactive' | 'banned';
-  updatedAt: Date;
+  updatedAt: Date | null;
   orders: string[];
   activeOrders: string[];
   ordersCount: number;
@@ -35,30 +34,16 @@ export interface UserDto {
 }
 
 export class UserMapper {
-  public static toDomain(entity: UserDoc): Result<User, DomainValidationError> {
-    const emailOrError = UserEmail.create(entity.email);
-    const statusOrError = UserStatus.create(entity.status);
-
-    const result = Result.combine([emailOrError, statusOrError]);
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const email = emailOrError.value;
-    const status = statusOrError.value;
-
-    const userOrError = User.create({
+  public static toDomain(entity: UserDoc): User {
+    const email = UserEmail.reconstitute(entity.email);
+    const status = UserStatus.reconstitute(entity.status);
+    const user = User.reconstitute({
       ...entity,
       email,
       status,
     });
 
-    if (userOrError.isErr()) {
-      return Result.fail(new DomainValidationError(userOrError.error.message));
-    }
-
-    const user = userOrError.value;
-    return Result.ok(user);
+    return user;
   }
 
   public static toDto(entity: UserDoc): UserDto {
@@ -81,7 +66,7 @@ export class UserMapper {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: User): UserPersistance {
+  static toPersistance(entity: User): UserDoc {
     return {
       email: entity.email.value,
       password: entity.password,

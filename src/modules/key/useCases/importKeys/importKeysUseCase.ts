@@ -2,13 +2,13 @@ import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../AppError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { ProductQueriesRepoI } from '../../../product/repo/queries';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Key } from '../../key';
-import { KeyAvailability } from '../../keyAvailability';
-import { KeyStatus } from '../../keyStatus';
-import { KeyValue } from '../../keyValue';
+import { Key } from '../../domain/key';
+import { KeyAvailability } from '../../domain/keyAvailability';
+import { KeyStatus } from '../../domain/keyStatus';
+import { KeyValue } from '../../domain/keyValue';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { KeyQueriesRepoI } from '../../repo/queries';
 import { ImportKeysRequestDto } from './importKeysRequestDto';
@@ -53,7 +53,7 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
     const keyFound = await this.keyQueriesRepo.getKeyByValue(value);
 
     if (keyFound) {
-      const productsByKeyFound = await this.productQueriesRepo.searchProductsByKeys(value);
+      const productsByKeyFound = await this.productQueriesRepo.listProductsByKeyValues(value);
       let isSamePlatform = false;
 
       if (productsByKeyFound.length) {

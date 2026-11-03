@@ -3,6 +3,8 @@ import { UseCaseErrors } from '../../../../AppError';
 import { Controller } from '../../../../Controller';
 import { UpdateProductStatusRequestDto } from './updateProductStatusRequestDto';
 import { UpdateProductStatusUseCase } from './updateProductStatusUseCase';
+import { zodRequestValidationError } from '../../../../zodErrors';
+import z from 'zod';
 
 export class UpdateProductStatusController extends Controller {
   constructor(private useCase: UpdateProductStatusUseCase) {
@@ -11,10 +13,21 @@ export class UpdateProductStatusController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: UpdateProductStatusRequestDto = {
+    const schema = z.object({
+      productId: z.uuidv7(),
+      status: z.enum(['draft', 'published', 'archived']),
+    });
+
+    const result = schema.safeParse({
       productId: req.params.productId,
       status: req.body.status,
-    };
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: UpdateProductStatusRequestDto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
@@ -34,7 +47,8 @@ export class UpdateProductStatusController extends Controller {
         }
       }
 
-      return this.ok(res);
+      const status = result.value;
+      return this.ok(res, status);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

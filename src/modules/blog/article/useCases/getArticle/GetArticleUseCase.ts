@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleDto } from '../../articleMapper';
 import { ArticleQueriesRepoI } from '../../repo/queries';
@@ -15,9 +15,7 @@ export class GetArticleUseCase implements UseCase<GetArticleRequestDto, Response
 
     try {
       const article = await this.articleQueriesRepo.getArticle(articleId);
-      const found = !!article;
-
-      if (!found) {
+      if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 

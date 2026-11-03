@@ -1,9 +1,9 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { Language } from '../../language';
-import { LanguageCode } from '../../languageCode';
+import { Language } from '../../domain/language';
+import { LanguageCode } from '../../domain/languageCode';
 import { LanguageCommandsRepoI } from '../../repo/commands';
 import { CreateLanguageRequestDto } from './createLanguageRequestDto';
 

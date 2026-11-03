@@ -1,14 +1,16 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Asset } from '../../../../asset';
-import { Result } from '../../../../Result';
+import { Asset } from '../../../../Asset';
+import { Meta } from '../../../../Meta';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
-import { Deal } from '../../deal';
-import { DealTitle } from '../../dealTitle';
+import { Deal, UpdateDealProps } from '../../domain/deal';
+import { DealDescription } from '../../domain/dealDescription';
+import { DealTitle } from '../../domain/dealTitle';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { UpdateDealRequestDto } from './updateDealRequestDto';
 
-type Response = Result<Deal, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateDealUseCase implements UseCase<UpdateDealRequestDto, Response> {
   constructor(
@@ -17,41 +19,47 @@ export class UpdateDealUseCase implements UseCase<UpdateDealRequestDto, Response
   ) {}
 
   execute = async (request: UpdateDealRequestDto): Promise<Response> => {
-    const { dealId, coverFile, ...rest } = request;
-    const props: any = rest;
-
     try {
-      const dealOrError = await this.dealCommandsRepo.getDeal(dealId);
-      if (dealOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(dealOrError.error.message));
-
-      const deal = dealOrError.value;
+      const deal = await this.dealCommandsRepo.getDeal(request.dealId);
       if (!deal) {
         return Result.fail(new UseCaseErrors.NotFound('Deal not found'));
       }
 
-      if (coverFile) {
+      const titleOrError = DealTitle.create(request.title);
+      const descriptionOrError = DealDescription.create(request.description);
+      const metaOrError = Meta.create(request.meta);
+      const combinedResult = Result.combine([titleOrError, descriptionOrError, metaOrError]);
+      if (combinedResult.isErr())
+        return Result.fail(new UseCaseErrors.DomainValidation(combinedResult.error.message));
+
+      const [title, description, meta] = combinedResult.value;
+
+      const props: UpdateDealProps = {
+        description,
+        endDate: request.endDate,
+        meta,
+        products: request.products,
+        slug: request.slug,
+        startDate: request.startDate,
+        title,
+      };
+
+      if (request.coverFile) {
         await this.uploaderService.delete(deal.cover.publicId);
-        const uploadedCover = await this.uploaderService.uploadFile(coverFile);
-        props.cover = uploadedCover;
+        const uploadedCover = await this.uploaderService.uploadFile(request.coverFile);
+
+        const coverOrError = Asset.create(uploadedCover);
+        if (combinedResult.isErr())
+          return Result.fail(new UseCaseErrors.DomainValidation(combinedResult.error.message));
+
+        const cover = coverOrError.value;
+        props.cover = cover;
       }
 
-      props.endDate = !!props.endDate ? props.endDate : null;
-      const coverOrError = Asset.create(props.cover);
-      const titleOrError = DealTitle.create(props.title);
-      const descriptionOrError = Deal.create(props.description);
-      const result = Result.combine([coverOrError, titleOrError, descriptionOrError]);
-      if (result.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(result.error.message));
-
-      props.cover = coverOrError.value;
-      props.title = titleOrError.value;
-      props.description = descriptionOrError.value;
       deal.update(props);
-
       await this.dealCommandsRepo.save(deal);
 
-      return Result.ok(deal);
+      return Result.ok(deal._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

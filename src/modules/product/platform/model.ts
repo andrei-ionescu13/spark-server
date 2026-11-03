@@ -6,6 +6,5 @@ export interface PlatformDoc {
   createdAt: Date;
   updatedAt: Date | null;
   _id: string;
-  slug: string;
   url: string;
 }

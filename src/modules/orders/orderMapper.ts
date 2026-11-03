@@ -1,11 +1,10 @@
-import { MappingValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
+import { MappingValidationError } from '../blog/article/domain/status';
 import { LineItemDto, LineItemMapper } from './lineItemMapper';
 import { OrderDoc } from './model';
-import { Order } from './order';
-import { OrderFulfillmentStatus } from './orderFulfillmentStatus';
-import { OrderPaymentStatus } from './orderPaymentStatus';
-import { OrderStatus } from './orderStatus';
+import { Order } from './domain/order';
+import { OrderFulfillmentStatus } from './domain/orderFulfillmentStatus';
+import { OrderPaymentStatus } from './domain/orderPaymentStatus';
+import { OrderStatus } from './domain/orderStatus';
 
 type Status = 'open' | 'archived' | 'canceled';
 type PaymentStatus = 'authorized' | 'paid' | 'pending' | 'refunded' | 'expired';
@@ -27,42 +26,28 @@ export interface OrderDto {
 }
 
 export class OrderMapper {
-  static toDomain(doc: OrderDoc): Result<Order, MappingValidationError> {
-    const statusOrError = OrderStatus.create(doc.status);
-    const paymentStatusOrError = OrderPaymentStatus.create(doc.paymentStatus);
-    const fulfillmentStatusOrError = OrderFulfillmentStatus.create(doc.fulfillmentStatus);
-    const lineItemsOrError = LineItemMapper.toDomainList(doc.lineItems);
-    const combinedResult = Result.combine([
-      statusOrError,
-      paymentStatusOrError,
-      fulfillmentStatusOrError,
-      lineItemsOrError,
-    ]);
+  static toDomain(doc: OrderDoc): Order {
+    const status = OrderStatus.reconstitute(doc.status);
+    const paymentStatus = OrderPaymentStatus.reconstitute(doc.paymentStatus);
+    const fulfillmentStatus = OrderFulfillmentStatus.reconstitute(doc.fulfillmentStatus);
+    const lineItems = LineItemMapper.toDomainList(doc.lineItems);
+    const order = Order.reconstitute({
+      _id: doc._id,
+      status: status,
+      orderNumber: doc.orderNumber,
+      email: doc.email,
+      paymentStatus: paymentStatus,
+      fulfillmentStatus: fulfillmentStatus,
+      customer: doc.customer,
+      createdAt: doc.createdAt,
+      itemCount: doc.itemCount,
+      totalPrice: doc.totalPrice,
+      totalDiscounts: doc.totalDiscounts,
+      updatedAt: doc.updatedAt,
+      lineItems: lineItems,
+    });
 
-    if (combinedResult.isErr())
-      return Result.fail(new MappingValidationError(combinedResult.error.message));
-
-    const status = statusOrError.value;
-    const paymentStatus = paymentStatusOrError.value;
-    const fulfillmentStatus = fulfillmentStatusOrError.value;
-    const lineItems = lineItemsOrError.value;
-
-    return Result.ok(
-      new Order({
-        _id: doc._id,
-        status: status,
-        orderNumber: doc.orderNumber,
-        email: doc.email,
-        paymentStatus: paymentStatus,
-        fulfillmentStatus: fulfillmentStatus,
-        customer: doc.customer,
-        createdAt: doc.createdAt,
-        itemCount: doc.itemCount,
-        totalPrice: doc.totalPrice,
-        totalDiscounts: doc.totalDiscounts,
-        lineItems: lineItems,
-      }),
-    );
+    return order;
   }
 
   static toDto(doc: OrderDoc): OrderDto {

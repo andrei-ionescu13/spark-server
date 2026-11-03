@@ -1,6 +1,4 @@
 import { Meta, MetaDoc } from './Meta';
-import { DomainValidationError } from './modules/blog/article/status';
-import { Result } from './result';
 
 export interface MetaDto {
   title: string;
@@ -15,19 +13,14 @@ export interface MetaPersistance {
 }
 
 export class MetaMapper {
-  public static toDomain(entity): Result<Meta, DomainValidationError> {
-    const MetaOrError = Meta.create({
+  public static toDomain(entity: MetaDoc): Meta {
+    const meta = Meta.reconstitute({
       title: entity.title,
       description: entity.description,
       keywords: entity.keywords,
     });
 
-    if (MetaOrError.isErr()) {
-      return Result.fail(new DomainValidationError(MetaOrError.error.message));
-    }
-
-    const meta = MetaOrError.value;
-    return Result.ok(meta);
+    return meta;
   }
 
   static toDto(entity: MetaDoc): MetaDto {
@@ -43,6 +36,14 @@ export class MetaMapper {
   }
 
   static toPersistance(entity: Meta): MetaPersistance {
+    return {
+      title: entity.title,
+      description: entity.description,
+      keywords: entity.keywords,
+    };
+  }
+
+  static domainToDto(entity: Meta): MetaDto {
     return {
       title: entity.title,
       description: entity.description,

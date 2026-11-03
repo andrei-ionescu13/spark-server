@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';

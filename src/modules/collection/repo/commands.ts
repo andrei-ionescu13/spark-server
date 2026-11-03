@@ -1,17 +1,14 @@
 import { Collection as CollectionMongo } from 'mongodb';
-import { Result } from '../../../Result';
-import { DomainValidationError } from '../../blog/article/status';
+import { DomainValidationError } from '../../blog/article/domain/status';
 import { CollectionMapper } from '../collectionMapper';
 import { CollectionDoc } from '../model';
-import { Collection } from '../collection';
+import { Collection } from '../domain/collection';
 
 export interface CollectionCommandsRepoI {
   save: (collection: Collection) => Promise<void>;
   deleteCollection: (id: string) => Promise<void>;
-  getCollection: (id: string) => Promise<Result<Collection | null, DomainValidationError>>;
-  getCollectionsByProduct: (
-    productId: string,
-  ) => Promise<Result<Collection[], DomainValidationError>>;
+  getCollection: (id: string) => Promise<Collection | null>;
+  getCollectionsByProduct: (productId: string) => Promise<Collection[]>;
 }
 
 export class CollectionCommandsRepo implements CollectionCommandsRepoI {
@@ -19,7 +16,7 @@ export class CollectionCommandsRepo implements CollectionCommandsRepoI {
 
   save = async (collection: Collection): Promise<void> => {
     const persistence = CollectionMapper.toPersistance(collection);
-
+    console.log(persistence);
     await this.collection.updateOne(
       { _id: collection._id },
       { $set: persistence },
@@ -27,30 +24,18 @@ export class CollectionCommandsRepo implements CollectionCommandsRepoI {
     );
   };
 
-  getCollection = async (id: string): Promise<Result<Collection | null, DomainValidationError>> => {
+  getCollection = async (id: string): Promise<Collection | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const collectionOrError = CollectionMapper.toDomain(doc);
-    if (collectionOrError.isErr()) {
-      return Result.fail(new DomainValidationError(collectionOrError.error.message));
-    }
-
-    const collection = collectionOrError.value;
-    return Result.ok(collection);
+    const collection = CollectionMapper.toDomain(doc);
+    return collection;
   };
 
-  getCollectionsByProduct = async (
-    productId: string,
-  ): Promise<Result<Collection[], DomainValidationError>> => {
+  getCollectionsByProduct = async (productId: string): Promise<Collection[]> => {
     const docs = await this.collection.find({ products: productId }).toArray();
-    const collectionOrError = CollectionMapper.toDomainList(docs);
-    if (collectionOrError.isErr()) {
-      return Result.fail(new DomainValidationError(collectionOrError.error.message));
-    }
-
-    const collections = collectionOrError.value;
-    return Result.ok(collections);
+    const collections = CollectionMapper.toDomainList(docs);
+    return collections;
   };
 
   deleteCollection = async (id: string) => {

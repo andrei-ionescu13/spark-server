@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { Coupon } from '../../coupon';
+import { Coupon } from '../../domain/coupon';
 import { CouponCommandsRepoI } from '../../repo/commands';
 import { DeactivateCouponRequestDto } from './deactivateCouponRequestDto';
 
@@ -14,12 +14,7 @@ export class DeactivateCouponUseCase implements UseCase<DeactivateCouponRequestD
     const { couponId } = request;
 
     try {
-      const couponOrError = await this.couponCommandsRepo.getCoupon(couponId);
-      if (couponOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(couponOrError.error.message));
-      }
-
-      const coupon = couponOrError.value;
+      const coupon = await this.couponCommandsRepo.getCoupon(couponId);
       if (!coupon) {
         return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
       }

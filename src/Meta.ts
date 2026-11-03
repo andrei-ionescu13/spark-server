@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { DomainValidationError } from './modules/blog/article/status';
+import { DomainValidationError } from './modules/blog/article/domain/status';
 import { ValueObject } from './valueObject';
 import { Result } from './result';
 import { zodDomainValidationError } from './zodErrors';
@@ -17,9 +17,9 @@ export class Meta extends ValueObject<MetaProps> {
 
   static create(props: MetaProps): Result<Meta, DomainValidationError> {
     const schema = z.object({
-      title: z.string().min(8).max(120),
-      description: z.string().min(120).max(1024),
-      keywords: z.array(z.string()).min(3),
+      title: z.string().min(1).max(120),
+      description: z.string().min(1).max(1024),
+      keywords: z.array(z.string().min(1)).min(1),
     });
 
     const result = schema.safeParse(props);
@@ -29,6 +29,10 @@ export class Meta extends ValueObject<MetaProps> {
     }
 
     return Result.ok(new Meta(props));
+  }
+
+  public static reconstitute(props: MetaProps) {
+    return new Meta(props);
   }
 
   get title() {

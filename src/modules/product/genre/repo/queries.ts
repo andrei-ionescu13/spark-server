@@ -38,7 +38,7 @@ export class GenreQueriesRepo implements GenreQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          genres: [{ $skip: page }, { $limit: limit }],
+          genres: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',
@@ -93,7 +93,7 @@ export class GenreQueriesRepo implements GenreQueriesRepoI {
   };
 
   getGenreByPropsOr = async (props: Array<Record<string, any>>): Promise<GenreDto | null> => {
-    const doc = this.collection.findOne({ $or: props });
+    const doc = await this.collection.findOne({ $or: props });
     if (!doc) return null;
 
     return GenreMapper.toDto(doc);

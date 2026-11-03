@@ -19,7 +19,7 @@ export class CreatePlatformController extends Controller {
       logoFile: z.object({
         originalname: z.string(),
         mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
-        size: z.number().max(5_000_000),
+        size: z.number().max(5_000_000_000),
         buffer: z.instanceof(Buffer),
       }),
     });

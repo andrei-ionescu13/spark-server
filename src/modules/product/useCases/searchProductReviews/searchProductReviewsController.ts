@@ -24,8 +24,8 @@ export class SearchProductReviewsController extends Controller {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           default:
@@ -33,8 +33,7 @@ export class SearchProductReviewsController extends Controller {
         }
       }
 
-      const value = result.value.getValue();
-
+      const value = result.value;
       return this.ok(res, value);
     } catch (error) {
       console.log(error);

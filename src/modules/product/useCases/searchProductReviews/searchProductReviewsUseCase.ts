@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewDto } from '../../../review/reviewMapper';
 import { ProductRepoI } from '../../productRepo';

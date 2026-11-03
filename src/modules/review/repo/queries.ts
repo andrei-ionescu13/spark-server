@@ -149,7 +149,7 @@ export class ReviewQueriesRepo implements ReviewQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-
+    console.log(result);
     return {
       reviews: ReviewMapper.toDtoList(result.reviews),
       count: result.count,

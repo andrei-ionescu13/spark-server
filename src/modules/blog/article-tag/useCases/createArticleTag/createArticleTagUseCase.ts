@@ -1,9 +1,9 @@
-import { textUtils } from '../../../../../../utils/textUtils';
+import { textUtils } from '../../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { UseCase } from '../../../../../useCase';
-import { ArticleTag } from '../../articleTag';
+import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
 import { CreateArticleTagRequestDto } from './createArticleTagRequestDto';
@@ -64,12 +64,7 @@ export class CreateArticleTagUseCase implements UseCase<CreateArticleTagRequestD
         return Result.fail(new UseCaseErrors.UnexpectedError());
       }
 
-      const articleTagOrError = ArticleTag.create({
-        ...props,
-        _id: uuidv7(),
-        createdAt: new Date(),
-        updatedAt: null,
-      });
+      const articleTagOrError = ArticleTag.create(props);
       if (articleTagOrError.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(articleTagOrError.error.message));
       }

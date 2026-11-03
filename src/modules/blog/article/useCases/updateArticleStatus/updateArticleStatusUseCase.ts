@@ -1,6 +1,7 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
+import { ArticleStatus } from '../../domain/status';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { UpdateArticleStatusRequestDto } from './updateArticleStatusRequestDto';
 
@@ -12,36 +13,25 @@ export class UpdateArticleStatusUseCase
   constructor(private articleCommandsRepo: ArticleCommandsRepoI) {}
 
   execute = async (request: UpdateArticleStatusRequestDto): Promise<Response> => {
-    const { articleId, status } = request;
-
     try {
-      const articleOrError = await this.articleCommandsRepo.getArticle(articleId);
-
-      if (articleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleOrError.error.message));
-      }
-
-      const article = articleOrError.value;
-
+      const article = await this.articleCommandsRepo.getArticle(request.articleId);
       if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 
-      const updatedArticleOrError = await this.articleCommandsRepo.updateArticle(articleId, {
-        status,
-      });
-
-      if (updatedArticleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(updatedArticleOrError.error.message));
+      const statusOrError = ArticleStatus.create(request.status);
+      if (statusOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(statusOrError.error.message));
       }
 
-      const updatedArticle = updatedArticleOrError.value;
-
-      if (!updatedArticle) {
-        return Result.fail(new UseCaseErrors.NotFound('Article not found'));
+      const status = statusOrError.value;
+      const updateResult = article.updateStatus(status);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      return Result.ok(updatedArticle.status.value);
+      await this.articleCommandsRepo.save(article);
+      return Result.ok(status.value);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

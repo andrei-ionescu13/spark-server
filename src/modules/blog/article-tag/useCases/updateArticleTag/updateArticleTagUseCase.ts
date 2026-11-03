@@ -1,10 +1,10 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCommandsRepo } from '../../../article/repo/commands';
-import { DomainValidationError } from '../../../article/status';
-import { ArticleTag } from '../../articleTag';
+import { DomainValidationError } from '../../../article/domain/status';
+import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
 import { UpdateArticleTagRequestDto } from './updateArticleTagRequestDto';
@@ -53,12 +53,7 @@ export class UpdateArticleTagUseCase implements UseCase<UpdateArticleTagRequestD
     const { articleTagId, ...props } = request;
 
     try {
-      const articleTagOrError = await this.articleTagCommandsRepo.getArticleTag(articleTagId);
-      if (articleTagOrError.isErr()) {
-        return Result.fail(new DomainValidationError(articleTagOrError.error.message));
-      }
-
-      const articleTag = articleTagOrError.value;
+      const articleTag = await this.articleTagCommandsRepo.getArticleTag(articleTagId);
       if (!articleTag) {
         return Result.fail(new UseCaseErrors.NotFound('Article tag not found'));
       }

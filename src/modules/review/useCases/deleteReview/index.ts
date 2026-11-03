@@ -1,6 +1,5 @@
 import { Mongo } from '../../../../mongo';
 import { ProductCommandsRepo } from '../../../product/repo/commands';
-import { UserModel } from '../../../users/model';
 import { UserCommandsRepo } from '../../../users/repo/commands';
 import { ReviewCommandsRepo } from '../../repo/commands';
 import { DeleteReviewController } from './deleteReviewController';

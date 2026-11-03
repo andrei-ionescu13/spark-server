@@ -1,15 +1,11 @@
 import { Collection, ObjectId } from 'mongodb';
-import { Result } from '../../../../Result';
-import { MappingValidationError } from '../../article/status';
-import { ArticleCategory } from '../articleCategory';
+import { ArticleCategory } from '../domain/articleCategory';
 import { ArticleCategoryMapper } from '../articleCategoryMapper';
 import { ArticleCategoryDoc } from '../model';
 
 export interface ArticleCategoryCommandsRepoI {
   save: (articleCategory: ArticleCategory) => Promise<void>;
-  getArticleCategory: (
-    id: string,
-  ) => Promise<Result<ArticleCategory | null, MappingValidationError>>;
+  getArticleCategory: (id: string) => Promise<ArticleCategory | null>;
   deleteArticleCategory: (id: string) => Promise<void>;
 }
 
@@ -26,19 +22,12 @@ export class ArticleCategoryCommandsRepo implements ArticleCategoryCommandsRepoI
     );
   };
 
-  getArticleCategory = async (
-    id: string,
-  ): Promise<Result<ArticleCategory | null, MappingValidationError>> => {
+  getArticleCategory = async (id: string): Promise<ArticleCategory | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const articleCategoryOrError = ArticleCategoryMapper.toDomain(doc);
-
-    if (articleCategoryOrError.isErr()) {
-      return Result.fail(new MappingValidationError(articleCategoryOrError.error.message));
-    }
-
-    return Result.ok(articleCategoryOrError.value);
+    const articleCategory = ArticleCategoryMapper.toDomain(doc);
+    return articleCategory;
   };
 
   deleteArticleCategory = async (id: string) => {

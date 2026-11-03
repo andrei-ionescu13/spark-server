@@ -3,7 +3,7 @@ import { UseCaseErrors } from '../../../../AppError';
 import { Result } from '../../../../Result';
 import { UseCase } from '../../../../useCase';
 import { ReviewCommandsRepoI } from '../../repo/commands';
-import { ReviewStatus } from '../../reviewStatus';
+import { ReviewStatus } from '../../domain/reviewStatus';
 import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';
 
 type Response = Result<
@@ -18,12 +18,7 @@ export class UpdateReviewStatusUseCase implements UseCase<UpdateReviewStatusRequ
     const { reviewId, status } = request;
 
     try {
-      const reviewOrError = await this.reviewCommandsRepo.getReview(reviewId);
-      if (reviewOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(reviewOrError.error.message));
-      }
-
-      const review = reviewOrError.value;
+      const review = await this.reviewCommandsRepo.getReview(reviewId);
       if (!review) {
         return Result.fail(new UseCaseErrors.NotFound('Review not found'));
       }

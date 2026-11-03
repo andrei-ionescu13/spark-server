@@ -26,7 +26,7 @@ export class SearchOrdersController extends Controller {
         .array(z.enum(['fulfilled', 'unfulfilled', 'partially fulfilled']))
         .optional(),
       page: z.coerce.number().optional(),
-      limit: z.coerce.number().max(36),
+      limit: z.coerce.number().max(36).optional(),
     });
 
     const validation = schema.safeParse({

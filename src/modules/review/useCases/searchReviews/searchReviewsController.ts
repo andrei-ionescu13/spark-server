@@ -33,7 +33,7 @@ export class SearchReviewsController extends Controller {
       const result = await this.useCase.execute(dto);
 
       if (result.isErr()) {
-        const error = result.value;
+        const error = result.error;
 
         switch (error.constructor) {
           default:
@@ -41,8 +41,7 @@ export class SearchReviewsController extends Controller {
         }
       }
 
-      const value = result.value.getValue();
-
+      const value = result.value;
       return this.ok(res, value);
     } catch (error) {
       console.log(error);

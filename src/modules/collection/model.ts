@@ -1,17 +1,21 @@
 import { AssetDoc } from '../../Asset';
-import { MetaDoc } from '../../meta';
+import { MetaDoc } from '../../Meta';
+import { ProductDoc } from '../product/model';
 
 export interface CollectionDoc {
   cover: AssetDoc;
   title: string;
-  description: string | null;
+  description: string;
   slug: string;
   startDate: Date;
-  endDate: Date;
+  endDate: Date | null;
   meta: MetaDoc;
   createdAt: Date;
   updatedAt: Date | null;
   products: string[];
-  isDeal: boolean;
   _id: string;
+}
+
+export interface CollectionPopulatedDoc extends Omit<CollectionDoc, 'products'> {
+  products: ProductDoc[];
 }

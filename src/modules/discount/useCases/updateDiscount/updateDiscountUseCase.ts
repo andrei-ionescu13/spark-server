@@ -1,17 +1,18 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Product } from '../../../product/product';
+import { Product } from '../../../product/domain/product';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Discount } from '../../discount';
-import { DiscountTitle } from '../../discountTitle';
-import { DiscountType } from '../../discountType';
-import { DiscountValue } from '../../discountValue';
+import { Discount, DiscountCreateProps, DiscountUpdateProps } from '../../domain/discount';
+import { DiscountTitle } from '../../domain/discountTitle';
+import { DiscountType } from '../../domain/discountType';
+import { DiscountValue } from '../../domain/discountValue';
 import { DiscountCommandsRepoI } from '../../repo/commands';
 import { CreateDiscountRequestDto } from '../createDiscount/createDiscountRequestDto';
 import { CreateDiscountErrors } from '../createDiscount/createDiscountUseCase';
 import { UpdateDiscountRequestDto } from './updateDiscountRequestDto';
+import { DiscountApplicableChecker } from '../../discountApplicableChecker';
 
 export namespace UpdateDiscountErrors {
   export class ProductHasDiscountError extends UseCaseError {
@@ -28,7 +29,7 @@ export namespace UpdateDiscountErrors {
 }
 
 type Response = Result<
-  Discount,
+  string,
   | UpdateDiscountErrors.ProductHasDiscountError
   | UpdateDiscountErrors.ProductPriceError
   | UseCaseErrors.NotFound
@@ -40,170 +41,85 @@ export class UpdateDiscountUseCase implements UseCase<UpdateDiscountRequestDto, 
   constructor(
     private discountCommandsRepo: DiscountCommandsRepoI,
     private productCommandsRepo: ProductCommandsRepoI,
+    private discountApplicableChecker: DiscountApplicableChecker,
   ) {}
 
-  checkApplicable = async (
-    products: Product[],
-    props: CreateDiscountRequestDto,
-  ): Promise<
-    Result<
-      Discount,
-      | UpdateDiscountErrors.ProductHasDiscountError
-      | UpdateDiscountErrors.ProductPriceError
-      | UseCaseErrors.NotFound
-      | UseCaseErrors.DomainValidation
-    >
-  > => {
-    for (const product of products) {
-      if (!product.discount) continue;
-
-      const discountOrError = await this.discountCommandsRepo.getDiscount(product.discount);
-      if (discountOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(discountOrError.error.message));
-      }
-
-      const discount = discountOrError.value;
-      if (!discount) {
-        return Result.fail(new UseCaseErrors.NotFound('Product discount not found'));
-      }
-
-      const now = Date.now();
-      let endDate = discount.endDate;
-      endDate = endDate && new Date(endDate);
-
-      if (!endDate || (endDate && endDate.getTime() > now)) {
-        return Result.fail(new CreateDiscountErrors.ProductHasDiscountError(product.title.value));
-      }
-
-      if (props.type === 'amount' && product.price.value - props.value <= 0) {
-        return Result.fail(new CreateDiscountErrors.ProductPriceError(product.title.value));
-      }
-    }
-
-    return Result.ok();
-  };
-
-  removeDiscountFromProducts = (products: Product[]): Result<undefined, UseCaseErrors.NotFound> => {
-    for (const product of products) {
-      const removeResult = product.removeDiscount();
-      if (removeResult.isErr()) {
-        return Result.fail(new UseCaseErrors.NotFound(removeResult.error.message));
-      }
-    }
-
-    return Result.ok();
-  };
-
-  addDiscountToProducts = (products: Product[], discount: Discount) => {
-    for (const product of products) {
-      const result = product.addDiscount(discount._id);
-      if (result.isErr()) {
-        return Result.fail(result.error);
-      }
-    }
-
-    return Result.ok();
-  };
-
-  getRemovedProducts = async (
-    discount: Discount,
-    productIds: string[],
-  ): Promise<Result<Product[], UseCaseErrors.DomainValidation>> => {
-    const productsOrError = await this.productCommandsRepo.getProducts(discount.products);
-    if (productsOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(productsOrError.error.message));
-    }
-
-    const products = productsOrError.value;
-    const removedProducts = products.filter((product) => !productIds.includes(product._id));
-    return Result.ok(removedProducts);
-  };
-
-  getNewProducts = async (
-    discount: Discount,
-    productsIds: string[],
-  ): Promise<Result<Product[], UseCaseErrors.DomainValidation>> => {
-    const productsOrError = await this.productCommandsRepo.getProducts(productsIds);
-    if (productsOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(productsOrError.error.message));
-    }
-
-    const products = productsOrError.value;
-    const newProducts = products.filter((product) => !discount.products.includes(product._id));
-    return Result.ok(newProducts);
-  };
-
   execute = async (request: UpdateDiscountRequestDto): Promise<Response> => {
-    const { discountId, ...props } = request;
-
+    console.log(request);
     try {
-      const discountOrError = await this.discountCommandsRepo.getDiscount(discountId);
-      if (discountOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(discountOrError.error.message));
-      }
-
-      const discount = discountOrError.value;
+      const discount = await this.discountCommandsRepo.getDiscount(request.discountId);
       if (!discount) {
         return Result.fail(new UseCaseErrors.NotFound('Discount not found'));
       }
 
-      const productsOrError = await this.productCommandsRepo.getProducts(props.products);
-      if (productsOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(productsOrError.error.message));
+      const product = await this.productCommandsRepo.getProduct(request.product);
+      if (!product) {
+        return Result.fail(new UseCaseErrors.NotFound('product not found'));
       }
 
-      const removedProductsResult = await this.getRemovedProducts(discount, props.products);
-      if (removedProductsResult.isErr()) {
-        return Result.fail(removedProductsResult.error);
+      const discountPreviousProductId = discount.product;
+
+      if (product.discount) {
+        const isApplicable = await this.discountApplicableChecker.check(product, discount, {
+          type: request.type,
+          value: request.value,
+        });
+        if (isApplicable.isErr()) {
+          return Result.fail(isApplicable.error);
+        }
       }
 
-      const removedProducts = removedProductsResult.value;
-      const removeDiscountResult = this.removeDiscountFromProducts(removedProducts);
-      if (removeDiscountResult.isErr()) {
-        return Result.fail(removeDiscountResult.error);
-      }
+      const titleOrError = DiscountTitle.create(request.title);
+      const typeOrError = DiscountType.create(request.type);
+      const valueOrError = DiscountValue.create(request.value);
 
-      const newProductsResult = await this.getNewProducts(discount, props.products);
-      if (newProductsResult.isErr()) {
-        return Result.fail(newProductsResult.error);
-      }
-
-      const newProducts = removedProductsResult.value;
-      const isApplicable = await this.checkApplicable(newProducts, props);
-      if (isApplicable.isErr()) {
-        return Result.fail(isApplicable.error);
-      }
-
-      const addDiscountResult = this.addDiscountToProducts(newProducts, discount);
-      if (addDiscountResult.isErr()) {
-        return Result.fail(addDiscountResult.error);
-      }
-
-      const titleOrError = DiscountTitle.create(props.title);
-      const typeOrError = DiscountType.create(props.type);
-      const valueOrError = DiscountValue.create(props.value);
-
-      const valueObjectsResult = Result.combine([titleOrError, typeOrError, valueOrError]);
-      if (valueObjectsResult.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(valueObjectsResult.error.message));
+      const result = Result.combine([titleOrError, typeOrError, valueOrError]);
+      if (result.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(result.error.message));
       }
 
       const title = titleOrError.value;
       const type = typeOrError.value;
       const value = valueOrError.value;
 
-      const updateResult = discount.update({
-        ...props,
+      const props: DiscountUpdateProps = {
+        endDate: request.endDate,
+        product: request.product,
+        startDate: request.startDate,
         title,
         type,
         value,
-      });
+      };
 
+      const updateResult = discount.update(props);
       if (updateResult.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      return Result.ok(discount);
+      if (discount.product !== discountPreviousProductId) {
+        const discountPreviousProduct = await this.productCommandsRepo.getProduct(
+          discountPreviousProductId,
+        );
+
+        if (!discountPreviousProduct) {
+          return Result.fail(new UseCaseErrors.NotFound('Previous product not found'));
+        }
+
+        discountPreviousProduct.removeDiscount();
+
+        const addDiscountResult = product.addDiscount(discount._id);
+        if (addDiscountResult.isErr()) {
+          return Result.fail(new UseCaseErrors.DomainValidation(addDiscountResult.error.message));
+        }
+
+        await Promise.all([
+          this.productCommandsRepo.save(discountPreviousProduct),
+          this.productCommandsRepo.save(product),
+        ]);
+      }
+
+      await this.discountCommandsRepo.save(discount);
+      return Result.ok(discount._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

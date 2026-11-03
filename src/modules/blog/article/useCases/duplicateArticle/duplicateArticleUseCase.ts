@@ -6,8 +6,8 @@ import { UseCaseError } from '../../../../../UseCaseError';
 import { ArticleDto } from '../../articleMapper';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
-import { RequestValidationError, Status } from '../../status';
-import { Title } from '../../title';
+import { RequestValidationError, ArticleStatus } from '../../domain/status';
+import { ArticleTitle } from '../../domain/title';
 import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
 
 export namespace DuplicateArticleErrors {
@@ -85,8 +85,8 @@ export class DuplicateArticleUseCase implements UseCase<DuplicateArticleRequestD
         return Result.fail(new DuplicateArticleErrors.InvalidFieldError());
       }
 
-      const statusOrError = Status.create({ value: 'draft' });
-      const titleOrError = Title.create({ value: props.title });
+      const statusOrError = ArticleStatus.create({ value: 'draft' });
+      const titleOrError = ArticleTitle.create({ value: props.title });
 
       const result = Result.combine([statusOrError, titleOrError]);
 

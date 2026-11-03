@@ -26,8 +26,8 @@ router.put('/:discountId/deactivate', (req: Request, res: Response) =>
 router.delete('/:discountId', (req: Request, res: Response) =>
   deleteDiscountController.execute(req, res),
 );
-// router.delete('/', (req: Request, res: Response) =>
-//   deleteDiscountsBulkController.execute(req, res),
-// );
+router.delete('/', (req: Request, res: Response) =>
+  deleteDiscountsBulkController.execute(req, res),
+);
 
 export default router;

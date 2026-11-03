@@ -1,5 +1,5 @@
 import { Collection, Document, ObjectId } from 'mongodb';
-import { ArticleTag } from '../articleTag';
+import { ArticleTag } from '../domain/articleTag';
 import { ArticleTagDto, ArticleTagMapper } from '../articleTagMapper';
 import { ArticleTagDoc } from '../model';
 

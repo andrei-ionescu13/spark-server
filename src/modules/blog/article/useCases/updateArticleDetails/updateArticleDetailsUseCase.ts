@@ -1,9 +1,13 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Asset } from '../../../../../Asset';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { Article } from '../../article';
+import { Article, UpdateArticleDetailsProps } from '../../domain/article';
+import { ArticleDescription } from '../../domain/description';
+import { ArticleMarkdown } from '../../domain/markdown';
+import { ArticleTitle } from '../../domain/title';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { UpdateArticleDetailsRequestDto } from './updateArticleDetailsRequestDto';
 
@@ -15,7 +19,7 @@ export namespace UpdateArticleDetailsErrors {
   }
 }
 
-type Response = Result<Article, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateArticleDetailsUseCase
   implements UseCase<UpdateArticleDetailsRequestDto, Response>
@@ -26,47 +30,56 @@ export class UpdateArticleDetailsUseCase
   ) {}
 
   execute = async (request: UpdateArticleDetailsRequestDto): Promise<Response> => {
-    const { articleId, file, ...rest } = request;
-    const props: any = rest;
-
     try {
-      const articleOrError = await this.articleCommandsRepo.getArticle(articleId);
-
-      if (articleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleOrError.error.message));
-      }
-
-      const article = articleOrError.value;
-
+      const article = await this.articleCommandsRepo.getArticle(request.articleId);
       if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 
-      if (article.isArchived()) {
+      if (article.isArchived) {
         return Result.fail(new UpdateArticleDetailsErrors.ArchivedArticleError());
       }
 
-      if (file) {
-        const fileUploaded = await this.uploaderService.uploadFile(file);
-        props.cover = fileUploaded;
+      const descriptionOrError = ArticleDescription.create(request.description);
+      const markdownOrError = ArticleMarkdown.create(request.markdown);
+      const titleOrError = ArticleTitle.create(request.title);
+
+      const combinedResult = Result.combine([descriptionOrError, markdownOrError, titleOrError]);
+      if (combinedResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(combinedResult.error.message));
+      }
+
+      const [description, markdown, title] = combinedResult.value;
+
+      const props: UpdateArticleDetailsProps = {
+        description,
+        markdown,
+        title,
+        slug: request.slug,
+      };
+
+      if (request.file) {
+        const fileUploaded = await this.uploaderService.uploadFile(request.file);
+        const coverOrError = Asset.create(fileUploaded);
+        if (coverOrError.isErr()) {
+          return Result.fail(new UseCaseErrors.DomainValidation(coverOrError.error.message));
+        }
+
+        const cover = coverOrError.value;
+        props.cover = cover;
+
         await this.uploaderService.delete(article.cover.publicId);
       } else {
         delete props.cover;
       }
 
-      const updatedArticleOrError = await this.articleCommandsRepo.updateArticle(articleId, props);
-
-      if (updatedArticleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(updatedArticleOrError.error.message));
+      const updateResult = article.updateDetails(props);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      const updatedArticle = updatedArticleOrError._value;
-
-      if (!updatedArticle) {
-        return Result.fail(new UseCaseErrors.NotFound('Article not found'));
-      }
-
-      return Result.ok(updatedArticle);
+      await this.articleCommandsRepo.save(article);
+      return Result.ok(article._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

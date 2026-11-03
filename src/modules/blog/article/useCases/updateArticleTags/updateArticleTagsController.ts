@@ -15,7 +15,7 @@ export class UpdateArticleTagsController extends Controller {
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
       articleId: z.string(),
-      tags: z.array(z.string().min(3)).min(1),
+      tags: z.array(z.string().min(1)).min(1),
     });
 
     const result = schema.safeParse({ articleId: req.params.articleId, tags: req.body.tags });
@@ -45,7 +45,6 @@ export class UpdateArticleTagsController extends Controller {
       }
 
       const tags = result.value;
-
       return this.ok(res, { tags });
     } catch (error) {
       console.log(error);

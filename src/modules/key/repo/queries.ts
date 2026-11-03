@@ -84,16 +84,11 @@ export class KeyQueriesRepo implements KeyQueriesRepoI {
         },
       },
       {
-        $addFields: {
-          count: {
-            $arrayElemAt: ['$count', 0],
-          },
-        },
-      },
-      {
         $project: {
-          count: '$count.count',
-          keys: '$keys',
+          keys: 1,
+          count: {
+            $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+          },
         },
       },
     ];

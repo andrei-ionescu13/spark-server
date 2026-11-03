@@ -42,7 +42,7 @@ export class OperatingSystemQueriesRepo implements OperatingSystemQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          operatingSystems: [{ $skip: page }, { $limit: limit }],
+          operatingSystems: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',
@@ -99,7 +99,7 @@ export class OperatingSystemQueriesRepo implements OperatingSystemQueriesRepoI {
   getOperatingSystemByPropsOr = async (
     props: Array<Record<string, any>>,
   ): Promise<OperatingSystemDto | null> => {
-    const doc = this.collection.findOne({ $or: props });
+    const doc = await this.collection.findOne({ $or: props });
     if (!doc) return null;
 
     return OperatingSystemMapper.toDto(doc);

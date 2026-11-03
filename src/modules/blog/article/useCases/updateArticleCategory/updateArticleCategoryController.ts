@@ -17,8 +17,8 @@ export class UpdateArticleCategoryController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
-      articleId: z.string(),
-      category: z.string(),
+      articleId: z.uuidv7(),
+      category: z.uuidv7(),
     });
 
     const result = schema.safeParse({

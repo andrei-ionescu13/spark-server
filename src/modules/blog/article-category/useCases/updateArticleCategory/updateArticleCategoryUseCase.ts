@@ -1,8 +1,8 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { UseCase } from '../../../../../useCase';
-import { ArticleCategory } from '../../articleCategory';
+import { ArticleCategory } from '../../domain/articleCategory';
 import { ArticleCategoryDto } from '../../articleCategoryMapper';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
@@ -62,15 +62,9 @@ export class UpdateArticleCategoryUseCase
     const { articleCategoryId, ...props } = request;
 
     try {
-      const articleCategoryOrError = await this.articleCategoryCommandsRepo.getArticleCategory(
+      const articleCategory = await this.articleCategoryCommandsRepo.getArticleCategory(
         articleCategoryId,
       );
-
-      if (articleCategoryOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleCategoryOrError.error.message));
-      }
-
-      const articleCategory = articleCategoryOrError.value;
       if (!articleCategory) {
         return Result.fail(new UseCaseErrors.NotFound('Article category not found'));
       }

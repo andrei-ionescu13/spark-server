@@ -1,8 +1,9 @@
-import { FeatureRepo } from '../feature/featureRepo';
-import { FeatureModel } from '../feature/model';
-import { textUtils } from '../utils/textUtils';
+import { Feature } from '../src/modules/product/feature/domain/feature';
+import { FeatureCommandsRepo } from '../src/modules/product/feature/repo/commands';
+import { Mongo } from '../src/mongo';
+import { Result } from '../src/result';
 
-const features = [
+const featuresMock = [
   'Singleplayer',
   'Multiplayer',
   '2D',
@@ -82,13 +83,11 @@ const features = [
 ];
 
 export const generateFeatures = async () => {
-  const featureRepo = new FeatureRepo(FeatureModel);
-  const props = features.map((genre) => ({
-    name: genre,
-    slug: textUtils.generateSlug(genre),
-  }));
-
-  const promises = props.map((x) => featureRepo.createFeature(x));
+  const featureRepoe = new FeatureCommandsRepo(Mongo.getCollection('features'));
+  const featureOrError = Result.combine(featuresMock.map((x) => Feature.create({ name: x })));
+  const features = featureOrError.value;
+  const promises = features.map((x) => featureRepoe.save(x));
   await Promise.all(promises);
-  console.log('feature generated');
+
+  console.log('features generated');
 };

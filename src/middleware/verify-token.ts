@@ -9,7 +9,6 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(accessToken, authConfig.accessTokenSecret as string);
-    console.log(decoded);
     req.user = decoded;
     next();
   } catch (err) {

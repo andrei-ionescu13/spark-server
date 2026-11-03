@@ -40,7 +40,7 @@ export class DeveloperQueriesRepo implements DeveloperQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          developers: [{ $skip: page }, { $limit: limit }],
+          developers: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',

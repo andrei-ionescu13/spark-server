@@ -1,13 +1,12 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
 import { LoginRequestDto } from './loginRequestDto';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';
 import { TokenCommandsRepoI } from '../../repo/token/commands';
-import { Token } from '../../token';
-import { v7 as uuid7 } from 'uuid';
+import { Token } from '../../domain/token';
 import { AuthService } from '../../authService';
 import bcrypt from 'bcrypt';
 
@@ -35,11 +34,7 @@ export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
     const { username, password } = request;
 
     try {
-      const adminOrError = await this.adminCommandsRepo.getAdminByUsername(username);
-
-      if (adminOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(adminOrError.error.message));
-      const admin = adminOrError.value;
+      const admin = await this.adminCommandsRepo.getAdminByUsername(username);
       if (!admin) {
         return Result.fail(new LoginErrors.WrongCredentials());
       }
@@ -56,12 +51,10 @@ export class LoginUseCase implements UseCase<LoginRequestDto, Response> {
       expiresAt.setDate(expiresAt.getDate() + 7);
 
       const tokenOrError = Token.create({
-        _id: uuid7(),
         admin: admin._id,
         value: refreshToken,
         expiresAt,
         type: 'refresh-token',
-        createdAt: new Date(),
       });
       if (tokenOrError.isErr())
         return Result.fail(new UseCaseErrors.DomainValidation(tokenOrError.error.message));

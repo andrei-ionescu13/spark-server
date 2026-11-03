@@ -1,14 +1,14 @@
 import { Collection } from 'mongodb';
-import { DomainValidationError } from '../../../blog/article/status';
+import { DomainValidationError } from '../../../blog/article/domain/status';
 import { PlatformDoc } from '../model';
-import { Platform } from '../platform';
+import { Platform } from '../domain/platform';
 import { PlatformMapper } from '../platformMapper';
 import { Result } from '../../../../result';
 
 export interface PlatformCommandsRepoI {
   save: (platform: Platform) => Promise<void>;
   deletePlatform: (id: string) => Promise<void>;
-  getPlatform: (id: string) => Promise<Result<Platform | null, DomainValidationError>>;
+  getPlatform: (id: string) => Promise<Platform | null>;
 }
 
 export class PlatformCommandsRepo implements PlatformCommandsRepoI {
@@ -16,21 +16,15 @@ export class PlatformCommandsRepo implements PlatformCommandsRepoI {
 
   save = async (platform: Platform): Promise<void> => {
     const persistence = PlatformMapper.toPersistance(platform);
-
     await this.collection.updateOne({ _id: platform._id }, { $set: persistence }, { upsert: true });
   };
 
-  getPlatform = async (id: string): Promise<Result<Platform | null, DomainValidationError>> => {
+  getPlatform = async (id: string): Promise<Platform | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const platformOrError = PlatformMapper.toDomain(doc);
-    if (platformOrError.isErr()) {
-      return Result.fail(new DomainValidationError(platformOrError.error.message));
-    }
-
-    const platform = platformOrError.value;
-    return Result.ok(platform);
+    const platform = PlatformMapper.toDomain(doc);
+    return platform;
   };
 
   deletePlatform = async (id: string) => {

@@ -1,8 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductDto } from '../../productMapper';
-import { ProductRepoI } from '../../productRepo';
 import { ProductQueriesRepoI } from '../../repo/queries';
 import { SearchProductsRequestDto } from './searchProductsRequestDto';
 

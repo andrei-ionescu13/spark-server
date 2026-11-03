@@ -1,13 +1,14 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { OperatingSystem } from '../../operatingSystem';
+import { OperatingSystem, OperatingSystemCreateProps } from '../../domain/operatingSystem';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
 import { CreateOperatingSystemRequestDto } from './createOperatingSystemRequestDto';
+import { textUtils } from '../../../../../utils/textUtils';
 
 export namespace CreateOperatingSystemErrors {
   export class NameNotAvailableError extends UseCaseError {
@@ -59,15 +60,15 @@ export class CreateOperatingSystemUseCase
   };
 
   execute = async (request: CreateOperatingSystemRequestDto): Promise<Response> => {
-    const props = request;
+    const slug = request.slug || textUtils.generateSlug(request.name);
 
     try {
-      let foundOperatingSystem = await this.operatingSystemQueriesRepo.getOperatingSystemByPropsOr([
-        { name: props.name, slug: props.slug },
-      ]);
-
-      if (foundOperatingSystem) {
-        const result = this.comparePropsToOperatingSystem(props, foundOperatingSystem);
+      let existingOperatingSystem =
+        await this.operatingSystemQueriesRepo.getOperatingSystemByPropsOr([
+          { name: request.name, slug },
+        ]);
+      if (existingOperatingSystem) {
+        const result = this.comparePropsToOperatingSystem(request, existingOperatingSystem);
 
         if (result.isErr()) {
           return Result.fail(result.error);
@@ -76,12 +77,11 @@ export class CreateOperatingSystemUseCase
         return Result.fail(new CreateOperatingSystemErrors.ValidationError());
       }
 
-      const operatingSystemOrError = OperatingSystem.create({
-        name: props.name,
-        slug: props.slug,
-        _id: uuidv7(),
-        createdAt: new Date(),
-      });
+      const props: OperatingSystemCreateProps = {
+        name: request.name,
+        slug,
+      };
+      const operatingSystemOrError = OperatingSystem.create(props);
 
       if (operatingSystemOrError.isErr()) {
         return Result.fail(

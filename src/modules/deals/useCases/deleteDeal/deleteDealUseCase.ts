@@ -1,8 +1,8 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
-import { Deal } from '../../deal';
+import { Deal } from '../../domain/deal';
 import { DealDto } from '../../dealMapper';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { DealQueriesRepoI } from '../../repo/queries';

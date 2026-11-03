@@ -1,9 +1,8 @@
-import { DomainValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
-import { Key } from './key';
-import { KeyAvailability } from './keyAvailability';
-import { KeyStatus } from './keyStatus';
-import { KeyValue } from './keyValue';
+import { DomainValidationError } from '../blog/article/domain/status';
+import { Key } from './domain/key';
+import { KeyAvailability } from './domain/keyAvailability';
+import { KeyStatus } from './domain/keyStatus';
+import { KeyValue } from './domain/keyValue';
 import { KeyDoc } from './model';
 
 export interface KeyDto {
@@ -16,36 +15,22 @@ export interface KeyDto {
 }
 
 export class KeyMapper {
-  public static toDomain(entity: KeyDoc): Result<Key, DomainValidationError> {
-    const availabilityOrError = KeyAvailability.create(entity.availability);
-    const statusOrError = KeyStatus.create(entity.status);
-    const keyValueOrError = KeyValue.create(entity.value);
+  public static toDomain(entity: KeyDoc): Key {
+    const availability = KeyAvailability.reconstitute(entity.availability);
+    const status = KeyStatus.reconstitute(entity.status);
+    const value = KeyValue.reconstitute(entity.value);
 
-    const result = Result.combine([availabilityOrError, statusOrError, keyValueOrError]);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const availability = availabilityOrError.value;
-    const status = statusOrError.value;
-    const value = keyValueOrError.value;
-
-    const keyOrError = Key.create({
+    const key = Key.reconstitute({
       _id: entity._id,
       product: entity.product,
+      updatedAt: entity.updatedAt,
       createdAt: entity.createdAt,
       value,
       availability,
       status,
     });
 
-    if (keyOrError.isErr()) {
-      return Result.fail(new DomainValidationError(keyOrError.error.message));
-    }
-
-    const key = keyOrError.value;
-    return Result.ok(key);
+    return key;
   }
 
   static toDto(entity: KeyDoc): KeyDto {
@@ -71,6 +56,7 @@ export class KeyMapper {
       availability: entity.availability.value,
       status: entity.status.value,
       _id: entity._id,
+      updatedAt: entity.updatedAt,
     };
   }
 }

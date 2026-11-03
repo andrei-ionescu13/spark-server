@@ -1,8 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductDto } from '../../productMapper';
-import { ProductRepoI } from '../../productRepo';
 import { ProductQueriesRepoI } from '../../repo/queries';
 import { GetProductRequestDto } from './getProductRequestDto';
 
@@ -16,9 +15,7 @@ export class GetProductUseCase implements UseCase<GetProductRequestDto, Response
 
     try {
       const product = await this.productQueriesRepo.getProduct(productId);
-      const found = !!product;
-
-      if (!found) {
+      if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
 

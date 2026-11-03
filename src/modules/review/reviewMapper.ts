@@ -1,11 +1,10 @@
-import { DomainValidationError, MappingValidationError } from '../blog/article/status';
-import { Result } from '../../Result';
+import { DomainValidationError, MappingValidationError } from '../blog/article/domain/status';
 import { UserDto } from '../users/userMapper';
 import { ReviewDoc } from './model';
-import { Review } from './review';
-import { ReviewContent } from './reviewContent';
-import { ReviewRating } from './reviewRating';
-import { ReviewStatus } from './reviewStatus';
+import { Review } from './domain/review';
+import { ReviewContent } from './domain/reviewContent';
+import { ReviewRating } from './domain/reviewRating';
+import { ReviewStatus } from './domain/reviewStatus';
 
 type Status = 'published' | 'unpublished' | 'flagged';
 
@@ -33,49 +32,28 @@ export interface ReviewDto {
 }
 
 export class ReviewMapper {
-  static toDomain(entity: ReviewDoc): Result<Review, DomainValidationError> {
-    const contentOrError = ReviewContent.create(entity.content);
-    const ratingOrError = ReviewRating.create(entity.rating);
-    const statusOrError = ReviewStatus.create(entity.status);
-
-    const result = Result.combine([contentOrError, ratingOrError, statusOrError]);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const content = contentOrError.value;
-    const rating = ratingOrError.value;
-    const status = statusOrError.value;
-
-    const reviewOrError = Review.create({
+  static toDomain(entity: ReviewDoc): Review {
+    const content = ReviewContent.reconstitute(entity.content);
+    const rating = ReviewRating.reconstitute(entity.rating);
+    const status = ReviewStatus.reconstitute(entity.status);
+    const review = Review.reconstitute({
       userName: entity.userName,
       user: entity.user,
       product: entity.product,
       createdAt: entity.createdAt,
       _id: entity._id,
+      updatedAt: entity.updatedAt,
       content: content,
       rating: rating,
       status: status,
     });
 
-    if (reviewOrError.isErr()) {
-      return Result.fail(new DomainValidationError(reviewOrError.error.message));
-    }
-    const review = reviewOrError.value;
-
-    return Result.ok(review);
+    return review;
   }
 
-  static toDomainList(docs: ReviewDoc[]): Result<Review[], MappingValidationError> {
-    const categoriesOrErrors = docs.map((entity) => this.toDomain(entity));
-    const combinedResults = Result.combine(categoriesOrErrors);
-
-    if (combinedResults.isErr()) {
-      return Result.fail(new MappingValidationError(combinedResults.error.message));
-    }
-
-    return Result.ok(combinedResults.value);
+  static toDomainList(docs: ReviewDoc[]): Review[] {
+    const reviews = docs.map((entity) => this.toDomain(entity));
+    return reviews;
   }
 
   static toDto(entity: any): ReviewDto {

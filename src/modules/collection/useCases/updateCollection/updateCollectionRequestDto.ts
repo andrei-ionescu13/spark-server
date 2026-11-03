@@ -16,6 +16,5 @@ export interface UpdateCollectionRequestDto {
     buffer: Buffer;
   };
   startDate: Date;
-  isDeal: boolean;
-  endDate?: Date;
+  endDate: Date | null;
 }

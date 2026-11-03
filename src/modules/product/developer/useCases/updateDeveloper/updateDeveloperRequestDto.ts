@@ -1,4 +1,5 @@
 export interface UpdateDeveloperRequestDto {
+  slug: string;
   name: string;
   developerId: string;
   logoFile?: {

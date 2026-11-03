@@ -1,6 +1,6 @@
 import { Collection, Document, ObjectId } from 'mongodb';
 import { ArticleDto, ArticleMapper } from '../articleMapper';
-import { ArticleDoc } from '../model';
+import { ArticleDoc, ArticlePopulatedDoc } from '../model';
 import { match } from 'node:assert';
 
 type SearchArticlesQueries = {
@@ -27,15 +27,15 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
   constructor(private collection: Collection<ArticleDoc>) {}
 
   getArticleByProps = async (props: Array<Record<string, unknown>>): Promise<ArticleDto | null> => {
-    const articleEntity = await this.collection.findOne({ $or: props });
-    if (!articleEntity) null;
+    const doc = await this.collection.findOne({ $or: props });
+    if (!doc) return null;
 
-    return ArticleMapper.toDto(articleEntity);
+    return ArticleMapper.toDto(doc);
   };
 
   getArticle = async (id: string): Promise<ArticleDto | null> => {
     const doc = await this.collection
-      .aggregate([
+      .aggregate<ArticlePopulatedDoc>([
         {
           $match: {
             _id: id,
@@ -85,6 +85,7 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
       page = 1,
       limit = 10,
     } = query;
+
     const pipeline = [
       {
         $match: {
@@ -108,7 +109,7 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
             { $limit: limit },
             {
               $lookup: {
-                from: 'articlecategories',
+                from: 'article_categories',
                 localField: 'category',
                 foreignField: '_id',
                 as: 'category',
@@ -134,7 +135,6 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-
     return {
       articles: ArticleMapper.toDtoList(result.articles),
       count: result.count,
@@ -142,9 +142,9 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
   };
 
   getArticleByCategory = async (categoryId: string): Promise<ArticleDto | null> => {
-    const articleEntity = await this.collection.findOne({ category: categoryId });
-    if (!articleEntity) return null;
+    const doc = await this.collection.findOne({ category: categoryId });
+    if (!doc) return null;
 
-    return ArticleMapper.toDto(articleEntity);
+    return ArticleMapper.toDto(doc);
   };
 }

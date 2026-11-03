@@ -34,8 +34,8 @@ export class UpdateNamespaceController extends Controller {
         }
       }
 
-      const namespace = result.value;
-      return this.ok(res, namespace);
+      const name = result.value;
+      return this.ok(res, name);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

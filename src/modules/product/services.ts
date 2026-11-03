@@ -1,9 +1,8 @@
-import { Result } from '../../Result';
-import { DomainValidationError } from '../blog/article/status';
-import { Review } from '../review/review';
-import { Product } from './product';
-import { ProductRating } from './productRating';
-import { ProductRepo } from './productRepo';
+import { Result } from '../../result';
+import { DomainValidationError } from '../blog/article/domain/status';
+import { Review } from '../review/domain/review';
+import { Product } from './domain/product';
+import { ProductRating } from './domain/productRating';
 
 const calculateRating = (reviews: Review[]): Result<ProductRating, DomainValidationError> => {
   const distribution = {
@@ -28,7 +27,7 @@ const calculateRating = (reviews: Review[]): Result<ProductRating, DomainValidat
       )
     : 0;
 
-  const ratingOrError = ProductRating.create({ distribution, average });
+  const ratingOrError = ProductRating.createDefault({ distribution, average });
   if (ratingOrError.isErr())
     return Result.fail(new DomainValidationError(ratingOrError.error.message));
 

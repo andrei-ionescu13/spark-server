@@ -38,18 +38,16 @@ export class Result<T, U extends Error> {
     return new Result<T, U>(false, error);
   }
 
-  // public static firstError<T, U extends Error>(results: Result<T, U>[]): Result<T, U> {
-  //   const error = results.find((r) => r.isFailure);
-
-  //   return error || Result.ok();
-  // }
-
-  public static combine<U extends Error>(results: Result<any, U>[]): Result<any, U> {
-    for (let result of results) {
-      if (result.isFailure) return result;
+  public static combine<T extends unknown[], U extends Error>(results: {
+    [K in keyof T]: Result<T[K], U>;
+  }): Result<T, U> {
+    for (const result of results) {
+      if (result.isErr()) {
+        return Result.fail(result.error);
+      }
     }
 
-    return Result.ok<any, any>();
+    return Result.ok(results.map((result) => result.value) as unknown as T);
   }
 
   public static getValues<T, U extends Error>(results: Result<T, U>[]): T[] {

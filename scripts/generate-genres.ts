@@ -1,8 +1,9 @@
-import { GenreRepo } from '../genre/genreRepo';
-import { GenreModel } from '../genre/model';
-import { textUtils } from '../utils/textUtils';
+import { Genre } from '../src/modules/product/genre/domain/genre';
+import { GenreCommandsRepo } from '../src/modules/product/genre/repo/commands';
+import { Mongo } from '../src/mongo';
+import { Result } from '../src/result';
 
-const genres = [
+const genresMock = [
   '1980s',
   '1990s',
   '2.5D',
@@ -481,13 +482,11 @@ const genres = [
 ];
 
 export const generateGenres = async () => {
-  const genreRepo = new GenreRepo(GenreModel);
-  const props = genres.map((genre) => ({
-    name: genre,
-    slug: textUtils.generateSlug(genre),
-  }));
-
-  const promises = props.map((x) => genreRepo.createGenre(x));
+  const genreRepo = new GenreCommandsRepo(Mongo.getCollection('genres'));
+  const genresOrError = Result.combine(genresMock.map((x) => Genre.create({ name: x })));
+  const genres = genresOrError.value;
+  const promises = genres.map((x) => genreRepo.save(x));
   await Promise.all(promises);
+
   console.log('genres generated');
 };

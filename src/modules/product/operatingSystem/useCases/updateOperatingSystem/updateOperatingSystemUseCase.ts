@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { OperatingSystemDoc } from '../../model';
@@ -67,16 +67,9 @@ export class UpdateOperatingSystemUseCase
     const { operatingSystemId, ...props } = request;
 
     try {
-      const operatingSystemOrError = await this.operatingSystemCommandsRepo.getOperatingSystem(
+      const operatingSystem = await this.operatingSystemCommandsRepo.getOperatingSystem(
         operatingSystemId,
       );
-      if (operatingSystemOrError.isErr()) {
-        return Result.fail(
-          new UseCaseErrors.DomainValidation(operatingSystemOrError.error.message),
-        );
-      }
-
-      const operatingSystem = operatingSystemOrError.value;
       if (!operatingSystem) {
         return Result.fail(new UseCaseErrors.NotFound('Article tag not found'));
       }

@@ -1,12 +1,12 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../../asset';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { Publisher } from '../../publisher';
+import { Publisher } from '../../domain/publisher';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { CreatePublisherRequestDto } from './createPublisherRequestDto';
+import { Asset } from '../../../../../Asset';
 
 type Response = Result<Publisher, UseCaseErrors.UnexpectedError>;
 

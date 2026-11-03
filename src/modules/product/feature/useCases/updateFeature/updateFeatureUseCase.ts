@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { FeatureDto } from '../../featureMapper';
@@ -64,12 +64,7 @@ export class UpdateFeatureUseCase implements UseCase<UpdateFeatureRequestDto, Re
     const { featureId, ...props } = request;
 
     try {
-      const featureOrError = await this.featureCommandsRepo.getFeature(featureId);
-      if (featureOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(featureOrError.error.message));
-      }
-
-      const feature = featureOrError.value;
+      const feature = await this.featureCommandsRepo.getFeature(featureId);
       if (!feature) {
         return Result.fail(new UseCaseErrors.NotFound('Article tag not found'));
       }

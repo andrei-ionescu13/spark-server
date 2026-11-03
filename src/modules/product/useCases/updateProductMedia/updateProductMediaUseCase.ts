@@ -1,9 +1,10 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Asset } from '../../../../Asset';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../UseCaseError';
-import { Asset } from '../../../../asset';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Product, UpdateProductMediaProps } from '../../domain/product';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 
@@ -15,71 +16,71 @@ export class UpdateProductMediaUseCase implements UseCase<UpdateProductMediaRequ
     private uploaderService: UploaderService,
   ) {}
 
+  async uploadCover(
+    product: Product,
+    coverFile: UpdateProductMediaRequestDto['coverFile'],
+  ): Promise<Result<Asset, DomainValidationError>> {
+    await this.uploaderService.delete(product.cover.publicId);
+    const uploadedCover = await this.uploaderService.uploadFile(coverFile, 'products');
+    return Asset.create(uploadedCover);
+  }
+
   execute = async (request: UpdateProductMediaRequestDto): Promise<Response> => {
-    const { productId, coverFile, imageFiles, ...rest } = request;
-    const props: any = rest;
-
     try {
-      const productOrError = await this.productCommandsRepo.getProduct(productId);
-      if (productOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(request.productId);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
 
-      if (coverFile) {
-        await this.uploaderService.delete(product.cover.publicId);
-        const uploadedCover = await this.uploaderService.uploadFile(coverFile, 'products');
-        props.cover = uploadedCover;
+      const imagesToDeletePublicIds = product.allImages
+        .filter((image) => !request.allImages.includes(image.publicId))
+        .map((image) => image.publicId);
+
+      if (imagesToDeletePublicIds.length) {
+        await this.uploaderService.deleteMultiple(imagesToDeletePublicIds);
       }
 
-      const filesToDelete = product.images.filter(
-        (productImage) => !props.images.includes(productImage.publicId),
-      );
+      let allImages = [
+        ...product.allImages.filter((image) => !imagesToDeletePublicIds.includes(image.publicId)),
+      ];
 
-      await Promise.all(filesToDelete.map((file) => this.uploaderService.delete(file.publicId)));
-      props.images = product.images.filter((productImage) =>
-        props.images.includes(productImage.publicId),
-      );
-
-      if (imageFiles) {
-        const imagesUploadRes = await Promise.all(
-          imageFiles.map(async (image) => ({
-            ...(await this.uploaderService.uploadFile(image, 'products')),
-            originalname: image.originalname,
-          })),
+      if (request.allImageFiles?.length) {
+        const uploadedNewImages = await this.uploaderService.uploadFiles(
+          request.allImageFiles,
+          'products',
         );
+        const newImagesOrError = Result.combine(
+          uploadedNewImages.map((image) => Asset.create(image)),
+        );
+        if (newImagesOrError.isErr()) {
+          return Result.fail(new UseCaseErrors.DomainValidation(newImagesOrError.error.message));
+        }
 
-        imagesUploadRes.forEach((x) => props.images.push(x));
+        const newImages = newImagesOrError.value;
+        allImages = [...allImages, ...newImages];
       }
-      props.selectedImages = props.images.filter(
-        (image) =>
-          props.selectedImages.includes(image.public_id) ||
-          props.selectedImages.includes(image.originalname),
-      );
 
-      const coverOrError = Asset.create(props.cover);
-      const imagesOrError = Result.combine(props.images.map((image) => Asset.create(image)));
-      const selectedImagesOrError = Result.combine(
-        props.selectedImages.map((image) => Asset.create(image)),
-      );
-      const combinedResult = Result.combine([coverOrError, imagesOrError, selectedImagesOrError]);
-      if (combinedResult.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(combinedResult.error.message));
+      const props: UpdateProductMediaProps = {
+        allImages,
+        images: allImages.filter(
+          (image) =>
+            request.images.includes(image.publicId) ||
+            request.images.includes(image.originalFilename),
+        ),
+        videos: request.videos,
+      };
 
-      const cover = coverOrError.value;
-      const images = imagesOrError.value;
-      const selectedImages = selectedImagesOrError.value;
+      if (request.coverFile) {
+        const coverOrError = await this.uploadCover(product, request.coverFile);
+        if (coverOrError.isErr()) {
+          return Result.fail(new UseCaseErrors.DomainValidation(coverOrError.error.message));
+        }
 
-      product.updateMedia({
-        cover,
-        images,
-        selectedImages,
-        videos: props.videos,
-      });
+        const cover = coverOrError.value;
+        props.cover = cover;
+      }
 
+      product.updateMedia(props);
       await this.productCommandsRepo.save(product);
       return Result.ok();
     } catch (error) {

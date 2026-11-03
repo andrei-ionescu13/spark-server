@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../../asset';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { Platform } from '../../platform';
+import { Platform } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { UpdatePlatformRequestDto } from './updatePlatformRequestDto';
 import { Result } from '../../../../../result';
+import { Asset } from '../../../../../Asset';
 
 type Response = Result<
   Platform,
@@ -23,12 +23,7 @@ export class UpdatePlatformUseCase implements UseCase<UpdatePlatformRequestDto, 
     const props: { name: string; url: string; logo?: Asset } = rest;
 
     try {
-      const platformOrError = await this.platformCommandsRepo.getPlatform(platformId);
-      if (platformOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(platformOrError.error.message));
-      }
-
-      const platform = platformOrError.value;
+      const platform = await this.platformCommandsRepo.getPlatform(platformId);
       if (!platform) {
         return Result.fail(new UseCaseErrors.NotFound('Platform not found'));
       }

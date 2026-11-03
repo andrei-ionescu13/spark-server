@@ -21,8 +21,6 @@ const featureQueriesRepo = new FeatureQueriesRepo(Mongo.getCollection('features'
 const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo(
   Mongo.getCollection('operating_systems'),
 );
-const keyCommandsRepo = new KeyCommandsRepo(Mongo.getCollection('keys'));
-const keyQueriesRepo = new KeyQueriesRepo(Mongo.getCollection('keys'));
 const uploaderService = new CloudinaryUploaderService();
 
 const createProductUseCase = new CreateProductUseCase(
@@ -33,8 +31,6 @@ const createProductUseCase = new CreateProductUseCase(
   developerQueriesRepo,
   featureQueriesRepo,
   operatingSystemQueriesRepo,
-  keyCommandsRepo,
-  keyQueriesRepo,
   uploaderService,
 );
 export const createProductController = new CreateProductController(createProductUseCase);

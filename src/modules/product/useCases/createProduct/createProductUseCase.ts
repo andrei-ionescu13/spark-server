@@ -1,13 +1,13 @@
 import { v7 as uuidv7 } from 'uuid';
-import { textUtils } from '../../../../../utils/textUtils';
+import { textUtils } from '../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../AppError';
-import { Key } from '../../../key/key';
-import { KeyAvailability } from '../../../key/keyAvailability';
-import { KeyStatus } from '../../../key/keyStatus';
-import { KeyValue } from '../../../key/keyValue';
+import { Key } from '../../../key/domain/key';
+import { KeyAvailability } from '../../../key/domain/keyAvailability';
+import { KeyStatus } from '../../../key/domain/keyStatus';
+import { KeyValue } from '../../../key/domain/keyValue';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
@@ -15,11 +15,22 @@ import { DeveloperQueriesRepoI } from '../../developer/repo/queries';
 import { FeatureQueriesRepoI } from '../../feature/repo/queries';
 import { GenreQueriesRepoI } from '../../genre/repo/queries';
 import { OperatingSystemQueriesRepoI } from '../../operatingSystem/repo/queries';
-import { Product } from '../../product';
+import { Product, ProductCreateProps } from '../../domain/product';
 import { PublisherQueriesRepoI } from '../../publisher/repo/queries';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { ProductQueriesRepoI } from '../../repo/queries';
 import { CreateProductRequestDto } from './createProductRequestDto';
+import { ProductStatus } from '../../domain/productStatus';
+import { Asset } from '../../../../Asset';
+import { ProductRating } from '../../domain/productRating';
+import { ProductPrice } from '../../domain/productPrice';
+import { ProductMarkdown } from '../../domain/productMarkdown';
+import { ProductRequirements } from '../../domain/productRequirements';
+import { ProductLink } from '../../domain/productLink';
+import { Meta } from '../../../../Meta';
+import { ProductTitle } from '../../domain/productTitle';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+
 export namespace CreateProductErrors {
   export class KeyForPlatformExists extends UseCaseError {
     constructor() {
@@ -64,8 +75,6 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
     private developerQueriesRepo: DeveloperQueriesRepoI,
     private featureQueriesRepo: FeatureQueriesRepoI,
     private operatingSystemQueriesRepo: OperatingSystemQueriesRepoI,
-    private keyCommandsRepo: KeyCommandsRepoI,
-    private keyQueriesRepo: KeyQueriesRepoI,
     private uploaderService: UploaderService,
   ) {}
 
@@ -85,77 +94,6 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
     }
 
     return Result.ok();
-  };
-
-  createKey = async (
-    product: Product,
-    value: string,
-  ): Promise<
-    Result<
-      Key,
-      | UseCaseErrors.DomainValidation
-      | UseCaseErrors.NotFound
-      | CreateProductErrors.KeyForPlatformExists
-    >
-  > => {
-    const keyFound = await this.keyQueriesRepo.getKeyByValue(value);
-
-    if (keyFound) {
-      const products = await this.productQueriesRepo.searchProductsByKeys(value);
-      let isSamePlatform = false;
-
-      if (products.length) {
-        for (const _product of products) {
-          if (_product.platform._id.toString() === product.platform) {
-            isSamePlatform = true;
-            break;
-          }
-        }
-      }
-
-      if (isSamePlatform) {
-        return Result.fail(new CreateProductErrors.KeyForPlatformExists());
-      }
-    }
-
-    const keyValueOrError = KeyValue.create(value);
-    const availabilityOrError = KeyAvailability.create();
-    const statusOrError = KeyStatus.create();
-
-    const valueObjectsResult = Result.combine([
-      keyValueOrError,
-      availabilityOrError,
-      statusOrError,
-    ]);
-
-    if (valueObjectsResult.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(valueObjectsResult.error.message));
-    }
-
-    const keyValue = keyValueOrError.value;
-    const availability = availabilityOrError.value;
-    const status = statusOrError.value;
-
-    const keyOrError = Key.create({
-      product: product._id,
-      availability,
-      status,
-      value: keyValue,
-      _id: uuidv7(),
-    });
-
-    if (keyOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(keyOrError.error.message));
-    }
-
-    const key = keyOrError.value;
-    const addKeyResult = product.addKey(key._id);
-
-    if (addKeyResult.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(addKeyResult.error.message));
-    }
-
-    return Result.ok(key);
   };
 
   applyGuard = async (props): Promise<Result<undefined, UseCaseErrors.NotFound>> => {
@@ -194,76 +132,153 @@ export class CreateProductUseCase implements UseCase<CreateProductRequestDto, Re
     return Result.ok();
   };
 
-  execute = async (request: CreateProductRequestDto): Promise<Response> => {
-    const { shouldPublish, coverFile, imageFiles, keysFile, ...rest } = request;
-    const props: any = rest;
-    props.status = shouldPublish ? 'published' : 'draft';
-    props.slug ??= textUtils.generateSlug(props.title);
+  checkForExistingProduct = async (slug: string, title: string) => {
+    const product = await this.productQueriesRepo.getProductByProps([{ slug }, { title }]);
 
-    try {
-      const foundProduct = await this.productQueriesRepo.getProductByProps([
-        { slug: props.slug },
-        { title: props.title },
-      ]);
-
-      if (foundProduct) {
-        const comparisonResult = this.comparePropsToProduct(props, foundProduct);
-        if (comparisonResult.isErr()) {
-          return Result.fail(comparisonResult.error);
-        }
-
-        return Result.fail(new CreateProductErrors.FieldsNotAvailable());
+    if (product) {
+      const result = this.comparePropsToProduct({ slug, title }, product);
+      if (result.isErr()) {
+        return Result.fail(result.error);
       }
 
-      const guardResult = await this.applyGuard(props);
+      return Result.fail(new CreateProductErrors.FieldsNotAvailable());
+    }
 
+    return Result.ok();
+  };
+
+  async uploadAssets(
+    coverFile,
+    imageFiles,
+  ): Promise<
+    Result<
+      {
+        cover: Asset;
+        allImages: Asset[];
+      },
+      UseCaseErrors.DomainValidation
+    >
+  > {
+    const coverUploaded = await this.uploaderService.uploadFile(coverFile, 'products');
+    const imagesUploaded = await Promise.all(
+      imageFiles.map(async (image) => ({
+        ...(await this.uploaderService.uploadFile(image, 'products')),
+        originalname: image.originalname,
+      })),
+    );
+
+    const coverOrError = Asset.create(coverUploaded);
+    const allImagesOrError = Result.combine(
+      imagesUploaded.map((imageUploaded) => Asset.create(imageUploaded)),
+    );
+
+    const combinedResult = Result.combine([coverOrError, allImagesOrError]);
+    if (combinedResult.isErr()) {
+      return Result.fail(new UseCaseErrors.DomainValidation(combinedResult.error.message));
+    }
+
+    const [cover, allImages] = combinedResult.value;
+    return Result.ok({ cover, allImages });
+  }
+
+  createProps = (
+    request: CreateProductRequestDto,
+  ): Result<
+    Omit<ProductCreateProps, 'cover' | 'allImages' | 'images'>,
+    UseCaseErrors.DomainValidation
+  > => {
+    const priceOrError = ProductPrice.create(request.price);
+    const markdownOrError = ProductMarkdown.create(request.markdown);
+    const minimumRequirementsOrError = ProductRequirements.create(request.minimumRequirements);
+    const recommendedRequirementsOrError = ProductRequirements.create(
+      request.recommendedRequirements,
+    );
+    const titleOrError = ProductTitle.create(request.title);
+    const metaOrError = Meta.create({
+      title: request.meta.title,
+      description: request.meta.description,
+      keywords: request.meta.keywords,
+    });
+    const propsResult = Result.combine([
+      titleOrError,
+      priceOrError,
+      markdownOrError,
+      minimumRequirementsOrError,
+      recommendedRequirementsOrError,
+      metaOrError,
+    ]);
+
+    if (propsResult.isErr()) {
+      return Result.fail(new UseCaseErrors.DomainValidation(propsResult.error.message));
+    }
+
+    const [title, price, markdown, minimumRequirements, recommendedRequirements, meta] =
+      propsResult.value;
+
+    let link: ProductLink | null = null;
+
+    if (request.link) {
+      const linkOrError = ProductLink.create(request.link);
+      if (linkOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(linkOrError.error.message));
+      }
+      link = linkOrError.value;
+    }
+
+    const props = {
+      ...request,
+      meta,
+      link,
+      price,
+      markdown,
+      minimumRequirements,
+      recommendedRequirements,
+      title,
+    };
+    return Result.ok(props);
+  };
+
+  execute = async (request: CreateProductRequestDto): Promise<Response> => {
+    const { coverFile, allImageFiles } = request;
+    const slug = request.slug || textUtils.generateSlug(request.title);
+
+    try {
+      const existingProduct = await this.checkForExistingProduct(slug, request.title);
+      if (existingProduct.isErr()) {
+        return Result.fail(existingProduct.error);
+      }
+
+      const guardResult = await this.applyGuard(request);
       if (guardResult.isErr()) {
         return Result.fail(guardResult.error);
       }
 
-      const uploadedCover = await this.uploaderService.uploadFile(coverFile, 'products');
-      const uploadedImages = await Promise.all(
-        imageFiles.map(async (image) => ({
-          ...(await this.uploaderService.uploadFile(image, 'products')),
-          originalname: image.originalname,
-        })),
-      );
+      const propsResult = this.createProps(request);
+      if (propsResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(propsResult.error.message));
+      }
 
-      props.cover = uploadedCover;
-      props.images = uploadedImages.map((image) => {
-        const { originalname, ...rest } = image;
-        return rest;
-      });
+      const partialProps = propsResult.value;
+      const uploadResult = await this.uploadAssets(coverFile, allImageFiles);
+      if (uploadResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(uploadResult.error.message));
+      }
 
-      props.selectedImages = uploadedImages
-        .filter((image) => props.selectedImages.includes(image.originalname))
-        .map((image) => {
-          const { originalname, ...rest } = image;
-          return rest;
-        });
+      const { cover, allImages } = uploadResult.value;
+      const props: ProductCreateProps = {
+        ...partialProps,
+        cover,
+        allImages,
+        images: allImages.filter((image) => request.images.includes(image.originalFilename)),
+      };
 
       const productOrError = Product.create(props);
-
       if (productOrError.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
       }
 
       const product = productOrError.value;
-      const keyValues = keysFile.buffer
-        .toString()
-        .split('\n')
-        .map((key) => key.trim());
-
-      const results = await Promise.all(keyValues.map((key) => this.createKey(product, key)));
-      const combinedResult = Result.combine(results);
-
-      if (combinedResult.isErr()) {
-        return Result.fail(combinedResult.error);
-      }
-
-      const keys = results.map((result) => result.value);
       await this.productCommandsRepo.save(product);
-      await Promise.all(keys.map((key) => this.keyCommandsRepo.save(key)));
 
       return Result.ok(product._id);
     } catch (error) {

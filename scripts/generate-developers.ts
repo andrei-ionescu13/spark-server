@@ -1,8 +1,12 @@
-import { DeveloperRepo } from '../developer/developerRepo';
-import { DeveloperModel } from '../developer/model';
-import { textUtils } from '../utils/textUtils';
+import fs from 'node:fs';
+import { DeveloperCommandsRepo } from '../src/modules/product/developer/repo/commands';
+import { Mongo } from '../src/mongo';
+import { CloudinaryUploaderService } from '../src/services/uploaderService';
+import { Asset } from '../src/Asset';
+import { Result } from '../src/result';
+import { Developer } from '../src/modules/product/developer/domain/developer';
 
-const developers = [
+const developersMock = [
   'NIS America Inc.',
   'Nacon',
   'Paradox Interactive AB',
@@ -353,13 +357,21 @@ const developers = [
 ];
 
 export const generateDevelopers = async () => {
-  const developerRepo = new DeveloperRepo(DeveloperModel);
-  const props = developers.map((genre) => ({
-    name: genre,
-    slug: textUtils.generateSlug(genre),
-  }));
+  const logoFile = fs.readFileSync(__dirname + '/publisher-placeholder.svg', 'utf8');
+  const developerRepo = new DeveloperCommandsRepo(Mongo.getCollection('developers'));
+  const uploaderService = new CloudinaryUploaderService();
+  const uploadedLogo = await uploaderService.uploadFile(
+    { buffer: Buffer.from(logoFile) },
+    'publishers',
+  );
 
-  const promises = props.map((x) => developerRepo.createDeveloper(x));
+  const asset = Asset.create(uploadedLogo).value;
+
+  const developers = Result.combine(
+    developersMock.map((developer) => Developer.create({ logo: asset, name: developer })),
+  ).value;
+
+  const promises = developers.map((publisher) => developerRepo.save(publisher));
   await Promise.all(promises);
-  console.log('developers generated');
+  console.log('publishers generated');
 };

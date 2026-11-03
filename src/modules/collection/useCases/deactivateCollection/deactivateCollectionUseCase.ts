@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { Collection } from '../../collection';
+import { Collection } from '../../domain/collection';
 import { CollectionCommandsRepoI } from '../../repo/commands';
 import { DeactivateCollectionRequestDto } from './deactivateCollectionRequestDto';
 
@@ -16,12 +16,7 @@ export class DeactivateCollectionUseCase
     const { collectionId } = request;
 
     try {
-      const collectionOrError = await this.collectionCommandsRepo.getCollection(collectionId);
-      if (collectionOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(collectionOrError.error.message));
-      }
-
-      const collection = collectionOrError.value;
+      const collection = await this.collectionCommandsRepo.getCollection(collectionId);
       if (!collection) {
         return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
       }

@@ -37,7 +37,7 @@ export class LanguageQueriesRepo implements LanguageQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          languages: [{ $skip: page }, { $limit: limit }],
+          languages: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',

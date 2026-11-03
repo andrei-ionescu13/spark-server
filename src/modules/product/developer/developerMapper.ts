@@ -1,9 +1,9 @@
-import { Asset } from '../../../asset';
 import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
-import { Developer } from './developer';
+import { DomainValidationError } from '../../blog/article/domain/status';
+import { Result } from '../../../result';
+import { Developer } from './domain/developer';
 import { DeveloperDoc } from './model';
+import { Asset } from '../../../Asset';
 
 export interface DeveloperDto {
   _id: string;
@@ -24,8 +24,8 @@ interface DeveloperPersistance {
 }
 
 export class DeveloperMapper {
-  public static toDomain(entity: DeveloperDoc): Result<Developer, DomainValidationError> {
-    const logoOrError = Asset.create({
+  public static toDomain(entity: DeveloperDoc): Developer {
+    const logo = Asset.reconstitute({
       publicId: entity.logo.public_id,
       width: entity.logo.width,
       height: entity.logo.height,
@@ -35,14 +35,10 @@ export class DeveloperMapper {
       url: entity.logo.url,
       secureUrl: entity.logo.secure_url,
       originalFilename: entity.logo.original_filename,
+      _id: entity._id,
     });
 
-    if (logoOrError.isErr()) {
-      return Result.fail(new DomainValidationError(logoOrError.error.message));
-    }
-    const logo = logoOrError.value;
-
-    const developerOrError = Developer.create({
+    const developer = Developer.reconstitute({
       _id: entity._id,
       name: entity.name,
       slug: entity.slug,
@@ -51,12 +47,7 @@ export class DeveloperMapper {
       logo,
     });
 
-    if (developerOrError.isErr()) {
-      return Result.fail(new DomainValidationError(developerOrError.error.message));
-    }
-
-    const developer = developerOrError.value;
-    return Result.ok(developer);
+    return developer;
   }
 
   static toDto(entity: any): DeveloperDto {

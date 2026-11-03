@@ -1,13 +1,13 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../Result';
-import { DomainValidationError } from '../../blog/article/status';
-import { Coupon } from '../coupon';
+import { Result } from '../../../result';
+import { DomainValidationError } from '../../blog/article/domain/status';
+import { Coupon } from '../domain/coupon';
 import { CouponMapper } from '../couponMapper';
 import { CouponDoc } from '../model';
 
 export interface CouponCommandsRepoI {
   save: (coupon: Coupon) => Promise<void>;
-  getCoupon: (id: string) => Promise<Result<Coupon | null, DomainValidationError>>;
+  getCoupon: (id: string) => Promise<Coupon | null>;
   deleteCoupon: (id: string) => Promise<void>;
 }
 
@@ -19,18 +19,12 @@ export class CouponCommandsRepo implements CouponCommandsRepoI {
     await this.collection.updateOne({ _id: coupon._id }, { $set: persistence }, { upsert: true });
   };
 
-  getCoupon = async (id: string): Promise<Result<Coupon | null, DomainValidationError>> => {
+  getCoupon = async (id: string): Promise<Coupon | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const couponOrError = CouponMapper.toDomain(doc);
-
-    if (couponOrError.isErr()) {
-      return Result.fail(new DomainValidationError(couponOrError.error.message));
-    }
-    const coupon = couponOrError.value;
-
-    return Result.ok(coupon);
+    const coupon = CouponMapper.toDomain(doc);
+    return coupon;
   };
 
   deleteCoupon = async (id: string) => {

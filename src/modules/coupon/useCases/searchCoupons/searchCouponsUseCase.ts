@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CouponDto } from '../../couponMapper';
 import { CouponQueriesRepoI } from '../../repo/queries';
@@ -20,9 +20,8 @@ export class SearchCouponsUseCase implements UseCase<SearchCouponsRequestDto, Re
     };
 
     try {
-      const { coupons, count } = await this.couponQueriesRepo.searchCoupons(query);
-
-      return Result.ok({ coupons, count });
+      const result = await this.couponQueriesRepo.searchCoupons(query);
+      return Result.ok(result);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

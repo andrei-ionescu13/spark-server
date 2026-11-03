@@ -1,9 +1,6 @@
-import { Asset } from '../../../asset';
-import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
+import { AssetDto, AssetMapper } from '../../../assetMapper';
+import { Publisher } from './domain/publisher';
 import { PublisherDoc } from './model';
-import { Publisher } from './publisher';
 
 export interface PublisherDto {
   _id: string;
@@ -14,49 +11,18 @@ export interface PublisherDto {
   logo: AssetDto;
 }
 
-interface PublisherPersistance {
-  _id: string;
-  name: string;
-  slug: string;
-  createdAt: Date;
-  updatedAt: Date | null;
-  logo: AssetPersistance;
-}
-
 export class PublisherMapper {
-  public static toDomain(entity: PublisherDoc): Result<Publisher, DomainValidationError> {
-    const logoOrError = Asset.create({
-      publicId: entity.logo.public_id,
-      width: entity.logo.width,
-      height: entity.logo.height,
-      format: entity.logo.format,
-      resourceType: entity.logo.resource_type,
-      createdAt: entity.logo.created_at,
-      url: entity.logo.url,
-      secureUrl: entity.logo.secure_url,
-      originalFilename: entity.logo.original_filename,
+  static toDomain(doc: PublisherDoc): Publisher {
+    const publiser = Publisher.reconstitute({
+      _id: doc._id,
+      name: doc.name,
+      slug: doc.slug,
+      createdAt: doc.createdAt,
+      updatedAt: doc.updatedAt,
+      logo: AssetMapper.toDomain(doc.logo),
     });
 
-    if (logoOrError.isErr()) {
-      return Result.fail(new DomainValidationError(logoOrError.error.message));
-    }
-    const logo = logoOrError.value;
-
-    const publisherOrError = Publisher.create({
-      _id: entity._id,
-      name: entity.name,
-      slug: entity.slug,
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
-      logo,
-    });
-
-    if (publisherOrError.isErr()) {
-      return Result.fail(new DomainValidationError(publisherOrError.error.message));
-    }
-
-    const publisher = publisherOrError.value;
-    return Result.ok(publisher);
+    return publiser;
   }
 
   static toDto(entity: any): PublisherDto {
@@ -74,14 +40,14 @@ export class PublisherMapper {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: Publisher): PublisherPersistance {
+  static toPersistance(entity: Publisher): PublisherDoc {
     return {
       _id: entity._id,
+      createdAt: entity.createdAt,
+      logo: AssetMapper.toPersistance(entity.logo),
       name: entity.name,
       slug: entity.slug,
-      createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      logo: AssetMapper.toPersistance(entity.logo),
     };
   }
 }

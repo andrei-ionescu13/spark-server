@@ -1,13 +1,11 @@
-import { Collection, ObjectId } from 'mongodb';
-import { ArticleTag } from '../articleTag';
+import { Collection } from 'mongodb';
+import { ArticleTag } from '../domain/articleTag';
 import { ArticleTagMapper } from '../articleTagMapper';
 import { ArticleTagDoc } from '../model';
-import { Result } from '../../../../Result';
-import { MappingValidationError } from '../../article/status';
 
 export interface ArticleTagCommandsRepoI {
   save: (articleTag: ArticleTag) => Promise<void>;
-  getArticleTag: (id: string) => Promise<Result<ArticleTag | null, MappingValidationError>>;
+  getArticleTag: (id: string) => Promise<ArticleTag | null>;
   deleteArticleTag: (id: string) => Promise<void>;
 }
 
@@ -15,28 +13,20 @@ export class ArticleTagCommandsRepo implements ArticleTagCommandsRepoI {
   constructor(private collection: Collection<ArticleTagDoc>) {}
 
   save = async (articleTag: ArticleTag) => {
-    const persistance = ArticleTagMapper.toPersistance(articleTag);
+    const persistence = ArticleTagMapper.toPersistance(articleTag);
     await this.collection.updateOne(
-      { _id: persistance._id },
-      { set: persistance },
+      { _id: articleTag._id },
+      { $set: persistence },
       { upsert: true },
     );
   };
 
-  getArticleTag = async (
-    id: string,
-  ): Promise<Result<ArticleTag | null, MappingValidationError>> => {
+  getArticleTag = async (id: string): Promise<ArticleTag | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) {
-      return Result.ok(null);
-    }
+    if (!doc) return null;
 
-    const articleTagOrError = ArticleTagMapper.toDomain(doc);
-    if (articleTagOrError.isErr()) {
-      return Result.fail(new MappingValidationError(articleTagOrError.error.message));
-    }
-
-    return Result.ok(articleTagOrError.value);
+    const articleTag = ArticleTagMapper.toDomain(doc);
+    return articleTag;
   };
 
   deleteArticleTag = async (id: string) => {

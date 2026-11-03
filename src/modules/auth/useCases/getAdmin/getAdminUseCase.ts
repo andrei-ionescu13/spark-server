@@ -13,12 +13,10 @@ export class GetAdminUseCase implements UseCase<GetAdminRequestDto, Response> {
 
   execute = async (request: GetAdminRequestDto): Promise<Response> => {
     const { user } = request;
-    console.log(user);
     try {
       const admin = await this.adminQueriesRepo.getAdmin(user.adminId);
-      const found = !!admin;
 
-      if (!found) {
+      if (!admin) {
         return Result.fail(new UseCaseErrors.NotFound('Admin not found'));
       }
 

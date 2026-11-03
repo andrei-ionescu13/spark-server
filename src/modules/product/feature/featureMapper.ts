@@ -1,6 +1,5 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
-import { Feature } from './feature';
+import { DomainValidationError } from '../../blog/article/domain/status';
+import { Feature } from './domain/feature';
 import { FeatureDoc } from './model';
 
 export interface FeatureDto {
@@ -20,8 +19,8 @@ interface FeaturePersistance {
 }
 
 export class FeatureMapper {
-  public static toDomain(entity: FeatureDoc): Result<Feature, DomainValidationError> {
-    const featureOrError = Feature.create({
+  public static toDomain(entity: FeatureDoc): Feature {
+    const feature = Feature.reconstitute({
       _id: entity._id,
       name: entity.name,
       slug: entity.slug,
@@ -29,12 +28,7 @@ export class FeatureMapper {
       updatedAt: entity.updatedAt,
     });
 
-    if (featureOrError.isErr()) {
-      return Result.fail(new DomainValidationError(featureOrError.error.message));
-    }
-
-    const feature = featureOrError.value;
-    return Result.ok(feature);
+    return feature;
   }
 
   static toDto(entity: any): FeatureDto {

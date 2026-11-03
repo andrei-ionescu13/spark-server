@@ -1,11 +1,13 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
-import { Coupon } from '../../coupon';
-import { CouponCode } from '../../couponCode';
-import { CouponType } from '../../couponType';
-import { CouponValue } from '../../couponValue';
+import { Coupon, CreateCouponProps, UpdateCouponProps } from '../../domain/coupon';
+import { CouponCode } from '../../domain/couponCode';
+import { CouponProductSelection } from '../../domain/couponProductSelection';
+import { CouponType } from '../../domain/couponType';
+import { CouponUserSelection } from '../../domain/couponUserSelection';
+import { CouponValue } from '../../domain/couponValue';
 import { CouponCommandsRepoI } from '../../repo/commands';
 import { UpdateCouponRequestDto } from './updateCouponRequestDto';
 
@@ -17,16 +19,11 @@ export class UpdateCouponUseCase implements UseCase<UpdateCouponRequestDto, Resp
     private userCommandsRepo: UserCommandsRepoI,
   ) {}
 
-  removeUserCoupon = async (
+  removeCouponFromUser = async (
     id: string,
     couponId: string,
   ): Promise<Result<undefined, UseCaseErrors.DomainValidation | UseCaseErrors.NotFound>> => {
-    const userOrError = await this.userCommandsRepo.getUser(id);
-    if (userOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
-    }
-
-    const user = userOrError.value;
+    const user = await this.userCommandsRepo.getUser(id);
     if (!user) {
       return Result.fail(new UseCaseErrors.NotFound('User not found'));
     }
@@ -37,16 +34,11 @@ export class UpdateCouponUseCase implements UseCase<UpdateCouponRequestDto, Resp
     return Result.ok();
   };
 
-  addUserCoupon = async (
+  addCouponToUser = async (
     id: string,
     couponId: string,
   ): Promise<Result<undefined, UseCaseErrors.DomainValidation | UseCaseErrors.NotFound>> => {
-    const userOrError = await this.userCommandsRepo.getUser(id);
-    if (userOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
-    }
-
-    const user = userOrError.value;
+    const user = await this.userCommandsRepo.getUser(id);
     if (!user) {
       return Result.fail(new UseCaseErrors.NotFound('User not found'));
     }
@@ -58,40 +50,44 @@ export class UpdateCouponUseCase implements UseCase<UpdateCouponRequestDto, Resp
   };
 
   execute = async (request: UpdateCouponRequestDto): Promise<Response> => {
-    const { couponId, ...props } = request;
-
     try {
-      const couponOrError = await this.couponCommandsRepo.getCoupon(couponId);
-      if (couponOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(couponOrError.error.message));
-      }
-
-      const coupon = couponOrError.value;
-
+      const coupon = await this.couponCommandsRepo.getCoupon(request.couponId);
       if (!coupon) {
         return Result.fail(new UseCaseErrors.NotFound('Coupon not found'));
       }
 
-      const codeOrError = CouponCode.create(props.code);
-      const typeOrError = CouponType.create(props.type);
-      const valueOrError = CouponValue.create(props.value);
+      const codeOrError = CouponCode.create(request.code);
+      const userSelectionOrError = CouponUserSelection.create(request.userSelection);
+      const typeOrError = CouponType.create(request.type);
+      const productSelectionOrError = CouponProductSelection.create(request.productSelection);
+      const valueOrError = CouponValue.create(request.value);
 
-      const result = Result.combine([codeOrError, typeOrError, valueOrError]);
+      const result = Result.combine([
+        codeOrError,
+        userSelectionOrError,
+        typeOrError,
+        productSelectionOrError,
+        valueOrError,
+      ]);
 
       if (result.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(result.error.message));
+        return Result.fail(new UseCaseErrors.ValidationError(result.error.message));
       }
 
-      const code = codeOrError.value;
-      const type = typeOrError.value;
-      const value = valueOrError.value;
-
-      const updateResult = coupon.update({
-        ...props,
+      const [code, userSelection, type, productSelection, value] = result.value;
+      const props: UpdateCouponProps = {
         code,
+        productSelection,
         type,
+        userSelection,
         value,
-      });
+        endDate: request.endDate,
+        products: request.products,
+        startDate: request.startDate,
+        users: request.users,
+      };
+
+      const updateResult = coupon.update(props);
 
       if (updateResult.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
@@ -101,8 +97,8 @@ export class UpdateCouponUseCase implements UseCase<UpdateCouponRequestDto, Resp
 
       const userCouponResult = Result.combine(
         await Promise.all([
-          ...removedUsers.map((user) => this.removeUserCoupon(user, coupon._id)),
-          ...newUsers.map((user) => this.addUserCoupon(user, couponId)),
+          ...removedUsers.map((user) => this.removeCouponFromUser(user, coupon._id)),
+          ...newUsers.map((user) => this.addCouponToUser(user, request.couponId)),
         ]),
       );
 

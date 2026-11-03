@@ -1,9 +1,8 @@
-import { Result } from '../../../result';
-import { Asset } from '../../../asset';
 import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
-import { DomainValidationError } from '../../blog/article/status';
+import { DomainValidationError } from '../../blog/article/domain/status';
 import { PlatformDoc } from './model';
-import { Platform } from './platform';
+import { Platform } from './domain/platform';
+import { Asset } from '../../../Asset';
 
 export interface PlatformDto {
   _id: string;
@@ -24,8 +23,8 @@ interface PlatformPersistance {
 }
 
 export class PlatformMapper {
-  public static toDomain(entity: PlatformDoc): Result<Platform, DomainValidationError> {
-    const logoOrError = Asset.create({
+  public static toDomain(entity: PlatformDoc): Platform {
+    const logo = Asset.reconstitute({
       publicId: entity.logo.public_id,
       width: entity.logo.width,
       height: entity.logo.height,
@@ -35,14 +34,10 @@ export class PlatformMapper {
       url: entity.logo.url,
       secureUrl: entity.logo.secure_url,
       originalFilename: entity.logo.original_filename,
+      _id: entity._id,
     });
 
-    if (logoOrError.isErr()) {
-      return Result.fail(new DomainValidationError(logoOrError.error.message));
-    }
-    const logo = logoOrError.value;
-
-    const platformOrError = Platform.create({
+    const platform = Platform.reconstitute({
       _id: entity._id,
       name: entity.name,
       createdAt: entity.createdAt,
@@ -51,13 +46,7 @@ export class PlatformMapper {
       logo,
     });
 
-    if (platformOrError.isErr()) {
-      console.log(platformOrError);
-      return Result.fail(new DomainValidationError(platformOrError.error.message));
-    }
-
-    const platform = platformOrError.value;
-    return Result.ok(platform);
+    return platform;
   }
 
   static toDto(entity: any): PlatformDto {

@@ -2,11 +2,11 @@ import { UseCaseErrors } from '../../../../AppError';
 import { ProductRepoI } from '../../../product/productRepo';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { productServices } from '../../../product/services';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { ReviewCommandsRepoI } from '../../repo/commands';
-import { Review } from '../../review';
+import { Review } from '../../domain/review';
 import { DeleteReviewRequestDto } from './deleteReviewRequestDto';
 
 type Response = Result<

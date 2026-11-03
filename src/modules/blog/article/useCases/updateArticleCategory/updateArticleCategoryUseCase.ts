@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { ArticleCategoryQueriesRepoI } from '../../../article-category/repo/queries';
@@ -30,46 +30,28 @@ export class UpdateArticleCategoryUseCase
   ) {}
 
   execute = async (request: UpdateArticleCategoryRequestDto): Promise<Response> => {
-    const { articleId, category } = request;
-
     try {
-      const articleOrError = await this.articleCommandsRepo.getArticle(articleId);
-
-      if (articleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleOrError.error.message));
-      }
-
-      const article = articleOrError.value;
-
+      const article = await this.articleCommandsRepo.getArticle(request.articleId);
       if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 
-      if (article.isArchived()) {
+      if (article.isArchived) {
         return Result.fail(new UpdateArticleCategoryErrors.ArchivedArticleError());
       }
 
-      const articleCategory = await this.articleCategoryQueriesRepo.getArticleCategory(category);
-
-      if (!articleCategory) {
+      const category = await this.articleCategoryQueriesRepo.getArticleCategory(request.category);
+      if (!category) {
         return Result.fail(new UseCaseErrors.NotFound('Article category not found'));
       }
 
-      const updatedArticleOrError = await this.articleCommandsRepo.updateArticle(articleId, {
-        category,
-      });
-
-      if (updatedArticleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(updatedArticleOrError.error.message));
+      const updateResult = article.updateCategory(category._id);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      const updatedArticle = updatedArticleOrError.value;
-
-      if (!updatedArticle) {
-        return Result.fail(new UseCaseErrors.NotFound('Article not found'));
-      }
-
-      return Result.ok(updatedArticle.category);
+      await this.articleCommandsRepo.save(article);
+      return Result.ok(category.name);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

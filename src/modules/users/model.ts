@@ -3,7 +3,7 @@ export interface UserDoc {
   password: string;
   createdAt: Date;
   status: 'active' | 'inactive' | 'banned';
-  updatedAt: Date;
+  updatedAt: Date | null;
   orders: string[];
   activeOrders: string[];
   ordersCount: number;

@@ -19,7 +19,7 @@ export class SearchCollectionsController extends Controller {
       sortOrder: z.enum(['asc', 'desc']).optional(),
       page: z.coerce.number().int().positive().optional(),
       limit: z.coerce.number().int().positive().optional(),
-      status: z.enum(['expired', 'active', 'scheduled']),
+      status: z.enum(['expired', 'active', 'scheduled']).optional(),
     });
 
     const result = schema.safeParse(query);

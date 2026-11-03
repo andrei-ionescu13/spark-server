@@ -1,13 +1,11 @@
-import { DomainValidationError } from '../blog/article/status';
 import { ProductDto } from '../product/productMapper';
-import { Result } from '../../Result';
 import { UserDto } from '../users/userMapper';
-import { Coupon } from './coupon';
-import { CouponCode } from './couponCode';
-import { CouponProductSelection } from './couponProductSelection';
-import { CouponType } from './couponType';
-import { CouponUserSelection } from './couponUserSelection';
-import { CouponValue } from './couponValue';
+import { Coupon } from './domain/coupon';
+import { CouponCode } from './domain/couponCode';
+import { CouponProductSelection } from './domain/couponProductSelection';
+import { CouponType } from './domain/couponType';
+import { CouponUserSelection } from './domain/couponUserSelection';
+import { CouponValue } from './domain/couponValue';
 import { CouponDoc } from './model';
 
 export interface CouponDto {
@@ -24,32 +22,14 @@ export interface CouponDto {
 }
 
 export class CouponMapper {
-  static toDomain(entity: CouponDoc): Result<Coupon, DomainValidationError> {
-    const codeOrError = CouponCode.create(entity.code);
-    const userSelectionOrError = CouponUserSelection.create(entity.userSelection);
-    const typeOrError = CouponType.create(entity.type);
-    const productSelectionOrError = CouponProductSelection.create(entity.productSelection);
-    const valueOrError = CouponValue.create(entity.value);
+  static toDomain(entity: CouponDoc): Coupon {
+    const code = CouponCode.reconstitute(entity.code);
+    const userSelection = CouponUserSelection.reconstitute(entity.userSelection);
+    const type = CouponType.reconstitute(entity.type);
+    const productSelection = CouponProductSelection.reconstitute(entity.productSelection);
+    const value = CouponValue.reconstitute(entity.value);
 
-    const result = Result.combine([
-      codeOrError,
-      userSelectionOrError,
-      typeOrError,
-      productSelectionOrError,
-      valueOrError,
-    ]);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const code = codeOrError.value;
-    const userSelection = userSelectionOrError.value;
-    const type = typeOrError.value;
-    const productSelection = productSelectionOrError.value;
-    const value = valueOrError.value;
-
-    const couponOrError = Coupon.create({
+    const coupon = Coupon.reconstitute({
       _id: entity._id,
       code,
       userSelection,
@@ -60,14 +40,11 @@ export class CouponMapper {
       value,
       startDate: entity.startDate,
       endDate: entity.endDate,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
     });
 
-    if (couponOrError.isErr()) {
-      return Result.fail(new DomainValidationError(couponOrError.error.message));
-    }
-    const coupon = couponOrError.value;
-
-    return Result.ok(coupon);
+    return coupon;
   }
 
   static toDto(entity: any): CouponDto {
@@ -101,6 +78,8 @@ export class CouponMapper {
       value: entity.value.value,
       startDate: entity.startDate,
       endDate: entity.endDate,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
     };
   }
 }

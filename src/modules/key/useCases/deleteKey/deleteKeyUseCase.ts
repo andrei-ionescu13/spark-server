@@ -1,6 +1,6 @@
 import { UseCaseErrors } from '../../../../AppError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { KeyQueriesRepoI } from '../../repo/queries';
@@ -20,18 +20,11 @@ export class DeleteKeyUseCase implements UseCase<DeleteKeyRequestDto, Response> 
 
     try {
       const key = await this.keyQueriesRepo.getKey(keyId);
-      const keyFound = !!key;
-
-      if (!keyFound) {
+      if (!key) {
         return Result.fail(new UseCaseErrors.NotFound('Key not found'));
       }
 
-      const productOrError = await this.productCommandsRepo.getProductByKey(keyId);
-      if (productOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-      }
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(key.product);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }

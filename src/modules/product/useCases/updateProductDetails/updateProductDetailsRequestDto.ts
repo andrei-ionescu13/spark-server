@@ -8,11 +8,10 @@ export interface UpdateProductDetailsRequestDto {
   genres: string[];
   developers: string[];
   features: string[];
-  languages: string[];
-  releaseDate: string;
+  releaseDate: Date;
   publisher: string;
   platform: string;
-  link: string;
+  link?: string;
   os: string[];
   slug: string;
 }

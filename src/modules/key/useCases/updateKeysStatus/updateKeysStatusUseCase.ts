@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { KeyStatus } from '../../keyStatus';
+import { KeyStatus } from '../../domain/keyStatus';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { UpdateKeysStatusRequestDto } from './updateKeysStatusRequestDto';
 
@@ -14,14 +14,7 @@ export class UpdateKeysStatusUseCase implements UseCase<UpdateKeysStatusRequestD
     const { keyId, status } = request;
 
     try {
-      const keyOrError = await this.keyCommandsRepo.getKey(keyId);
-
-      if (keyOrError.isErr()) {
-        return Result.fail(keyOrError.error);
-      }
-
-      const key = keyOrError.value;
-
+      const key = await this.keyCommandsRepo.getKey(keyId);
       if (!key) {
         return Result.fail(new UseCaseErrors.NotFound('Key not found'));
       }

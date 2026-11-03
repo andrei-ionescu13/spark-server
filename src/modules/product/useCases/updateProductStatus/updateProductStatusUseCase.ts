@@ -1,12 +1,11 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { ProductRepoI } from '../../productRepo';
-import { ProductStatus } from '../../productStatus';
+import { ProductStatus } from '../../domain/productStatus';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { UpdateProductStatusRequestDto } from './updateProductStatusRequestDto';
 
-type Response = Result<void, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class UpdateProductStatusUseCase
   implements UseCase<UpdateProductStatusRequestDto, Response>
@@ -14,26 +13,21 @@ export class UpdateProductStatusUseCase
   constructor(private productCommandsRepo: ProductCommandsRepoI) {}
 
   execute = async (request: UpdateProductStatusRequestDto): Promise<Response> => {
-    const { productId, status } = request;
-
     try {
-      const productOrError = await this.productCommandsRepo.getProduct(productId);
-      if (productOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(request.productId);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
 
-      const productStatusOrError = ProductStatus.create(status);
+      const productStatusOrError = ProductStatus.create(request.status);
       if (productStatusOrError.isErr())
         return Result.fail(new UseCaseErrors.DomainValidation(productStatusOrError.error.message));
 
       const productStatus = productStatusOrError.value;
       product.updateStatus(productStatus);
 
-      return Result.ok();
+      await this.productCommandsRepo.save(product);
+      return Result.ok(product.status.value);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

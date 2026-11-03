@@ -21,7 +21,7 @@ export class UpdatePlatformController extends Controller {
         .object({
           originalname: z.string(),
           mimetype: z.enum(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml']),
-          size: z.number().max(5_000_000),
+          size: z.number().max(5_000_000_000),
           buffer: z.instanceof(Buffer),
         })
         .optional(),

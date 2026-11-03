@@ -151,7 +151,7 @@ export class OrderQueriesRepo implements OrderQueriesRepoI {
     const [result] = await this.collection.aggregate(pipeline).toArray();
 
     return {
-      orders: OrderMapper.toDtoList(result.reviews),
+      orders: OrderMapper.toDtoList(result.orders),
       count: result.count,
     };
   };

@@ -1,7 +1,4 @@
-import { Result } from '../../../Result';
-import { DomainValidationError, MappingValidationError } from '../article/status';
-import { Mapper } from '../mapper';
-import { ArticleTag } from './articleTag';
+import { ArticleTag } from './domain/articleTag';
 import { ArticleTagDoc } from './model';
 
 export interface ArticleTagDto {
@@ -13,8 +10,8 @@ export interface ArticleTagDto {
 }
 
 export class ArticleTagMapper {
-  static toDomain(doc: ArticleTagDoc): Result<ArticleTag, DomainValidationError> {
-    const articleTagOrError = ArticleTag.create({
+  static toDomain(doc: ArticleTagDoc): ArticleTag {
+    const articleTag = ArticleTag.reconstitute({
       _id: doc._id,
       name: doc.name,
       slug: doc.slug,
@@ -22,11 +19,7 @@ export class ArticleTagMapper {
       updatedAt: doc.updatedAt,
     });
 
-    if (articleTagOrError.isErr()) {
-      return Result.fail(new MappingValidationError(articleTagOrError.error?.message));
-    }
-
-    return Result.ok(articleTagOrError.value);
+    return articleTag;
   }
 
   static toDto(doc: ArticleTagDoc): ArticleTagDto {

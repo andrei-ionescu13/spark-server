@@ -37,20 +37,17 @@ const run = async () => {
   } catch (error) {
     console.log(error);
   }
-
   app.use(
     cors({
       origin: 'http://localhost:5173',
       credentials: true,
     }),
   );
-
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use('/public', express.static('public'));
   app.use('/', authRoutes);
-
   app.use(verifyToken);
 
   app.use((req, res, next) => {
@@ -85,8 +82,8 @@ const run = async () => {
   app.use('/deals', dealsRoutes);
   app.use('/reviews', reviewsRoutes);
   app.use('/discounts', discountRoutes);
-  app.use('/orders', orderRoutes);
-  app.use('/promo-codes', couponRoutes);
+  // app.use('/orders', orderRoutes);
+  app.use('/coupons', couponRoutes);
 
   app.use((error, req, res, next) => {
     if (error) {

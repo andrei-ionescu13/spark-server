@@ -1,18 +1,15 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../Result';
-import { DomainValidationError } from '../../blog/article/status';
+import { DomainValidationError } from '../../blog/article/domain/status';
 import { ProductDoc } from '../model';
-import { Product } from '../product';
+import { Product } from '../domain/product';
 import { ProductMapper } from '../productMapper';
 
 export interface ProductCommandsRepoI {
-  getProduct: (id: string) => Promise<Result<Product | null, DomainValidationError>>;
-  getProductByKey: (id: string) => Promise<Result<Product | null, DomainValidationError>>;
+  getProduct: (id: string) => Promise<Product | null>;
+  getProductByKey: (id: string) => Promise<Product | null>;
   save: (product: Product) => Promise<void>;
-  getProducts: (ids: string[]) => Promise<Result<Product[], DomainValidationError>>;
-  getProductByFeature: (
-    featureId: string,
-  ) => Promise<Result<Product | null, DomainValidationError>>;
+  getProducts: (ids: string[]) => Promise<Product[]>;
+  getProductByFeature: (featureId: string) => Promise<Product | null>;
   saveMultiple: (products: Product[]) => Promise<void>;
   deleteProduct: (id: string) => Promise<void>;
   deleteProductsGenre: (genreId: string) => Promise<void>;
@@ -21,37 +18,32 @@ export interface ProductCommandsRepoI {
   deleteDeveloper: (developerId: string) => Promise<void>;
   addProductKey: (productId: string, keyId: string) => Promise<void>;
   deleteProductsOperatingSystem: (operatingSystemId: string) => Promise<void>;
+  listProductsByKeyValues: (keyValue: string) => Promise<Product[]>;
+  listAll: () => Promise<Product[]>;
 }
 
 export class ProductCommandsRepo implements ProductCommandsRepoI {
   constructor(private collection: Collection<ProductDoc>) {}
 
-  getProduct = async (id: string): Promise<Result<Product | null, DomainValidationError>> => {
-    const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
-
-    const productOrError = ProductMapper.toDomain(doc);
-    if (productOrError.isErr()) {
-      return Result.fail(new DomainValidationError(productOrError.error.message));
-    }
-
-    const product = productOrError.value;
-    return Result.ok(product);
+  listAll = async () => {
+    const docs = await this.collection.find({}).toArray();
+    return ProductMapper.toDomainList(docs);
   };
 
-  getProductByKey = async (
-    keyId: string,
-  ): Promise<Result<Product | null, DomainValidationError>> => {
+  getProduct = async (id: string): Promise<Product | null> => {
+    const doc = await this.collection.findOne({ _id: id });
+    if (!doc) return null;
+
+    const product = ProductMapper.toDomain(doc);
+    return product;
+  };
+
+  getProductByKey = async (keyId: string): Promise<Product | null> => {
     const doc = await this.collection.findOne({ keys: keyId });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const productOrError = ProductMapper.toDomain(doc);
-    if (productOrError.isErr()) {
-      return Result.fail(new DomainValidationError(productOrError.error.message));
-    }
-
-    const product = productOrError.value;
-    return Result.ok(product);
+    const product = ProductMapper.toDomain(doc);
+    return product;
   };
 
   save = async (product: Product): Promise<void> => {
@@ -59,32 +51,19 @@ export class ProductCommandsRepo implements ProductCommandsRepoI {
     await this.collection.updateOne({ _id: product._id }, { $set: persistence }, { upsert: true });
   };
 
-  getProducts = async (ids: string[]): Promise<Result<Product[], DomainValidationError>> => {
+  getProducts = async (ids: string[]): Promise<Product[]> => {
     const docs = await this.collection.find({ _id: { $in: ids } }).toArray();
-    const productsOrErrors = ProductMapper.toDomainList(docs);
-    const result = Result.combine(productsOrErrors);
+    const products = ProductMapper.toDomainList(docs);
 
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const products = productsOrErrors.map((productOrError) => productOrError.value);
-    return Result.ok(products);
+    return products;
   };
 
-  getProductByFeature = async (
-    featureId: string,
-  ): Promise<Result<Product | null, DomainValidationError>> => {
+  getProductByFeature = async (featureId: string): Promise<Product | null> => {
     const doc = await this.collection.findOne({ features: featureId });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const productOrError = ProductMapper.toDomain(doc);
-    if (productOrError.isErr()) {
-      return Result.fail(new DomainValidationError(productOrError.error.message));
-    }
-
-    const product = productOrError.value;
-    return Result.ok(product);
+    const product = ProductMapper.toDomain(doc);
+    return product;
   };
 
   saveMultiple = async (products: Product[]): Promise<void> => {
@@ -146,5 +125,29 @@ export class ProductCommandsRepo implements ProductCommandsRepoI {
         },
       },
     );
+  };
+
+  listProductsByKeyValues = async (keyValue: string): Promise<Product[]> => {
+    const pipeline = [
+      {
+        $unwind: '$keys',
+      },
+      {
+        $lookup: {
+          from: 'keys',
+          localField: 'keys',
+          foreignField: '_id',
+          as: 'keys',
+        },
+      },
+      {
+        $match: {
+          'keys.value': keyValue,
+        },
+      },
+    ];
+    const docs = await this.collection.aggregate<ProductDoc>(pipeline).toArray();
+
+    return ProductMapper.toDomainList(docs);
   };
 }

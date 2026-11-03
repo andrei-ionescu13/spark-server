@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Key } from '../../../key/key';
-import { KeyAvailability } from '../../../key/keyAvailability';
-import { KeyStatus } from '../../../key/keyStatus';
-import { KeyValue } from '../../../key/keyValue';
+import { Key } from '../../../key/domain/key';
+import { KeyAvailability } from '../../../key/domain/keyAvailability';
+import { KeyStatus } from '../../../key/domain/keyStatus';
+import { KeyValue } from '../../../key/domain/keyValue';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
 import { ProductCommandsRepoI } from '../../repo/commands';

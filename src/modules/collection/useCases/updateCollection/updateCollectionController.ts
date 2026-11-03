@@ -18,7 +18,6 @@ export class UpdateCollectionController extends Controller {
       collectionId: req.params.collectionId,
       coverFile: req.file as Express.Multer.File,
       description: body.description,
-      isDeal: JSON.parse(body.isDeal),
       products: body.products,
       slug: body.slug,
       startDate: body.startDate,
@@ -38,20 +37,22 @@ export class UpdateCollectionController extends Controller {
         .object({
           originalname: z.string(),
           mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000),
+          size: z.number().max(5_000_000_000),
           buffer: z.instanceof(Buffer),
         })
         .optional(),
-      description: z.string().min(8),
-      isDeal: z.coerce.boolean(),
+      description: z.string().min(1),
       products: z.array(z.uuidv7()).min(1),
       slug: z.string().min(1),
-      startDate: z.date(),
-      endDate: z.coerce.date().optional(),
+      startDate: z.coerce.date(),
+      endDate: z.preprocess(
+        (value) => (value === 'null' || value === '' ? null : value),
+        z.coerce.date().nullable(),
+      ),
       meta: z.object({
-        title: z.string().min(8).max(120),
-        description: z.string().min(120).max(1024),
-        keywords: z.array(z.string()).min(3),
+        title: z.string().min(1).max(120),
+        description: z.string().min(1).max(1024),
+        keywords: z.array(z.string()).min(1),
       }),
     });
 
@@ -81,8 +82,8 @@ export class UpdateCollectionController extends Controller {
         }
       }
 
-      const collection = result.value;
-      return this.ok(res, collection);
+      const id = result.value;
+      return this.ok(res, id);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

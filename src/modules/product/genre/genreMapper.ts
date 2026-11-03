@@ -1,6 +1,5 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
-import { Genre } from './genre';
+import { DomainValidationError } from '../../blog/article/domain/status';
+import { Genre } from './domain/genre';
 import { GenreDoc } from './model';
 
 export interface GenreDto {
@@ -20,8 +19,8 @@ interface GenrePersistance {
 }
 
 export class GenreMapper {
-  public static toDomain(entity: GenreDoc): Result<Genre, DomainValidationError> {
-    const genreOrError = Genre.create({
+  public static toDomain(entity: GenreDoc): Genre {
+    const genre = Genre.reconstitute({
       _id: entity._id,
       name: entity.name,
       slug: entity.slug,
@@ -29,12 +28,7 @@ export class GenreMapper {
       updatedAt: entity.updatedAt,
     });
 
-    if (genreOrError.isErr()) {
-      return Result.fail(new DomainValidationError(genreOrError.error.message));
-    }
-
-    const genre = genreOrError.value;
-    return Result.ok(genre);
+    return genre;
   }
 
   static toDto(entity: any): GenreDto {

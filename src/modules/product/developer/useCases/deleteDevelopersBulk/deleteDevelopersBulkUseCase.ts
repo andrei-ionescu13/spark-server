@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
@@ -44,7 +44,7 @@ export class DeleteDevelopersBulkUseCase
     }
 
     const product = await this.productQueriesRepo.getProductByGenre(developerId);
-    if (!product) {
+    if (product) {
       return Result.fail(new DeleteDevelopersBulkErrors.DeveloperIsUsed());
     }
 

@@ -1,63 +1,49 @@
 import { Meta } from '../../../Meta';
-import { Result } from '../../../Result';
-import { Article } from './article';
-import { Asset } from '../../../asset';
-import { AssetMapper } from '../../../assetMapper';
-import { Description } from './description';
-import { Markdown } from './markdown';
-import { ArticleDoc } from './model';
-import { MappingValidationError, Status } from './status';
-import { Title } from './title';
+import { Article } from './domain/article';
+import { AssetDto, AssetMapper } from '../../../assetMapper';
+import { ArticleMarkdown } from './domain/markdown';
+import { ArticleDoc, ArticlePopulatedDoc } from './model';
+import { MappingValidationError, ArticleStatus } from './domain/status';
+import { ArticleTitle } from './domain/title';
+import { Asset } from '../../../Asset';
+import { Result } from '../../../result';
+import { ArticleDescription } from './domain/description';
+import { ArticleCategory } from '../article-category/domain/articleCategory';
+import {
+  ArticleCategoryDto,
+  ArticleCategoryMapper,
+} from '../article-category/articleCategoryMapper';
+import { ArticleTag } from '../article-tag/domain/articleTag';
+import { MetaDto, MetaMapper } from '../../../metaMapper';
+import { ArticleTagDto, ArticleTagMapper } from '../article-tag/articleTagMapper';
 
 export interface ArticleDto {
   title: string;
   description: string;
   slug: string;
   status: 'draft' | 'published' | 'archived';
-  category: {
-    name: string;
-    slug: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    _id: string;
-  };
+  category: ArticleCategoryDto;
   markdown: string;
-  cover: {
-    public_id: string;
-    width: number;
-    height: number;
-    format: string;
-    resourceType?: 'image' | 'video' | 'raw' | 'auto';
-    createdAt: string;
-    url: string;
-    secureUrl: string;
-    originalFilename: string;
-  };
-  meta: string;
-  createdAt: string;
-  updatedAt: string;
-  tags: {
-    name: string;
-    slug: string;
-    createdAt: Date;
-    updatedAt: Date | null;
-    _id: string;
-  }[];
+  cover: AssetDto;
+  meta: MetaDto;
+  createdAt: Date;
+  updatedAt: Date | null;
+  tags: ArticleTagDto[];
   _id: string;
 }
 
 export class ArticleMapper {
-  static toDomain(doc: ArticleDoc): Result<Article, MappingValidationError> {
-    const metaOrError = Meta.create({
+  static toDomain(doc: ArticleDoc): Article {
+    const meta = Meta.reconstitute({
       title: doc.meta.title,
       description: doc.meta.description,
       keywords: doc.meta.keywords,
     });
-    const titleOrError = Title.create({ value: doc.title });
-    const descriptionOrError = Description.create({ value: doc.description });
-    const markdownOrError = Markdown.create({ value: doc.markdown });
-    const statusOrError = Status.create({ value: doc.status });
-    const coverOrError = Asset.create({
+    const title = ArticleTitle.reconstitute(doc.title);
+    const description = ArticleDescription.reconstitute(doc.description);
+    const markdown = ArticleMarkdown.reconstitute(doc.markdown);
+    const status = ArticleStatus.reconstitute(doc.status);
+    const cover = Asset.reconstitute({
       publicId: doc.cover.public_id,
       width: doc.cover.width,
       height: doc.cover.height,
@@ -67,29 +53,10 @@ export class ArticleMapper {
       url: doc.cover.url,
       secureUrl: doc.cover.secure_url,
       originalFilename: doc.cover.original_filename,
+      _id: doc.cover._id,
     });
 
-    const result = Result.combine([
-      metaOrError,
-      titleOrError,
-      descriptionOrError,
-      markdownOrError,
-      statusOrError,
-      coverOrError,
-    ]);
-
-    if (result.isErr()) {
-      return Result.fail(new MappingValidationError(result.error.message));
-    }
-
-    const title = titleOrError.value;
-    const description = descriptionOrError.value;
-    const markdown = markdownOrError.value;
-    const status = statusOrError.value;
-    const meta = metaOrError.value;
-    const cover = coverOrError.value;
-
-    const article = Article.create({
+    const article = Article.reconstitute({
       _id: doc._id,
       title,
       createdAt: doc.createdAt,
@@ -104,27 +71,27 @@ export class ArticleMapper {
       cover,
     });
 
-    return Result.ok(article);
+    return article;
   }
 
-  static toDto(entity: any): ArticleDto {
+  static toDto(entity: ArticlePopulatedDoc): ArticleDto {
     return {
       title: entity.title,
       description: entity.description,
       slug: entity.slug,
       status: entity.status,
-      category: entity.category,
+      category: ArticleCategoryMapper.toDto(entity.category),
       markdown: entity.markdown,
-      cover: entity.cover,
-      meta: entity.meta,
+      cover: AssetMapper.toDto(entity.cover),
+      meta: MetaMapper.toDto(entity.meta),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      tags: entity.tags,
+      tags: ArticleTagMapper.toDtoList(entity.tags),
       _id: entity._id,
     };
   }
 
-  static toDtoList(entities: any[]): ArticleDto[] {
+  static toDtoList(entities: ArticlePopulatedDoc[]): ArticleDto[] {
     return entities.map((entity) => ArticleMapper.toDto(entity));
   }
 
@@ -137,7 +104,7 @@ export class ArticleMapper {
       category: article.category,
       markdown: article.markdown.value,
       cover: AssetMapper.toPersistance(article.cover),
-      meta: article.meta,
+      meta: MetaMapper.toPersistance(article.meta),
       createdAt: article.createdAt,
       updatedAt: article.updatedAt,
       tags: article.tags,

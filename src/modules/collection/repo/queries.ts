@@ -1,6 +1,6 @@
 import { Collection, ObjectId } from 'mongodb';
-import { CollectionDto, CollectionMapper } from '../collectionMapper';
-import { CollectionDoc } from '../model';
+import { CollectionDto, CollectionMapper, CollectionPopulatedDto } from '../collectionMapper';
+import { CollectionDoc, CollectionPopulatedDoc } from '../model';
 
 type Status = 'expired' | 'active' | 'scheduled';
 
@@ -14,22 +14,24 @@ type SearchCollectionsQueries = {
 };
 
 type SearchCollectionsResponse = {
-  collections: CollectionDto[];
+  collections: CollectionPopulatedDto[];
   count: number;
 };
 
 export interface CollectionQueriesRepoI {
-  getCollection: (id: string) => Promise<CollectionDto | null>;
+  getCollection: (id: string) => Promise<CollectionPopulatedDto | null>;
   searchCollections: (query: SearchCollectionsQueries) => Promise<SearchCollectionsResponse>;
 }
 
-const buildIntervalQueries = (status?: Status) => {
+const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
+  const now = new Date();
+
   if (status === 'expired') {
     return {
       endDate: {
         $exists: true,
         $ne: null,
-        $lte: Date.now(),
+        $lte: now,
       },
     };
   }
@@ -37,43 +39,18 @@ const buildIntervalQueries = (status?: Status) => {
   if (status === 'active') {
     return {
       startDate: {
-        $lte: Date.now(),
+        $lte: now,
       },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
   if (status === 'scheduled') {
     return {
-      $or: [
-        {
-          $and: [
-            {
-              endDate: {
-                $gt: Date.now(),
-                $exists: true,
-                $ne: null,
-              },
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-        {
-          $and: [
-            {
-              endDate: null,
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-      ],
+      startDate: {
+        $gt: now,
+      },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
@@ -83,9 +60,9 @@ const buildIntervalQueries = (status?: Status) => {
 export class CollectionQueriesRepo implements CollectionQueriesRepoI {
   constructor(private collection: Collection<CollectionDoc>) {}
 
-  getCollection = async (id: string): Promise<CollectionDto | null> => {
+  getCollection = async (id: string): Promise<CollectionPopulatedDto | null> => {
     const doc = await this.collection
-      .aggregate<CollectionDoc>([
+      .aggregate<CollectionPopulatedDoc>([
         {
           $match: {
             _id: id,
@@ -103,7 +80,7 @@ export class CollectionQueriesRepo implements CollectionQueriesRepoI {
       .next();
     if (!doc) return null;
 
-    return CollectionMapper.toDto(doc);
+    return CollectionMapper.toPopulatedDto(doc);
   };
 
   searchCollections = async (
@@ -117,7 +94,7 @@ export class CollectionQueriesRepo implements CollectionQueriesRepoI {
       limit = 10,
       status,
     } = query;
-    const intervalQueries = buildIntervalQueries(status);
+    const intervalQueries = buildIntervalQuery(status);
     const pipeline = [
       {
         $match: {
@@ -135,7 +112,18 @@ export class CollectionQueriesRepo implements CollectionQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          collections: [{ $skip: page }, { $limit: limit }],
+          collections: [
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'products',
+                localField: 'products',
+                foreignField: '_id',
+                as: 'products',
+              },
+            },
+          ],
           count: [
             {
               $count: 'count',
@@ -155,7 +143,7 @@ export class CollectionQueriesRepo implements CollectionQueriesRepoI {
     const [result] = await this.collection.aggregate(pipeline).toArray();
 
     return {
-      collections: CollectionMapper.toDtoList(result.collections),
+      collections: CollectionMapper.toPopulatedDtoList(result.collections),
       count: result.count,
     };
   };

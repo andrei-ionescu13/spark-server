@@ -5,9 +5,8 @@ import { UseCaseError } from '../../../../UseCaseError';
 import { RegisterRequestDto } from './registerRequestDto';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';
-import { Admin } from '../../admin';
-import { v7 as uuid7 } from 'uuid';
-import { AdminUsername } from '../../adminUsername';
+import { Admin } from '../../domain/admin';
+import { AdminUsername } from '../../domain/adminUsername';
 import { Result } from '../../../../result';
 
 export namespace RegisterErrors {
@@ -37,7 +36,6 @@ export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
       }
 
       const passwordHash = await bcrypt.hash(password, 10);
-      console.log(passwordHash);
       const usernameOrError = AdminUsername.create(usernameReq);
       if (usernameOrError.isErr())
         return Result.fail(new UseCaseErrors.DomainValidation(usernameOrError.error.message));
@@ -45,7 +43,6 @@ export class RegisterUseCase implements UseCase<RegisterRequestDto, Response> {
       const username = usernameOrError.value;
 
       const adminOrError = Admin.create({
-        _id: uuid7(),
         username,
         passwordHash,
       });

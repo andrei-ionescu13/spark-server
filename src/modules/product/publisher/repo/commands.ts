@@ -1,14 +1,14 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
+import { Result } from '../../../../result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
 import { PublisherDoc } from '../model';
-import { Publisher } from '../publisher';
+import { Publisher } from '../domain/publisher';
 import { PublisherMapper } from '../publisherMapper';
 
 export interface PublisherCommandsRepoI {
   save: (publisher: Publisher) => Promise<void>;
   deletePublisher: (id: string) => Promise<void>;
-  getPublisher: (id: string) => Promise<Result<Publisher | null, DomainValidationError>>;
+  getPublisher: (id: string) => Promise<Publisher | null>;
 }
 
 export class PublisherCommandsRepo implements PublisherCommandsRepoI {
@@ -24,17 +24,12 @@ export class PublisherCommandsRepo implements PublisherCommandsRepoI {
     );
   };
 
-  getPublisher = async (id: string): Promise<Result<Publisher | null, DomainValidationError>> => {
+  getPublisher = async (id: string): Promise<Publisher | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const publisherOrError = PublisherMapper.toDomain(doc);
-    if (publisherOrError.isErr()) {
-      return Result.fail(new DomainValidationError(publisherOrError.error.message));
-    }
-
-    const publisher = publisherOrError.value;
-    return Result.ok(publisher);
+    const publisher = PublisherMapper.toDomain(doc);
+    return publisher;
   };
 
   deletePublisher = async (id: string) => {

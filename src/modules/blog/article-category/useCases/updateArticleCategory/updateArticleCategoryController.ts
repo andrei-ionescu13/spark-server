@@ -14,17 +14,19 @@ export class UpdateArticleCategoryController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
-      articleCategoryId: z.string(),
+      articleCategoryId: z.uuidv7(),
       name: z.string(),
       slug: z.string(),
     });
 
     const result = schema.safeParse({
-      ...req.body,
-      articleTagId: req.params.articleTagId,
+      name: req.body.name,
+      slug: req.body.slug,
+      articleCategoryId: req.params.articleCategoryId,
     });
 
     if (result.error) {
+      console.log(result.error);
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 

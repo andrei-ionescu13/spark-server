@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
@@ -39,7 +39,7 @@ export class DeleteDeveloperUseCase implements UseCase<DeleteDeveloperRequestDto
       }
 
       const product = await this.productQueriesRepo.getProductByDeveloper(developerId);
-      if (!product) {
+      if (product) {
         return Result.fail(new DeleteDeveloperErrors.DeveloperIsUsed());
       }
 

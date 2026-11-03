@@ -1,8 +1,6 @@
-import { MappingValidationError } from '../blog/article/status';
-import { Mapper } from '../blog/mapper';
-import { Result } from '../../Result';
-import { Admin } from './admin';
-import { AdminUsername } from './adminUsername';
+import { MappingValidationError } from '../blog/article/domain/status';
+import { Admin } from './domain/admin';
+import { AdminUsername } from './domain/adminUsername';
 import { AdminDoc } from './model';
 
 export interface AdminDto {
@@ -11,22 +9,15 @@ export interface AdminDto {
 }
 
 export class AdminMapper {
-  static toDomain(doc: AdminDoc): Result<Admin, MappingValidationError> {
-    console.log(doc);
-    const usernameOrError = AdminUsername.create(doc.username);
-    if (usernameOrError.isErr()) {
-      return Result.fail(new MappingValidationError(usernameOrError.error.message));
-    }
+  static toDomain(doc: AdminDoc): Admin {
+    const username = AdminUsername.recreate(doc.username);
+    const admin = Admin.reconstitute({
+      username,
+      _id: doc._id,
+      passwordHash: doc.passwordHash,
+    });
 
-    const username = usernameOrError.value;
-
-    return Result.ok(
-      new Admin({
-        username,
-        _id: doc._id,
-        passwordHash: doc.passwordHash,
-      }),
-    );
+    return admin;
   }
 
   static toPersistence(admin: Admin): AdminDoc {

@@ -13,8 +13,8 @@ export class RegisterController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
-      username: z.string().min(6),
-      password: z.string().min(12),
+      username: z.string().min(1),
+      password: z.string().min(1),
     });
 
     const result = schema.safeParse({ password: req.body.password, username: req.body.username });

@@ -18,20 +18,19 @@ export class GetProductController extends Controller {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           case UseCaseErrors.NotFound:
-            return this.notFound(res, error.getErrorValue().message);
+            return this.notFound(res, error.message);
 
           default:
             return this.fail(res, error);
         }
       }
 
-      const product = result.value.getValue();
-
+      const product = result.value;
       return this.ok(res, product);
     } catch (error) {
       console.log(error);

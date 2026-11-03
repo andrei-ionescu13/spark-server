@@ -1,9 +1,9 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { Genre } from '../../genre';
+import { Genre } from '../../domain/genre';
 import { GenreDto } from '../../genreMapper';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';
@@ -59,12 +59,12 @@ export class CreateGenreUseCase implements UseCase<CreateGenreRequestDto, Respon
     const props = request;
 
     try {
-      let foundGenre = await this.genreQueriesRepo.getGenreByPropsOr([
+      let existingGenre = await this.genreQueriesRepo.getGenreByPropsOr([
         { name: props.name, slug: props.slug },
       ]);
 
-      if (foundGenre) {
-        const result = this.comparePropsToGenre(props, foundGenre);
+      if (existingGenre) {
+        const result = this.comparePropsToGenre(props, existingGenre);
 
         if (result.isErr()) {
           return Result.fail(result.error);
@@ -76,8 +76,6 @@ export class CreateGenreUseCase implements UseCase<CreateGenreRequestDto, Respon
       const genreOrError = Genre.create({
         name: props.name,
         slug: props.slug,
-        _id: uuidv7(),
-        createdAt: new Date(),
       });
 
       if (genreOrError.isErr()) {

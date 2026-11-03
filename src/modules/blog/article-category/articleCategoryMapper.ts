@@ -1,6 +1,4 @@
-import { Result } from '../../../Result';
-import { MappingValidationError } from '../article/status';
-import { ArticleCategory } from './articleCategory';
+import { ArticleCategory } from './domain/articleCategory';
 import { ArticleCategoryDoc } from './model';
 
 export interface ArticleCategoryDto {
@@ -12,8 +10,8 @@ export interface ArticleCategoryDto {
 }
 
 export class ArticleCategoryMapper {
-  static toDomain(entity: ArticleCategoryDoc): Result<ArticleCategory, MappingValidationError> {
-    const categoryOrError = ArticleCategory.create({
+  static toDomain(entity: ArticleCategoryDoc): ArticleCategory {
+    const category = ArticleCategory.reconstitute({
       _id: entity._id,
       name: entity.name,
       slug: entity.slug,
@@ -21,27 +19,15 @@ export class ArticleCategoryMapper {
       updatedAt: entity.updatedAt,
     });
 
-    if (categoryOrError.isErr()) {
-      return Result.fail(new MappingValidationError(categoryOrError.error.message));
-    }
-
-    return Result.ok(categoryOrError.value);
+    return category;
   }
 
-  static toDomainList(
-    entities: ArticleCategoryDoc[],
-  ): Result<ArticleCategory[], MappingValidationError> {
-    const categoriesOrErrors = entities.map((entity) => this.toDomain(entity));
-    const combinedResults = Result.combine(categoriesOrErrors);
-
-    if (combinedResults.isErr()) {
-      return Result.fail(new MappingValidationError(combinedResults.error.message));
-    }
-
-    return Result.ok(combinedResults.value);
+  static toDomainList(entities: ArticleCategoryDoc[]): ArticleCategory[] {
+    const categories = entities.map((entity) => this.toDomain(entity));
+    return categories;
   }
 
-  static toDto(doc: any): ArticleCategoryDto {
+  static toDto(doc: ArticleCategoryDoc): ArticleCategoryDto {
     return {
       _id: doc._id,
       name: doc.name,
@@ -51,7 +37,7 @@ export class ArticleCategoryMapper {
     };
   }
 
-  static toDtoList(entities: any[]): ArticleCategoryDto[] {
+  static toDtoList(entities: ArticleCategoryDoc[]): ArticleCategoryDto[] {
     return entities.map((entity) => this.toDto(entity));
   }
 

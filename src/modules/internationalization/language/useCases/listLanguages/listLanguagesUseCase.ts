@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageDto } from '../../languageMapper';
 import { LanguageQueriesRepoI } from '../../repo/queries';

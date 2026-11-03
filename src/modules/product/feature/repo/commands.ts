@@ -1,14 +1,14 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
-import { Feature } from '../feature';
+import { Result } from '../../../../result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Feature } from '../domain/feature';
 import { FeatureMapper } from '../featureMapper';
 import { FeatureDoc } from '../model';
 
 export interface FeatureCommandsRepoI {
   save: (feature: Feature) => Promise<void>;
   deleteFeature: (id: string) => Promise<void>;
-  getFeature: (id: string) => Promise<Result<Feature | null, DomainValidationError>>;
+  getFeature: (id: string) => Promise<Feature | null>;
 }
 
 export class FeatureCommandsRepo implements FeatureCommandsRepoI {
@@ -20,17 +20,12 @@ export class FeatureCommandsRepo implements FeatureCommandsRepoI {
     await this.collection.updateOne({ _id: feature._id }, { $set: persistence }, { upsert: true });
   };
 
-  getFeature = async (id: string): Promise<Result<Feature | null, DomainValidationError>> => {
+  getFeature = async (id: string): Promise<Feature | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const featureOrError = FeatureMapper.toDomain(doc);
-    if (featureOrError.isErr()) {
-      return Result.fail(new DomainValidationError(featureOrError.error.message));
-    }
-
-    const feature = featureOrError.value;
-    return Result.ok(feature);
+    const feature = FeatureMapper.toDomain(doc);
+    return feature;
   };
 
   deleteFeature = async (id: string) => {

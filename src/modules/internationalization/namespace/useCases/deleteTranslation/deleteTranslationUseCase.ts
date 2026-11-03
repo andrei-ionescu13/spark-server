@@ -1,5 +1,6 @@
+import { basename } from 'node:path';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { DeleteTranslationRequestDto } from './deleteTranslationRequestDto';
@@ -13,15 +14,9 @@ export class DeleteTranslationUseCase implements UseCase<DeleteTranslationReques
     const { namespaceId, key } = request;
 
     try {
-      const namespaceOrError = await this.namespaceCommandsRepo.getNamespace(namespaceId, {
+      const namespace = await this.namespaceCommandsRepo.getNamespace(namespaceId, {
         'translations.key': key,
       });
-
-      if (namespaceOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(namespaceOrError.error.message));
-      }
-
-      const namespace = namespaceOrError.value;
       if (!namespace) {
         return Result.fail(new UseCaseErrors.NotFound('Namespace not found'));
       }
@@ -32,6 +27,7 @@ export class DeleteTranslationUseCase implements UseCase<DeleteTranslationReques
         return Result.fail(new UseCaseErrors.NotFound('Namespace not found'));
       }
 
+      await this.namespaceCommandsRepo.save(namespace);
       return Result.ok(key);
     } catch (error) {
       console.log(error);

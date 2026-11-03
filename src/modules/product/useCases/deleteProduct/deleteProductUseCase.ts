@@ -2,7 +2,7 @@ import { UseCaseErrors } from '../../../../AppError';
 import { CollectionCommandsRepoI } from '../../../collection/repo/commands';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { ReviewCommandsRepoI } from '../../../review/repo/commands';
 import { ReviewQueriesRepoI } from '../../../review/repo/queries';
 import { UseCase } from '../../../../useCase';
@@ -60,12 +60,7 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
     const { productId } = request;
 
     try {
-      const productOrError = await this.productCommandsRepo.getProduct(productId);
-      if (productOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-      }
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(productId);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
@@ -74,7 +69,9 @@ export class DeleteProductUseCase implements UseCase<DeleteProductRequestDto, Re
       // await Promise.all(product.keys.map((key) => this.deleteKey(key)));
 
       await this.uploaderService.delete(product.cover.publicId);
-      await Promise.all(product.images.map((image) => this.uploaderService.delete(image.publicId)));
+      await Promise.all(
+        product.allImages.map((image) => this.uploaderService.delete(image.publicId)),
+      );
 
       await this.productCommandsRepo.deleteProduct(productId);
 

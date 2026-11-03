@@ -1,16 +1,13 @@
 import { Collection, ObjectId } from 'mongodb';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
+import { DomainValidationError } from '../../../blog/article/domain/status';
 import { OperatingSystemDoc } from '../model';
-import { OperatingSystem } from '../operatingSystem';
+import { OperatingSystem } from '../domain/operatingSystem';
 import { OperatingSystemMapper } from '../operatingSystemMapper';
 
 export interface OperatingSystemCommandsRepoI {
   save: (operatingSystem: OperatingSystem) => Promise<void>;
   deleteOperatingSystem: (id: string) => Promise<void>;
-  getOperatingSystem: (
-    id: string,
-  ) => Promise<Result<OperatingSystem | null, DomainValidationError>>;
+  getOperatingSystem: (id: string) => Promise<OperatingSystem | null>;
 }
 
 export class OperatingSystemCommandsRepo implements OperatingSystemCommandsRepoI {
@@ -18,7 +15,6 @@ export class OperatingSystemCommandsRepo implements OperatingSystemCommandsRepoI
 
   save = async (operatingSystem: OperatingSystem): Promise<void> => {
     const persistence = OperatingSystemMapper.toPersistance(operatingSystem);
-
     await this.collection.updateOne(
       { _id: operatingSystem._id },
       { $set: persistence },
@@ -26,19 +22,12 @@ export class OperatingSystemCommandsRepo implements OperatingSystemCommandsRepoI
     );
   };
 
-  getOperatingSystem = async (
-    id: string,
-  ): Promise<Result<OperatingSystem | null, DomainValidationError>> => {
+  getOperatingSystem = async (id: string): Promise<OperatingSystem | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const operatingSystemOrError = OperatingSystemMapper.toDomain(doc);
-    if (operatingSystemOrError.isErr()) {
-      return Result.fail(new DomainValidationError(operatingSystemOrError.error.message));
-    }
-
-    const operatingSystem = operatingSystemOrError.value;
-    return Result.ok(operatingSystem);
+    const operatingSystem = OperatingSystemMapper.toDomain(doc);
+    return operatingSystem;
   };
 
   deleteOperatingSystem = async (id: string) => {

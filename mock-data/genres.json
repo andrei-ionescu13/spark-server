@@ -1,0 +1,4613 @@
+[
+  {
+    "count": 6086,
+    "_id": "62691742fcebe54fa43af005",
+    "name": "Singleplayer",
+    "slug": "singleplayer",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 4283,
+    "_id": "6269173efcebe54fa43aef3f",
+    "name": "Action",
+    "slug": "action",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 4147,
+    "_id": "6269173efcebe54fa43aef40",
+    "name": "Adventure",
+    "slug": "adventure",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2661,
+    "_id": "62691740fcebe54fa43aef49",
+    "name": "Strategy",
+    "slug": "strategy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2489,
+    "_id": "6269173efcebe54fa43aef41",
+    "name": "Casual",
+    "slug": "casual",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2383,
+    "_id": "62691742fcebe54fa43af02c",
+    "name": "Atmospheric",
+    "slug": "atmospheric",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 2337,
+    "_id": "6269173ffcebe54fa43aef46",
+    "name": "Simulation",
+    "slug": "simulation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2226,
+    "_id": "6269173ffcebe54fa43aef43",
+    "name": "RPG",
+    "slug": "rpg",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2226,
+    "_id": "62691742fcebe54fa43af01e",
+    "name": "Story Rich",
+    "slug": "story-rich",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 2166,
+    "_id": "62691741fcebe54fa43aefce",
+    "name": "2D",
+    "slug": "2d",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 2028,
+    "_id": "62691741fcebe54fa43aeff4",
+    "name": "Multiplayer",
+    "slug": "multiplayer",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1707,
+    "_id": "62691740fcebe54fa43aef6b",
+    "name": "Exploration",
+    "slug": "exploration",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 1692,
+    "_id": "62691741fcebe54fa43aefd1",
+    "name": "3D",
+    "slug": "3d",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1629,
+    "_id": "62691743fcebe54fa43af05b",
+    "name": "Fantasy",
+    "slug": "fantasy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1558,
+    "_id": "62691742fcebe54fa43af037",
+    "name": "Colorful",
+    "slug": "colorful",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1482,
+    "_id": "6269173ffcebe54fa43aef42",
+    "name": "Puzzle",
+    "slug": "puzzle",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 1320,
+    "_id": "62691741fcebe54fa43aefe2",
+    "name": "First-Person",
+    "slug": "first-person",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1293,
+    "_id": "62691743fcebe54fa43af090",
+    "name": "Pixel Graphics",
+    "slug": "pixel-graphics",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1255,
+    "_id": "62691743fcebe54fa43af05f",
+    "name": "Funny",
+    "slug": "funny",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1236,
+    "_id": "62691742fcebe54fa43af03f",
+    "name": "Cute",
+    "slug": "cute",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1193,
+    "_id": "62691741fcebe54fa43aefdc",
+    "name": "Co-op",
+    "slug": "co-op",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1168,
+    "_id": "62691743fcebe54fa43af0a2",
+    "name": "Sci-fi",
+    "slug": "sci-fi",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1164,
+    "_id": "62691742fcebe54fa43aeffb",
+    "name": "Open World",
+    "slug": "open-world",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1162,
+    "_id": "62691742fcebe54fa43af00a",
+    "name": "Third Person",
+    "slug": "third-person",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 1094,
+    "_id": "62691743fcebe54fa43af05a",
+    "name": "Family Friendly",
+    "slug": "family-friendly",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1060,
+    "_id": "62691742fcebe54fa43af01b",
+    "name": "Female Protagonist",
+    "slug": "female-protagonist",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1046,
+    "_id": "62691742fcebe54fa43af01a",
+    "name": "Horror",
+    "slug": "horror",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 1029,
+    "_id": "62691740fcebe54fa43aef4e",
+    "name": "Action-Adventure",
+    "slug": "action-adventure",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 1012,
+    "_id": "6269173ffcebe54fa43aef48",
+    "name": "Shooter",
+    "slug": "shooter",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 1009,
+    "_id": "62691742fcebe54fa43af02b",
+    "name": "Anime",
+    "slug": "anime",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 971,
+    "_id": "62691743fcebe54fa43af064",
+    "name": "Great Soundtrack",
+    "slug": "great-soundtrack",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 929,
+    "_id": "62691743fcebe54fa43af09a",
+    "name": "Relaxing",
+    "slug": "relaxing",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 912,
+    "_id": "62691741fcebe54fa43aefdf",
+    "name": "Controller",
+    "slug": "controller",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 910,
+    "_id": "62691743fcebe54fa43af077",
+    "name": "Management",
+    "slug": "management",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 864,
+    "_id": "62691741fcebe54fa43aefde",
+    "name": "Combat",
+    "slug": "combat",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 855,
+    "_id": "62691743fcebe54fa43af09c",
+    "name": "Retro",
+    "slug": "retro",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 828,
+    "_id": "62691740fcebe54fa43aef97",
+    "name": "Sandbox",
+    "slug": "sandbox",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 803,
+    "_id": "62691744fcebe54fa43af0bc",
+    "name": "Violent",
+    "slug": "violent",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 779,
+    "_id": "62691741fcebe54fa43aefd8",
+    "name": "Character Customization",
+    "slug": "character-customization",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 775,
+    "_id": "62691740fcebe54fa43aef8a",
+    "name": "Platformer",
+    "slug": "platformer",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 768,
+    "_id": "62691742fcebe54fa43af038",
+    "name": "Comedy",
+    "slug": "comedy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 759,
+    "_id": "62691741fcebe54fa43aefc8",
+    "name": "Survival",
+    "slug": "survival",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40", "6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 744,
+    "_id": "62691742fcebe54fa43af049",
+    "name": "Difficult",
+    "slug": "difficult",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 744,
+    "_id": "62691742fcebe54fa43aeffa",
+    "name": "Online Co-Op",
+    "slug": "online-co-op",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefdc"],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 734,
+    "_id": "62691741fcebe54fa43aefbc",
+    "name": "Building",
+    "slug": "building",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 731,
+    "_id": "62691741fcebe54fa43aefb1",
+    "name": "Turn-Based Strategy",
+    "slug": "turn-based-strategy",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 730,
+    "_id": "62691742fcebe54fa43af041",
+    "name": "Dark",
+    "slug": "dark",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 721,
+    "_id": "62691741fcebe54fa43aefda",
+    "name": "Choices Matter",
+    "slug": "choices-matter",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 719,
+    "_id": "62691740fcebe54fa43aef52",
+    "name": "Action RPG",
+    "slug": "action-rpg",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 714,
+    "_id": "62691743fcebe54fa43af0b0",
+    "name": "Tactical",
+    "slug": "tactical",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 683,
+    "_id": "62691743fcebe54fa43af0aa",
+    "name": "Stylized",
+    "slug": "stylized",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 673,
+    "_id": "62691743fcebe54fa43af081",
+    "name": "Mystery",
+    "slug": "mystery",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 659,
+    "_id": "62691742fcebe54fa43af000",
+    "name": "PvP",
+    "slug": "pvp",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 657,
+    "_id": "62691743fcebe54fa43af099",
+    "name": "Realistic",
+    "slug": "realistic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 655,
+    "_id": "62691740fcebe54fa43aef91",
+    "name": "Roguelike",
+    "slug": "roguelike",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 655,
+    "_id": "62691740fcebe54fa43aef93",
+    "name": "Roguelite",
+    "slug": "roguelite",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 650,
+    "_id": "62691742fcebe54fa43af00e",
+    "name": "Top-Down",
+    "slug": "top-down",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 647,
+    "_id": "62691740fcebe54fa43aef8c",
+    "name": "Point & Click",
+    "slug": "point-and-click",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 624,
+    "_id": "62691740fcebe54fa43aef6f",
+    "name": "FPS",
+    "slug": "fps",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 609,
+    "_id": "62691742fcebe54fa43af013",
+    "name": "Turn-Based Combat",
+    "slug": "turn-based-combat",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 573,
+    "_id": "62691742fcebe54fa43af043",
+    "name": "Dark Fantasy",
+    "slug": "dark-fantasy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 560,
+    "_id": "62691743fcebe54fa43af068",
+    "name": "Historical",
+    "slug": "historical",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 560,
+    "_id": "62691742fcebe54fa43af004",
+    "name": "Resource Management",
+    "slug": "resource-management",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 555,
+    "_id": "62691742fcebe54fa43af012",
+    "name": "Turn-Based",
+    "slug": "turn-based",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 547,
+    "_id": "62691741fcebe54fa43aefc2",
+    "name": "Hack and Slash",
+    "slug": "hack-and-slash",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 532,
+    "_id": "62691742fcebe54fa43aefff",
+    "name": "PvE",
+    "slug": "pve",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 529,
+    "_id": "62691742fcebe54fa43af014",
+    "name": "Turn-Based Tactics",
+    "slug": "turn-based-tactics",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 528,
+    "_id": "62691741fcebe54fa43aefee",
+    "name": "Local Multiplayer",
+    "slug": "local-multiplayer",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 526,
+    "_id": "62691741fcebe54fa43aefbe",
+    "name": "Crafting",
+    "slug": "crafting",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 513,
+    "_id": "62691743fcebe54fa43af098",
+    "name": "Psychological Horror",
+    "slug": "psychological-horror",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 501,
+    "_id": "62691741fcebe54fa43aeff5",
+    "name": "Multiple Endings",
+    "slug": "multiple-endings",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 500,
+    "_id": "62691744fcebe54fa43af0be",
+    "name": "War",
+    "slug": "war",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 496,
+    "_id": "62691743fcebe54fa43af09b",
+    "name": "Replay Value",
+    "slug": "replay-value",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 488,
+    "_id": "62691741fcebe54fa43aefed",
+    "name": "Local Co-Op",
+    "slug": "local-co-op",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 486,
+    "_id": "62691740fcebe54fa43aef79",
+    "name": "JRPG",
+    "slug": "jrpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 483,
+    "_id": "62691743fcebe54fa43af0a7",
+    "name": "Space",
+    "slug": "space",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 477,
+    "_id": "62691743fcebe54fa43af065",
+    "name": "Hand-drawn",
+    "slug": "hand-drawn",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 473,
+    "_id": "62691743fcebe54fa43af076",
+    "name": "Magic",
+    "slug": "magic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 466,
+    "_id": "62691742fcebe54fa43aeffe",
+    "name": "Physics",
+    "slug": "physics",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 466,
+    "_id": "62691741fcebe54fa43aefb3",
+    "name": "Visual Novel",
+    "slug": "visual-novel",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 461,
+    "_id": "62691741fcebe54fa43aefbb",
+    "name": "Base Building",
+    "slug": "base-building",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefbc"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 442,
+    "_id": "62691743fcebe54fa43af06e",
+    "name": "Isometric",
+    "slug": "isometric",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 436,
+    "_id": "62691743fcebe54fa43af07a",
+    "name": "Medieval",
+    "slug": "medieval",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 431,
+    "_id": "62691743fcebe54fa43af052",
+    "name": "Economy",
+    "slug": "economy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 431,
+    "_id": "6269173ffcebe54fa43aef47",
+    "name": "Sports",
+    "slug": "sports",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 423,
+    "_id": "6269173ffcebe54fa43aef44",
+    "name": "Racing",
+    "slug": "racing",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 418,
+    "_id": "62691741fcebe54fa43aefa6",
+    "name": "Survival Horror",
+    "slug": "survival-horror",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefc8"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 412,
+    "_id": "62691742fcebe54fa43af018",
+    "name": "Side Scroller",
+    "slug": "side-scroller",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 408,
+    "_id": "62691742fcebe54fa43aeffd",
+    "name": "Procedural Generation",
+    "slug": "procedural-generation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 403,
+    "_id": "62691743fcebe54fa43af08a",
+    "name": "Old School",
+    "slug": "old-school",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 402,
+    "_id": "62691742fcebe54fa43af034",
+    "name": "Classic",
+    "slug": "classic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 399,
+    "_id": "62691740fcebe54fa43aef50",
+    "name": "Action Roguelike",
+    "slug": "action-roguelike",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef91", "6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 396,
+    "_id": "62691740fcebe54fa43aef95",
+    "name": "RTS",
+    "slug": "rts",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 391,
+    "_id": "62691743fcebe54fa43af060",
+    "name": "Futuristic",
+    "slug": "futuristic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 389,
+    "_id": "62691740fcebe54fa43aef69",
+    "name": "Dungeon Crawler",
+    "slug": "dungeon-crawler",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 377,
+    "_id": "62691740fcebe54fa43aef65",
+    "name": "City Builder",
+    "slug": "city-builder",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefbc"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 374,
+    "_id": "62691742fcebe54fa43af007",
+    "name": "Stealth",
+    "slug": "stealth",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 369,
+    "_id": "62691740fcebe54fa43aef77",
+    "name": "Immersive Sim",
+    "slug": "immersive-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 368,
+    "_id": "62691743fcebe54fa43af056",
+    "name": "Emotional",
+    "slug": "emotional",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 356,
+    "_id": "62691743fcebe54fa43af094",
+    "name": "Post-apocalyptic",
+    "slug": "post-apocalyptic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 340,
+    "_id": "62691740fcebe54fa43aef4b",
+    "name": "2D Platformer",
+    "slug": "2d-platformer",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef8a"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 337,
+    "_id": "62691742fcebe54fa43af017",
+    "name": "VR",
+    "slug": "vr",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 335,
+    "_id": "62691743fcebe54fa43af07c",
+    "name": "Military",
+    "slug": "military",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 333,
+    "_id": "62691742fcebe54fa43af035",
+    "name": "Cinematic",
+    "slug": "cinematic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 332,
+    "_id": "62691742fcebe54fa43af021",
+    "name": "1990s",
+    "slug": "1990s",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 332,
+    "_id": "62691740fcebe54fa43aef8e",
+    "name": "Puzzle Platformer",
+    "slug": "puzzle-platformer",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef8a", "6269173ffcebe54fa43aef42"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 323,
+    "_id": "62691742fcebe54fa43af031",
+    "name": "Cartoon",
+    "slug": "cartoon",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 317,
+    "_id": "62691740fcebe54fa43aef5e",
+    "name": "Card Game",
+    "slug": "card-game",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefc7"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 314,
+    "_id": "62691744fcebe54fa43af0c4",
+    "name": "Zombies",
+    "slug": "zombies",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 310,
+    "_id": "62691741fcebe54fa43aefec",
+    "name": "Linear",
+    "slug": "linear",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 307,
+    "_id": "62691741fcebe54fa43aefc0",
+    "name": "Driving",
+    "slug": "driving",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef44"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 301,
+    "_id": "62691743fcebe54fa43af084",
+    "name": "Nature",
+    "slug": "nature",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 294,
+    "_id": "62691740fcebe54fa43aef5c",
+    "name": "Bullet Hell",
+    "slug": "bullet-hell",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef98"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 292,
+    "_id": "62691742fcebe54fa43af04e",
+    "name": "Drama",
+    "slug": "drama",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 286,
+    "_id": "62691741fcebe54fa43aefa7",
+    "name": "Tactical RPG",
+    "slug": "tactical-rpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 283,
+    "_id": "62691740fcebe54fa43aef98",
+    "name": "Shoot 'Em Up",
+    "slug": "shoot-em-up",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 282,
+    "_id": "62691740fcebe54fa43aef78",
+    "name": "Interactive Fiction",
+    "slug": "interactive-fiction",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 280,
+    "_id": "62691742fcebe54fa43aeff6",
+    "name": "Narration",
+    "slug": "narration",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 278,
+    "_id": "62691743fcebe54fa43af0ae",
+    "name": "Surreal",
+    "slug": "surreal",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 277,
+    "_id": "62691740fcebe54fa43aef4c",
+    "name": "3D Platformer",
+    "slug": "3d-platformer",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef8a"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 274,
+    "_id": "62691741fcebe54fa43aefa5",
+    "name": "Strategy RPG",
+    "slug": "strategy-rpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 271,
+    "_id": "62691743fcebe54fa43af074",
+    "name": "Lore-Rich",
+    "slug": "lore-rich",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 270,
+    "_id": "62691742fcebe54fa43af044",
+    "name": "Dark Humor",
+    "slug": "dark-humor",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 268,
+    "_id": "62691741fcebe54fa43aefa9",
+    "name": "Third-Person Shooter",
+    "slug": "third-person-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 267,
+    "_id": "62691741fcebe54fa43aeff1",
+    "name": "Moddable",
+    "slug": "moddable",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 266,
+    "_id": "62691740fcebe54fa43aef73",
+    "name": "Hidden Object",
+    "slug": "hidden-object",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40", "6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 264,
+    "_id": "62691742fcebe54fa43af047",
+    "name": "Detective",
+    "slug": "detective",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 263,
+    "_id": "62691740fcebe54fa43aef7a",
+    "name": "Life Sim",
+    "slug": "life-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 259,
+    "_id": "62691740fcebe54fa43aef6d",
+    "name": "Fighting",
+    "slug": "fighting",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 257,
+    "_id": "62691741fcebe54fa43aefbf",
+    "name": "Deckbuilding",
+    "slug": "deckbuilding",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5e"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 254,
+    "_id": "62691743fcebe54fa43af07d",
+    "name": "Minimalist",
+    "slug": "minimalist",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 253,
+    "_id": "62691741fcebe54fa43aefcd",
+    "name": "2.5D",
+    "slug": "25d",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 253,
+    "_id": "62691740fcebe54fa43aef59",
+    "name": "Beat 'em up",
+    "slug": "beat-em-up",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 253,
+    "_id": "62691740fcebe54fa43aef5a",
+    "name": "Board Game",
+    "slug": "board-game",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef87", "62691741fcebe54fa43aefc7"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 252,
+    "_id": "62691741fcebe54fa43aefb4",
+    "name": "Walking Simulator",
+    "slug": "walking-simulator",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 247,
+    "_id": "62691740fcebe54fa43aef75",
+    "name": "Grand Strategy",
+    "slug": "grand-strategy",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 246,
+    "_id": "62691740fcebe54fa43aef60",
+    "name": "Choose Your Own Adventure",
+    "slug": "choose-your-own-adventure",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 246,
+    "_id": "62691743fcebe54fa43af05d",
+    "name": "Fast-Paced",
+    "slug": "fast-paced",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 241,
+    "_id": "62691743fcebe54fa43af06d",
+    "name": "Investigation",
+    "slug": "investigation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 237,
+    "_id": "62691741fcebe54fa43aefb5",
+    "name": "Wargame",
+    "slug": "wargame",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 232,
+    "_id": "62691740fcebe54fa43aef7e",
+    "name": "Metroidvania",
+    "slug": "metroidvania",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 227,
+    "_id": "62691742fcebe54fa43af040",
+    "name": "Cyberpunk",
+    "slug": "cyberpunk",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 227,
+    "_id": "62691743fcebe54fa43af072",
+    "name": "Logic",
+    "slug": "logic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 226,
+    "_id": "62691741fcebe54fa43aefaa",
+    "name": "Time Management",
+    "slug": "time-management",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 224,
+    "_id": "62691741fcebe54fa43aefc7",
+    "name": "Tabletop",
+    "slug": "tabletop",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 223,
+    "_id": "62691742fcebe54fa43af045",
+    "name": "Demons",
+    "slug": "demons",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 223,
+    "_id": "62691740fcebe54fa43aef88",
+    "name": "Party-Based RPG",
+    "slug": "party-based-rpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 218,
+    "_id": "62691741fcebe54fa43aefa1",
+    "name": "Souls-like",
+    "slug": "souls-like",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 216,
+    "_id": "62691742fcebe54fa43af026",
+    "name": "Aliens",
+    "slug": "aliens",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 206,
+    "_id": "62691744fcebe54fa43af0c3",
+    "name": "World War II",
+    "slug": "world-war-ii",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 203,
+    "_id": "62691743fcebe54fa43af09d",
+    "name": "Robots",
+    "slug": "robots",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 203,
+    "_id": "62691741fcebe54fa43aefab",
+    "name": "Top-Down Shooter",
+    "slug": "top-down-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 199,
+    "_id": "62691742fcebe54fa43af051",
+    "name": "Dystopian",
+    "slug": "dystopian",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 198,
+    "_id": "62691743fcebe54fa43af09f",
+    "name": "Romance",
+    "slug": "romance",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 191,
+    "_id": "62691740fcebe54fa43aef53",
+    "name": "Automobile Sim",
+    "slug": "automobile-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 191,
+    "_id": "62691740fcebe54fa43aef8f",
+    "name": "Real Time Tactics",
+    "slug": "real-time-tactics",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 188,
+    "_id": "62691742fcebe54fa43af03a",
+    "name": "Competitive",
+    "slug": "competitive",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 188,
+    "_id": "62691743fcebe54fa43af0b2",
+    "name": "Thriller",
+    "slug": "thriller",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 184,
+    "_id": "62691742fcebe54fa43af027",
+    "name": "Alternate History",
+    "slug": "alternate-history",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 182,
+    "_id": "62691740fcebe54fa43aef5d",
+    "name": "Card Battler",
+    "slug": "card-battler",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5e"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 182,
+    "_id": "62691743fcebe54fa43af0ad",
+    "name": "Supernatural",
+    "slug": "supernatural",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 181,
+    "_id": "62691741fcebe54fa43aefd2",
+    "name": "4 Player Local",
+    "slug": "4-player-local",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 181,
+    "_id": "62691742fcebe54fa43af039",
+    "name": "Comic Book",
+    "slug": "comic-book",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 178,
+    "_id": "62691742fcebe54fa43af03d",
+    "name": "Crime",
+    "slug": "crime",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 174,
+    "_id": "62691742fcebe54fa43af006",
+    "name": "Score Attack",
+    "slug": "score-attack",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 172,
+    "_id": "62691741fcebe54fa43aefca",
+    "name": "Soundtrack",
+    "slug": "soundtrack",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 172,
+    "_id": "62691742fcebe54fa43af008",
+    "name": "Team-Based",
+    "slug": "team-based",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 171,
+    "_id": "62691743fcebe54fa43af0a4",
+    "name": "Short",
+    "slug": "short",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 170,
+    "_id": "62691742fcebe54fa43af020",
+    "name": "1980s",
+    "slug": "1980s",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 170,
+    "_id": "62691741fcebe54fa43aefac",
+    "name": "Tower Defense",
+    "slug": "tower-defense",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 168,
+    "_id": "62691743fcebe54fa43af071",
+    "name": "LGBTQ+",
+    "slug": "lgbtq",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 167,
+    "_id": "62691743fcebe54fa43af073",
+    "name": "Loot",
+    "slug": "loot",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 156,
+    "_id": "62691743fcebe54fa43af097",
+    "name": "Psychological",
+    "slug": "psychological",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 155,
+    "_id": "62691742fcebe54fa43aeffc",
+    "name": "Perma Death",
+    "slug": "perma-death",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 154,
+    "_id": "62691740fcebe54fa43aef6c",
+    "name": "Farming Sim",
+    "slug": "farming-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 151,
+    "_id": "62691741fcebe54fa43aefea",
+    "name": "Inventory Management",
+    "slug": "inventory-management",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 151,
+    "_id": "62691743fcebe54fa43af075",
+    "name": "Lovecraftian",
+    "slug": "lovecraftian",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 148,
+    "_id": "62691740fcebe54fa43aef64",
+    "name": "Colony Sim",
+    "slug": "colony-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 147,
+    "_id": "62691740fcebe54fa43aef66",
+    "name": "Collectathon",
+    "slug": "collectathon",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 147,
+    "_id": "62691741fcebe54fa43aefe0",
+    "name": "Conversation",
+    "slug": "conversation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 144,
+    "_id": "62691742fcebe54fa43aeff8",
+    "name": "Nonlinear",
+    "slug": "nonlinear",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 143,
+    "_id": "62691742fcebe54fa43af046",
+    "name": "Destruction",
+    "slug": "destruction",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 143,
+    "_id": "62691743fcebe54fa43af080",
+    "name": "Music",
+    "slug": "music",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 141,
+    "_id": "62691743fcebe54fa43af082",
+    "name": "Mythology",
+    "slug": "mythology",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 138,
+    "_id": "62691742fcebe54fa43af03c",
+    "name": "Creature Collector",
+    "slug": "creature-collector",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 136,
+    "_id": "62691740fcebe54fa43aef68",
+    "name": "Dating Sim",
+    "slug": "dating-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43", "6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 134,
+    "_id": "62691740fcebe54fa43aef54",
+    "name": "4X",
+    "slug": "4x",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 134,
+    "_id": "62691743fcebe54fa43af07b",
+    "name": "Memes",
+    "slug": "memes",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 133,
+    "_id": "62691740fcebe54fa43aef61",
+    "name": "CRPG",
+    "slug": "crpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 133,
+    "_id": "62691743fcebe54fa43af053",
+    "name": "Education",
+    "slug": "education",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 133,
+    "_id": "62691741fcebe54fa43aefe8",
+    "name": "Hex Grid",
+    "slug": "hex-grid",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 129,
+    "_id": "62691740fcebe54fa43aef4a",
+    "name": "2D Fighter",
+    "slug": "2d-fighter",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef6d"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 129,
+    "_id": "68c135a25cd3b2d94df987cc",
+    "facet": "categories",
+    "name": "Cozy",
+    "combo": true,
+    "parent": [],
+    "slug": "cozy",
+    "subFacet": "themes"
+  },
+  {
+    "count": 128,
+    "_id": "62691741fcebe54fa43aefe3",
+    "name": "Flight",
+    "slug": "flight",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 128,
+    "_id": "62691742fcebe54fa43af00b",
+    "name": "Text-Based",
+    "slug": "text-based",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 123,
+    "_id": "62691743fcebe54fa43af087",
+    "name": "Noir",
+    "slug": "noir",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 122,
+    "_id": "62691743fcebe54fa43af0af",
+    "name": "Swordplay",
+    "slug": "swordplay",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 121,
+    "_id": "62691741fcebe54fa43aefeb",
+    "name": "Level Editor",
+    "slug": "level-editor",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 120,
+    "_id": "62691742fcebe54fa43af033",
+    "name": "Cats",
+    "slug": "cats",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "name": "eBooks",
+    "slug": "ebooks",
+    "count": 119
+  },
+  {
+    "count": 118,
+    "_id": "62691741fcebe54fa43aefd4",
+    "name": "Artificial Intelligence",
+    "slug": "artificial-intelligence",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 118,
+    "_id": "62691742fcebe54fa43af030",
+    "name": "Capitalism",
+    "slug": "capitalism",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 118,
+    "_id": "62691740fcebe54fa43aef85",
+    "name": "Open World Survival Craft",
+    "slug": "open-world-survival-craft",
+    "facet": "categories",
+    "parent": ["62691741fcebe54fa43aefbe"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 116,
+    "_id": "62691741fcebe54fa43aefdd",
+    "name": "Co-op Campaign",
+    "slug": "co-op-campaign",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 116,
+    "_id": "62691743fcebe54fa43af083",
+    "name": "Narrative",
+    "slug": "narrative",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 115,
+    "_id": "62691741fcebe54fa43aefb0",
+    "name": "Twin Stick Shooter",
+    "slug": "twin-stick-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 112,
+    "_id": "62691742fcebe54fa43af02e",
+    "name": "Beautiful",
+    "slug": "beautiful",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 111,
+    "_id": "62691742fcebe54fa43af025",
+    "name": "Agriculture",
+    "slug": "agriculture",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 111,
+    "_id": "62691742fcebe54fa43af003",
+    "name": "Real-Time with Pause",
+    "slug": "real-time-with-pause",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 110,
+    "_id": "62691742fcebe54fa43af04d",
+    "name": "Dragons",
+    "slug": "dragons",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 110,
+    "_id": "62691743fcebe54fa43af07e",
+    "name": "Modern",
+    "slug": "modern",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 110,
+    "_id": "62691740fcebe54fa43aef92",
+    "name": "Roguelike Deckbuilder",
+    "slug": "roguelike-deckbuilder",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5e", "62691740fcebe54fa43aef91"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 109,
+    "_id": "62691743fcebe54fa43af096",
+    "name": "Psychedelic",
+    "slug": "psychedelic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 108,
+    "_id": "62691741fcebe54fa43aefd7",
+    "name": "Automation",
+    "slug": "automation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 107,
+    "_id": "62691741fcebe54fa43aefbd",
+    "name": "Cooking",
+    "slug": "cooking",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 107,
+    "_id": "62691741fcebe54fa43aefef",
+    "name": "Massively Multiplayer",
+    "slug": "massively-multiplayer",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 106,
+    "_id": "62691743fcebe54fa43af08c",
+    "name": "Parkour",
+    "slug": "parkour",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 106,
+    "_id": "62691743fcebe54fa43af0a9",
+    "name": "Steampunk",
+    "slug": "steampunk",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 105,
+    "_id": "62691740fcebe54fa43aef87",
+    "name": "Party",
+    "slug": "party",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 104,
+    "_id": "62691743fcebe54fa43af063",
+    "name": "Gothic",
+    "slug": "gothic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 103,
+    "_id": "62691740fcebe54fa43aef8d",
+    "name": "Precision Platformer",
+    "slug": "precision-platformer",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef8a"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 102,
+    "_id": "62691744fcebe54fa43af0b4",
+    "name": "Trains",
+    "slug": "trains",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 100,
+    "_id": "62691740fcebe54fa43aef90",
+    "name": "Rhythm",
+    "slug": "rhythm",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 99,
+    "_id": "62691742fcebe54fa43af023",
+    "name": "Abstract",
+    "slug": "abstract",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 99,
+    "_id": "62691742fcebe54fa43af009",
+    "name": "Split Screen",
+    "slug": "split-screen",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 98,
+    "_id": "62691740fcebe54fa43aef55",
+    "name": "Arena Shooter",
+    "slug": "arena-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 98,
+    "_id": "62691742fcebe54fa43af042",
+    "name": "Dark Comedy",
+    "slug": "dark-comedy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 98,
+    "_id": "62691743fcebe54fa43af079",
+    "name": "Mechs",
+    "slug": "mechs",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 98,
+    "_id": "62691743fcebe54fa43af091",
+    "name": "Political",
+    "slug": "political",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 97,
+    "_id": "62691742fcebe54fa43af04a",
+    "name": "Diplomacy",
+    "slug": "diplomacy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 97,
+    "_id": "62691742fcebe54fa43af016",
+    "name": "Vehicular Combat",
+    "slug": "vehicular-combat",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 96,
+    "_id": "62691741fcebe54fa43aefe6",
+    "name": "Grid-Based Movement",
+    "slug": "grid-based-movement",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 96,
+    "_id": "62691741fcebe54fa43aeff3",
+    "name": "Mouse only",
+    "slug": "mouse-only",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 95,
+    "_id": "62691742fcebe54fa43af03e",
+    "name": "Cult Classic",
+    "slug": "cult-classic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 94,
+    "_id": "62691743fcebe54fa43af0b1",
+    "name": "Tanks",
+    "slug": "tanks",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 93,
+    "_id": "62691741fcebe54fa43aefc4",
+    "name": "Martial Arts",
+    "slug": "martial-arts",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef6d"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 93,
+    "_id": "62691744fcebe54fa43af0b6",
+    "name": "Transportation",
+    "slug": "transportation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 90,
+    "_id": "62691743fcebe54fa43af0ac",
+    "name": "Superhero",
+    "slug": "superhero",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 90,
+    "_id": "62691742fcebe54fa43af010",
+    "name": "Trading",
+    "slug": "trading",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 87,
+    "_id": "62691742fcebe54fa43af015",
+    "name": "Tutorial",
+    "slug": "tutorial",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 86,
+    "_id": "62691742fcebe54fa43af024",
+    "name": "Addictive",
+    "slug": "addictive",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 86,
+    "_id": "62691744fcebe54fa43af0c2",
+    "name": "Western",
+    "slug": "western",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 83,
+    "_id": "62691743fcebe54fa43af0a3",
+    "name": "Science",
+    "slug": "science",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 83,
+    "_id": "62691741fcebe54fa43aefa2",
+    "name": "Space Sim",
+    "slug": "space-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 82,
+    "_id": "62691741fcebe54fa43aefdb",
+    "name": "Class-Based",
+    "slug": "class-based",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 82,
+    "_id": "62691741fcebe54fa43aefa4",
+    "name": "Spectacle fighter",
+    "slug": "spectacle-fighter",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef6d"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 82,
+    "_id": "62691744fcebe54fa43af0ba",
+    "name": "Vampire",
+    "slug": "vampire",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 81,
+    "_id": "62691743fcebe54fa43af08e",
+    "name": "Philosophical",
+    "slug": "philosophical",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 81,
+    "_id": "62691743fcebe54fa43af08f",
+    "name": "Pirates",
+    "slug": "pirates",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 79,
+    "_id": "62691741fcebe54fa43aefcc",
+    "name": "Clicker",
+    "slug": "clicker",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 79,
+    "_id": "62691740fcebe54fa43aef63",
+    "name": "Combat Racing",
+    "slug": "combat-racing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef44"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 79,
+    "_id": "62691743fcebe54fa43af086",
+    "name": "Ninja",
+    "slug": "ninja",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 78,
+    "_id": "62691740fcebe54fa43aef7b",
+    "name": "Looter Shooter",
+    "slug": "looter-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 78,
+    "_id": "62691740fcebe54fa43aef8b",
+    "name": "Political Sim",
+    "slug": "political-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 77,
+    "_id": "62691740fcebe54fa43aef51",
+    "name": "Auto Battler",
+    "slug": "auto-battler",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 75,
+    "_id": "62691741fcebe54fa43aefc1",
+    "name": "Fishing",
+    "slug": "fishing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 73,
+    "_id": "62691741fcebe54fa43aefa0",
+    "name": "Solitaire",
+    "slug": "solitaire",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5e"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 72,
+    "_id": "62691740fcebe54fa43aef4d",
+    "name": "3D Fighter",
+    "slug": "3d-fighter",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef6d"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 72,
+    "_id": "62691741fcebe54fa43aefd6",
+    "name": "Asynchronous Multiplayer",
+    "slug": "asynchronous-multiplayer",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 72,
+    "_id": "62691741fcebe54fa43aefd9",
+    "name": "Bullet Time",
+    "slug": "bullet-time",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 71,
+    "_id": "62691740fcebe54fa43aef76",
+    "name": "Idler",
+    "slug": "idler",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 71,
+    "_id": "62691743fcebe54fa43af092",
+    "name": "Politics",
+    "slug": "politics",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 71,
+    "_id": "62691742fcebe54fa43af002",
+    "name": "Real-Time",
+    "slug": "real-time",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 70,
+    "_id": "62691742fcebe54fa43af029",
+    "name": "America",
+    "slug": "america",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 70,
+    "_id": "62691741fcebe54fa43aefe5",
+    "name": "GameMaker",
+    "slug": "gamemaker",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 69,
+    "_id": "62691742fcebe54fa43af03b",
+    "name": "Conspiracy",
+    "slug": "conspiracy",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 67,
+    "_id": "62691742fcebe54fa43af048",
+    "name": "Dinosaurs",
+    "slug": "dinosaurs",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 67,
+    "_id": "62691740fcebe54fa43aef7d",
+    "name": "Match 3",
+    "slug": "match-3",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef42"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 67,
+    "_id": "62691743fcebe54fa43af08d",
+    "name": "Parody",
+    "slug": "parody",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 66,
+    "_id": "62691742fcebe54fa43af001",
+    "name": "Quick-Time Events",
+    "slug": "quick-time-events",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 65,
+    "_id": "62691741fcebe54fa43aefe7",
+    "name": "Gun Customization",
+    "slug": "gun-customization",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 65,
+    "_id": "62691742fcebe54fa43af00c",
+    "name": "Time Manipulation",
+    "slug": "time-manipulation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 64,
+    "_id": "62691743fcebe54fa43af085",
+    "name": "Naval",
+    "slug": "naval",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 63,
+    "_id": "62691744fcebe54fa43af0b3",
+    "name": "Time Travel",
+    "slug": "time-travel",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 63,
+    "_id": "62691744fcebe54fa43af0b8",
+    "name": "Underwater",
+    "slug": "underwater",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 61,
+    "_id": "62691743fcebe54fa43af0a1",
+    "name": "Satire",
+    "slug": "satire",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 60,
+    "_id": "62691741fcebe54fa43aefc3",
+    "name": "Hunting",
+    "slug": "hunting",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 59,
+    "_id": "62691740fcebe54fa43aef5f",
+    "name": "Character Action Game",
+    "slug": "character-action-game",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 59,
+    "_id": "62691742fcebe54fa43af036",
+    "name": "Cold War",
+    "slug": "cold-war",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 59,
+    "_id": "62691742fcebe54fa43af01f",
+    "name": "Villain Protagonist",
+    "slug": "villain-protagonist",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 58,
+    "_id": "62691742fcebe54fa43af050",
+    "name": "Dynamic Narration",
+    "slug": "dynamic-narration",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 57,
+    "_id": "62691740fcebe54fa43aef6a",
+    "name": "Escape Room",
+    "slug": "escape-room",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 57,
+    "_id": "62691740fcebe54fa43aef70",
+    "name": "God Game",
+    "slug": "god-game",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 54,
+    "_id": "62691740fcebe54fa43aef56",
+    "name": "Action RTS",
+    "slug": "action-rts",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "62691740fcebe54fa43aef95"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 54,
+    "_id": "62691742fcebe54fa43aeff9",
+    "name": "Naval Combat",
+    "slug": "naval-combat",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 53,
+    "_id": "62691743fcebe54fa43af05c",
+    "name": "Farming",
+    "slug": "farming",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 53,
+    "_id": "62691743fcebe54fa43af06b",
+    "name": "Immersive",
+    "slug": "immersive",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 53,
+    "_id": "62691743fcebe54fa43af089",
+    "name": "Offroad",
+    "slug": "offroad",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 52,
+    "_id": "62691741fcebe54fa43aefe4",
+    "name": "FMV",
+    "slug": "fmv",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 52,
+    "_id": "62691743fcebe54fa43af088",
+    "name": "Nostalgia",
+    "slug": "nostalgia",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 51,
+    "_id": "62691741fcebe54fa43aefc5",
+    "name": "Mining",
+    "slug": "mining",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 50,
+    "_id": "62691743fcebe54fa43af07f",
+    "name": "Motorbike",
+    "slug": "motorbike",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 49,
+    "_id": "62691740fcebe54fa43aef82",
+    "name": "Mystery Dungeon",
+    "slug": "mystery-dungeon",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef40"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 47,
+    "_id": "62691742fcebe54fa43af04c",
+    "name": "Dog",
+    "slug": "dog",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 47,
+    "_id": "62691740fcebe54fa43aef96",
+    "name": "Runner",
+    "slug": "runner",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef8a"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 46,
+    "_id": "62691744fcebe54fa43af0b7",
+    "name": "Underground",
+    "slug": "underground",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 44,
+    "_id": "62691743fcebe54fa43af0a5",
+    "name": "Sniper",
+    "slug": "sniper",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 43,
+    "_id": "62691741fcebe54fa43aefd3",
+    "name": "6DOF",
+    "slug": "6dof",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 42,
+    "_id": "62691743fcebe54fa43af066",
+    "name": "Heist",
+    "slug": "heist",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 41,
+    "_id": "62691743fcebe54fa43af0a6",
+    "name": "Snow",
+    "slug": "snow",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 41,
+    "_id": "62691742fcebe54fa43af00f",
+    "name": "Touch-Friendly",
+    "slug": "touch-friendly",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 40,
+    "_id": "62691742fcebe54fa43af02a",
+    "name": "Assassin",
+    "slug": "assassin",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 40,
+    "_id": "62691743fcebe54fa43af069",
+    "name": "Horses",
+    "slug": "horses",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 40,
+    "_id": "62691740fcebe54fa43aef80",
+    "name": "MMORPG",
+    "slug": "mmorpg",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef43"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 39,
+    "_id": "62691743fcebe54fa43af061",
+    "name": "Gambling",
+    "slug": "gambling",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 39,
+    "_id": "62691741fcebe54fa43aefc6",
+    "name": "Sailing",
+    "slug": "sailing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 39,
+    "_id": "62691744fcebe54fa43af0c1",
+    "name": "World War I",
+    "slug": "world-war-i",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 38,
+    "_id": "62691743fcebe54fa43af057",
+    "name": "Epic",
+    "slug": "epic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 37,
+    "_id": "62691742fcebe54fa43af01c",
+    "name": "Hacking",
+    "slug": "hacking",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 36,
+    "_id": "62691740fcebe54fa43aef62",
+    "name": "Chess",
+    "slug": "chess",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5a"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 36,
+    "_id": "62691740fcebe54fa43aef84",
+    "name": "On-Rails Shooter",
+    "slug": "on-rails-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 36,
+    "_id": "62691741fcebe54fa43aefaf",
+    "name": "Trivia",
+    "slug": "trivia",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41", "6269173ffcebe54fa43aef42"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 35,
+    "_id": "62691743fcebe54fa43af0a0",
+    "name": "Rome",
+    "slug": "rome",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 35,
+    "_id": "62691744fcebe54fa43af0bd",
+    "name": "Voxel",
+    "slug": "voxel",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 35,
+    "_id": "62691741fcebe54fa43aefb6",
+    "name": "Word Game",
+    "slug": "word-game",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef42"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 33,
+    "_id": "62691741fcebe54fa43aefc9",
+    "name": "Battle Royale",
+    "slug": "battle-royale",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 33,
+    "_id": "62691742fcebe54fa43af02f",
+    "name": "Bikes",
+    "slug": "bikes",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 33,
+    "_id": "62691740fcebe54fa43aef72",
+    "name": "Hero Shooter",
+    "slug": "hero-shooter",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 29,
+    "_id": "62691741fcebe54fa43aefe1",
+    "name": "Episodic",
+    "slug": "episodic",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 28,
+    "_id": "62691741fcebe54fa43aefad",
+    "name": "Trading Card Game",
+    "slug": "trading-card-game",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef5e"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 27,
+    "_id": "62691741fcebe54fa43aefae",
+    "name": "Traditional Roguelike",
+    "slug": "traditional-roguelike",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef91"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 27,
+    "_id": "62691744fcebe54fa43af0bb",
+    "name": "Vikings",
+    "slug": "vikings",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 26,
+    "_id": "62691743fcebe54fa43af08b",
+    "name": "Otome",
+    "slug": "otome",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 26,
+    "_id": "62691743fcebe54fa43af095",
+    "name": "Programming",
+    "slug": "programming",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 26,
+    "_id": "62691744fcebe54fa43af0b5",
+    "name": "Transhumanism",
+    "slug": "transhumanism",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 26,
+    "_id": "62691744fcebe54fa43af0b9",
+    "name": "Unforgiving",
+    "slug": "unforgiving",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "62691742fcebe54fa43af04f",
+    "name": "Dungeons & Dragons",
+    "slug": "dungeons-and-dragons",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "62691743fcebe54fa43af058",
+    "name": "Experience",
+    "slug": "experience",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "62691743fcebe54fa43af078",
+    "name": "Mars",
+    "slug": "mars",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "62691740fcebe54fa43aef7c",
+    "name": "Medical Sim",
+    "slug": "medical-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "6269173ffcebe54fa43aef45",
+    "name": "Software",
+    "slug": "software",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 25,
+    "_id": "62691742fcebe54fa43af00d",
+    "name": "Time Attack",
+    "slug": "time-attack",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 24,
+    "_id": "62691740fcebe54fa43aef67",
+    "name": "Cycling",
+    "slug": "cycling",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef44", "6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 24,
+    "_id": "62691743fcebe54fa43af062",
+    "name": "Game Development",
+    "slug": "game-development",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 24,
+    "_id": "62691740fcebe54fa43aef71",
+    "name": "Golf",
+    "slug": "golf",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 23,
+    "_id": "62691743fcebe54fa43af0a8",
+    "name": "Spaceships",
+    "slug": "spaceships",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 23,
+    "_id": "62691741fcebe54fa43aefb2",
+    "name": "Typing",
+    "slug": "typing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 22,
+    "_id": "62691741fcebe54fa43aefd0",
+    "name": "3D Vision",
+    "slug": "3d-vision",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "name": "Comics, Horror",
+    "slug": "comics-horror",
+    "count": 21
+  },
+  {
+    "count": 21,
+    "_id": "62691741fcebe54fa43aeff0",
+    "name": "Minigames",
+    "slug": "minigames",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 21,
+    "_id": "62691740fcebe54fa43aef89",
+    "name": "Pinball",
+    "slug": "pinball",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 19,
+    "_id": "62691741fcebe54fa43aefb8",
+    "name": "Archery",
+    "slug": "archery",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef48", "6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 18,
+    "_id": "62691743fcebe54fa43af05e",
+    "name": "Foreign",
+    "slug": "foreign",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 18,
+    "_id": "62691743fcebe54fa43af06f",
+    "name": "Jet",
+    "slug": "jet",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 18,
+    "_id": "62691740fcebe54fa43aef94",
+    "name": "Roguevania",
+    "slug": "roguevania",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef7e", "62691740fcebe54fa43aef91"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 17,
+    "_id": "62691740fcebe54fa43aef6e",
+    "name": "Football",
+    "slug": "football",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 17,
+    "_id": "62691741fcebe54fa43aeff2",
+    "name": "Movie",
+    "slug": "movie",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 17,
+    "_id": "62691741fcebe54fa43aef9f",
+    "name": "Sokoban",
+    "slug": "sokoban",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef42"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 17,
+    "_id": "62691744fcebe54fa43af0c0",
+    "name": "Werewolves",
+    "slug": "werewolves",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 16,
+    "_id": "62691740fcebe54fa43aef4f",
+    "name": "Basketball",
+    "slug": "basketball",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 16,
+    "_id": "62691740fcebe54fa43aef99",
+    "name": "Skateboarding",
+    "slug": "skateboarding",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 16,
+    "_id": "62691740fcebe54fa43aef9a",
+    "name": "Skating",
+    "slug": "skating",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 16,
+    "_id": "62691741fcebe54fa43aefa8",
+    "name": "Tennis",
+    "slug": "tennis",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "name": "Comics",
+    "slug": "comics",
+    "count": 15
+  },
+  {
+    "count": 15,
+    "_id": "62691743fcebe54fa43af06a",
+    "name": "Illuminati",
+    "slug": "illuminati",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 15,
+    "_id": "62691740fcebe54fa43aef7f",
+    "name": "Mini Golf",
+    "slug": "mini-golf",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef41", "6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 15,
+    "_id": "62691740fcebe54fa43aef83",
+    "name": "Motocross",
+    "slug": "motocross",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef44", "6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 15,
+    "_id": "62691743fcebe54fa43af0ab",
+    "name": "Submarine",
+    "slug": "submarine",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 14,
+    "_id": "62691742fcebe54fa43af02d",
+    "name": "Based On A Novel",
+    "slug": "based-on-a-novel",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 14,
+    "_id": "62691741fcebe54fa43aefba",
+    "name": "Boxing",
+    "slug": "boxing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 14,
+    "_id": "62691743fcebe54fa43af059",
+    "name": "Faith",
+    "slug": "faith",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes"
+  },
+  {
+    "count": 14,
+    "_id": "62691742fcebe54fa43aeff7",
+    "name": "Music-Based Procedural Generation",
+    "slug": "music-based-procedural-generation",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 14,
+    "_id": "62691741fcebe54fa43aefb7",
+    "name": "Wrestling",
+    "slug": "wrestling",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 12,
+    "_id": "62691741fcebe54fa43aefcb",
+    "name": "Boss Rush",
+    "slug": "boss-rush",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles"
+  },
+  {
+    "count": 10,
+    "_id": "62691740fcebe54fa43aef81",
+    "name": "MOBA",
+    "slug": "moba",
+    "facet": "categories",
+    "parent": ["6269173efcebe54fa43aef3f", "62691740fcebe54fa43aef49"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 10,
+    "_id": "62691743fcebe54fa43af093",
+    "name": "Pool",
+    "slug": "pool",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 9,
+    "_id": "62691742fcebe54fa43af028",
+    "name": "Ambient",
+    "slug": "ambient",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 9,
+    "_id": "62691740fcebe54fa43aef57",
+    "name": "Baseball",
+    "slug": "baseball",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 9,
+    "_id": "62691741fcebe54fa43aef9e",
+    "name": "Social Deduction",
+    "slug": "social-deduction",
+    "facet": "categories",
+    "parent": ["62691740fcebe54fa43aef87"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 9,
+    "_id": "62691742fcebe54fa43af011",
+    "name": "TrackIR",
+    "slug": "trackir",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "count": 8,
+    "_id": "62691741fcebe54fa43aefd5",
+    "name": "Asymmetric VR",
+    "slug": "asymmetric-vr",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles",
+    "combo": true
+  },
+  {
+    "name": "Manga",
+    "slug": "manga",
+    "count": 8
+  },
+  {
+    "count": 8,
+    "_id": "62691740fcebe54fa43aef86",
+    "name": "Outbreak Sim",
+    "slug": "outbreak-sim",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "subFacet": "genres"
+  },
+  {
+    "count": 8,
+    "_id": "62691744fcebe54fa43af0bf",
+    "name": "Well-Written",
+    "slug": "well-written",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 7,
+    "_id": "62691741fcebe54fa43aefb9",
+    "name": "ATV",
+    "slug": "atv",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "name": "Books-Vector Puzzles Assets",
+    "slug": "books-vector-puzzles-assets",
+    "count": 6
+  },
+  {
+    "count": 6,
+    "_id": "62691743fcebe54fa43af055",
+    "name": "Electronic Music",
+    "slug": "electronic-music",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes"
+  },
+  {
+    "count": 6,
+    "_id": "62691742fcebe54fa43af01d",
+    "name": "Silent Protagonist",
+    "slug": "silent-protagonist",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes",
+    "combo": true
+  },
+  {
+    "count": 6,
+    "_id": "62691741fcebe54fa43aef9b",
+    "name": "Snowboarding",
+    "slug": "snowboarding",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres"
+  },
+  {
+    "count": 5,
+    "_id": "62691743fcebe54fa43af06c",
+    "name": "Instrumental Music",
+    "slug": "instrumental-music",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes"
+  },
+  {
+    "count": 5,
+    "_id": "62691741fcebe54fa43aefe9",
+    "name": "Intentionally Awkward Controls",
+    "slug": "intentionally-awkward-controls",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "playstyles"
+  },
+  {
+    "count": 5,
+    "_id": "62691743fcebe54fa43af09e",
+    "name": "Rock Music",
+    "slug": "rock-music",
+    "facet": "categories",
+    "parent": [],
+    "subFacet": "themes"
+  },
+  {
+    "count": 5,
+    "_id": "62691741fcebe54fa43aef9d",
+    "name": "Skiing",
+    "slug": "skiing",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef47"],
+    "subFacet": "genres",
+    "combo": true
+  },
+  {
+    "count": 5,
+    "_id": "62691741fcebe54fa43aefa3",
+    "name": "Spelling",
+    "slug": "spelling",
+    "facet": "categories",
+    "parent": ["6269173ffcebe54fa43aef42"],
+    "subFacet": "genres"
+  },
+  {
+    "_id": "62695928e5364e1c832ef061",
+    "facet": "combo",
+    "name": "Zombie Co-op Shooter",
+    "combo": true,
+    "slug": "zombie-co-op-shooter",
+    "parent": [
+      "62691740fcebe54fa43aef6f",
+      "6269173ffcebe54fa43aef48",
+      "62691744fcebe54fa43af0c4",
+      "62691741fcebe54fa43aefdc"
+    ]
+  },
+  {
+    "_id": "6290d1b1e5364e1c8303aadd",
+    "facet": "combo",
+    "name": "Sci-Fi Simulation",
+    "combo": true,
+    "slug": "sci-fi-simulation",
+    "parent": ["6269173ffcebe54fa43aef46", "62691743fcebe54fa43af0a2", "62691743fcebe54fa43af0a7"]
+  },
+  {
+    "_id": "6294ce6de5364e1c839af786",
+    "facet": "combo",
+    "name": "Vampire RPG",
+    "combo": true,
+    "slug": "vampire-rpgs",
+    "parent": ["6269173ffcebe54fa43aef43", "62691744fcebe54fa43af0ba"]
+  },
+  {
+    "_id": "6294d260e5364e1c839cd132",
+    "facet": "combo",
+    "name": "Multiplayer Horror",
+    "combo": true,
+    "slug": "multiplayer-horror",
+    "parent": ["62691742fcebe54fa43af01a", "62691741fcebe54fa43aeff4"]
+  },
+  {
+    "_id": "6294e1dbe5364e1c83a354fb",
+    "facet": "combo",
+    "name": "Medieval Strategy",
+    "combo": true,
+    "slug": "medieval-strategy",
+    "parent": ["62691740fcebe54fa43aef49", "62691743fcebe54fa43af07a"]
+  },
+  {
+    "_id": "6294ea26e5364e1c83a7376f",
+    "facet": "combo",
+    "name": "Competitive FPS",
+    "combo": true,
+    "slug": "competitive-fps",
+    "parent": ["62691740fcebe54fa43aef6f", "62691742fcebe54fa43af03a"]
+  },
+  {
+    "_id": "6294ec82e5364e1c83a83be1",
+    "facet": "combo",
+    "name": "War Strategy",
+    "combo": true,
+    "slug": "war-strategy",
+    "parent": ["62691740fcebe54fa43aef49", "62691744fcebe54fa43af0be"]
+  },
+  {
+    "_id": "63062437e5364e1c83e7684f",
+    "facet": "combo",
+    "name": "Co-op Horror",
+    "combo": true,
+    "slug": "co-op-horror",
+    "parent": ["62691742fcebe54fa43af01a", "62691741fcebe54fa43aefdc"]
+  },
+  {
+    "_id": "63062496e5364e1c83e78570",
+    "facet": "combo",
+    "name": "Multiplayer Racing",
+    "combo": true,
+    "slug": "multiplayer-racing",
+    "parent": ["6269173ffcebe54fa43aef44", "62691741fcebe54fa43aeff4"]
+  },
+  {
+    "_id": "630624dee5364e1c83e7a191",
+    "facet": "combo",
+    "name": "Tabletop RPG",
+    "combo": true,
+    "slug": "tabletop-rpg",
+    "parent": ["62691741fcebe54fa43aefc7", "6269173ffcebe54fa43aef43"]
+  },
+  {
+    "_id": "63062564e5364e1c83e7d321",
+    "facet": "combo",
+    "name": "Train Simulator",
+    "combo": true,
+    "slug": "train-simulator",
+    "parent": ["6269173ffcebe54fa43aef46", "62691744fcebe54fa43af0b4"]
+  },
+  {
+    "_id": "630625a4e5364e1c83e7eee9",
+    "facet": "combo",
+    "name": "Turn Based RPG",
+    "combo": true,
+    "slug": "turn-based-rpg",
+    "parent": ["6269173ffcebe54fa43aef43", "62691742fcebe54fa43af012"]
+  },
+  {
+    "_id": "630626aee5364e1c83e85f2a",
+    "facet": "combo",
+    "name": "Open World Zombie",
+    "combo": true,
+    "slug": "open-world-zombie",
+    "parent": ["62691744fcebe54fa43af0c4", "62691742fcebe54fa43aeffb"]
+  },
+  {
+    "_id": "63062774e5364e1c83e8a19b",
+    "facet": "combo",
+    "name": "Space RTS",
+    "combo": true,
+    "slug": "space-rts",
+    "parent": ["62691740fcebe54fa43aef95", "62691743fcebe54fa43af0a7"]
+  },
+  {
+    "_id": "630627bbe5364e1c83e8b8a1",
+    "facet": "combo",
+    "name": "Co-op Puzzle",
+    "combo": true,
+    "slug": "co-op-puzzle",
+    "parent": ["6269173ffcebe54fa43aef42", "62691741fcebe54fa43aefdc"]
+  },
+  {
+    "_id": "63062827e5364e1c83e8defd",
+    "facet": "combo",
+    "name": "Couch Co-op",
+    "combo": true,
+    "slug": "couch-co-op",
+    "parent": ["62691741fcebe54fa43aefdc", "62691741fcebe54fa43aefee"]
+  },
+  {
+    "_id": "6306285de5364e1c83e8f02b",
+    "facet": "combo",
+    "name": "Simulation Racing",
+    "combo": true,
+    "slug": "simulation-racing",
+    "parent": ["6269173ffcebe54fa43aef46", "6269173ffcebe54fa43aef44"]
+  },
+  {
+    "_id": "63062899e5364e1c83e90d51",
+    "facet": "combo",
+    "name": "Casual Multiplayer",
+    "combo": true,
+    "slug": "casual-multiplayer",
+    "parent": ["6269173efcebe54fa43aef41", "62691741fcebe54fa43aeff4"]
+  },
+  {
+    "_id": "630628d8e5364e1c83e9286f",
+    "facet": "combo",
+    "name": "RPGs With Romance",
+    "combo": true,
+    "slug": "rpgs-with-romance",
+    "parent": ["6269173ffcebe54fa43aef43", "62691743fcebe54fa43af09f"]
+  },
+  {
+    "_id": "63062904e5364e1c83e93d6a",
+    "facet": "combo",
+    "name": "Alien Strategy",
+    "combo": true,
+    "slug": "alien-strategy",
+    "parent": ["62691740fcebe54fa43aef49", "62691742fcebe54fa43af026"]
+  },
+  {
+    "_id": "63062957e5364e1c83e961ff",
+    "facet": "combo",
+    "name": "Football Simulation",
+    "combo": true,
+    "slug": "football-simulation",
+    "parent": ["62691740fcebe54fa43aef6e", "6269173ffcebe54fa43aef46"]
+  },
+  {
+    "_id": "630629dde5364e1c83e99980",
+    "facet": "combo",
+    "name": "Tabletop Fantasy",
+    "combo": true,
+    "slug": "tabletop-fantasy",
+    "parent": ["62691741fcebe54fa43aefc7", "62691743fcebe54fa43af05b", "62691742fcebe54fa43af043"]
+  },
+  {
+    "_id": "63062a10e5364e1c83e9ac58",
+    "facet": "combo",
+    "name": "Sci-Fi Survival",
+    "combo": true,
+    "slug": "sci-fi-survival",
+    "parent": ["62691741fcebe54fa43aefc8", "62691743fcebe54fa43af0a2"]
+  },
+  {
+    "_id": "63062a3ce5364e1c83e9bf05",
+    "facet": "combo",
+    "name": "WW2 Strategy",
+    "combo": true,
+    "slug": "ww2-strategy",
+    "parent": ["62691744fcebe54fa43af0c3", "6294ec82e5364e1c83a83be1"]
+  },
+  {
+    "_id": "63062a86e5364e1c83e9de53",
+    "facet": "combo",
+    "name": "WW1 Strategy",
+    "combo": true,
+    "slug": "ww1-strategy",
+    "parent": ["62691744fcebe54fa43af0c1", "6294ec82e5364e1c83a83be1"]
+  },
+  {
+    "_id": "63062b5fe5364e1c83ea35c7",
+    "facet": "combo",
+    "name": "Zombie Sniping",
+    "combo": true,
+    "slug": "zombie-sniping",
+    "parent": ["62691743fcebe54fa43af0a5", "62691744fcebe54fa43af0c4"]
+  },
+  {
+    "_id": "63062c5ae5364e1c83ea9663",
+    "facet": "combo",
+    "name": "Co-op RPG",
+    "combo": true,
+    "slug": "co-op-rpg",
+    "parent": ["6269173ffcebe54fa43aef43", "62691741fcebe54fa43aefdc"]
+  },
+  {
+    "_id": "63175813e5364e1c83ca5a81",
+    "facet": "combo",
+    "name": "Pixel Horror",
+    "combo": true,
+    "slug": "pixel-horror",
+    "parent": ["62691742fcebe54fa43af01a", "62691743fcebe54fa43af090"]
+  },
+  {
+    "_id": "63175c71e5364e1c83cc7d19",
+    "facet": "combo",
+    "name": "Flight Simulator",
+    "combo": true,
+    "slug": "flight-simulator",
+    "parent": ["6269173ffcebe54fa43aef46", "62691741fcebe54fa43aefe3"]
+  },
+  {
+    "_id": "631858b2e5364e1c8327c177",
+    "facet": "combo",
+    "name": "Co-op Card Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5e", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-card-game"
+  },
+  {
+    "_id": "631858d2e5364e1c8327cb97",
+    "facet": "combo",
+    "name": "Co-op Board Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5a", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-board-game"
+  },
+  {
+    "_id": "63185956e5364e1c8327f282",
+    "facet": "combo",
+    "name": "Strategy Board Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5a", "6319cb44e5364e1c83a338d8"],
+    "slug": "strategy-board-game"
+  },
+  {
+    "_id": "631859b7e5364e1c83281072",
+    "facet": "combo",
+    "name": "Flying Shooting",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef48", "62691741fcebe54fa43aefe3"],
+    "slug": "flying-shooting"
+  },
+  {
+    "_id": "63185a1ae5364e1c832830ba",
+    "facet": "combo",
+    "name": "Multiplayer Survival",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefc8", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-survival"
+  },
+  {
+    "_id": "63185a83e5364e1c8328572d",
+    "facet": "combo",
+    "name": "Dinosaur Simulator",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef46", "62691742fcebe54fa43af048"],
+    "slug": "dinosaur-simulator"
+  },
+  {
+    "_id": "63185af1e5364e1c83287a1a",
+    "facet": "combo",
+    "name": "Pirate MMO",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef80", "62691743fcebe54fa43af08f"],
+    "slug": "pirate-mmo"
+  },
+  {
+    "_id": "63185b2ce5364e1c832888a7",
+    "facet": "combo",
+    "name": "Multiplayer Zombie",
+    "combo": true,
+    "parent": ["62691744fcebe54fa43af0c4", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-zombie"
+  },
+  {
+    "_id": "63185b95e5364e1c8328a7e7",
+    "facet": "combo",
+    "name": "MMORPG Shooter",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef80", "6269173ffcebe54fa43aef48"],
+    "slug": "mmorpg-shooter"
+  },
+  {
+    "_id": "63185de8e5364e1c83295d19",
+    "facet": "combo",
+    "name": "2D RPG",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "62691741fcebe54fa43aefce"],
+    "slug": "2d-rpg"
+  },
+  {
+    "_id": "63185e25e5364e1c83296cec",
+    "facet": "combo",
+    "name": "2D Pixel",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af090", "62691741fcebe54fa43aefce"],
+    "slug": "2d-pixel"
+  },
+  {
+    "_id": "63185e4ee5364e1c832976fd",
+    "facet": "combo",
+    "name": "Open World Racing",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef44", "62691742fcebe54fa43aeffb"],
+    "slug": "open-world-racing"
+  },
+  {
+    "_id": "63185e8fe5364e1c83298801",
+    "facet": "combo",
+    "name": "Survival MMO",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefc8", "62691741fcebe54fa43aefef"],
+    "slug": "survival-mmo"
+  },
+  {
+    "_id": "63185ee2e5364e1c8329a325",
+    "facet": "combo",
+    "name": "Collectible Card Game",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefad", "62691740fcebe54fa43aef66"],
+    "slug": "collectible-card-game"
+  },
+  {
+    "_id": "63185f47e5364e1c8329c609",
+    "facet": "combo",
+    "name": "Multiplayer Wrestling",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefb7", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-wrestling"
+  },
+  {
+    "_id": "63185f7be5364e1c8329d49d",
+    "facet": "combo",
+    "name": "Mystery Puzzle",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef42", "62691743fcebe54fa43af081"],
+    "slug": "mystery-puzzle"
+  },
+  {
+    "_id": "63185f9ce5364e1c8329df37",
+    "facet": "combo",
+    "name": "Top Down RPG",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "62691742fcebe54fa43af00e"],
+    "slug": "top-down-rpg"
+  },
+  {
+    "_id": "63185fbde5364e1c8329e676",
+    "facet": "combo",
+    "name": "Multiplayer Trivia",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefaf", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-trivia"
+  },
+  {
+    "_id": "63185fe0e5364e1c8329f38c",
+    "facet": "combo",
+    "name": "Open World Driving",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefc0", "62691742fcebe54fa43aeffb"],
+    "slug": "open-world-driving"
+  },
+  {
+    "_id": "63186003e5364e1c8329feaf",
+    "facet": "combo",
+    "name": "Tactical Shooter",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef48", "62691743fcebe54fa43af0b0"],
+    "slug": "tactical-shooter"
+  },
+  {
+    "_id": "63186035e5364e1c832a0c20",
+    "facet": "combo",
+    "name": "Co-op Open World",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43aeffb", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-open-world"
+  },
+  {
+    "_id": "631860a3e5364e1c832a3106",
+    "facet": "combo",
+    "name": "Dinosaur Shooting",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef48", "62691742fcebe54fa43af048"],
+    "slug": "dinosaur-shooting"
+  },
+  {
+    "_id": "631860d0e5364e1c832a3b42",
+    "facet": "combo",
+    "name": "Fantasy Board Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5a", "62691743fcebe54fa43af05b", "62691742fcebe54fa43af043"],
+    "slug": "fantasy-board-game"
+  },
+  {
+    "_id": "63186248e5364e1c832aa051",
+    "facet": "combo",
+    "name": "Car Shooting",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef63", "62691741fcebe54fa43aefc0"],
+    "slug": "car-shooting"
+  },
+  {
+    "_id": "6318626be5364e1c832aa965",
+    "facet": "combo",
+    "name": "Co-op Deck Building",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefbf", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-deck-building"
+  },
+  {
+    "_id": "63186296e5364e1c832ab5d1",
+    "facet": "combo",
+    "name": "First Person RPG",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "62691741fcebe54fa43aefe2"],
+    "slug": "first-person-rpg"
+  },
+  {
+    "_id": "6318634ce5364e1c832ae7c6",
+    "facet": "combo",
+    "name": "Point & Click Adventure",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef8c", "6269173efcebe54fa43aef40"],
+    "slug": "point-and-click-adventure"
+  },
+  {
+    "_id": "63186376e5364e1c832af2e0",
+    "facet": "combo",
+    "name": "Point & Click Horror",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef8c", "62691742fcebe54fa43af01a"],
+    "slug": "point-and-click-horror"
+  },
+  {
+    "_id": "6318650be5364e1c832b6ebe",
+    "facet": "combo",
+    "name": "Strategy Card Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5e", "6319cb44e5364e1c83a338d8"],
+    "slug": "strategy-card-game"
+  },
+  {
+    "_id": "6318652de5364e1c832b77a2",
+    "facet": "combo",
+    "name": "Cartoon Fighting",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef6d", "62691742fcebe54fa43af031"],
+    "slug": "cartoon-fighting"
+  },
+  {
+    "_id": "63186557e5364e1c832b8561",
+    "facet": "combo",
+    "name": "Multiplayer Simulator",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef46", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-simulator"
+  },
+  {
+    "_id": "63186582e5364e1c832b92c5",
+    "facet": "combo",
+    "name": "RPG Card Game",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "62691740fcebe54fa43aef5e"],
+    "slug": "rpg-card-game"
+  },
+  {
+    "_id": "631865b5e5364e1c832ba08a",
+    "facet": "combo",
+    "name": "RPG Story",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43af01e", "6269173ffcebe54fa43aef43"],
+    "slug": "rpg-story"
+  },
+  {
+    "_id": "631865dbe5364e1c832bae26",
+    "facet": "combo",
+    "name": "Co-op Sports",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef47", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-sports"
+  },
+  {
+    "_id": "63186613e5364e1c832bbd5f",
+    "facet": "combo",
+    "name": "Relaxing Multiplayer",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af09a", "62691741fcebe54fa43aeff4"],
+    "slug": "relaxing-multiplayer"
+  },
+  {
+    "_id": "6318663ae5364e1c832bc71a",
+    "facet": "combo",
+    "name": "Superhero RPG",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "62691743fcebe54fa43af0ac"],
+    "slug": "superhero-rpg"
+  },
+  {
+    "_id": "6318666de5364e1c832bd367",
+    "facet": "combo",
+    "name": "Funny Multiplayer",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af05f", "62691742fcebe54fa43af044", "62691741fcebe54fa43aeff4"],
+    "slug": "funny-multiplayer"
+  },
+  {
+    "_id": "63186695e5364e1c832bdfdf",
+    "facet": "combo",
+    "name": "Horror Puzzle",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef42", "62691742fcebe54fa43af01a"],
+    "slug": "horror-puzzle"
+  },
+  {
+    "_id": "631866bfe5364e1c832beb8e",
+    "facet": "combo",
+    "name": "Multiplayer Hunting",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefc3", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-hunting"
+  },
+  {
+    "_id": "631866e8e5364e1c832bf6b0",
+    "facet": "combo",
+    "name": "Sci-Fi Strategy",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef49", "62691743fcebe54fa43af0a2"],
+    "slug": "sci-fi-strategy"
+  },
+  {
+    "_id": "6318674de5364e1c832c1475",
+    "facet": "combo",
+    "name": "Cartoon Shooter",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef48", "62691742fcebe54fa43af031"],
+    "slug": "cartoon-shooter"
+  },
+  {
+    "_id": "63186771e5364e1c832c1c96",
+    "facet": "combo",
+    "name": "Co-op Base Building",
+    "combo": true,
+    "parent": ["62691741fcebe54fa43aefbb", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-base-building"
+  },
+  {
+    "_id": "63186798e5364e1c832c26ca",
+    "facet": "combo",
+    "name": "First Person Horror",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43af01a", "62691741fcebe54fa43aefe2"],
+    "slug": "first-person-horror"
+  },
+  {
+    "_id": "631867bbe5364e1c832c2f11",
+    "facet": "combo",
+    "name": "Horror FPS",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef6f", "62691742fcebe54fa43af01a"],
+    "slug": "horror-fps"
+  },
+  {
+    "_id": "63186819e5364e1c832c44f0",
+    "facet": "combo",
+    "name": "Open World Horror",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43af01a", "62691742fcebe54fa43aeffb"],
+    "slug": "open-world-horror"
+  },
+  {
+    "_id": "6318683ce5364e1c832c4fcc",
+    "facet": "combo",
+    "name": "Puzzle Adventure",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef42", "6269173efcebe54fa43aef40"],
+    "slug": "puzzle-adventure"
+  },
+  {
+    "_id": "63186855e5364e1c832c559c",
+    "facet": "combo",
+    "name": "Space Horror",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af0a7", "62691742fcebe54fa43af01a"],
+    "slug": "space-horror"
+  },
+  {
+    "_id": "63186870e5364e1c832c5db4",
+    "facet": "combo",
+    "name": "Story Puzzle",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43af01e", "6269173ffcebe54fa43aef42"],
+    "slug": "story-puzzle"
+  },
+  {
+    "_id": "63186884e5364e1c832c63d5",
+    "facet": "combo",
+    "name": "Strategy Puzzle",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef49", "6269173ffcebe54fa43aef42"],
+    "slug": "strategy-puzzle"
+  },
+  {
+    "_id": "631868f9e5364e1c832c8367",
+    "facet": "combo",
+    "name": "3D Battle",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef49", "62691744fcebe54fa43af0be", "62691741fcebe54fa43aefd1"],
+    "slug": "3d-battle"
+  },
+  {
+    "_id": "63186919e5364e1c832c8aad",
+    "facet": "combo",
+    "name": "Fantasy Card Game",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef5e", "62691743fcebe54fa43af05b"],
+    "slug": "fantasy-card-game"
+  },
+  {
+    "_id": "63186939e5364e1c832c9254",
+    "facet": "combo",
+    "name": "Fighting RPG",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef6d", "6269173ffcebe54fa43aef43"],
+    "slug": "fighting-rpg"
+  },
+  {
+    "_id": "6318695de5364e1c832ca088",
+    "facet": "combo",
+    "name": "First Person Fighting",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef6d", "62691741fcebe54fa43aefe2"],
+    "slug": "first-person-fighting"
+  },
+  {
+    "_id": "6318697ae5364e1c832ca92f",
+    "facet": "combo",
+    "name": "First Person Adventure",
+    "combo": true,
+    "parent": ["6269173efcebe54fa43aef40", "62691741fcebe54fa43aefe2"],
+    "slug": "first-person-adventure"
+  },
+  {
+    "_id": "6318699be5364e1c832cb2a4",
+    "facet": "combo",
+    "name": "Funny Physics",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af05f", "62691742fcebe54fa43aeffe"],
+    "slug": "funny-physics"
+  },
+  {
+    "_id": "631869e1e5364e1c832cc50a",
+    "facet": "combo",
+    "name": "Scary Adventure",
+    "combo": true,
+    "parent": ["6269173efcebe54fa43aef40", "62691742fcebe54fa43af01a"],
+    "slug": "scary-adventure"
+  },
+  {
+    "_id": "63186a06e5364e1c832cd490",
+    "facet": "combo",
+    "name": "Co-op Adventure",
+    "combo": true,
+    "parent": ["6269173efcebe54fa43aef40", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-adventure"
+  },
+  {
+    "_id": "63186a29e5364e1c832cdadb",
+    "facet": "combo",
+    "name": "Co-op Robot",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af09d", "62691741fcebe54fa43aefdc"],
+    "slug": "co-op-robot"
+  },
+  {
+    "_id": "63186a51e5364e1c832ce335",
+    "facet": "combo",
+    "name": "Multiplayer Stealth",
+    "combo": true,
+    "parent": ["62691742fcebe54fa43af007", "62691741fcebe54fa43aeff4"],
+    "slug": "multiplayer-stealth"
+  },
+  {
+    "_id": "63186a74e5364e1c832ceb93",
+    "facet": "combo",
+    "name": "Pixel Zombie",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af090", "62691744fcebe54fa43af0c4"],
+    "slug": "pixel-zombie"
+  },
+  {
+    "_id": "63186a94e5364e1c832cf323",
+    "facet": "combo",
+    "name": "Platformer Shooting",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef8a", "6269173ffcebe54fa43aef48"],
+    "slug": "platformer-shooting"
+  },
+  {
+    "_id": "63186aace5364e1c832cf8c4",
+    "facet": "combo",
+    "name": "RPG Racing",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef43", "6269173ffcebe54fa43aef44"],
+    "slug": "rpg-racing"
+  },
+  {
+    "_id": "63186acee5364e1c832d0120",
+    "facet": "combo",
+    "name": "Superhero Flying",
+    "combo": true,
+    "parent": ["62691743fcebe54fa43af0ac", "62691741fcebe54fa43aefe3"],
+    "slug": "superhero-flying"
+  },
+  {
+    "_id": "6319c9f3e5364e1c83a2d296",
+    "facet": "combo",
+    "name": "Adventure RPG",
+    "combo": true,
+    "parent": ["6269173efcebe54fa43aef40", "6269173ffcebe54fa43aef43"],
+    "slug": "adventure-rpg"
+  },
+  {
+    "_id": "6319cb19e5364e1c83a32903",
+    "facet": "combo",
+    "name": "Building and Automation",
+    "combo": true,
+    "parent": ["6269173ffcebe54fa43aef46"],
+    "slug": "building-and-automation"
+  },
+  {
+    "_id": "6319cb44e5364e1c83a338d8",
+    "facet": "combo",
+    "name": "Board and Card",
+    "combo": true,
+    "parent": ["62691740fcebe54fa43aef49"],
+    "slug": "board-and-card"
+  },
+  {
+    "_id": "632c7619e5364e1c83dfa6fb",
+    "facet": "combo",
+    "name": "Sports and Racing",
+    "combo": true,
+    "slug": "sports-and-racing",
+    "parent": []
+  },
+  {
+    "_id": "632c76dde5364e1c83e00167",
+    "facet": "combo",
+    "name": "Fishing and Hunting",
+    "combo": true,
+    "slug": "fishing-and-hunting",
+    "parent": []
+  },
+  {
+    "_id": "632c789de5364e1c83e0d003",
+    "facet": "combo",
+    "name": "All Team Sports",
+    "combo": true,
+    "slug": "all-team-sports",
+    "parent": []
+  },
+  {
+    "_id": "632c78f3e5364e1c83e0fb42",
+    "facet": "combo",
+    "name": "All Individual Sports",
+    "combo": true,
+    "slug": "all-individual-sports",
+    "parent": []
+  },
+  {
+    "_id": "64f8a1614dcce62fb465bc3b",
+    "facet": "combo",
+    "name": "Isometric RPG",
+    "combo": true,
+    "parent": [],
+    "slug": "isometric-rpg"
+  }
+]

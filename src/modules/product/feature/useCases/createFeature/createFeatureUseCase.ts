@@ -1,9 +1,9 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { Feature } from '../../feature';
+import { Feature } from '../../domain/feature';
 import { FeatureDto } from '../../featureMapper';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
@@ -62,7 +62,6 @@ export class CreateFeatureUseCase implements UseCase<CreateFeatureRequestDto, Re
       let foundFeature = await this.featureQueriesRepo.getFeatureByPropsOr([
         { name: props.name, slug: props.slug },
       ]);
-
       if (foundFeature) {
         const result = this.comparePropsToFeature(props, foundFeature);
 
@@ -76,8 +75,6 @@ export class CreateFeatureUseCase implements UseCase<CreateFeatureRequestDto, Re
       const featureOrError = Feature.create({
         name: props.name,
         slug: props.slug,
-        _id: uuidv7(),
-        createdAt: new Date(),
       });
 
       if (featureOrError.isErr()) {

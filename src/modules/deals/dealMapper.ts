@@ -1,11 +1,11 @@
 import { AssetDto, AssetMapper } from '../../assetMapper';
-import { DomainValidationError } from '../blog/article/status';
+import { DomainValidationError } from '../blog/article/domain/status';
 import { MetaDto, MetaMapper } from '../../metaMapper';
-import { Result } from '../../Result';
-import { Deal } from './deal';
-import { DealDescription } from './dealDescription';
-import { DealTitle } from './dealTitle';
+import { Deal } from './domain/deal';
+import { DealDescription } from './domain/dealDescription';
+import { DealTitle } from './domain/dealTitle';
 import { DealDoc } from './model';
+import { Asset } from '../../Asset';
 
 export interface DealDto {
   _id: string;
@@ -22,35 +22,25 @@ export interface DealDto {
 }
 
 export class DealMapper {
-  static toDomain(doc: DealDoc): Result<Deal, DomainValidationError> {
-    const titleOrError = DealTitle.create(doc.title);
-    const descriptionOrError = DealDescription.create(doc.description);
+  static toDomain(doc: DealDoc): Deal {
+    const title = DealTitle.reconstitute(doc.title);
+    const description = DealDescription.reconstitute(doc.description);
 
-    const result = Result.combine([titleOrError, descriptionOrError]);
-    if (result.isErr()) return Result.fail(new DomainValidationError(result.error.message));
-
-    const title = titleOrError.value;
-    const description = descriptionOrError.value;
-
-    const dealOrError = Deal.create({
+    const deal = Deal.reconstitute({
       _id: doc._id,
-      cover: doc.cover,
+      cover: AssetMapper.toDomain(doc.cover),
       title,
       description,
       slug: doc.slug,
       startDate: doc.startDate,
       endDate: doc.endDate,
-      meta: doc.meta,
+      meta: MetaMapper.toDomain(doc.meta),
       createdAt: doc.createdAt,
       updatedAt: doc.updatedAt,
       products: doc.products,
     });
 
-    if (dealOrError.isErr())
-      return Result.fail(new DomainValidationError(dealOrError.error.message));
-
-    const deal = dealOrError.value;
-    return Result.ok(deal);
+    return deal;
   }
 
   static toDto(doc: DealDoc): DealDto {
@@ -81,7 +71,7 @@ export class DealMapper {
       slug: doc.slug,
       startDate: doc.startDate,
       endDate: doc.endDate,
-      meta: doc.meta,
+      meta: MetaMapper.toPersistance(doc.meta),
       createdAt: doc.createdAt,
       updatedAt: doc.updatedAt,
       products: doc.products,

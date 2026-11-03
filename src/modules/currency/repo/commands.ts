@@ -1,5 +1,5 @@
-import { Currency } from '../currency';
 import { CurrencyMapper } from '../currencyMapper';
+import { Currency } from '../domain/currency';
 import { CurrencyDoc } from '../model';
 import { Collection } from 'mongodb';
 

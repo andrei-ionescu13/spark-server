@@ -1,15 +1,16 @@
-import { Collection } from 'mongodb';
+import { Collection, Document } from 'mongodb';
 import { ProductDoc } from '../model';
 import { ProductDto, ProductMapper } from '../productMapper';
 import { ReviewDto, ReviewMapper } from '../../review/reviewMapper';
 import { KeyDto } from '../../key/keyMapper';
+import path from 'path';
 
 export interface ProductQueriesRepoI {
   getProduct: (id: string) => Promise<ProductDto | null>;
   getProductByDeveloper: (developerId: string) => Promise<ProductDto | null>;
   getProductByGenre: (genreId: string) => Promise<ProductDto | null>;
   getProductByFeature: (featureId: string) => Promise<ProductDto | null>;
-  searchProductsByKeys: (keyValue: string) => Promise<ProductDto[]>;
+  listProductsByKeyValues: (keyValue: string) => Promise<ProductDto[]>;
   getProductByProps: (props: Array<Record<string, any>>) => Promise<ProductDto | null>;
   searchProductReviews: (id: string, query) => Promise<{ reviews: ReviewDto[]; count: number }>;
   searchProducts: (query) => Promise<{ products: ProductDto[]; count: number }>;
@@ -20,7 +21,7 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
   constructor(private collection: Collection<ProductDoc>) {}
 
   getProduct = async (id: string): Promise<ProductDto | null> => {
-    const pipeline = [
+    const pipeline: Document[] = [
       {
         $match: { _id: id },
       },
@@ -56,11 +57,9 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
           as: 'os',
         },
       },
-      { $unwind: '$os' },
-
       {
         $lookup: {
-          from: 'publisher',
+          from: 'publishers',
           localField: 'publisher',
           foreignField: '_id',
           as: 'publisher',
@@ -69,7 +68,7 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       { $unwind: '$publisher' },
       {
         $lookup: {
-          from: 'platform',
+          from: 'platforms',
           localField: 'platform',
           foreignField: '_id',
           as: 'platform',
@@ -78,13 +77,18 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       { $unwind: '$platform' },
       {
         $lookup: {
-          from: 'discount',
+          from: 'discounts',
           localField: 'discount',
           foreignField: '_id',
           as: 'discount',
         },
       },
-      { $unwind: '$discount' },
+      {
+        $unwind: {
+          path: '$discount',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
     ];
     const doc = await this.collection.aggregate(pipeline).next();
 
@@ -311,48 +315,48 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
     return ProductMapper.toDto(doc);
   };
 
-  searchProductsByKeys = async (keyValue: string): Promise<ProductDto[]> => {
-    const docs = await this.collection
-      .aggregate([
-        {
-          $unwind: '$keys',
+  listProductsByKeyValues = async (keyValue: string): Promise<ProductDto[]> => {
+    const pipeline = [
+      {
+        $unwind: '$keys',
+      },
+      {
+        $lookup: {
+          from: 'keys',
+          localField: 'keys',
+          foreignField: '_id',
+          as: 'keys',
         },
-        {
-          $lookup: {
-            from: 'keys',
-            localField: 'keys',
-            foreignField: '_id',
-            as: 'keys',
+      },
+      {
+        $match: {
+          'keys.value': keyValue,
+        },
+      },
+      {
+        $lookup: {
+          from: 'platforms',
+          localField: 'platform',
+          foreignField: '_id',
+          as: 'platform',
+        },
+      },
+      {
+        $addFields: {
+          platform: {
+            $arrayElemAt: ['$platform', 0],
           },
         },
-        {
-          $match: {
-            'keys.value': keyValue,
-          },
-        },
-        {
-          $lookup: {
-            from: 'platforms',
-            localField: 'platform',
-            foreignField: '_id',
-            as: 'platform',
-          },
-        },
-        {
-          $addFields: {
-            platform: {
-              $arrayElemAt: ['$platform', 0],
-            },
-          },
-        },
-      ])
-      .toArray();
+      },
+    ];
+    const docs = await this.collection.aggregate(pipeline).toArray();
 
     return ProductMapper.toDtoList(docs);
   };
 
   getProductByProps = async (props: Array<Record<string, any>>) => {
     const doc = await this.collection.findOne({ $or: props });
+    console.log(doc);
     if (!doc) return null;
 
     return ProductMapper.toDto(doc);
@@ -474,8 +478,8 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'asc' ? 1 : -1 } },
       {
         $facet: {
-          count: [{ $count: 'count' }],
           products: [{ $skip: (page - 1) * limit }, { $limit: limit }],
+          count: [{ $count: 'count' }],
         },
       },
       {
@@ -488,7 +492,7 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-
+    console.log(result.products);
     return {
       count: result.count,
       products: ProductMapper.toDtoList(result.products),
@@ -504,59 +508,56 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
         {
           $lookup: {
             from: 'keys',
-            localField: '_id',
-            foreignField: 'product',
+            localField: 'keys',
+            foreignField: '_id',
             as: 'keys',
           },
         },
         { $unwind: '$keys' },
         {
+          $replaceRoot: {
+            newRoot: '$keys',
+          },
+        },
+        {
           $match: {
-            'keys.value': {
+            value: {
               $regex: keyword,
               $options: 'i',
             },
             ...(status && {
-              'keys.status': status,
+              status: status,
             }),
           },
         },
-        {
-          $sort: {
-            'keys.createdAt': 1,
-          },
-        },
+        // {
+        //   $match: {
+        //     'keys.value': {
+        //       $regex: keyword,
+        //       $options: 'i',
+        //     },
+        //     ...(status && {
+        //       'keys.status': status,
+        //     }),
+        //   },
+        // },
+        // {
+        //   $sort: {
+        //     'keys.createdAt': 1,
+        //   },
+        // },
         {
           $facet: {
             count: [{ $count: 'count' }],
-            keys: [
-              { $skip: (page - 1) * limit },
-              { $limit: limit },
-              {
-                $group: {
-                  _id: '$_id',
-                  keys: {
-                    $push: '$keys',
-                  },
-                },
-              },
-            ],
-          },
-        },
-        {
-          $addFields: {
-            count: {
-              $arrayElemAt: ['$count', 0],
-            },
-            keys: {
-              $arrayElemAt: ['$keys', 0],
-            },
+            keys: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           },
         },
         {
           $project: {
-            count: '$count.count',
-            keys: '$keys.keys',
+            keys: 1,
+            count: {
+              $ifNull: [{ $arrayElemAt: ['$count.count', 0] }, 0],
+            },
           },
         },
       ])

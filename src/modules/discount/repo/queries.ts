@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
-import { DiscountDto, DiscountMapper } from '../discountMapper';
-import { DiscountDoc } from '../model';
+import { DiscountDto, DiscountMapper, DiscountPopulatedDto } from '../discountMapper';
+import { DiscountDoc, DiscountPopulatedDoc } from '../model';
 
 type Status = 'expired' | 'active' | 'scheduled';
 
@@ -14,22 +14,24 @@ type SearchDiscountsQueries = {
 };
 
 type SearchDiscountsResponse = {
-  discounts: DiscountDto[];
+  discounts: DiscountPopulatedDto[];
   count: number;
 };
 
 export interface DiscountQueriesRepoI {
-  getDiscount: (id: string) => Promise<DiscountDto | null>;
+  getDiscount: (id: string) => Promise<DiscountPopulatedDto | null>;
   searchDiscounts: (query: SearchDiscountsQueries) => Promise<SearchDiscountsResponse>;
 }
 
-const buildIntervalQueries = (status?: Status) => {
+const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
+  const now = new Date();
+
   if (status === 'expired') {
     return {
       endDate: {
         $exists: true,
         $ne: null,
-        $lte: Date.now(),
+        $lte: now,
       },
     };
   }
@@ -37,43 +39,18 @@ const buildIntervalQueries = (status?: Status) => {
   if (status === 'active') {
     return {
       startDate: {
-        $lte: Date.now(),
+        $lte: now,
       },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
   if (status === 'scheduled') {
     return {
-      $or: [
-        {
-          $and: [
-            {
-              endDate: {
-                $gt: Date.now(),
-                $exists: true,
-                $ne: null,
-              },
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-        {
-          $and: [
-            {
-              endDate: null,
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-      ],
+      startDate: {
+        $gt: now,
+      },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
@@ -83,11 +60,26 @@ const buildIntervalQueries = (status?: Status) => {
 export class DiscountQueriesRepo implements DiscountQueriesRepoI {
   constructor(private collection: Collection<DiscountDoc>) {}
 
-  getDiscount = async (id: string): Promise<DiscountDto | null> => {
-    const doc = await this.collection.findOne({ _id: id });
-    if (!doc) null;
+  getDiscount = async (id: string): Promise<DiscountPopulatedDto | null> => {
+    const doc = await this.collection
+      .aggregate([
+        { $match: { _id: id } },
+        {
+          $lookup: {
+            from: 'products',
+            localField: 'product',
+            foreignField: '_id',
+            as: 'product',
+          },
+        },
+        {
+          $unwind: '$product',
+        },
+      ])
+      .next();
+    if (!doc) return null;
 
-    return DiscountMapper.toDto(doc);
+    return DiscountMapper.toPopulatedDto(doc);
   };
 
   searchDiscounts = async (query: SearchDiscountsQueries): Promise<SearchDiscountsResponse> => {
@@ -99,7 +91,8 @@ export class DiscountQueriesRepo implements DiscountQueriesRepoI {
       limit = 10,
       status,
     } = query;
-    const intervalQueries = buildIntervalQueries(status);
+    const intervalQueries = buildIntervalQuery(status);
+
     const pipeline = [
       {
         $match: {
@@ -117,7 +110,21 @@ export class DiscountQueriesRepo implements DiscountQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          discounts: [{ $skip: page }, { $limit: limit }],
+          discounts: [
+            { $skip: (page - 1) * limit },
+            { $limit: limit },
+            {
+              $lookup: {
+                from: 'products',
+                localField: 'product',
+                foreignField: '_id',
+                as: 'product',
+              },
+            },
+            {
+              $unwind: '$product',
+            },
+          ],
           count: [
             {
               $count: 'count',
@@ -137,7 +144,7 @@ export class DiscountQueriesRepo implements DiscountQueriesRepoI {
     const [result] = await this.collection.aggregate(pipeline).toArray();
 
     return {
-      discounts: DiscountMapper.toDtoList(result.discounts),
+      discounts: DiscountMapper.toPopulatedDtoList(result.discounts),
       count: result.count,
     };
   };

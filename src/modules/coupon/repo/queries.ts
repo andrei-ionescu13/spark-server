@@ -17,73 +17,34 @@ export interface CouponQueriesRepoI {
   searchCoupons: (query: SearchCouponsQueries) => Promise<{ coupons: CouponDto[]; count: number }>;
 }
 
-const buildIntervalQueries = (status?: 'expired' | 'active' | 'scheduled') => {
+const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
+  const now = new Date();
+
   if (status === 'expired') {
     return {
       endDate: {
         $exists: true,
         $ne: null,
-        $lte: Date.now(),
+        $lte: now,
       },
     };
   }
 
   if (status === 'active') {
     return {
-      $and: [
-        {
-          startDate: {
-            $lte: Date.now(),
-          },
-        },
-        {
-          $or: [
-            {
-              endDate: {
-                $gt: Date.now(),
-              },
-            },
-            {
-              endDate: null,
-            },
-          ],
-        },
-      ],
+      startDate: {
+        $lte: now,
+      },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
   if (status === 'scheduled') {
     return {
-      $or: [
-        {
-          $and: [
-            {
-              endDate: {
-                $gt: Date.now(),
-                $exists: true,
-                $ne: null,
-              },
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-        {
-          $and: [
-            {
-              endDate: null,
-            },
-            {
-              startDate: {
-                $gt: Date.now(),
-              },
-            },
-          ],
-        },
-      ],
+      startDate: {
+        $gt: now,
+      },
+      $or: [{ endDate: { $gt: now } }, { endDate: null }],
     };
   }
 
@@ -117,7 +78,7 @@ export class CouponQueriesRepo implements CouponQueriesRepoI {
           },
         },
       ])
-      .toArray();
+      .next();
     return CouponMapper.toDto(doc);
   };
 
@@ -137,11 +98,11 @@ export class CouponQueriesRepo implements CouponQueriesRepoI {
       limit = 10,
       status,
     } = query;
-    const intervalQueries = buildIntervalQueries(status);
+    const intervalQueries = buildIntervalQuery(status);
     const pipeline = [
       {
         $match: {
-          title: {
+          code: {
             $regex: keyword,
             $options: 'i',
           },

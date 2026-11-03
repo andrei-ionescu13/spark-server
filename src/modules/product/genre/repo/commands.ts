@@ -1,14 +1,14 @@
 import { Collection, ObjectId } from 'mongodb';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
-import { Genre } from '../genre';
+import { Result } from '../../../../result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Genre } from '../domain/genre';
 import { GenreMapper } from '../genreMapper';
 import { GenreDoc } from '../model';
 
 export interface GenreCommandsRepoI {
   save: (genre: Genre) => Promise<void>;
   deleteGenre: (id: string) => Promise<void>;
-  getGenre: (id: string) => Promise<Result<Genre | null, DomainValidationError>>;
+  getGenre: (id: string) => Promise<Genre | null>;
 }
 
 export class GenreCommandsRepo implements GenreCommandsRepoI {
@@ -20,17 +20,12 @@ export class GenreCommandsRepo implements GenreCommandsRepoI {
     await this.collection.updateOne({ _id: genre._id }, { $set: persistence }, { upsert: true });
   };
 
-  getGenre = async (id: string): Promise<Result<Genre | null, DomainValidationError>> => {
+  getGenre = async (id: string): Promise<Genre | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const genreOrError = GenreMapper.toDomain(doc);
-    if (genreOrError.isErr()) {
-      return Result.fail(new DomainValidationError(genreOrError.error.message));
-    }
-
-    const genre = genreOrError.value;
-    return Result.ok(genre);
+    const genre = GenreMapper.toDomain(doc);
+    return genre;
   };
 
   deleteGenre = async (id: string) => {

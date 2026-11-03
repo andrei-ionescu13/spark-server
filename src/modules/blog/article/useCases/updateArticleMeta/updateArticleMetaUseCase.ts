@@ -1,10 +1,12 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { UseCase } from '../../../../../useCase';
-import { Article } from '../../article';
+import { Article } from '../../domain/article';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { UpdateArticleMetaRequestDto } from './updateArticleMetaRequestDto';
+import { Meta } from '../../../../../Meta';
+import { MetaDto, MetaMapper } from '../../../../../metaMapper';
 
 export namespace UpdateArticleMetaErrors {
   export class ArchivedArticleError extends UseCaseError {
@@ -15,7 +17,7 @@ export namespace UpdateArticleMetaErrors {
 }
 
 type Response = Result<
-  Pick<Article, 'meta' | 'updatedAt'>,
+  MetaDto,
   | UseCaseErrors.UnexpectedError
   | UseCaseErrors.NotFound
   | UpdateArticleMetaErrors.ArchivedArticleError
@@ -25,42 +27,33 @@ export class UpdateArticleMetaUseCase implements UseCase<UpdateArticleMetaReques
   constructor(private articleCommandsRepo: ArticleCommandsRepoI) {}
 
   execute = async (request: UpdateArticleMetaRequestDto): Promise<Response> => {
-    const { articleId, ...props } = request;
-
     try {
-      const articleOrError = await this.articleCommandsRepo.getArticle(articleId);
-
-      if (articleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(articleOrError.error.message));
-      }
-
-      const article = articleOrError.value;
-
+      const article = await this.articleCommandsRepo.getArticle(request.articleId);
       if (!article) {
         return Result.fail(new UseCaseErrors.NotFound('Article not found'));
       }
 
-      if (article.isArchived()) {
+      if (article.isArchived) {
         return Result.fail(new UpdateArticleMetaErrors.ArchivedArticleError());
       }
 
-      const updatedArticleOrError = await this.articleCommandsRepo.updateArticle(articleId, {
-        meta: props,
+      const metaOrError = Meta.create({
+        description: request.description,
+        keywords: request.keywords,
+        title: request.title,
       });
-
-      if (updatedArticleOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.ValidationError(updatedArticleOrError.error.message));
+      if (metaOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(metaOrError.error.message));
       }
 
-      const updatedArticle = updatedArticleOrError.value;
-
-      if (!updatedArticle) {
-        return Result.fail(new UseCaseErrors.NotFound('Article not found'));
+      const meta = metaOrError.value;
+      const updateResult = article.updateMeta(meta);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
-      const { meta, updatedAt } = updatedArticle;
-
-      return Result.ok({ meta, updatedAt });
+      await this.articleCommandsRepo.save(article);
+      return Result.ok(MetaMapper.domainToDto(article.meta));
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

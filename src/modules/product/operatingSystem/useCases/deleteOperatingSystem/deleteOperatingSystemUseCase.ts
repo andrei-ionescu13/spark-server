@@ -1,12 +1,12 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ProductCommandsRepoI } from '../../../repo/commands';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
 import { DeleteOperatingSystemRequestDto } from './deleteOperatingSystemrRequestDto';
 
-type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
+type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class DeleteOperatingSystemUseCase
   implements UseCase<DeleteOperatingSystemRequestDto, Response>
@@ -32,7 +32,7 @@ export class DeleteOperatingSystemUseCase
       await this.operatingSystemCommandsRepo.deleteOperatingSystem(operatingSystemId);
       await this.productCommandsRepo.deleteProductsOperatingSystem(operatingSystemId);
 
-      return Result.ok();
+      return Result.ok(operatingSystem._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

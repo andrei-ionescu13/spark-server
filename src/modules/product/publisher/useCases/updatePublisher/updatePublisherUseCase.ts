@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../../asset';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { Publisher } from '../../publisher';
+import { Publisher } from '../../domain/publisher';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { UpdatePublisherRequestDto } from './updatePublisherRequestDto';
 import { Result } from '../../../../../result';
+import { Asset } from '../../../../../Asset';
 
 type Response = Result<
   Publisher,
@@ -20,15 +20,10 @@ export class UpdatePublisherUseCase implements UseCase<UpdatePublisherRequestDto
 
   execute = async (request: UpdatePublisherRequestDto): Promise<Response> => {
     const { publisherId, logoFile, ...rest } = request;
-    const props: { name: string; logo?: Asset } = rest;
+    const props: { name: string; logo?: Asset; slug } = rest;
 
     try {
-      const publisherOrError = await this.publisherCommandsRepo.getPublisher(publisherId);
-      if (publisherOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(publisherOrError.error.message));
-      }
-
-      const publisher = publisherOrError.value;
+      const publisher = await this.publisherCommandsRepo.getPublisher(publisherId);
       if (!publisher) {
         return Result.fail(new UseCaseErrors.NotFound('Publisher not found'));
       }

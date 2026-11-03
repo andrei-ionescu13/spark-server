@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { Discount } from '../../discount';
+import { Discount } from '../../domain/discount';
 import { DiscountCommandsRepoI } from '../../repo/commands';
 import { DeactivateDiscountRequestDto } from './deactivateDiscountRequestDto';
 
@@ -14,12 +14,7 @@ export class DeactivateDiscountUseCase implements UseCase<DeactivateDiscountRequ
     const { discountId } = request;
 
     try {
-      const discountOrError = await this.discountCommandsRepo.getDiscount(discountId);
-      if (discountOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(discountOrError.error.message));
-      }
-
-      const discount = discountOrError.value;
+      const discount = await this.discountCommandsRepo.getDiscount(discountId);
       if (!discount) {
         return Result.fail(new UseCaseErrors.NotFound('Discount not found'));
       }

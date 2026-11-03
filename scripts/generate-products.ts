@@ -1,19 +1,21 @@
-import { DeveloperRepo } from '../developer/developerRepo';
-import { DeveloperModel } from '../developer/model';
-import { FeatureRepo } from '../feature/featureRepo';
-import { FeatureModel } from '../feature/model';
-import { GenreRepo } from '../genre/genreRepo';
-import { GenreModel } from '../genre/model';
-import { LanguageRepo } from '../language/languageRepo';
-import { LanguageModel } from '../language/model';
-import { OperatingSystemModel } from '../operating-system/model';
-import { OperatingSystemRepo } from '../operating-system/operatingSystemRepo';
-import { PlatformModel } from '../platform/model';
-import { PlatformRepo } from '../platform/platformRepo';
-import { ProductModel } from '../product/model';
-import { ProductRepo } from '../product/productRepo';
-import { PublisherModel } from '../src/modules/product/publisher/model';
-import { PublisherRepo } from '../src/modules/product/publisher/publisherRepo';
+import { Asset } from '../src/Asset';
+import { Meta } from '../src/Meta';
+import { LanguageQueriesRepo } from '../src/modules/internationalization/language/repo/queries';
+import { Price } from '../src/modules/orders/domain/price';
+import { DeveloperQueriesRepo } from '../src/modules/product/developer/repo/queries';
+import { Product, ProductCreateProps } from '../src/modules/product/domain/product';
+import { ProductMarkdown } from '../src/modules/product/domain/productMarkdown';
+import { ProductRequirements } from '../src/modules/product/domain/productRequirements';
+import { ProductTitle } from '../src/modules/product/domain/productTitle';
+import { FeatureQueriesRepo } from '../src/modules/product/feature/repo/queries';
+import { GenreQueriesRepo } from '../src/modules/product/genre/repo/queries';
+import { OperatingSystemQueriesRepo } from '../src/modules/product/operatingSystem/repo/queries';
+import { PlatformQueriesRepo } from '../src/modules/product/platform/repo/queries';
+import { PublisherQueriesRepo } from '../src/modules/product/publisher/repo/queries';
+import { ProductCommandsRepo } from '../src/modules/product/repo/commands';
+import { ProductQueriesRepo } from '../src/modules/product/repo/queries';
+import { Mongo } from '../src/mongo';
+import { Result } from '../src/result';
 import { CloudinaryUploaderService } from '../src/services/uploaderService';
 
 const products = [
@@ -25089,14 +25091,15 @@ const getRandom = (start, end) => Math.floor(Math.random() * (end - start + 1)) 
 
 export const generateProducts = async () => {
   try {
-    const developerRepo = new DeveloperRepo(DeveloperModel);
-    const publisherRepo = new PublisherRepo(PublisherModel);
-    const platformRepo = new PlatformRepo(PlatformModel);
-    const osRepo = new OperatingSystemRepo(OperatingSystemModel);
-    const featureRepo = new FeatureRepo(FeatureModel);
-    const genreRepo = new GenreRepo(GenreModel);
-    const languageRepo = new LanguageRepo(LanguageModel);
-    const productRepo = new ProductRepo(ProductModel);
+    Mongo.getCollection('products').updateMany({}, { $set: { status: 'published' } });
+    return;
+    const developerRepo = new DeveloperQueriesRepo(Mongo.getCollection('developers'));
+    const publisherRepo = new PublisherQueriesRepo(Mongo.getCollection('publishers'));
+    const platformRepo = new PlatformQueriesRepo(Mongo.getCollection('platforms'));
+    const osRepo = new OperatingSystemQueriesRepo(Mongo.getCollection('operating_systems'));
+    const featureRepo = new FeatureQueriesRepo(Mongo.getCollection('features'));
+    const genreRepo = new GenreQueriesRepo(Mongo.getCollection('genres'));
+    const productRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
 
     const developers = (await developerRepo.listDevelopers()).map((x) => x._id);
     const publishers = (await publisherRepo.listPublishers()).map((x) => x._id);
@@ -25104,53 +25107,60 @@ export const generateProducts = async () => {
     const os = (await osRepo.listOperatingSystems()).map((x) => x._id);
     const features = (await featureRepo.listFeatures()).map((x) => x._id);
     const genres = (await genreRepo.listGenres()).map((x) => x._id);
-    const languages = (await languageRepo.listLanguages()).map((x) => x._id);
     const uploaderService = new CloudinaryUploaderService();
 
-    const prop = products.map((product) => ({
-      title: product.name,
-      slug: product.slug,
-      minimumRequirements: minReq,
-      recommendedRequirements: recReq,
-      shouldPublish: true,
-      markdown,
-      price: product.fullPrice.USD,
-      videos: product?.video?.length
-        ? product.video.map((x) => `https://www.youtube.com/watch?v=${x}`)
-        : ['https://www.youtube.com/watch?v=q4GdJVvdxss'],
-      releaseDate,
-      metaTitle: product.name,
-      metaDescription: product.name,
-      metaKeywords: ['Game'],
-      developers: [developers[getRandom(0, developers.length - 1)]],
-      genres: generateUniqueNumbers(0, genres.length - 1, 5).map((x) => genres[x]),
-      languages: generateUniqueNumbers(0, languages.length - 1, 5).map((x) => languages[x]),
-      features: generateUniqueNumbers(0, features.length - 1, 5).map((x) => features[x]),
-      publisher: publishers[getRandom(0, publishers.length - 1)],
-      platform: platforms[getRandom(0, platforms.length - 1)],
-      os: os[0],
-      status: 'published',
-      cover: `https://fanatical.imgix.net/product/original/${product.cover}`,
-      images: product.screenshots.map(
-        (x) => `https://fanatical.imgix.net/product/original/${x}?w=1920&h=1080`,
-      ),
-    }));
-
-    for (let index = 0; index < prop.length; index++) {
-      const temp: any = { ...prop[index] };
-
-      const uploadedCover = await uploaderService.uploadFromUrl(temp.cover, 'products');
-
-      temp.cover = uploadedCover;
-
-      const uploadedImages = await Promise.all(
-        temp.images.map(async (image) => await uploaderService.uploadFromUrl(image, 'products')),
+    for (const product of products) {
+      const uploadedCover = await uploaderService.uploadFromUrl(
+        `https://fanatical.imgix.net/product/original/${product.cover}`,
+        'products',
       );
+      const cover = Asset.create(uploadedCover).value;
+      const uploadedImages = await Promise.all(
+        product.screenshots.map((image) =>
+          uploaderService.uploadFromUrl(
+            `https://fanatical.imgix.net/product/original/${image}?w=1920&h=1080`,
+            'products',
+          ),
+        ),
+      );
+      const images = Result.combine(uploadedImages.map((x) => Asset.create(x))).value;
+      const title = ProductTitle.create(product.name).value;
+      const minimumRequirements = ProductRequirements.create(minReq).value;
+      const recommendedRequirements = ProductRequirements.create(recReq).value;
+      const mark = ProductMarkdown.create(markdown).value;
+      const price = Price.create(product.fullPrice.USD).value;
+      const meta = Meta.create({
+        title: product.name,
+        description: product.name,
+        keywords: ['Game'],
+      }).value;
 
-      temp.images = uploadedImages;
-      temp.selectedImages = uploadedImages;
-      await productRepo.createProduct(temp);
-      console.log(temp.title);
+      const props: ProductCreateProps = {
+        title,
+        slug: product.slug,
+        minimumRequirements,
+        recommendedRequirements,
+        markdown: mark,
+        price,
+        videos: product?.video?.length
+          ? product.video.map((x) => `https://www.youtube.com/watch?v=${x}`)
+          : ['https://www.youtube.com/watch?v=q4GdJVvdxss'],
+        releaseDate,
+        meta,
+        developers: [developers[getRandom(0, developers.length - 1)]],
+        genres: generateUniqueNumbers(0, genres.length - 1, 5).map((x) => genres[x]),
+        features: generateUniqueNumbers(0, features.length - 1, 5).map((x) => features[x]),
+        publisher: publishers[getRandom(0, publishers.length - 1)],
+        platform: platforms[getRandom(0, platforms.length - 1)],
+        os: [os[getRandom(0, os.length - 1)]],
+        cover,
+        images,
+        allImages: images,
+        link: null,
+      };
+
+      const productEntity = Product.create(props).value;
+      await productRepo.save(productEntity);
     }
   } catch (error) {
     console.log(error);

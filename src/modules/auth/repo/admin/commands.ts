@@ -1,14 +1,13 @@
-import { DomainValidationError } from '../../../blog/article/status';
-import { Admin } from '../../admin';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Admin } from '../../domain/admin';
 import { AdminDoc } from '../../model';
 import { AdminMapper } from '../../adminMapper';
 import { Collection } from 'mongodb';
-import { Result } from '../../../../Result';
 
 export interface AdminCommandsRepoI {
   save: (admin: Admin) => Promise<void>;
-  getAdminByUsername: (username: string) => Promise<Result<Admin | null, DomainValidationError>>;
-  getAdmin: (id: string) => Promise<Result<Admin | null, DomainValidationError>>;
+  getAdminByUsername: (username: string) => Promise<Admin | null>;
+  getAdmin: (id: string) => Promise<Admin | null>;
 }
 
 export class AdminCommandsRepo implements AdminCommandsRepoI {
@@ -32,29 +31,19 @@ export class AdminCommandsRepo implements AdminCommandsRepoI {
     );
   };
 
-  getAdminByUsername = async (
-    username: string,
-  ): Promise<Result<Admin | null, DomainValidationError>> => {
+  getAdminByUsername = async (username: string): Promise<Admin | null> => {
     const doc = await this.collection.findOne({ username });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const adminOrError = AdminMapper.toDomain(doc);
-    if (adminOrError.isErr())
-      return Result.fail(new DomainValidationError(adminOrError.error.message));
-
-    const admin = adminOrError.value;
-    return Result.ok(admin);
+    const admin = AdminMapper.toDomain(doc);
+    return admin;
   };
 
-  getAdmin = async (id: string): Promise<Result<Admin | null, DomainValidationError>> => {
+  getAdmin = async (id: string): Promise<Admin | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const adminOrError = AdminMapper.toDomain(doc);
-    if (adminOrError.isErr())
-      return Result.fail(new DomainValidationError(adminOrError.error.message));
-
-    const admin = adminOrError.value;
-    return Result.ok(admin);
+    const admin = AdminMapper.toDomain(doc);
+    return admin;
   };
 }

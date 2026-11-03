@@ -15,9 +15,9 @@ export class UpdateArticleMetaController extends Controller {
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
       articleId: z.string(),
-      title: z.string().min(8).max(120),
-      description: z.string().min(120).max(1024),
-      keywords: z.array(z.string()).min(3),
+      title: z.string().min(1).max(120),
+      description: z.string().min(1).max(1024),
+      keywords: z.array(z.string().min(1)).min(1),
     });
 
     const result = schema.safeParse({ ...req.body, articleId: req.params.articleId });
@@ -46,9 +46,8 @@ export class UpdateArticleMetaController extends Controller {
         }
       }
 
-      const value = result.value;
-
-      return this.ok(res, value);
+      const meta = result.value;
+      return this.ok(res, meta);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

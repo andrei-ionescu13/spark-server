@@ -1,14 +1,14 @@
 import { Collection, ObjectId } from 'mongodb';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
-import { Developer } from '../developer';
+import { Result } from '../../../../result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Developer } from '../domain/developer';
 import { DeveloperMapper } from '../developerMapper';
 import { DeveloperDoc } from '../model';
 
 export interface DeveloperCommandsRepoI {
   save: (developer: Developer) => Promise<void>;
   deleteDeveloper: (id: string) => Promise<void>;
-  getDeveloper: (id: string) => Promise<Result<Developer | null, DomainValidationError>>;
+  getDeveloper: (id: string) => Promise<Developer | null>;
 }
 
 export class DeveloperCommandsRepo implements DeveloperCommandsRepoI {
@@ -24,17 +24,12 @@ export class DeveloperCommandsRepo implements DeveloperCommandsRepoI {
     );
   };
 
-  getDeveloper = async (id: string): Promise<Result<Developer | null, DomainValidationError>> => {
+  getDeveloper = async (id: string): Promise<Developer | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const developerOrError = DeveloperMapper.toDomain(doc);
-    if (developerOrError.isErr()) {
-      return Result.fail(new DomainValidationError(developerOrError.error.message));
-    }
-
-    const developer = developerOrError.value;
-    return Result.ok(developer);
+    const developer = DeveloperMapper.toDomain(doc);
+    return developer;
   };
 
   deleteDeveloper = async (id: string) => {

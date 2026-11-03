@@ -6,8 +6,8 @@ type Status = 'draft' | 'published' | 'archived';
 export interface ProductDoc {
   _id: string;
   cover: AssetDoc;
+  allImages: AssetDoc[];
   images: AssetDoc[];
-  selectedImages: AssetDoc[];
   videos: string[];
   status: Status;
   title: string;
@@ -21,7 +21,7 @@ export interface ProductDoc {
   developers: string[];
   features: string[];
   link: string | null;
-  os: string;
+  os: string[];
   markdown: string;
   meta: MetaDoc;
   minimumRequirements: string;

@@ -3,7 +3,7 @@ export interface UpdateArticleDetailsRequestDto {
   description: string;
   title: string;
   markdown: string;
-  slug?: string | undefined;
+  slug: string;
   file?: {
     originalname: string;
     mimetype: 'image/png' | 'image/jpeg' | 'image/jpg' | 'image/webp';

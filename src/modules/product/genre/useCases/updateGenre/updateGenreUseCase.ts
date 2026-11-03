@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { GenreDto } from '../../genreMapper';
@@ -64,12 +64,7 @@ export class UpdateGenreUseCase implements UseCase<UpdateGenreRequestDto, Respon
     const { genreId, ...props } = request;
 
     try {
-      const genreOrError = await this.genreCommandsRepo.getGenre(genreId);
-      if (genreOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(genreOrError.error.message));
-      }
-
-      const genre = genreOrError.value;
+      const genre = await this.genreCommandsRepo.getGenre(genreId);
       if (!genre) {
         return Result.fail(new UseCaseErrors.NotFound('Article tag not found'));
       }
@@ -93,6 +88,7 @@ export class UpdateGenreUseCase implements UseCase<UpdateGenreRequestDto, Respon
         return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
       }
 
+      await this.genreCommandsRepo.save(genre);
       return Result.ok(genre);
     } catch (error) {
       console.log(error);

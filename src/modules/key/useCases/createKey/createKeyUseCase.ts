@@ -2,16 +2,17 @@ import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../AppError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { ProductQueriesRepoI } from '../../../product/repo/queries';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Key } from '../../key';
-import { KeyAvailability } from '../../keyAvailability';
-import { KeyStatus } from '../../keyStatus';
-import { KeyValue } from '../../keyValue';
+import { Key } from '../../domain/key';
+import { KeyAvailability } from '../../domain/keyAvailability';
+import { KeyStatus } from '../../domain/keyStatus';
+import { KeyValue } from '../../domain/keyValue';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { KeyQueriesRepoI } from '../../repo/queries';
 import { CreateKeyRequestDto } from './createKeyRequestDto';
+import { ProductKeyCreationChecker } from '../../../../productKeyCreationChecker';
 
 export namespace CreateKeyErrors {
   export class KeyForPlatformExists extends UseCaseError {
@@ -28,49 +29,23 @@ type Response = Result<
 
 export class CreateKeyUseCase implements UseCase<CreateKeyRequestDto, Response> {
   constructor(
-    private keyCommandsRepo: KeyCommandsRepoI,
-    private keyQueriesRepo: KeyQueriesRepoI,
     private productCommandsRepo: ProductCommandsRepoI,
-    private productQueriesRepo: ProductQueriesRepoI,
+    private keyCommandsRepo: KeyCommandsRepoI,
+    private productKeyCreationChecker: ProductKeyCreationChecker,
   ) {}
 
   execute = async (request: CreateKeyRequestDto): Promise<Response> => {
     const { productId, value } = request;
 
     try {
-      const productOrError = await this.productCommandsRepo.getProduct(productId);
-      if (productOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-      }
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(productId);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
 
-      const keyFound = await this.keyQueriesRepo.getKeyByValue(value);
-      if (keyFound) {
-        const productsByKeyFound = await this.productQueriesRepo.searchProductsByKeys(value);
-        let samePlatform;
-
-        if (productsByKeyFound.length) {
-          for (const productByKeyFound of productsByKeyFound) {
-            if (
-              productByKeyFound.platform._id.toString() ===
-              productByKeyFound.platform._id.toString()
-            ) {
-              samePlatform = productByKeyFound.platform;
-              break;
-            }
-          }
-        }
-
-        const isSamePlatform = !!samePlatform;
-        if (isSamePlatform) {
-          return Result.fail(
-            new CreateKeyErrors.KeyForPlatformExists(productId, samePlatform.name),
-          );
-        }
+      const canCreateResult = await this.productKeyCreationChecker.checkCanCreate(product, value);
+      if (canCreateResult.isErr()) {
+        return Result.fail(canCreateResult.error);
       }
 
       const valueOrError = KeyValue.create(value);
@@ -90,7 +65,6 @@ export class CreateKeyUseCase implements UseCase<CreateKeyRequestDto, Response> 
         value: keyValue,
         availability,
         status,
-        _id: uuidv7(),
       });
 
       if (keyOrError.isErr()) {

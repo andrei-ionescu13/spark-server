@@ -1,9 +1,9 @@
-import { textUtils } from '../../../../../../utils/textUtils';
+import { textUtils } from '../../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../../AppError';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { ArticleCategory } from '../../articleCategory';
+import { ArticleCategory } from '../../domain/articleCategory';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
 import { CreateArticleCategoryRequestDto } from './createArticleCategoryRequestDto';
@@ -24,7 +24,7 @@ export namespace CreateArticleCategoryErrors {
 }
 
 type Response = Result<
-  void,
+  string,
   | CreateArticleCategoryErrors.NameNotAvailableError
   | CreateArticleCategoryErrors.SlugNotAvailableError
   | UseCaseErrors.UnexpectedError
@@ -71,19 +71,14 @@ export class CreateArticleCategoryUseCase
         return Result.fail(new UseCaseErrors.UnexpectedError());
       }
 
-      const articleCategoryOrError = ArticleCategory.create({
-        ...props,
-        _id: uuid7(),
-        createdAt: new Date(),
-        updatedAt: null,
-      });
+      const articleCategoryOrError = ArticleCategory.create(props);
 
       if (articleCategoryOrError.isErr()) {
         return Result.fail(new UseCaseErrors.ValidationError(articleCategoryOrError.error.message));
       }
       const articleCategory = articleCategoryOrError.value;
       await this.articleCategoryCommandsRepo.save(articleCategory);
-      return Result.ok();
+      return Result.ok(articleCategory._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

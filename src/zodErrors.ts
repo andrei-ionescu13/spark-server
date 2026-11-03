@@ -3,7 +3,7 @@ import {
   DomainValidationError,
   MappingValidationError,
   RequestValidationError,
-} from './modules/blog/article/status';
+} from './modules/blog/article/domain/status';
 
 export const zodDomainValidationError = (error: ZodError): DomainValidationError => {
   return new DomainValidationError(error.issues[0].message);

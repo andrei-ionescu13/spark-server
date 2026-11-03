@@ -1,6 +1,6 @@
 export interface CreateCollectionRequestDto {
   products: string[];
-  description?: string;
+  description: string;
   meta: {
     description: string;
     keywords: string[];
@@ -15,6 +15,5 @@ export interface CreateCollectionRequestDto {
     buffer: Buffer;
   };
   startDate: Date;
-  isDeal: boolean;
-  endDate?: Date;
+  endDate: Date | null;
 }

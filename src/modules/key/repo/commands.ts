@@ -1,6 +1,6 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
-import { Key } from '../key';
+import { DomainValidationError } from '../../blog/article/domain/status';
+import { Result } from '../../../result';
+import { Key } from '../domain/key';
 import { KeyMapper } from '../keyMapper';
 import { KeyDoc } from '../model';
 import { Collection } from 'mongodb';
@@ -8,7 +8,8 @@ import { Collection } from 'mongodb';
 export interface KeyCommandsRepoI {
   save: (key: Key) => Promise<void>;
   deleteKey: (id: string) => Promise<void>;
-  getKey: (id: string) => Promise<Result<Key | null, DomainValidationError>>;
+  getKey: (id: string) => Promise<Key | null>;
+  getKeyByValue: (value: string) => Promise<Key | null>;
 }
 
 export class KeyCommandsRepo implements KeyCommandsRepoI {
@@ -23,16 +24,18 @@ export class KeyCommandsRepo implements KeyCommandsRepoI {
     await this.collection.deleteOne({ _id: id });
   };
 
-  getKey = async (id: string): Promise<Result<Key | null, DomainValidationError>> => {
+  getKey = async (id: string): Promise<Key | null> => {
     const doc = await this.collection.findOne({ _id: id });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const keyOrError = KeyMapper.toDomain(doc);
-    if (keyOrError.isErr()) {
-      return Result.fail(new DomainValidationError(keyOrError.error.message));
-    }
+    const key = KeyMapper.toDomain(doc);
+    return key;
+  };
 
-    const key = keyOrError.value;
-    return Result.ok(key);
+  getKeyByValue = async (value: string): Promise<Key | null> => {
+    const doc = await this.collection.findOne({ value });
+    if (!doc) return null;
+
+    return KeyMapper.toDomain(doc);
   };
 }

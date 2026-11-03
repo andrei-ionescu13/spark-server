@@ -1,24 +1,23 @@
 import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
-import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../../meta';
 import { MetaDto, MetaPersistance } from '../../metaMapper';
-import { Result } from '../../Result';
+import { Result } from '../../result';
 import { ProductDoc } from './model';
-import { PlatformDto, PlatformMapper } from './platform/platformMapper';
-import { Product } from './product';
-import { ProductLink } from './productLink';
-import { ProductMarkdown } from './productMarkdown';
-import { ProductPrice } from './productPrice';
-import { ProductRating } from './productRating';
-import { ProductRequirements } from './productRequirements';
-import { ProductStatus } from './productStatus';
-import { ProductTitle } from './productTitle';
+import { Product } from './domain/product';
+import { ProductLink } from './domain/productLink';
+import { ProductMarkdown } from './domain/productMarkdown';
+import { ProductPrice } from './domain/productPrice';
+import { ProductRating } from './domain/productRating';
+import { ProductRequirements } from './domain/productRequirements';
+import { ProductStatus } from './domain/productStatus';
+import { ProductTitle } from './domain/productTitle';
+import { Meta } from '../../Meta';
+import { platform } from 'os';
 
 export interface ProductDto {
   _id: string;
   cover: AssetDto;
+  allImages: AssetDto[];
   images: AssetDto[];
-  selectedImages: AssetDto[];
   videos: string[];
   status: 'draft' | 'published' | 'archived';
   title: string;
@@ -28,11 +27,11 @@ export interface ProductDto {
   createdAt: Date;
   updatedAt: Date | null;
   publisher: string;
-  platform: PlatformDto;
+  platform: string;
   developers: string[];
   features: string[];
   link: string | null;
-  os: string;
+  os: string[];
   markdown: string;
   meta: MetaDto;
   minimumRequirements: string;
@@ -50,14 +49,14 @@ export interface ProductDto {
     };
   };
   reviews: string[];
-  discount: string;
+  discount: string | null;
 }
 
 interface ProductPersistance {
   _id: string;
   cover: AssetPersistance;
+  allImages: AssetPersistance[];
   images: AssetPersistance[];
-  selectedImages: AssetPersistance[];
   videos: string[];
   status: 'draft' | 'published' | 'archived';
   title: string;
@@ -93,73 +92,37 @@ interface ProductPersistance {
 }
 
 export class ProductMapper {
-  public static toDomain(entity: ProductDoc): Result<Product, DomainValidationError> {
-    const metaOrError = Meta.create(entity.meta);
-    const statusOrError = ProductStatus.create(entity.status);
-    const titleOrError = ProductTitle.create(entity.title);
-    const priceOrError = ProductPrice.create(entity.price);
-    const markdownOrError = ProductMarkdown.create(entity.markdown);
-    const minimumRequirementsOrError = ProductRequirements.create(entity.minimumRequirements);
-    const recommendedRequirementsOrError = ProductRequirements.create(
+  public static toDomain(entity: ProductDoc): Product {
+    const meta = Meta.reconstitute(entity.meta);
+    const status = ProductStatus.reconstitute(entity.status);
+    const title = ProductTitle.reconstitute(entity.title);
+    const price = ProductPrice.reconstitute(entity.price);
+    const markdown = ProductMarkdown.reconstitute(entity.markdown);
+    const minimumRequirements = ProductRequirements.reconstitute(entity.minimumRequirements);
+    const recommendedRequirements = ProductRequirements.reconstitute(
       entity.recommendedRequirements,
     );
-    const ratingOrError = ProductRating.create(entity.rating);
+    const rating = ProductRating.reconstitute(entity.rating);
 
-    let linkOrError: Result<ProductLink, DomainValidationError> | undefined;
+    let link: ProductLink | null = null;
     if (entity.link) {
-      linkOrError = ProductLink.create(entity.link);
+      link = ProductLink.reconstitute(entity.link);
     }
 
-    const coverOrError = AssetMapper.toDomain(entity.cover);
-    const imagesOrError = AssetMapper.toDomainList(entity.images);
-    const selectedImagesOrError = AssetMapper.toDomainList(entity.selectedImages);
+    const cover = AssetMapper.toDomain(entity.cover);
+    const allImages = AssetMapper.toDomainList(entity.allImages);
+    const images = AssetMapper.toDomainList(entity.images);
 
-    const results = [
-      metaOrError,
-      statusOrError,
-      titleOrError,
-      priceOrError,
-      markdownOrError,
-      minimumRequirementsOrError,
-      recommendedRequirementsOrError,
-      ratingOrError,
-      coverOrError,
-      imagesOrError,
-      selectedImagesOrError,
-    ];
-    if (linkOrError) {
-      results.push(linkOrError);
-    }
-
-    const result = Result.combine(results);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const meta = metaOrError.value;
-    const status = statusOrError.value;
-    const title = titleOrError.value;
-    const price = priceOrError.value;
-    const link = linkOrError ? linkOrError.value : null;
-    const markdown = markdownOrError.value;
-    const minimumRequirements = minimumRequirementsOrError.value;
-    const recommendedRequirements = recommendedRequirementsOrError.value;
-    const rating = ratingOrError.value;
-    const cover = coverOrError.value;
-    const images = imagesOrError.value;
-    const selectedImages = selectedImagesOrError.value;
-
-    const productOrError = Product.create({
+    const product = Product.reconstitute({
       _id: entity._id,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
       cover,
-      images,
-      selectedImages,
+      allImages: allImages,
+      images: images,
       videos: entity.videos,
       genres: entity.genres,
       releaseDate: entity.releaseDate,
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
       publisher: entity.publisher,
       platform: entity.platform,
       developers: entity.developers,
@@ -180,31 +143,26 @@ export class ProductMapper {
       meta,
     });
 
-    if (productOrError.isErr()) {
-      return Result.fail(new DomainValidationError(productOrError.error.message));
-    }
-
-    const developer = productOrError.value;
-    return Result.ok(developer);
+    return product;
   }
 
-  static toDomainList(entities: ProductDoc[]): Array<Result<Product, DomainValidationError>> {
+  static toDomainList(entities: ProductDoc[]): Product[] {
     return entities.map((entity) => this.toDomain(entity));
   }
 
-  static toDto(entity: any): ProductDto {
+  static toDto(entity: ProductDoc): ProductDto {
     return {
       _id: entity._id,
-      cover: entity.cover,
-      images: entity.images,
-      selectedImages: entity.selectedImages,
+      cover: AssetMapper.toDto(entity.cover),
+      allImages: AssetMapper.toDtoList(entity.allImages),
+      images: AssetMapper.toDtoList(entity.images),
       videos: entity.videos,
       genres: entity.genres,
       releaseDate: entity.releaseDate,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       publisher: entity.publisher,
-      platform: PlatformMapper.toDto(entity.platform),
+      platform: entity.platform,
       developers: entity.developers,
       features: entity.features,
       os: entity.os,
@@ -224,16 +182,16 @@ export class ProductMapper {
     };
   }
 
-  static toDtoList(entities: any[]): ProductDto[] {
+  static toDtoList(entities: ProductDoc[]): ProductDto[] {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: Product): ProductPersistance {
+  static toPersistance(entity: Product): ProductDoc {
     return {
       _id: entity._id,
       cover: AssetMapper.toPersistance(entity.cover),
+      allImages: AssetMapper.toPersistanceList(entity.allImages),
       images: AssetMapper.toPersistanceList(entity.images),
-      selectedImages: AssetMapper.toPersistanceList(entity.selectedImages),
       videos: entity.videos,
       genres: entity.genres,
       releaseDate: entity.releaseDate,
@@ -260,11 +218,14 @@ export class ProductMapper {
       markdown: entity.markdown.value,
       minimumRequirements: entity.minimumRequirements.value,
       recommendedRequirements: entity.recommendedRequirements.value,
-      rating: entity.rating,
+      rating: {
+        average: entity.rating.average,
+        distribution: entity.rating.distribution,
+      },
     };
   }
 
-  static toPersistanceList(entities: Product[]): ProductPersistance[] {
+  static toPersistanceList(entities: Product[]): ProductDoc[] {
     return entities.map((entity) => this.toPersistance(entity));
   }
 }

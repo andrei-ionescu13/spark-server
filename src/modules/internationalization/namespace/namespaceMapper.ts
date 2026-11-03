@@ -1,8 +1,7 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
+import { DomainValidationError } from '../../blog/article/domain/status';
 import { NamespaceDoc } from './model';
-import { Namespace } from './namespace';
-import { NamespaceTranslation } from './namespaceTransation';
+import { Namespace } from './domain/namespace';
+import { NamespaceTranslation } from './domain/namespaceTranslation';
 
 export interface NamespacePersistance {
   _id: string;
@@ -27,31 +26,20 @@ export interface NamespaceDto {
 }
 
 export class NamespaceMapper {
-  public static toDomain(entity: NamespaceDoc): Result<Namespace, DomainValidationError> {
-    const translationsOrErrors = entity.translations.map((_translation) =>
-      NamespaceTranslation.create(_translation),
+  public static toDomain(entity: NamespaceDoc): Namespace {
+    const translations = entity.translations.map((_translation) =>
+      NamespaceTranslation.reconstitute(_translation),
     );
 
-    const result = Result.combine(translationsOrErrors);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const translations = translationsOrErrors.map((translation) => translation.value);
-    const namespaceOrError = Namespace.create({
+    const namespace = Namespace.reconstitute({
       _id: entity._id,
       name: entity.name,
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
       translations,
     });
-    if (namespaceOrError.isErr()) {
-      return Result.fail(new DomainValidationError(namespaceOrError.error.message));
-    }
 
-    const namespace = namespaceOrError.value;
-    return Result.ok(namespace);
+    return namespace;
   }
 
   public static toDto(entity: NamespaceDoc): NamespaceDto {

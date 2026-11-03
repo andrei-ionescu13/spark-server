@@ -13,15 +13,15 @@ export class CreateProductController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const body = req.body;
+
     const input = {
       title: body.title,
       minimumRequirements: body.minimumRequirements,
       recommendedRequirements: body.recommendedRequirements,
-      shouldPublish: body.shouldPublish,
       markdown: body.markdown,
       price: body.price,
       genres: body.genres,
-      selectedImages: body.selectedImages,
+      images: body.images,
       videos: body.videos,
       developers: body.developers,
       features: body.features,
@@ -31,75 +31,59 @@ export class CreateProductController extends Controller {
       link: body.link,
       os: body.os,
       slug: body.slug,
-      metaTitle: body.meta,
+      meta: {
+        description: body.meta.description,
+        keywords: body.meta.keywords,
+        title: body.meta.title,
+      },
       //@ts-ignore
       coverFile: req.files.cover[0] as Express.Multer.File,
       //@ts-ignore
-      imageFiles: req.files['images[]'] as Express.Multer.File[],
-      //@ts-ignore
-      keysFile: req.files.keys[0] as Express.Multer.File,
+      allImageFiles: req.files['allImages[]'] as Express.Multer.File[],
     };
 
     const schema = z.object({
       meta: z.object({
-        title: z.string().min(8).max(120),
-        description: z.string().min(120).max(1024),
-        keywords: z.array(z.string()).min(3),
+        title: z.string().min(1).max(120),
+        description: z.string().min(1).max(1024),
+        keywords: z.array(z.string()).min(1),
       }),
       coverFile: z.object({
         originalname: z.string(),
         mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-        size: z.number().max(5_000_000),
+        size: z.number().max(5_000_000_000),
         buffer: z.instanceof(Buffer),
       }),
-      imageFiles: z.array(
+      allImageFiles: z.array(
         z.object({
           originalname: z.string(),
           mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000),
+          size: z.number().max(5_000_000_000),
           buffer: z.instanceof(Buffer),
         }),
       ),
-      selectedImages: z.array(
-        z.object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000),
-          buffer: z.instanceof(Buffer),
-        }),
-      ),
-      keysFile: z.object({
-        originalname: z.string(),
-        mimetype: z.enum(['text/plain']),
-        size: z.number().max(5_000_000),
-        buffer: z.instanceof(Buffer),
-      }),
+      images: z.array(z.string()),
       minimumRequirements: z.string().min(1).max(1024),
       recommendedRequirements: z.string().min(1).max(1024),
       title: z.string().min(1),
       link: z.url().optional(),
-      markdown: z.string().min(255).max(2048),
-      price: z.number().positive(),
+      markdown: z.string().min(8).max(2048),
+      price: z.coerce.number().positive(),
       videos: z.array(z.url()).min(1),
       genres: z.array(z.uuidv7()).min(1),
-      releaseDate: z.date(),
-      createdAt: z.date().optional(),
-      updatedAt: z.date().optional(),
+      releaseDate: z.coerce.date(),
       publisher: z.uuidv7(),
       platform: z.uuidv7(),
       developers: z.array(z.uuidv7()).min(1),
       features: z.array(z.uuidv7()).min(1),
-      os: z.uuidv7(),
+      os: z.array(z.uuidv7()).min(1),
       slug: z.string().min(1).optional(),
-      keys: z.array(z.uuidv7()),
-      reviews: z.array(z.uuidv7()),
-      discount: z.uuidv7(),
-      shouldPublish: z.coerce.boolean(),
     });
 
     const result = schema.safeParse(input);
 
     if (result.error) {
+      console.log(result.error);
       return this.forbidden(res, result.error.message);
     }
 
@@ -113,9 +97,6 @@ export class CreateProductController extends Controller {
 
         switch (error.constructor) {
           case CreateProductErrors.FieldsNotAvailable:
-            return this.conflict(res, error.message);
-
-          case CreateProductErrors.KeyForPlatformExists:
             return this.conflict(res, error.message);
 
           case CreateProductErrors.SlugNotAvailableError:

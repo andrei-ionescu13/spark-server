@@ -49,7 +49,8 @@ export class CreateArticleCategoryController extends Controller {
         }
       }
 
-      return this.ok(res);
+      const id = result.value;
+      return this.ok(res, id);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

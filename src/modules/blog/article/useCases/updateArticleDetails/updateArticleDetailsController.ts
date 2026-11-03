@@ -20,15 +20,15 @@ export class UpdateArticleDetailsController extends Controller {
 
     const schema = z.object({
       articleId: z.string(),
-      description: z.string().min(24).max(120),
-      slug: z.string().optional(),
-      title: z.string().min(12).max(120),
-      markdown: z.string().min(120).max(1024),
+      description: z.string().min(1).max(120),
+      slug: z.string(),
+      title: z.string().min(1).max(120),
+      markdown: z.string().min(1).max(1024),
       file: z
         .object({
           originalname: z.string(),
           mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000),
+          size: z.number().max(5_000_000_000),
           buffer: z.instanceof(Buffer),
         })
         .optional(),
@@ -42,7 +42,6 @@ export class UpdateArticleDetailsController extends Controller {
     }
 
     const dto: UpdateArticleDetailsRequestDto = result.data;
-
     try {
       const result = await this.useCase.execute(dto);
 
@@ -55,17 +54,8 @@ export class UpdateArticleDetailsController extends Controller {
         }
       }
 
-      const article = result.value;
-      const { description, title, slug, markdown, cover, updatedAt } = article;
-
-      return this.ok(res, {
-        description: description.value,
-        title: title.value,
-        slug: slug,
-        markdown: markdown.value,
-        cover,
-        updatedAt,
-      });
+      const id = result.value;
+      return this.ok(res, id);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

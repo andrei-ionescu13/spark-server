@@ -1,16 +1,13 @@
 import { Collection } from 'mongodb';
-import { DomainValidationError } from '../../../blog/article/status';
-import { Result } from '../../../../Result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Result } from '../../../../result';
 import { NamespaceDoc } from '../model';
-import { Namespace } from '../namespace';
+import { Namespace } from '../domain/namespace';
 import { NamespaceMapper } from '../namespaceMapper';
 
 export interface NamespaceCommandsRepoI {
   save: (namespace: Namespace) => Promise<void>;
-  getNamespace: (
-    id: string,
-    props?: Record<string, string>,
-  ) => Promise<Result<Namespace | null, DomainValidationError>>;
+  getNamespace: (id: string, props?: Record<string, string>) => Promise<Namespace | null>;
   deleteNamespace: (id: string) => Promise<void>;
 }
 
@@ -26,20 +23,12 @@ export class NamespaceCommandsRepo implements NamespaceCommandsRepoI {
     );
   };
 
-  getNamespace = async (
-    id: string,
-    props = {},
-  ): Promise<Result<Namespace | null, DomainValidationError>> => {
+  getNamespace = async (id: string, props = {}): Promise<Namespace | null> => {
     const doc = await this.collection.findOne({ _id: id, ...props });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const namespaceOrError = NamespaceMapper.toDomain(doc);
-    if (namespaceOrError.isErr()) {
-      return Result.fail(new DomainValidationError(namespaceOrError.error.message));
-    }
-
-    const namespace = namespaceOrError.value;
-    return Result.ok(namespace);
+    const namespace = NamespaceMapper.toDomain(doc);
+    return namespace;
   };
 
   deleteNamespace = async (id: string): Promise<void> => {

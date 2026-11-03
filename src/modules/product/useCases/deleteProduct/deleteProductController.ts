@@ -17,8 +17,8 @@ export class DeleteProductController extends Controller {
     try {
       const result = await this.useCase.execute(dto);
 
-      if (result.isLeft()) {
-        const error = result.value;
+      if (result.isErr()) {
+        const error = result.error;
 
         switch (error.constructor) {
           default:
@@ -26,7 +26,6 @@ export class DeleteProductController extends Controller {
         }
       }
 
-      // const result = result.value.getValue();
       return this.ok(res, { ok: 'ok' });
     } catch (error) {
       console.log(error);

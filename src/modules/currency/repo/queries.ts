@@ -68,7 +68,7 @@ export class CurrencyQueriesRepo implements CurrencyQueriesRepoI {
       { $sort: { [sortBy]: sortOrder === 'desc' ? -1 : 1 } },
       {
         $facet: {
-          currencies: [{ $skip: page }, { $limit: limit }],
+          currencies: [{ $skip: (page - 1) * limit }, { $limit: limit }],
           count: [
             {
               $count: 'count',

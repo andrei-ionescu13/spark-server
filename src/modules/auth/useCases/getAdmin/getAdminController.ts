@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { GetAdminRequestDto } from './getAdminRequestDto';
 import { GetAdminUseCase } from './getAdminUseCase';
-import { DecodedRequest } from '../../../../decodedRequest';
 import { Controller } from '../../../../Controller';
 import { UseCaseErrors } from '../../../../AppError';
+import { DecodedRequest } from '../../../../DecodedRequest';
 
 export class GetAdminController extends Controller {
   constructor(private useCase: GetAdminUseCase) {
@@ -15,7 +15,7 @@ export class GetAdminController extends Controller {
     const dto: GetAdminRequestDto = {
       user: req.user,
     };
-    console.log(dto);
+
     try {
       const result = await this.useCase.execute(dto);
 

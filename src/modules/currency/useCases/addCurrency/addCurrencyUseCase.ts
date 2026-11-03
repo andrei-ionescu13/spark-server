@@ -1,9 +1,9 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../UseCaseError';
-import { Currency } from '../../currency';
+import { Currency } from '../../domain/currency';
 import { CurrencyCommandsRepoI } from '../../repo/commands';
 import { CurrencyQueriesRepoI } from '../../repo/queries';
 import { AddCurrencyRequestDto } from './addCurrencyRequestDto';
@@ -36,7 +36,7 @@ export class AddCurrencyUseCase implements UseCase<AddCurrencyRequestDto, Respon
         return Result.fail(new AddCurrencyErrors.TitleNotAvailableError());
       }
 
-      const currencyOrError = Currency.create({ ...props, _id: uuidv7() });
+      const currencyOrError = Currency.create({ ...props });
       if (currencyOrError.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(currencyOrError.error.message));
       }

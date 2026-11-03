@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewQueriesRepoI } from '../../repo/queries';
 import { SearchReviewsRequestDto } from './searchReviewsRequestDto';
@@ -19,8 +19,8 @@ export class SearchReviewsUseCase implements UseCase<SearchReviewsRequestDto, Re
     };
 
     try {
-      const { reviews, count } = await this.reviewQueriesRepo.searchReviews(query);
-      return Result.ok({ reviews, count });
+      const result = await this.reviewQueriesRepo.searchReviews(query);
+      return Result.ok(result);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

@@ -14,23 +14,28 @@ export class UpdateDeveloperController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const schema = z.object({
+      slug: z.string(),
       name: z.string().min(3),
       developerId: z.string(),
-      logoFile: z.object({
-        originalname: z.string(),
-        mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
-        size: z.number().max(5_000_000),
-        buffer: z.instanceof(Buffer),
-      }),
+      logoFile: z
+        .object({
+          originalname: z.string(),
+          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
+          size: z.number().max(5_000_000_000),
+          buffer: z.instanceof(Buffer),
+        })
+        .optional(),
     });
 
     const result = schema.safeParse({
+      developerId: req.params.developerId,
       name: req.body.name,
       slug: req.body.slug,
       logoFile: req.file,
     });
 
     if (result.error) {
+      console.log(result.error);
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 

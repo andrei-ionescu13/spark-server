@@ -1,9 +1,9 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { Namespace } from '../../namespace';
-import { NamespaceTranslation } from '../../namespaceTransation';
+import { Namespace } from '../../domain/namespace';
+import { NamespaceTranslation } from '../../domain/namespaceTranslation';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { CreateTranslationRequestDto } from './createTranslationRequestDto';
 
@@ -30,12 +30,7 @@ export class CreateTranslationUseCase implements UseCase<CreateTranslationReques
     const { namespaceId, ...props } = request;
 
     try {
-      const namespaceOrError = await this.namespaceCommandsRepo.getNamespace(namespaceId);
-      if (namespaceOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(namespaceOrError.error.message));
-      }
-
-      const namespace = namespaceOrError.value;
+      const namespace = await this.namespaceCommandsRepo.getNamespace(namespaceId);
       if (!namespace) {
         return Result.fail(new UseCaseErrors.NotFound('Namespace not found'));
       }
@@ -52,6 +47,7 @@ export class CreateTranslationUseCase implements UseCase<CreateTranslationReques
         return Result.fail(new CreateTranslationErrors.KeyIsUserError(addResult.error.message));
       }
 
+      this.namespaceCommandsRepo.save(namespace);
       return Result.ok(namespace);
     } catch (error) {
       console.log(error);

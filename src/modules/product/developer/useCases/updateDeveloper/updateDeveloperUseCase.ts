@@ -1,9 +1,9 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../../asset';
-import { Result } from '../../../../../Result';
+import { Asset } from '../../../../../Asset';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { Developer } from '../../developer';
+import { Developer } from '../../domain/developer';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
 import { UpdateDeveloperRequestDto } from './updateDeveloperRequestDto';
 
@@ -23,12 +23,7 @@ export class UpdateDeveloperUseCase implements UseCase<UpdateDeveloperRequestDto
     const props: { name: string; logo?: Asset } = rest;
 
     try {
-      const developerOrError = await this.developerCommandsRepo.getDeveloper(developerId);
-      if (developerOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(developerOrError.error.message));
-      }
-
-      const developer = developerOrError.value;
+      const developer = await this.developerCommandsRepo.getDeveloper(developerId);
       if (!developer) {
         return Result.fail(new UseCaseErrors.NotFound('Developer not found'));
       }
@@ -45,7 +40,7 @@ export class UpdateDeveloperUseCase implements UseCase<UpdateDeveloperRequestDto
         await this.uploaderService.delete(developer.logo.publicId);
       }
 
-      developer.update({ name: props.name, logo: props.logo });
+      developer.update({ name: props.name, logo: props.logo, slug: request.slug });
       await this.developerCommandsRepo.save(developer);
 
       return Result.ok(developer);

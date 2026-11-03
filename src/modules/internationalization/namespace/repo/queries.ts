@@ -174,17 +174,21 @@ export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
 
     const pipeline = [
       { $match: { _id: id } },
+
       {
         $facet: {
           data: [
             {
               $project: {
-                name: '$name',
+                name: 1,
               },
             },
           ],
+
           translations: [
-            { $unwind: '$translations' },
+            {
+              $unwind: '$translations',
+            },
             {
               $match: {
                 $or: [
@@ -203,13 +207,14 @@ export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
                 [`translations.${sortBy}`]: sortOrder === 'asc' ? 1 : -1,
               },
             },
-            { $skip: (page - 1) * limit },
-            { $limit: limit },
-          ],
-          count: [
+            {
+              $skip: (page - 1) * limit,
+            },
+            {
+              $limit: limit,
+            },
             {
               $group: {
-                count: { $sum: 1 },
                 _id: '$_id',
                 translations: {
                   $push: '$translations',
@@ -217,8 +222,31 @@ export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
               },
             },
           ],
+
+          count: [
+            {
+              $unwind: '$translations',
+            },
+            {
+              $match: {
+                $or: [
+                  {
+                    'translations.key': {
+                      $regex: keyword,
+                      $options: 'i',
+                    },
+                  },
+                  ...orQueries,
+                ],
+              },
+            },
+            {
+              $count: 'count',
+            },
+          ],
         },
       },
+
       {
         $addFields: {
           data: {
@@ -232,20 +260,17 @@ export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
           },
         },
       },
+
       {
         $project: {
           name: '$data.name',
           _id: '$data._id',
-          count: '$translations.count',
-          translations: '$translations.translations',
-        },
-      },
-      {
-        $project: {
-          name: 1,
-          _id: 1,
-          count: { $ifNull: ['$count', 0] },
-          translations: { $ifNull: ['$translations', []] },
+          count: {
+            $ifNull: ['$count.count', 0],
+          },
+          translations: {
+            $ifNull: ['$translations.translations', []],
+          },
         },
       },
     ];

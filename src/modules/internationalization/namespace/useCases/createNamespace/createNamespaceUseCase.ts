@@ -1,9 +1,9 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
-import { Namespace } from '../../namespace';
+import { Namespace } from '../../domain/namespace';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
 import { CreateNamespaceRequestDto } from './createNamespaceRequestDto';

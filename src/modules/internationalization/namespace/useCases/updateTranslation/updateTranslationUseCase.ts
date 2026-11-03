@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { NamespaceTranslation } from '../../namespaceTransation';
+import { NamespaceTranslation } from '../../domain/namespaceTranslation';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { UpdateTranslationRequestDto } from './updateTranslationRequestDto';
 
@@ -17,27 +17,25 @@ export class UpdateTranslationUseCase implements UseCase<UpdateTranslationReques
     const { namespaceId, key, ...props } = request;
 
     try {
-      const namespaceOrError = await this.namespaceCommandsRepo.getNamespace(namespaceId, {
+      const namespace = await this.namespaceCommandsRepo.getNamespace(namespaceId, {
         'translations.key': key,
       });
-
-      if (namespaceOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(namespaceOrError.error.message));
-      }
-
-      const namespace = namespaceOrError.value;
       if (!namespace) {
         return Result.fail(new UseCaseErrors.NotFound('Namespace not found'));
       }
 
-      const translationOrError = NamespaceTranslation.create({ key, ...props });
+      const translationOrError = NamespaceTranslation.create({ ...props, key: props.keyValue });
       if (translationOrError.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(translationOrError.error.message));
       }
 
       const translation = translationOrError.value;
-      namespace.updateTranslation(key, translation);
+      const updateResult = namespace.updateTranslation(key, translation);
+      if (updateResult.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(updateResult.error.message));
+      }
 
+      this.namespaceCommandsRepo.save(namespace);
       return Result.ok(namespaceId);
     } catch (error) {
       console.log(error);

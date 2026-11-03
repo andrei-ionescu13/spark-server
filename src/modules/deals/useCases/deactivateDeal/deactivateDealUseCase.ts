@@ -1,8 +1,8 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { DomainValidationError } from '../../../blog/article/status';
-import { Result } from '../../../../Result';
+import { DomainValidationError } from '../../../blog/article/domain/status';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { Deal } from '../../deal';
+import { Deal } from '../../domain/deal';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { DeactivateDealRequestDto } from './deactivateRequestDto';
 
@@ -15,11 +15,7 @@ export class DeactivateDealUseCase implements UseCase<DeactivateDealRequestDto, 
     const { dealId } = request;
 
     try {
-      const dealOrError = await this.dealCommandsRepo.getDeal(dealId);
-      if (dealOrError.isErr())
-        return Result.fail(new UseCaseErrors.DomainValidation(dealOrError.error.message));
-
-      const deal = dealOrError.value;
+      const deal = await this.dealCommandsRepo.getDeal(dealId);
       if (!deal) {
         return Result.fail(new UseCaseErrors.NotFound('Deal not found'));
       }

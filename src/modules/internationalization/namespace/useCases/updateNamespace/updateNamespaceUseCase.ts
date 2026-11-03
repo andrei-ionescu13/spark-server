@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { Namespace } from '../../namespace';
+import { Namespace } from '../../domain/namespace';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { UpdateNamespaceRequestDto } from './updateNamespaceRequestDto';
 
-type Response = Result<Namespace, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
+type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class UpdateNamespaceUseCase implements UseCase<UpdateNamespaceRequestDto, Response> {
   constructor(private namespaceCommandsRepo: NamespaceCommandsRepoI) {}
@@ -14,18 +14,15 @@ export class UpdateNamespaceUseCase implements UseCase<UpdateNamespaceRequestDto
     const { namespaceId, name } = request;
 
     try {
-      const namespaceOrError = await this.namespaceCommandsRepo.getNamespace(namespaceId);
-      if (namespaceOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(namespaceOrError.error.message));
-      }
-
-      const namespace = namespaceOrError.value;
+      const namespace = await this.namespaceCommandsRepo.getNamespace(namespaceId);
       if (!namespace) {
         return Result.fail(new UseCaseErrors.NotFound('Namespace not found'));
       }
 
       namespace.updateName(name);
-      return Result.ok(namespace);
+
+      this.namespaceCommandsRepo.save(namespace);
+      return Result.ok(namespace.name);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

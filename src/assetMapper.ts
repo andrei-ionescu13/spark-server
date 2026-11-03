@@ -1,6 +1,6 @@
 import { Result } from './result';
-import { Asset, AssetDoc } from './asset';
-import { DomainValidationError } from './modules/blog/article/status';
+import { DomainValidationError } from './modules/blog/article/domain/status';
+import { Asset, AssetDoc } from './Asset';
 
 export interface AssetDto {
   publicId: string;
@@ -24,11 +24,12 @@ export interface AssetPersistance {
   url: string;
   secure_url: string;
   original_filename: string;
+  _id: string;
 }
 
 export class AssetMapper {
-  public static toDomain(entity: AssetDoc): Result<Asset, DomainValidationError> {
-    const assetOrError = Asset.create({
+  public static toDomain(entity: AssetDoc): Asset {
+    const asset = Asset.reconstitute({
       publicId: entity.public_id,
       width: entity.width,
       height: entity.height,
@@ -38,26 +39,15 @@ export class AssetMapper {
       url: entity.url,
       secureUrl: entity.secure_url,
       originalFilename: entity.original_filename,
+      _id: entity._id,
     });
 
-    if (assetOrError.isErr()) {
-      return Result.fail(new DomainValidationError(assetOrError.error.message));
-    }
-
-    const asset = assetOrError.value;
-    return Result.ok(asset);
+    return asset;
   }
 
-  public static toDomainList(entities: AssetDoc[]): Result<Asset[], DomainValidationError> {
-    const results = entities.map((entity) => this.toDomain(entity));
-    const assetsOrError = Result.combine(results);
-
-    if (assetsOrError.isErr()) {
-      return Result.fail(new DomainValidationError(assetsOrError.error.message));
-    }
-
-    const assets = results.map((assetOrError) => assetOrError.value);
-    return Result.ok(assets);
+  public static toDomainList(entities: AssetDoc[]): Asset[] {
+    const assets = entities.map((entity) => this.toDomain(entity));
+    return assets;
   }
 
   public static toDto(entity: AssetDoc): AssetDto {
@@ -89,6 +79,7 @@ export class AssetMapper {
       url: entity.url,
       secure_url: entity.secureUrl,
       original_filename: entity.originalFilename,
+      _id: entity._id,
     };
   }
 

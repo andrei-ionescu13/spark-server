@@ -14,7 +14,7 @@ router.post('/', (req: Request, res: Response) => createLanguageController.execu
 
 router.get('/search', (req: Request, res: Response) => searchLanguagesController.execute(req, res));
 
-router.delete('/:translationsLanguageId', (req: Request, res: Response) =>
+router.delete('/:languageId', (req: Request, res: Response) =>
   deleteLanguageController.execute(req, res),
 );
 

@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageCommandsRepoI } from '../../repo/commands';
 import { LanguageQueriesRepoI } from '../../repo/queries';
@@ -17,6 +17,7 @@ export class DeleteLanguageUseCase implements UseCase<DeleteLanguageRequestDto, 
     const { languageId } = request;
 
     try {
+      console.log(languageId);
       const language = await this.languageQueriesRepo.getLanguage(languageId);
       if (!language) {
         return Result.fail(new UseCaseErrors.NotFound('Language not found'));

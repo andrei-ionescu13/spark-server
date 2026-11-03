@@ -9,14 +9,14 @@ type SearchUsersQueries = {
   sortOrder?: string;
   status?: string;
   page?: number;
-  limit: number;
+  limit?: number;
 };
 
 type SearchUserReviewsQueries = {
   sortBy?: string;
   sortOrder?: string;
   page?: number;
-  limit: number;
+  limit?: number;
 };
 
 export interface UserQueriesRepoI {
@@ -50,10 +50,20 @@ export class UserQueriesRepo implements UserQueriesRepoI {
     const pipeline = [
       {
         $match: {
-          title: {
-            $regex: keyword,
-            $options: 'i',
-          },
+          $or: [
+            {
+              _id: {
+                $regex: keyword,
+                $options: 'i',
+              },
+            },
+            {
+              email: {
+                $regex: keyword,
+                $options: 'i',
+              },
+            },
+          ],
           ...(status && {
             status,
           }),

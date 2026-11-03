@@ -15,20 +15,21 @@ export class CreateDiscountController extends Controller {
   executeImpl = async (req: Request, res: Response) => {
     const schema = z
       .object({
-        endDate: z.date().optional(),
-        products: z.array(z.uuidv7()).min(1),
-        startDate: z.date(),
+        endDate: z.coerce.date().nullable(),
+        product: z.uuidv7(),
+        startDate: z.coerce.date(),
         title: z.string().min(1),
         type: z.enum(['amount', 'percentage']),
         value: z.number().min(1),
       })
-      .refine((data) => data.endDate && data.startDate < data.endDate, {
-        message: 'Start date must be before end date',
-        path: ['startDate'],
-      })
-      .refine((data) => data.endDate && data.endDate > data.startDate, {
-        message: 'End date must be after start date',
-        path: ['endDate'],
+      .superRefine((data, ctx) => {
+        if (data.endDate && data.startDate >= data.endDate) {
+          ctx.addIssue({
+            code: 'custom',
+            message: 'Start date must be before end date',
+            path: ['startDate'],
+          });
+        }
       });
 
     const result = schema.safeParse(req.body);

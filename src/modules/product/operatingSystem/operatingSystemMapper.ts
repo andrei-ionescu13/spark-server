@@ -1,7 +1,5 @@
-import { DomainValidationError } from '../../blog/article/status';
-import { Result } from '../../../Result';
+import { OperatingSystem } from './domain/operatingSystem';
 import { OperatingSystemDoc } from './model';
-import { OperatingSystem } from './operatingSystem';
 
 export interface OperatingSystemDto {
   _id: string;
@@ -11,7 +9,7 @@ export interface OperatingSystemDto {
   updatedAt: Date | null;
 }
 
-interface OperatingSystemPersistance {
+interface OperatingSystempersistence {
   _id: string;
   name: string;
   slug: string;
@@ -20,25 +18,6 @@ interface OperatingSystemPersistance {
 }
 
 export class OperatingSystemMapper {
-  public static toDomain(
-    entity: OperatingSystemDoc,
-  ): Result<OperatingSystem, DomainValidationError> {
-    const operatingSystemOrError = OperatingSystem.create({
-      _id: entity._id,
-      name: entity.name,
-      slug: entity.slug,
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
-    });
-
-    if (operatingSystemOrError.isErr()) {
-      return Result.fail(new DomainValidationError(operatingSystemOrError.error.message));
-    }
-
-    const operatingSystem = operatingSystemOrError.value;
-    return Result.ok(operatingSystem);
-  }
-
   static toDto(entity: any): OperatingSystemDto {
     return {
       _id: entity._id,
@@ -53,12 +32,24 @@ export class OperatingSystemMapper {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: OperatingSystem): OperatingSystemPersistance {
-    return {
-      _id: entity._id,
+  static toDomain(entity: OperatingSystemDoc): OperatingSystem {
+    const operatingSystem = OperatingSystem.reconstitute({
       name: entity.name,
       slug: entity.slug,
+      _id: entity._id,
       createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+    });
+
+    return operatingSystem;
+  }
+
+  static toPersistance(entity: OperatingSystem): OperatingSystemDoc {
+    return {
+      _id: entity._id,
+      createdAt: entity.createdAt,
+      name: entity.name,
+      slug: entity.slug,
       updatedAt: entity.updatedAt,
     };
   }

@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CouponDto } from '../../couponMapper';
 import { CouponQueriesRepoI } from '../../repo/queries';

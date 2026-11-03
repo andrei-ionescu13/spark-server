@@ -1,13 +1,12 @@
 import { TokenDoc } from '../../model';
 import { TokenMapper } from '../../tokenMapper';
-import { Token } from '../../token';
-import { Result } from '../../../../Result';
-import { DomainValidationError } from '../../../blog/article/status';
+import { Token } from '../../domain/token';
+import { Result } from '../../../../result';
 import { Collection } from 'mongodb';
 
 export interface TokenCommandsRepoI {
   save: (token: Token) => Promise<void>;
-  findOne: (token: string, admin: string) => Promise<Result<Token | null, DomainValidationError>>;
+  findOne: (token: string, admin: string) => Promise<Token | null>;
 }
 
 export class TokenCommandsRepo implements TokenCommandsRepoI {
@@ -25,18 +24,11 @@ export class TokenCommandsRepo implements TokenCommandsRepoI {
     );
   };
 
-  findOne = async (
-    value: string,
-    admin: string,
-  ): Promise<Result<Token | null, DomainValidationError>> => {
+  findOne = async (value: string, admin: string): Promise<Token | null> => {
     const doc = await this.collection.findOne({ value, admin });
-    if (!doc) return Result.ok(null);
+    if (!doc) return null;
 
-    const tokenOrError = TokenMapper.toDomain(doc);
-    if (tokenOrError.isErr())
-      return Result.fail(new DomainValidationError(tokenOrError.error.message));
-
-    const token = tokenOrError.value;
-    return Result.ok(token);
+    const token = TokenMapper.toDomain(doc);
+    return token;
   };
 }

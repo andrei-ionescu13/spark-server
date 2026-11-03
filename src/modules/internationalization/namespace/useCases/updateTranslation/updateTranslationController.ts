@@ -12,9 +12,10 @@ export class UpdateTranslationController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const dto: UpdateTranslationRequestDto = {
+      ...req.body,
+      keyValue: req.body.key,
       namespaceId: req.params.namespaceId,
       key: req.params.key,
-      ...req.body,
     };
 
     try {

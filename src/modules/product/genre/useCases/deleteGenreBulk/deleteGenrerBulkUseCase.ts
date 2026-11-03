@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../UseCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
@@ -31,7 +31,7 @@ export class DeleteGenreBulkUseCase implements UseCase<DeleteGenreBulkRequestDto
     }
 
     const product = await this.productQueriesRepo.getProductByGenre(genreId);
-    if (!product) {
+    if (product) {
       return Result.fail(new DeleteGenreBulkErrors.GenreIsUsed());
     }
 

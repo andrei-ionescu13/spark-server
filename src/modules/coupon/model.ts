@@ -4,9 +4,11 @@ export interface CouponDoc {
   userSelection: 'general' | 'selected';
   type: 'amount' | 'percentage';
   productSelection: 'general' | 'selected';
-  products: string[];
-  users: string[];
+  products: string[] | null;
+  users: string[] | null;
   value: number;
   startDate: Date;
   endDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date | null;
 }

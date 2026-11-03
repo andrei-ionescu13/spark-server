@@ -1,10 +1,12 @@
 import fs from 'node:fs';
-import { PublisherModel } from '../src/modules/product/publisher/model';
-import { PublisherRepo } from '../src/modules/product/publisher/publisherRepo';
+import { PublisherCommandsRepo } from '../src/modules/product/publisher/repo/commands';
+import { Mongo } from '../src/mongo';
 import { CloudinaryUploaderService } from '../src/services/uploaderService';
-import { textUtils } from '../utils/textUtils';
+import { Asset } from '../src/Asset';
+import { Publisher } from '../src/modules/product/publisher/domain/publisher';
+import { Result } from '../src/result';
 
-const publishers = [
+const publishersMock = [
   'Paradox Interactive',
   'SEGA',
   'BANDAI NAMCO Entertainment',
@@ -72,21 +74,22 @@ const publishers = [
 
 export const generatePublishers = async () => {
   const logoFile = fs.readFileSync(__dirname + '/publisher-placeholder.svg', 'utf8');
+  console.log(logoFile);
 
-  const publisherRepo = new PublisherRepo(PublisherModel);
+  const publisherRepo = new PublisherCommandsRepo(Mongo.getCollection('publishers'));
   const uploaderService = new CloudinaryUploaderService();
   const uploadedLogo = await uploaderService.uploadFile(
     { buffer: Buffer.from(logoFile) },
     'publishers',
   );
 
-  const props = publishers.map((genre) => ({
-    name: genre,
-    slug: textUtils.generateSlug(genre),
-    logo: uploadedLogo,
-  }));
+  const asset = Asset.create(uploadedLogo).value;
 
-  const promises = props.map((x) => publisherRepo.createPublisher(x));
+  const publishers = Result.combine(
+    publishersMock.map((publisher) => Publisher.create({ logo: asset, name: publisher })),
+  ).value;
+
+  const promises = publishers.map((publisher) => publisherRepo.save(publisher));
   await Promise.all(promises);
   console.log('publishers generated');
 };

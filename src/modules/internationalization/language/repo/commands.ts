@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb';
-import { Language } from '../language';
+import { Language } from '../domain/language';
 import { LanguageMapper } from '../languageMapper';
 import { LanguageDoc } from '../model';
 
@@ -13,7 +13,7 @@ export class LanguageCommandsRepo implements LanguageCommandsRepoI {
 
   save = async (language: Language): Promise<void> => {
     const persistence = LanguageMapper.toPersistance(language);
-
+    console.log(persistence);
     await this.collection.updateOne({ _id: language._id }, { $set: persistence }, { upsert: true });
   };
 

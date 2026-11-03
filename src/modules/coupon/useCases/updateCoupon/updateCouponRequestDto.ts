@@ -2,9 +2,11 @@ export interface UpdateCouponRequestDto {
   couponId: string;
   code: string;
   endDate: Date | null;
-  products: string[];
+  productSelection: 'general' | 'selected';
+  products: string[] | null;
   startDate: Date;
-  type: string;
-  users: string[];
+  type: 'amount' | 'percentage';
+  userSelection: 'general' | 'selected';
+  users: string[] | null;
   value: number;
 }

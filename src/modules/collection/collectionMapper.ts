@@ -1,13 +1,13 @@
-import { Asset } from '../../asset';
 import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
-import { DomainValidationError } from '../blog/article/status';
-import { Meta } from '../../meta';
+import { DomainValidationError } from '../blog/article/domain/status';
 import { MetaDto, MetaMapper, MetaPersistance } from '../../metaMapper';
-import { Result } from '../../Result';
-import { Collection } from './collection';
-import { CollectionDescription } from './collectionDescription';
-import { CollectionTitle } from './collectionTitle';
-import { CollectionDoc } from './model';
+import { Collection } from './domain/collection';
+import { CollectionDescription } from './domain/collectionDescription';
+import { CollectionTitle } from './domain/collectionTitle';
+import { CollectionDoc, CollectionPopulatedDoc } from './model';
+import { Asset } from '../../Asset';
+import { Meta } from '../../Meta';
+import { ProductDto, ProductMapper } from '../product/productMapper';
 
 export interface CollectionDto {
   cover: AssetDto;
@@ -15,33 +15,23 @@ export interface CollectionDto {
   description: string | null;
   slug: string;
   startDate: Date;
-  endDate: Date;
+  endDate: Date | null;
   meta: MetaDto;
   createdAt: Date;
   updatedAt: Date | null;
-  isDeal: boolean;
   _id: string;
+  products: string[];
 }
 
-export interface CollectionPersistance {
-  cover: AssetPersistance;
-  title: string;
-  description: string | null;
-  slug: string;
-  startDate: Date;
-  endDate: Date;
-  meta: MetaPersistance;
-  createdAt: Date;
-  updatedAt: Date | null;
-  isDeal: boolean;
-  _id: string;
+export interface CollectionPopulatedDto extends Omit<CollectionDto, 'products'> {
+  products: ProductDto[];
 }
 
 export class CollectionMapper {
-  public static toDomain(entity: CollectionDoc): Result<Collection, DomainValidationError> {
-    const titleOrError = CollectionTitle.create(entity.title);
-    const descriptionOrError = CollectionDescription.create(entity.description);
-    const coverOrError = Asset.create({
+  public static toDomain(entity: CollectionDoc): Collection {
+    const title = CollectionTitle.reconstitute(entity.title);
+    const description = CollectionDescription.reconstitute(entity.description);
+    const cover = Asset.reconstitute({
       publicId: entity.cover.public_id,
       width: entity.cover.width,
       height: entity.cover.height,
@@ -51,25 +41,15 @@ export class CollectionMapper {
       url: entity.cover.url,
       secureUrl: entity.cover.secure_url,
       originalFilename: entity.cover.original_filename,
+      _id: entity.cover._id,
     });
-    const metaOrError = Meta.create({
+    const meta = Meta.reconstitute({
       title: entity.meta.title,
       description: entity.meta.description,
       keywords: entity.meta.keywords,
     });
 
-    const result = Result.combine([titleOrError, descriptionOrError, coverOrError, metaOrError]);
-
-    if (result.isErr()) {
-      return Result.fail(new DomainValidationError(result.error.message));
-    }
-
-    const title = titleOrError.value;
-    const description = descriptionOrError.value;
-    const cover = coverOrError.value;
-    const meta = metaOrError.value;
-
-    const collectionOrError = Collection.create({
+    const collection = Collection.reconstitute({
       ...entity,
       title,
       meta,
@@ -77,25 +57,12 @@ export class CollectionMapper {
       cover,
     });
 
-    if (collectionOrError.isErr()) {
-      return Result.fail(new DomainValidationError(collectionOrError.error.message));
-    }
-
-    const developer = collectionOrError.value;
-    return Result.ok(developer);
+    return collection;
   }
 
-  public static toDomainList(
-    entities: CollectionDoc[],
-  ): Result<Collection[], DomainValidationError> {
-    const colelctionsOrErrors = entities.map((entity) => this.toDomain(entity));
-    const combinedResults = Result.combine(colelctionsOrErrors);
-
-    if (combinedResults.isErr()) {
-      return Result.fail(new DomainValidationError(combinedResults.error.message));
-    }
-
-    return Result.ok(combinedResults.value);
+  public static toDomainList(entities: CollectionDoc[]): Collection[] {
+    const collections = entities.map((entity) => this.toDomain(entity));
+    return collections;
   }
 
   static toDto(entity: CollectionDoc): CollectionDto {
@@ -109,16 +76,36 @@ export class CollectionMapper {
       meta: MetaMapper.toDto(entity.meta),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      isDeal: entity.isDeal,
       _id: entity._id,
+      products: entity.products,
     };
   }
 
-  static toDtoList(entities: any[]): CollectionDto[] {
+  static toDtoList(entities: CollectionDoc[]): CollectionDto[] {
     return entities.map((entity) => this.toDto(entity));
   }
 
-  static toPersistance(entity: Collection): CollectionPersistance {
+  static toPopulatedDto(entity: CollectionPopulatedDoc): CollectionPopulatedDto {
+    return {
+      cover: AssetMapper.toDto(entity.cover),
+      title: entity.title,
+      description: entity.description,
+      slug: entity.slug,
+      startDate: entity.startDate,
+      endDate: entity.endDate,
+      meta: MetaMapper.toDto(entity.meta),
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      _id: entity._id,
+      products: ProductMapper.toDtoList(entity.products),
+    };
+  }
+
+  static toPopulatedDtoList(entities: CollectionPopulatedDoc[]): CollectionPopulatedDto[] {
+    return entities.map((entity) => this.toPopulatedDto(entity));
+  }
+
+  static toPersistance(entity: Collection): CollectionDoc {
     return {
       cover: AssetMapper.toPersistance(entity.cover),
       title: entity.title.value,
@@ -129,8 +116,8 @@ export class CollectionMapper {
       meta: MetaMapper.toPersistance(entity.meta),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
-      isDeal: entity.isDeal,
       _id: entity._id,
+      products: entity.products,
     };
   }
 }
