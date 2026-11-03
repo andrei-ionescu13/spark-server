@@ -1,0 +1,93 @@
+import { Feature } from '../src/modules/product/feature/domain/feature';
+import { FeatureCommandsRepo } from '../src/modules/product/feature/repo/commands';
+import { Mongo } from '../src/mongo';
+import { Result } from '../src/result';
+
+const featuresMock = [
+  'Singleplayer',
+  'Multiplayer',
+  '2D',
+  'First-Person',
+  '3D',
+  'Co-op',
+  'Third Person',
+  'Open World',
+  'Controller',
+  'Character Customization',
+  'Turn-Based',
+  'Combat',
+  'Online Co-Op',
+  'Choices Matter',
+  'Top-Down',
+  'Local Multiplayer',
+  'PvP',
+  'Turn-Based Combat',
+  'Local Co-Op',
+  'Turn-Based Tactics',
+  'Multiple Endings',
+  'Stealth',
+  'Physics',
+  'Resource Management',
+  'VR',
+  'PvE',
+  'Procedural Generation',
+  'Narration',
+  'Moddable',
+  'Linear',
+  '2.5D',
+  '4 Player Local',
+  'Soundtrack',
+  'Team-Based',
+  'Flight',
+  'Hex Grid',
+  'Level Editor',
+  'Conversation',
+  'Score Attack',
+  'Inventory Management',
+  'Co-op Campaign',
+  'Perma Death',
+  'Real-Time with Pause',
+  'Text-Based',
+  'Split Screen',
+  'Mouse only',
+  'Artificial Intelligence',
+  'Grid-Based Movement',
+  'Nonlinear',
+  'Automation',
+  'Real-Time',
+  'GameMaker',
+  'Trading',
+  'Vehicular Combat',
+  'Bullet Time',
+  'Quick-Time Events',
+  'Tutorial',
+  'FMV',
+  'Time Manipulation',
+  'Class-Based',
+  'Gun Customization',
+  'Massively Multiplayer',
+  '6DOF',
+  'Clicker',
+  'Touch-Friendly',
+  'Asynchronous Multiplayer',
+  'Episodic',
+  'Naval Combat',
+  'Battle Royale',
+  'Movie',
+  'Time Attack',
+  '3D Vision',
+  'Minigames',
+  'Music-Based Procedural Generation',
+  'Asymmetric VR',
+  'TrackIR',
+];
+
+export const generateFeatures = async () => {
+  const featureRepoe = new FeatureCommandsRepo(Mongo.getCollection('features'));
+  const featureOrError = Result.combine(featuresMock.map((x) => Feature.create({ name: x })));
+  const features = featureOrError.value;
+  const promises = features.map((x) => featureRepoe.save(x));
+  await Promise.all(promises);
+
+  console.log('features generated');
+};

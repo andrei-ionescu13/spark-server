@@ -1,5 +1,6 @@
 class TextUtils {
   generateSlug = (str: string) => {
+    console.log(str);
     str = str.replace(/^\s+|\s+$/g, '');
     str = str.toLowerCase();
     str = str

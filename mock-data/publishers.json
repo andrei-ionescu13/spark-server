@@ -1,0 +1,2739 @@
+[
+  {
+    "count": 503,
+    "_id": "63cec58d22cc467913aa0906",
+    "name": "Paradox Interactive",
+    "slug": "paradox-interactive",
+    "facet": "publishers",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 482,
+    "_id": "6737455e4dcce62fb43ff5c2",
+    "facet": "publishers",
+    "name": "Dark Horse",
+    "combo": true,
+    "parent": [],
+    "slug": "dark-horse",
+    "hideTypeInTitle": true
+  },
+  {
+    "count": 312,
+    "_id": "6329b9c2e5364e1c83812dd5",
+    "facet": "publishers",
+    "name": "BANDAI NAMCO Entertainment",
+    "slug": "bandai-namco-entertainment",
+    "parent": [],
+    "combo": true,
+    "always_show": true
+  },
+  {
+    "count": 302,
+    "_id": "66e839bf4dcce62fb4406a72",
+    "facet": "publishers",
+    "name": "Plug In Digital",
+    "combo": true,
+    "parent": [],
+    "slug": "plug-in-digital"
+  },
+  {
+    "name": "Nacon",
+    "slug": "nacon",
+    "count": 276
+  },
+  {
+    "count": 253,
+    "_id": "6329b824e5364e1c8380b0be",
+    "facet": "publishers",
+    "name": "SEGA",
+    "slug": "sega",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "NIS America Inc.",
+    "slug": "nis-america-inc",
+    "count": 251
+  },
+  {
+    "count": 237,
+    "_id": "63cec58f22cc467913aa092c",
+    "name": "Slitherine Ltd.",
+    "slug": "slitherine-ltd",
+    "facet": "publishers",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 210,
+    "_id": "63c689d04dcce62fb40d8dfc",
+    "facet": "publishers",
+    "name": "THQ Nordic",
+    "parent": [],
+    "slug": "thq-nordic",
+    "combo": true
+  },
+  {
+    "name": "Idea Factory International",
+    "slug": "idea-factory-international",
+    "count": 190
+  },
+  {
+    "name": "Kalypso Media Digital",
+    "slug": "kalypso-media-digital",
+    "count": 183
+  },
+  {
+    "count": 180,
+    "_id": "633320b1e5364e1c83d75b85",
+    "facet": "publishers",
+    "name": "Team17 Digital Ltd",
+    "slug": "team17-digital-ltd",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "indie.io",
+    "slug": "indieio",
+    "count": 175
+  },
+  {
+    "name": "Fulqrum Publishing",
+    "slug": "fulqrum-publishing",
+    "count": 172
+  },
+  {
+    "name": "H2 Interactive Co. Ltd.",
+    "slug": "h2-interactive-co-ltd",
+    "count": 165
+  },
+  {
+    "count": 163,
+    "_id": "6329b924e5364e1c8380f9d4",
+    "facet": "publishers",
+    "name": "CAPCOM",
+    "slug": "capcom",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "Komodo",
+    "slug": "komodo",
+    "count": 161
+  },
+  {
+    "name": "tinyBuild",
+    "slug": "tinybuild",
+    "count": 155
+  },
+  {
+    "count": 154,
+    "_id": "673b21c34dcce62fb4a27d6a",
+    "facet": "publishers",
+    "name": "American Mythology",
+    "combo": true,
+    "parent": [],
+    "slug": "american-mythology"
+  },
+  {
+    "name": "Daedalic Entertainment",
+    "slug": "daedalic-entertainment",
+    "count": 154
+  },
+  {
+    "count": 148,
+    "_id": "6329b947e5364e1c83810245",
+    "facet": "publishers",
+    "name": "Bethesda Softworks",
+    "slug": "bethesda-softworks",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "Microids",
+    "slug": "microids",
+    "count": 138
+  },
+  {
+    "count": 127,
+    "_id": "63cec58f22cc467913aa093a",
+    "name": "Dovetail Games",
+    "slug": "dovetail-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "2K Games",
+    "slug": "2k-games",
+    "count": 117
+  },
+  {
+    "name": "Dear Villagers",
+    "slug": "dear-villagers",
+    "count": 112
+  },
+  {
+    "count": 109,
+    "_id": "6329b8fee5364e1c8380ed72",
+    "facet": "publishers",
+    "name": "Devolver Digital",
+    "slug": "devolver-digital",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 105,
+    "_id": "63cec58f22cc467913aa0934",
+    "name": "Alawar Entertainment",
+    "slug": "alawar-entertainment",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Gamersky Games",
+    "slug": "gamersky-games",
+    "count": 103
+  },
+  {
+    "count": 94,
+    "_id": "66e839914dcce62fb4404fc9",
+    "facet": "publishers",
+    "name": "Frontier Developments",
+    "combo": true,
+    "parent": [],
+    "slug": "frontier-developments"
+  },
+  {
+    "name": "Fruitbat Factory",
+    "slug": "fruitbat-factory",
+    "count": 93
+  },
+  {
+    "count": 90,
+    "_id": "63c689854dcce62fb40d6afb",
+    "facet": "publishers",
+    "name": "Konami Digital Entertainment",
+    "parent": [],
+    "slug": "konami-digital-entertainment",
+    "combo": true
+  },
+  {
+    "count": 90,
+    "_id": "63cec58f22cc467913aa0938",
+    "name": "Raw Fury",
+    "slug": "raw-fury",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Iceberg Interactive",
+    "slug": "iceberg-interactive",
+    "count": 89
+  },
+  {
+    "count": 88,
+    "_id": "673b21a94dcce62fb4a269af",
+    "facet": "publishers",
+    "name": "Medibang Inc",
+    "combo": true,
+    "parent": [],
+    "slug": "medibang-inc"
+  },
+  {
+    "count": 88,
+    "_id": "63c689ec4dcce62fb40d9a6d",
+    "facet": "publishers",
+    "name": "Warner Bros. Interactive Entertainment",
+    "parent": [],
+    "slug": "warner-bros-interactive-entertainment",
+    "combo": true
+  },
+  {
+    "name": "Akupara Games",
+    "slug": "akupara-games",
+    "count": 86
+  },
+  {
+    "name": "Stardock Entertainment",
+    "slug": "stardock-entertainment",
+    "count": 85
+  },
+  {
+    "count": 81,
+    "_id": "627d0358e5364e1c83ecf91f",
+    "facet": "publishers",
+    "name": "505 Games",
+    "slug": "505-games",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "HandyGames",
+    "slug": "handygames",
+    "count": 78
+  },
+  {
+    "name": "GrabTheGames",
+    "slug": "grabthegames",
+    "count": 76
+  },
+  {
+    "name": "Headup Games",
+    "slug": "headup-games",
+    "count": 76
+  },
+  {
+    "count": 75,
+    "_id": "63c689934dcce62fb40d7289",
+    "facet": "publishers",
+    "name": "Rebellion",
+    "parent": [],
+    "slug": "rebellion",
+    "combo": true
+  },
+  {
+    "name": "Crytek",
+    "slug": "crytek",
+    "count": 73
+  },
+  {
+    "count": 72,
+    "_id": "6333209fe5364e1c83d74f8a",
+    "facet": "publishers",
+    "name": "Deep Silver",
+    "slug": "deep-silver",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "Night Dive Studios",
+    "slug": "night-dive-studios",
+    "count": 72
+  },
+  {
+    "count": 70,
+    "_id": "63cec59022cc467913aa094f",
+    "name": "Curve Games",
+    "slug": "curve-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "astragon Entertainment GmbH",
+    "slug": "astragon-entertainment-gmbh",
+    "count": 66
+  },
+  {
+    "name": "Shiravune",
+    "slug": "shiravune",
+    "count": 65
+  },
+  {
+    "name": "Strategy First",
+    "slug": "strategy-first",
+    "count": 63
+  },
+  {
+    "count": 61,
+    "_id": "63cec58e22cc467913aa090d",
+    "name": "KISS ltd",
+    "slug": "kiss-ltd",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "count": 61,
+    "_id": "67617e784dcce62fb416326e",
+    "facet": "publishers",
+    "name": "Katie Cross",
+    "combo": true,
+    "parent": [],
+    "slug": "katie-cross"
+  },
+  {
+    "name": "Assemble Entertainment",
+    "slug": "assemble-entertainment",
+    "count": 58
+  },
+  {
+    "name": "Gamirror Games",
+    "slug": "gamirror-games",
+    "count": 56
+  },
+  {
+    "name": "Nomad Games",
+    "slug": "nomad-games",
+    "count": 56
+  },
+  {
+    "name": "PlayWay S.A.",
+    "slug": "playway-sa",
+    "count": 56
+  },
+  {
+    "name": "Wired Productions",
+    "slug": "wired-productions",
+    "count": 55
+  },
+  {
+    "name": "Untold Tales",
+    "slug": "untold-tales",
+    "count": 54
+  },
+  {
+    "name": "Goblinz Publishing",
+    "slug": "goblinz-publishing",
+    "count": 53
+  },
+  {
+    "name": "KEMCO",
+    "slug": "kemco",
+    "count": 53
+  },
+  {
+    "name": "Aerosoft GmbH",
+    "slug": "aerosoft-gmbh",
+    "count": 52
+  },
+  {
+    "name": "PQube",
+    "slug": "pqube",
+    "count": 52
+  },
+  {
+    "name": "Funcom",
+    "slug": "funcom",
+    "count": 51
+  },
+  {
+    "count": 51,
+    "_id": "6329b85ce5364e1c8380bef2",
+    "facet": "publishers",
+    "name": "KOEI TECMO GAMES CO. LTD.",
+    "slug": "koei-tecmo-games-co-ltd",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 50,
+    "_id": "63cec58d22cc467913aa08fa",
+    "name": "Playstation PC LLC",
+    "slug": "playstation-pc-llc",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "count": 49,
+    "_id": "6333201fe5364e1c83d6fdde",
+    "facet": "publishers",
+    "name": "Aspyr",
+    "slug": "aspyr",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "name": "Ziggurat Interactive",
+    "slug": "ziggurat-interactive",
+    "count": 49
+  },
+  {
+    "count": 48,
+    "_id": "63cec58f22cc467913aa0941",
+    "name": "11 bit studios",
+    "slug": "11-bit-studios",
+    "facet": "publishers",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 48,
+    "_id": "63cec58e22cc467913aa0914",
+    "name": "Arc System Works",
+    "slug": "arc-system-works",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "GIANTS Software GmbH",
+    "slug": "giants-software-gmbh",
+    "count": 48
+  },
+  {
+    "name": "Silver Lining Interactive",
+    "slug": "silver-lining-interactive",
+    "count": 48
+  },
+  {
+    "name": "Viva Media",
+    "slug": "viva-media",
+    "count": 48
+  },
+  {
+    "count": 47,
+    "_id": "633320c1e5364e1c83d76620",
+    "facet": "publishers",
+    "name": "Focus Entertainment",
+    "slug": "focus-entertainment",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 46,
+    "_id": "63cec58f22cc467913aa0936",
+    "name": "Artifex Mundi",
+    "slug": "artifex-mundi",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Grey Alien Games",
+    "slug": "grey-alien-games",
+    "count": 45
+  },
+  {
+    "count": 44,
+    "_id": "63cec58d22cc467913aa0904",
+    "name": "Annapurna Interactive",
+    "slug": "annapurna-interactive",
+    "facet": "publishers",
+    "parent": [],
+    "combo": true
+  },
+  {
+    "count": 44,
+    "_id": "63cec59022cc467913aa0957",
+    "name": "Vertigo Games",
+    "slug": "vertigo-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "GameMill Entertainment",
+    "slug": "gamemill-entertainment",
+    "count": 43
+  },
+  {
+    "name": "QubicGames",
+    "slug": "qubicgames",
+    "count": 43
+  },
+  {
+    "name": "2P Games",
+    "slug": "2p-games",
+    "count": 42
+  },
+  {
+    "name": "CI Games",
+    "slug": "ci-games",
+    "count": 40
+  },
+  {
+    "name": "NEOWIZ",
+    "slug": "neowiz",
+    "count": 40
+  },
+  {
+    "count": 39,
+    "_id": "63cec58f22cc467913aa0926",
+    "name": "Humongous Entertainment",
+    "slug": "humongous-entertainment",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Balor Games",
+    "slug": "balor-games",
+    "count": 37
+  },
+  {
+    "name": "Marmalade Game Studio Ltd",
+    "slug": "marmalade-game-studio-ltd",
+    "count": 37
+  },
+  {
+    "name": "Cygames Inc.",
+    "slug": "cygames-inc",
+    "count": 36
+  },
+  {
+    "name": "Good Shepherd Entertainment",
+    "slug": "good-shepherd-entertainment",
+    "count": 36
+  },
+  {
+    "name": "HeroCraft",
+    "slug": "herocraft",
+    "count": 36
+  },
+  {
+    "name": "Kasedo Games",
+    "slug": "kasedo-games",
+    "count": 36
+  },
+  {
+    "name": "Minimol Games",
+    "slug": "minimol-games",
+    "count": 36
+  },
+  {
+    "name": "Topware Interactive",
+    "slug": "topware-interactive",
+    "count": 36
+  },
+  {
+    "count": 35,
+    "_id": "66e839a14dcce62fb4405a6e",
+    "facet": "publishers",
+    "name": "Jackbox Games Inc.",
+    "combo": true,
+    "parent": [],
+    "slug": "jackbox-games-inc"
+  },
+  {
+    "name": "Thunderful Publishing",
+    "slug": "thunderful-publishing",
+    "count": 35
+  },
+  {
+    "name": "Fireshine Games",
+    "slug": "fireshine-games",
+    "count": 34
+  },
+  {
+    "name": "Medibang",
+    "slug": "medibang",
+    "count": 34
+  },
+  {
+    "count": 34,
+    "_id": "675c308a4dcce62fb436a059",
+    "facet": "publishers",
+    "name": "Michael La Ronn",
+    "combo": true,
+    "parent": [],
+    "slug": "michael-la-ronn"
+  },
+  {
+    "name": "Maple Whispering Limited",
+    "slug": "maple-whispering-limited",
+    "count": 33
+  },
+  {
+    "name": "Sticky Rice Games",
+    "slug": "sticky-rice-games",
+    "count": 33
+  },
+  {
+    "name": "Twin Sails Interactive",
+    "slug": "twin-sails-interactive",
+    "count": 33
+  },
+  {
+    "name": "HexWar Games",
+    "slug": "hexwar-games",
+    "count": 32
+  },
+  {
+    "name": "HypeTrain Digital",
+    "slug": "hypetrain-digital",
+    "count": 32
+  },
+  {
+    "name": "MumboJumbo",
+    "slug": "mumbojumbo",
+    "count": 32
+  },
+  {
+    "name": "2K",
+    "slug": "2k",
+    "count": 31
+  },
+  {
+    "name": "Crytivo",
+    "slug": "crytivo",
+    "count": 31
+  },
+  {
+    "name": "META Publishing",
+    "slug": "meta-publishing",
+    "count": 31
+  },
+  {
+    "name": "Secret Mode",
+    "slug": "secret-mode",
+    "count": 31
+  },
+  {
+    "name": "WhisperGames",
+    "slug": "whispergames",
+    "count": 31
+  },
+  {
+    "count": 31,
+    "_id": "67d8411a4dcce62fb454c175",
+    "facet": "publishers",
+    "name": "Z2 Comics",
+    "combo": true,
+    "parent": [],
+    "slug": "z2-comics"
+  },
+  {
+    "name": "TheGameCreators",
+    "slug": "thegamecreators",
+    "count": 30
+  },
+  {
+    "name": "Acram Digital",
+    "slug": "acram-digital",
+    "count": 29
+  },
+  {
+    "name": "DANGEN Entertainment",
+    "slug": "dangen-entertainment",
+    "count": 29
+  },
+  {
+    "name": "Techland Publishing",
+    "slug": "techland-publishing",
+    "count": 29
+  },
+  {
+    "name": "Yogscast Games",
+    "slug": "yogscast-games",
+    "count": 29
+  },
+  {
+    "name": "Avalon Digital",
+    "slug": "avalon-digital",
+    "count": 28
+  },
+  {
+    "name": "Bigben Interactive",
+    "slug": "bigben-interactive",
+    "count": 28
+  },
+  {
+    "name": "Forever Entertainment S. A.",
+    "slug": "forever-entertainment-s-a",
+    "count": 27
+  },
+  {
+    "name": "SNK CORPORATION",
+    "slug": "snk-corporation",
+    "count": 27
+  },
+  {
+    "name": "Tripwire Interactive",
+    "slug": "tripwire-interactive",
+    "count": 27
+  },
+  {
+    "name": "Digerati Distribution",
+    "slug": "digerati-distribution",
+    "count": 26
+  },
+  {
+    "count": 26,
+    "_id": "63cec58e22cc467913aa0921",
+    "name": "Owlcat Games",
+    "slug": "owlcat-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "The Irregular Corporation",
+    "slug": "the-irregular-corporation",
+    "count": 26
+  },
+  {
+    "name": "FireFly Studios",
+    "slug": "firefly-studios",
+    "count": 25
+  },
+  {
+    "name": "rokaplay",
+    "slug": "rokaplay",
+    "count": 25
+  },
+  {
+    "name": "Beamdog",
+    "slug": "beamdog",
+    "count": 24
+  },
+  {
+    "name": "Piko Interactive LLC",
+    "slug": "piko-interactive-llc",
+    "count": 24
+  },
+  {
+    "name": "Cateia Games",
+    "slug": "cateia-games",
+    "count": 23
+  },
+  {
+    "name": "Eastasiasoft Limited",
+    "slug": "eastasiasoft-limited",
+    "count": 23
+  },
+  {
+    "name": "FeelThere",
+    "slug": "feelthere",
+    "count": 23
+  },
+  {
+    "name": "Firesquid",
+    "slug": "firesquid",
+    "count": 23
+  },
+  {
+    "name": "Gamepires",
+    "slug": "gamepires",
+    "count": 23
+  },
+  {
+    "name": "Gearbox Publishing",
+    "slug": "gearbox-publishing",
+    "count": 23
+  },
+  {
+    "name": "Playstack",
+    "slug": "playstack",
+    "count": 23
+  },
+  {
+    "name": "Excalibur",
+    "slug": "excalibur",
+    "count": 22
+  },
+  {
+    "name": "Maximum Entertainment",
+    "slug": "maximum-entertainment",
+    "count": 22
+  },
+  {
+    "name": "QUByte Interactive",
+    "slug": "qubyte-interactive",
+    "count": 22
+  },
+  {
+    "count": 22,
+    "_id": "678647c14dcce62fb44f00c2",
+    "facet": "publishers",
+    "name": "T PUB LTD",
+    "combo": true,
+    "parent": [],
+    "slug": "t-pub-ltd"
+  },
+  {
+    "name": "Tonguç Bodur",
+    "slug": "tonguc-bodur",
+    "count": 22
+  },
+  {
+    "name": "Valusoft Cosmi",
+    "slug": "valusoft-cosmi",
+    "count": 22
+  },
+  {
+    "name": "ABLAZE",
+    "slug": "ablaze",
+    "count": 21
+  },
+  {
+    "name": "Chorus Worldwide Games",
+    "slug": "chorus-worldwide-games",
+    "count": 21
+  },
+  {
+    "name": "DreadXP",
+    "slug": "dreadxp",
+    "count": 21
+  },
+  {
+    "count": 21,
+    "_id": "63cec58e22cc467913aa0918",
+    "name": "Merge Games",
+    "slug": "merge-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Milestone S.r.l.",
+    "slug": "milestone-srl",
+    "count": 21
+  },
+  {
+    "count": 21,
+    "_id": "63cec59022cc467913aa0947",
+    "name": "Skybound Games",
+    "slug": "skybound-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Digital Tribe",
+    "slug": "digital-tribe",
+    "count": 20
+  },
+  {
+    "count": 20,
+    "_id": "63cec58e22cc467913aa0923",
+    "name": "Fatshark",
+    "slug": "fatshark",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Kepler Interactive",
+    "slug": "kepler-interactive",
+    "count": 20
+  },
+  {
+    "count": 20,
+    "_id": "63cec59022cc467913aa0955",
+    "name": "Modus Games",
+    "slug": "modus-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "NeocoreGames",
+    "slug": "neocoregames",
+    "count": 20
+  },
+  {
+    "name": "Ultimate Games S.A.",
+    "slug": "ultimate-games-sa",
+    "count": 20
+  },
+  {
+    "count": 20,
+    "_id": "6697e9a94dcce62fb4f43a82",
+    "facet": "publishers",
+    "name": "Xbox",
+    "combo": true,
+    "parent": [],
+    "slug": "xbox"
+  },
+  {
+    "name": "Graffiti Games",
+    "slug": "graffiti-games",
+    "count": 19
+  },
+  {
+    "name": "Karl Drinkwater",
+    "slug": "karl-drinkwater",
+    "count": 19
+  },
+  {
+    "name": "Meridian4",
+    "slug": "meridian4",
+    "count": 19
+  },
+  {
+    "name": "Rogue Duck Interactive",
+    "slug": "rogue-duck-interactive",
+    "count": 19
+  },
+  {
+    "name": "Serenity Forge",
+    "slug": "serenity-forge",
+    "count": 19
+  },
+  {
+    "name": "Whitethorn Digital",
+    "slug": "whitethorn-digital",
+    "count": 19
+  },
+  {
+    "name": "XSEED Games",
+    "slug": "xseed-games",
+    "count": 19
+  },
+  {
+    "name": "Xbox Game Studios",
+    "slug": "xbox-game-studios",
+    "count": 19
+  },
+  {
+    "name": "YAW Studios",
+    "slug": "yaw-studios",
+    "count": 19
+  },
+  {
+    "name": "34BigThings srl",
+    "slug": "34bigthings-srl",
+    "count": 18
+  },
+  {
+    "name": "Arcen Games LLC",
+    "slug": "arcen-games-llc",
+    "count": 18
+  },
+  {
+    "name": "Error 300",
+    "slug": "error-300",
+    "count": 18
+  },
+  {
+    "name": "Handelabra Games Inc.",
+    "slug": "handelabra-games-inc",
+    "count": 18
+  },
+  {
+    "name": "InvertMouse",
+    "slug": "invertmouse",
+    "count": 18
+  },
+  {
+    "name": "Might and Delight",
+    "slug": "might-and-delight",
+    "count": 18
+  },
+  {
+    "count": 18,
+    "_id": "62ce896ae5364e1c83485788",
+    "facet": "publishers",
+    "name": "Packt",
+    "slug": "packt",
+    "parent": []
+  },
+  {
+    "count": 18,
+    "_id": "63cec59022cc467913aa094b",
+    "name": "Prime Matter",
+    "slug": "prime-matter",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "10tons Ltd",
+    "slug": "10tons-ltd",
+    "count": 17
+  },
+  {
+    "count": 17,
+    "_id": "63cec58f22cc467913aa0931",
+    "name": "Aksys Games",
+    "slug": "aksys-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Games Operators",
+    "slug": "games-operators",
+    "count": 17
+  },
+  {
+    "name": "Little Green Men Games",
+    "slug": "little-green-men-games",
+    "count": 17
+  },
+  {
+    "name": "Mens Sana Interactive",
+    "slug": "mens-sana-interactive",
+    "count": 17
+  },
+  {
+    "name": "familyplay",
+    "slug": "familyplay",
+    "count": 17
+  },
+  {
+    "name": "Boss Fight Books",
+    "slug": "boss-fight-books",
+    "count": 16
+  },
+  {
+    "name": "CINEMAX s.r.o.",
+    "slug": "cinemax-sro",
+    "count": 16
+  },
+  {
+    "name": "DOSMan Games",
+    "slug": "dosman-games",
+    "count": 16
+  },
+  {
+    "name": "Flying Interactive",
+    "slug": "flying-interactive",
+    "count": 16
+  },
+  {
+    "name": "Frozenbyte",
+    "slug": "frozenbyte",
+    "count": 16
+  },
+  {
+    "name": "Phoenix Online Publishing",
+    "slug": "phoenix-online-publishing",
+    "count": 16
+  },
+  {
+    "name": "Ravenscourt",
+    "slug": "ravenscourt",
+    "count": 16
+  },
+  {
+    "name": "Ripstone",
+    "slug": "ripstone",
+    "count": 16
+  },
+  {
+    "name": "SOEDESCO",
+    "slug": "soedesco",
+    "count": 16
+  },
+  {
+    "name": "Super Rare Originals",
+    "slug": "super-rare-originals",
+    "count": 16
+  },
+  {
+    "name": "roseVeRte",
+    "slug": "roseverte",
+    "count": 16
+  },
+  {
+    "name": "Blowfish Studios",
+    "slug": "blowfish-studios",
+    "count": 15
+  },
+  {
+    "name": "Libredia",
+    "slug": "libredia",
+    "count": 15
+  },
+  {
+    "name": "Markt+Technik Verlag GmbH",
+    "slug": "markttechnik-verlag-gmbh",
+    "count": 15
+  },
+  {
+    "name": "N3V Games",
+    "slug": "n3v-games",
+    "count": 15
+  },
+  {
+    "name": "Natsume Inc.",
+    "slug": "natsume-inc",
+    "count": 15
+  },
+  {
+    "name": "Orangepixel",
+    "slug": "orangepixel",
+    "count": 15
+  },
+  {
+    "name": "Team17",
+    "slug": "team17",
+    "count": 15
+  },
+  {
+    "name": "WayForward",
+    "slug": "wayforward",
+    "count": 15
+  },
+  {
+    "name": "1010 Games Ltd",
+    "slug": "1010-games-ltd",
+    "count": 14
+  },
+  {
+    "name": "3DClouds",
+    "slug": "3dclouds",
+    "count": 14
+  },
+  {
+    "name": "Abiding Bridge",
+    "slug": "abiding-bridge",
+    "count": 14
+  },
+  {
+    "name": "C.G. Harris",
+    "slug": "cg-harris",
+    "count": 14
+  },
+  {
+    "name": "Dire Wolf",
+    "slug": "dire-wolf",
+    "count": 14
+  },
+  {
+    "name": "Doyoyo Games",
+    "slug": "doyoyo-games",
+    "count": 14
+  },
+  {
+    "name": "Motorsport Gaming US LLC",
+    "slug": "motorsport-gaming-us-llc",
+    "count": 14
+  },
+  {
+    "count": 14,
+    "_id": "63cec58f22cc467913aa093f",
+    "name": "No Gravity",
+    "slug": "no-gravity",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "PID Games",
+    "slug": "pid-games",
+    "count": 14
+  },
+  {
+    "name": "RewindApp",
+    "slug": "rewindapp",
+    "count": 14
+  },
+  {
+    "name": "Toge Productions",
+    "slug": "toge-productions",
+    "count": 14
+  },
+  {
+    "count": 14,
+    "_id": "63cec58f22cc467913aa0943",
+    "name": "Zachtronics",
+    "slug": "zachtronics",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "ebihime",
+    "slug": "ebihime",
+    "count": 14
+  },
+  {
+    "name": "Bonus Stage Publishing",
+    "slug": "bonus-stage-publishing",
+    "count": 13
+  },
+  {
+    "name": "City Interactive S.A.",
+    "slug": "city-interactive-sa",
+    "count": 13
+  },
+  {
+    "name": "Digital Dreams Entertainment",
+    "slug": "digital-dreams-entertainment",
+    "count": 13
+  },
+  {
+    "name": "GSC Game World",
+    "slug": "gsc-game-world",
+    "count": 13
+  },
+  {
+    "name": "Gotcha Gotcha Games Inc",
+    "slug": "gotcha-gotcha-games-inc",
+    "count": 13
+  },
+  {
+    "name": "IMGN.PRO",
+    "slug": "imgnpro",
+    "count": 13
+  },
+  {
+    "name": "Kerberos Productions Inc.",
+    "slug": "kerberos-productions-inc",
+    "count": 13
+  },
+  {
+    "name": "KishMish Games",
+    "slug": "kishmish-games",
+    "count": 13
+  },
+  {
+    "count": 13,
+    "_id": "63d7c9f34dcce62fb43a7eae",
+    "facet": "publishers",
+    "name": "Ravenage Games",
+    "always_show": true,
+    "parent": [],
+    "slug": "ravenage-games"
+  },
+  {
+    "name": "Valkyrie Initiative",
+    "slug": "valkyrie-initiative",
+    "count": 13
+  },
+  {
+    "name": "Walter Machado",
+    "slug": "walter-machado",
+    "count": 13
+  },
+  {
+    "name": "Another Indie",
+    "slug": "another-indie",
+    "count": 12
+  },
+  {
+    "name": "BoomBit",
+    "slug": "boombit",
+    "count": 12
+  },
+  {
+    "count": 12,
+    "_id": "689b499a898d543d2d048900",
+    "facet": "publishers",
+    "name": "Bungie Inc",
+    "combo": true,
+    "parent": [],
+    "slug": "bungie-inc"
+  },
+  {
+    "count": 12,
+    "_id": "63cec59022cc467913aa0945",
+    "name": "Dotemu",
+    "slug": "dotemu",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "GameDev.ist",
+    "slug": "gamedevist",
+    "count": 12
+  },
+  {
+    "name": "IO Interactive A/S",
+    "slug": "io-interactive-as",
+    "count": 12
+  },
+  {
+    "name": "IndieArk",
+    "slug": "indieark",
+    "count": 12
+  },
+  {
+    "name": "Ivanovich Games",
+    "slug": "ivanovich-games",
+    "count": 12
+  },
+  {
+    "name": "Jetdogs Studios",
+    "slug": "jetdogs-studios",
+    "count": 12
+  },
+  {
+    "name": "Lydia Sheerer",
+    "slug": "lydia-sheerer",
+    "count": 12
+  },
+  {
+    "name": "Movie Games S.A.",
+    "slug": "movie-games-sa",
+    "count": 12
+  },
+  {
+    "name": "Mythwright Limited",
+    "slug": "mythwright-limited",
+    "count": 12
+  },
+  {
+    "name": "New Blood Interactive",
+    "slug": "new-blood-interactive",
+    "count": 12
+  },
+  {
+    "name": "Numskull Games",
+    "slug": "numskull-games",
+    "count": 12
+  },
+  {
+    "name": "Nuntius Games",
+    "slug": "nuntius-games",
+    "count": 12
+  },
+  {
+    "name": "Oddworld Inhabitants",
+    "slug": "oddworld-inhabitants",
+    "count": 12
+  },
+  {
+    "name": "Playtonic Friends",
+    "slug": "playtonic-friends",
+    "count": 12
+  },
+  {
+    "name": "Pretty Soon",
+    "slug": "pretty-soon",
+    "count": 12
+  },
+  {
+    "name": "RockGame S.A.",
+    "slug": "rockgame-sa",
+    "count": 12
+  },
+  {
+    "name": "Survios",
+    "slug": "survios",
+    "count": 12
+  },
+  {
+    "name": "Top Hat Studios Inc",
+    "slug": "top-hat-studios-inc",
+    "count": 12
+  },
+  {
+    "name": "Triomatica Games",
+    "slug": "triomatica-games",
+    "count": 12
+  },
+  {
+    "name": "Zojoi",
+    "slug": "zojoi",
+    "count": 12
+  },
+  {
+    "name": "2x2 Games",
+    "slug": "2x2-games",
+    "count": 11
+  },
+  {
+    "name": "ARTE France",
+    "slug": "arte-france",
+    "count": 11
+  },
+  {
+    "name": "Aldorlea Games",
+    "slug": "aldorlea-games",
+    "count": 11
+  },
+  {
+    "name": "Classics Digital",
+    "slug": "classics-digital",
+    "count": 11
+  },
+  {
+    "name": "FOR-GAMES CR LTD",
+    "slug": "for-games-cr-ltd",
+    "count": 11
+  },
+  {
+    "name": "FobTi interactive",
+    "slug": "fobti-interactive",
+    "count": 11
+  },
+  {
+    "name": "HeartBeat Games",
+    "slug": "heartbeat-games",
+    "count": 11
+  },
+  {
+    "name": "Henteko Doujin",
+    "slug": "henteko-doujin",
+    "count": 11
+  },
+  {
+    "name": "Marvelous Europe",
+    "slug": "marvelous-europe",
+    "count": 11
+  },
+  {
+    "name": "Microsoft",
+    "slug": "microsoft",
+    "count": 11
+  },
+  {
+    "name": "Nukearts Studio",
+    "slug": "nukearts-studio",
+    "count": 11
+  },
+  {
+    "name": "Revolution Software Ltd",
+    "slug": "revolution-software-ltd",
+    "count": 11
+  },
+  {
+    "name": "Sleepy Duck",
+    "slug": "sleepy-duck",
+    "count": 11
+  },
+  {
+    "name": "Vsoo Games",
+    "slug": "vsoo-games",
+    "count": 11
+  },
+  {
+    "name": "XD",
+    "slug": "xd",
+    "count": 11
+  },
+  {
+    "name": "Anshar Publishing",
+    "slug": "anshar-publishing",
+    "count": 10
+  },
+  {
+    "name": "Black Shell Media",
+    "slug": "black-shell-media",
+    "count": 10
+  },
+  {
+    "name": "Coffee Stain Studios",
+    "slug": "coffee-stain-studios",
+    "count": 10
+  },
+  {
+    "name": "David Szymanski",
+    "slug": "david-szymanski",
+    "count": 10
+  },
+  {
+    "name": "DrinkBox Studios",
+    "slug": "drinkbox-studios",
+    "count": 10
+  },
+  {
+    "name": "Gotcha Gotcha Games",
+    "slug": "gotcha-gotcha-games",
+    "count": 10
+  },
+  {
+    "name": "Green Sauce Games",
+    "slug": "green-sauce-games",
+    "count": 10
+  },
+  {
+    "name": "Headup",
+    "slug": "headup",
+    "count": 10
+  },
+  {
+    "name": "Hyperstrange",
+    "slug": "hyperstrange",
+    "count": 10
+  },
+  {
+    "name": "Kwalee Ltd",
+    "slug": "kwalee-ltd",
+    "count": 10
+  },
+  {
+    "name": "Lonely Troops",
+    "slug": "lonely-troops",
+    "count": 10
+  },
+  {
+    "name": "Matrix Games",
+    "slug": "matrix-games",
+    "count": 10
+  },
+  {
+    "name": "Misc Games",
+    "slug": "misc-games",
+    "count": 10
+  },
+  {
+    "name": "Motion Twin",
+    "slug": "motion-twin",
+    "count": 10
+  },
+  {
+    "name": "Nival",
+    "slug": "nival",
+    "count": 10
+  },
+  {
+    "name": "Obsidian Entertainment",
+    "slug": "obsidian-entertainment",
+    "count": 10
+  },
+  {
+    "name": "PM Studios inc.",
+    "slug": "pm-studios-inc",
+    "count": 10
+  },
+  {
+    "name": "Perp Games",
+    "slug": "perp-games",
+    "count": 10
+  },
+  {
+    "name": "Private Division",
+    "slug": "private-division",
+    "count": 10
+  },
+  {
+    "name": "Red Hook Studios",
+    "slug": "red-hook-studios",
+    "count": 10
+  },
+  {
+    "name": "Robot Entertainment",
+    "slug": "robot-entertainment",
+    "count": 10
+  },
+  {
+    "name": "Rogueside",
+    "slug": "rogueside",
+    "count": 10
+  },
+  {
+    "name": "SNEG",
+    "slug": "sneg",
+    "count": 10
+  },
+  {
+    "name": "Source Byte Sp. z o.o.",
+    "slug": "source-byte-sp-z-oo",
+    "count": 10
+  },
+  {
+    "name": "Super Evil Megacorp",
+    "slug": "super-evil-megacorp",
+    "count": 10
+  },
+  {
+    "name": "United Label",
+    "slug": "united-label",
+    "count": 10
+  },
+  {
+    "name": "id Software",
+    "slug": "id-software",
+    "count": 10
+  },
+  {
+    "name": "mc2games",
+    "slug": "mc2games",
+    "count": 10
+  },
+  {
+    "name": "Abyssal Studios",
+    "slug": "abyssal-studios",
+    "count": 9
+  },
+  {
+    "name": "Alternative Software Ltd",
+    "slug": "alternative-software-ltd",
+    "count": 9
+  },
+  {
+    "name": "Axis Game Factory LLC",
+    "slug": "axis-game-factory-llc",
+    "count": 9
+  },
+  {
+    "name": "Choice Provisions",
+    "slug": "choice-provisions",
+    "count": 9
+  },
+  {
+    "name": "Coatsink",
+    "slug": "coatsink",
+    "count": 9
+  },
+  {
+    "name": "Crunching Koalas",
+    "slug": "crunching-koalas",
+    "count": 9
+  },
+  {
+    "name": "EnsenaSoft",
+    "slug": "ensenasoft",
+    "count": 9
+  },
+  {
+    "name": "Fishing Cactus",
+    "slug": "fishing-cactus",
+    "count": 9
+  },
+  {
+    "name": "FromSoftware Inc.",
+    "slug": "fromsoftware-inc",
+    "count": 9
+  },
+  {
+    "name": "Frontier Foundry",
+    "slug": "frontier-foundry",
+    "count": 9
+  },
+  {
+    "name": "IVL Designer",
+    "slug": "ivl-designer",
+    "count": 9
+  },
+  {
+    "count": 9,
+    "_id": "63cec58e22cc467913aa090b",
+    "name": "Jagex Ltd",
+    "slug": "jagex-ltd",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "Midjiwan AB",
+    "slug": "midjiwan-ab",
+    "count": 9
+  },
+  {
+    "name": "Milkstone Studios",
+    "slug": "milkstone-studios",
+    "count": 9
+  },
+  {
+    "name": "MoeNovel",
+    "slug": "moenovel",
+    "count": 9
+  },
+  {
+    "name": "Neon Doctrine",
+    "slug": "neon-doctrine",
+    "count": 9
+  },
+  {
+    "name": "Noodlecake",
+    "slug": "noodlecake",
+    "count": 9
+  },
+  {
+    "name": "North Beach Games",
+    "slug": "north-beach-games",
+    "count": 9
+  },
+  {
+    "name": "Oro Interactive",
+    "slug": "oro-interactive",
+    "count": 9
+  },
+  {
+    "count": 9,
+    "_id": "63cec59022cc467913aa094d",
+    "name": "Petroglyph",
+    "slug": "petroglyph",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "name": "ROCKFISH Games",
+    "slug": "rockfish-games",
+    "count": 9
+  },
+  {
+    "name": "Skystone Games",
+    "slug": "skystone-games",
+    "count": 9
+  },
+  {
+    "name": "Stately Snail",
+    "slug": "stately-snail",
+    "count": 9
+  },
+  {
+    "name": "System Era Softworks Inc.",
+    "slug": "system-era-softworks-inc",
+    "count": 9
+  },
+  {
+    "name": "Tate Multimedia",
+    "slug": "tate-multimedia",
+    "count": 9
+  },
+  {
+    "name": "Telltale",
+    "slug": "telltale",
+    "count": 9
+  },
+  {
+    "name": "Virtual Arts Studio",
+    "slug": "virtual-arts-studio",
+    "count": 9
+  },
+  {
+    "name": "Yooreka Studio",
+    "slug": "yooreka-studio",
+    "count": 9
+  },
+  {
+    "name": "Black Lantern Collective",
+    "slug": "black-lantern-collective",
+    "count": 8
+  },
+  {
+    "name": "Cheesecake Dev",
+    "slug": "cheesecake-dev",
+    "count": 8
+  },
+  {
+    "name": "Cleverweek",
+    "slug": "cleverweek",
+    "count": 8
+  },
+  {
+    "name": "Clickteam",
+    "slug": "clickteam",
+    "count": 8
+  },
+  {
+    "name": "Co-FUN Games",
+    "slug": "co-fun-games",
+    "count": 8
+  },
+  {
+    "name": "Cygames Inc",
+    "slug": "cygames-inc",
+    "count": 8
+  },
+  {
+    "name": "DRAGO entertainment",
+    "slug": "drago-entertainment",
+    "count": 8
+  },
+  {
+    "name": "Dark Wave",
+    "slug": "dark-wave",
+    "count": 8
+  },
+  {
+    "name": "Eek! Games LLC",
+    "slug": "eek-games-llc",
+    "count": 8
+  },
+  {
+    "name": "Endless Loop Studios",
+    "slug": "endless-loop-studios",
+    "count": 8
+  },
+  {
+    "name": "Fast Travel Games",
+    "slug": "fast-travel-games",
+    "count": 8
+  },
+  {
+    "name": "Forklift Interactive",
+    "slug": "forklift-interactive",
+    "count": 8
+  },
+  {
+    "name": "GIANTS Software",
+    "slug": "giants-software",
+    "count": 8
+  },
+  {
+    "name": "Grindstone",
+    "slug": "grindstone",
+    "count": 8
+  },
+  {
+    "name": "Hanako Games",
+    "slug": "hanako-games",
+    "count": 8
+  },
+  {
+    "count": 8,
+    "_id": "63cec58f22cc467913aa093d",
+    "name": "Hello Games",
+    "slug": "hello-games",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "count": 8,
+    "_id": "695e21265cd3b2d94d9b58ac",
+    "facet": "publishers",
+    "name": "Kawangis Publishing Co.",
+    "combo": true,
+    "parent": [],
+    "slug": "kawangis-publishing-co"
+  },
+  {
+    "name": "Kitfox Games",
+    "slug": "kitfox-games",
+    "count": 8
+  },
+  {
+    "name": "PsychoFlux Entertainment",
+    "slug": "psychoflux-entertainment",
+    "count": 8
+  },
+  {
+    "name": "Quantic Dream S.A.",
+    "slug": "quantic-dream-sa",
+    "count": 8
+  },
+  {
+    "name": "Relic Entertainment",
+    "slug": "relic-entertainment",
+    "count": 8
+  },
+  {
+    "name": "Resolution Games",
+    "slug": "resolution-games",
+    "count": 8
+  },
+  {
+    "name": "Retroism",
+    "slug": "retroism",
+    "count": 8
+  },
+  {
+    "name": "Schell Games",
+    "slug": "schell-games",
+    "count": 8
+  },
+  {
+    "name": "SimBin",
+    "slug": "simbin",
+    "count": 8
+  },
+  {
+    "name": "Stunlock Studios",
+    "slug": "stunlock-studios",
+    "count": 8
+  },
+  {
+    "name": "Surefire.Games",
+    "slug": "surefiregames",
+    "count": 8
+  },
+  {
+    "name": "Tactical Adventures",
+    "slug": "tactical-adventures",
+    "count": 8
+  },
+  {
+    "name": "Team Reptile",
+    "slug": "team-reptile",
+    "count": 8
+  },
+  {
+    "name": "Those Awesome Guys",
+    "slug": "those-awesome-guys",
+    "count": 8
+  },
+  {
+    "name": "Velsin",
+    "slug": "velsin",
+    "count": 8
+  },
+  {
+    "name": "Warhorse Studios",
+    "slug": "warhorse-studios",
+    "count": 8
+  },
+  {
+    "name": "Zen Studios",
+    "slug": "zen-studios",
+    "count": 8
+  },
+  {
+    "count": 8,
+    "_id": "63cec58f22cc467913aa0929",
+    "name": "gigantumgames",
+    "slug": "gigantumgames",
+    "facet": "publishers",
+    "parent": []
+  },
+  {
+    "count": 7,
+    "_id": "6220a5f0e5364e1c83292230",
+    "facet": "publishers",
+    "name": "3D Realms",
+    "slug": "3d-realms",
+    "parent": []
+  },
+  {
+    "name": "BattleGoat Studios",
+    "slug": "battlegoat-studios",
+    "count": 7
+  },
+  {
+    "name": "Blackburne Games",
+    "slug": "blackburne-games",
+    "count": 7
+  },
+  {
+    "name": "Blazing Griffin",
+    "slug": "blazing-griffin",
+    "count": 7
+  },
+  {
+    "name": "Blue Brain Games",
+    "slug": "blue-brain-games",
+    "count": 7
+  },
+  {
+    "name": "BlueLine Games",
+    "slug": "blueline-games",
+    "count": 7
+  },
+  {
+    "name": "ByteRockers' Games",
+    "slug": "byterockers-games",
+    "count": 7
+  },
+  {
+    "name": "Climbing Goat Games",
+    "slug": "climbing-goat-games",
+    "count": 7
+  },
+  {
+    "name": "CriticalLeap",
+    "slug": "criticalleap",
+    "count": 7
+  },
+  {
+    "name": "Doesn't Matter Games",
+    "slug": "doesnt-matter-games",
+    "count": 7
+  },
+  {
+    "name": "Duality Games",
+    "slug": "duality-games",
+    "count": 7
+  },
+  {
+    "name": "Flazm",
+    "slug": "flazm",
+    "count": 7
+  },
+  {
+    "name": "Fractale",
+    "slug": "fractale",
+    "count": 7
+  },
+  {
+    "name": "HOOK",
+    "slug": "hook",
+    "count": 7
+  },
+  {
+    "name": "Ironhide Game Studio",
+    "slug": "ironhide-game-studio",
+    "count": 7
+  },
+  {
+    "name": "Kinda Brave",
+    "slug": "kinda-brave",
+    "count": 7
+  },
+  {
+    "name": "Madfinger Games a.s.",
+    "slug": "madfinger-games-as",
+    "count": 7
+  },
+  {
+    "name": "Manning Media",
+    "slug": "manning-media",
+    "count": 7
+  },
+  {
+    "name": "Monster Couch",
+    "slug": "monster-couch",
+    "count": 7
+  },
+  {
+    "name": "NovaLogic",
+    "slug": "novalogic",
+    "count": 7
+  },
+  {
+    "name": "Overseer Games",
+    "slug": "overseer-games",
+    "count": 7
+  },
+  {
+    "name": "Pantaloon",
+    "slug": "pantaloon",
+    "count": 7
+  },
+  {
+    "name": "Pathea Games",
+    "slug": "pathea-games",
+    "count": 7
+  },
+  {
+    "name": "Pinel Games",
+    "slug": "pinel-games",
+    "count": 7
+  },
+  {
+    "name": "PixelHeart",
+    "slug": "pixelheart",
+    "count": 7
+  },
+  {
+    "name": "Praxis Games",
+    "slug": "praxis-games",
+    "count": 7
+  },
+  {
+    "name": "Rake in Grass",
+    "slug": "rake-in-grass",
+    "count": 7
+  },
+  {
+    "name": "Saber Interactive Inc",
+    "slug": "saber-interactive-inc",
+    "count": 7
+  },
+  {
+    "name": "Sigma Team Inc.",
+    "slug": "sigma-team-inc",
+    "count": 7
+  },
+  {
+    "name": "Soft Source",
+    "slug": "soft-source",
+    "count": 7
+  },
+  {
+    "name": "Spawn Digital",
+    "slug": "spawn-digital",
+    "count": 7
+  },
+  {
+    "name": "Spiral Up Games",
+    "slug": "spiral-up-games",
+    "count": 7
+  },
+  {
+    "name": "Starni Games",
+    "slug": "starni-games",
+    "count": 7
+  },
+  {
+    "name": "SuperGG.com",
+    "slug": "superggcom",
+    "count": 7
+  },
+  {
+    "name": "THE BROTHERHOOD",
+    "slug": "the-brotherhood",
+    "count": 7
+  },
+  {
+    "name": "THQ Nordic Mobile",
+    "slug": "thq-nordic-mobile",
+    "count": 7
+  },
+  {
+    "name": "TaleWorlds Entertainment",
+    "slug": "taleworlds-entertainment",
+    "count": 7
+  },
+  {
+    "name": "The Arcade Crew",
+    "slug": "the-arcade-crew",
+    "count": 7
+  },
+  {
+    "name": "Tilting Point",
+    "slug": "tilting-point",
+    "count": 7
+  },
+  {
+    "name": "Tripwire Presents",
+    "slug": "tripwire-presents",
+    "count": 7
+  },
+  {
+    "name": "Weather Factory",
+    "slug": "weather-factory",
+    "count": 7
+  },
+  {
+    "name": "Xitilon",
+    "slug": "xitilon",
+    "count": 7
+  },
+  {
+    "name": "astragon Entertainment",
+    "slug": "astragon-entertainment",
+    "count": 7
+  },
+  {
+    "name": "🚀 Raiser Games",
+    "slug": "raiser-games",
+    "count": 7
+  },
+  {
+    "name": "Amplifier Studios",
+    "slug": "amplifier-studios",
+    "count": 6
+  },
+  {
+    "name": "Anvil Game Studios",
+    "slug": "anvil-game-studios",
+    "count": 6
+  },
+  {
+    "name": "BlackMark Studio",
+    "slug": "blackmark-studio",
+    "count": 6
+  },
+  {
+    "name": "Bloober Team S.A.",
+    "slug": "bloober-team-sa",
+    "count": 6
+  },
+  {
+    "name": "Blyts",
+    "slug": "blyts",
+    "count": 6
+  },
+  {
+    "name": "Catoptric Games",
+    "slug": "catoptric-games",
+    "count": 6
+  },
+  {
+    "name": "Crystal Dynamics",
+    "slug": "crystal-dynamics",
+    "count": 6
+  },
+  {
+    "name": "Culture Select",
+    "slug": "culture-select",
+    "count": 6
+  },
+  {
+    "name": "Deceptive Games",
+    "slug": "deceptive-games",
+    "count": 6
+  },
+  {
+    "name": "Digital Happiness",
+    "slug": "digital-happiness",
+    "count": 6
+  },
+  {
+    "name": "Divide The Plunder",
+    "slug": "divide-the-plunder",
+    "count": 6
+  },
+  {
+    "name": "Double Fine Productions",
+    "slug": "double-fine-productions",
+    "count": 6
+  },
+  {
+    "name": "East2West Games",
+    "slug": "east2west-games",
+    "count": 6
+  },
+  {
+    "name": "Enlight Software Limited",
+    "slug": "enlight-software-limited",
+    "count": 6
+  },
+  {
+    "name": "FreeMind S.A.",
+    "slug": "freemind-sa",
+    "count": 6
+  },
+  {
+    "name": "Funktronic Labs",
+    "slug": "funktronic-labs",
+    "count": 6
+  },
+  {
+    "name": "Funselektor Labs Inc.",
+    "slug": "funselektor-labs-inc",
+    "count": 6
+  },
+  {
+    "name": "Gaming Factory",
+    "slug": "gaming-factory",
+    "count": 6
+  },
+  {
+    "name": "HapGames",
+    "slug": "hapgames",
+    "count": 6
+  },
+  {
+    "name": "Hound Picked Games",
+    "slug": "hound-picked-games",
+    "count": 6
+  },
+  {
+    "name": "Intragames",
+    "slug": "intragames",
+    "count": 6
+  },
+  {
+    "name": "Ishtar Games",
+    "slug": "ishtar-games",
+    "count": 6
+  },
+  {
+    "name": "Jesse Makkonen",
+    "slug": "jesse-makkonen",
+    "count": 6
+  },
+  {
+    "name": "Knuckle Cracker",
+    "slug": "knuckle-cracker",
+    "count": 6
+  },
+  {
+    "name": "Koei Tecmo Games",
+    "slug": "koei-tecmo-games",
+    "count": 6
+  },
+  {
+    "name": "Lesser Evil",
+    "slug": "lesser-evil",
+    "count": 6
+  },
+  {
+    "name": "Ludeon Studios",
+    "slug": "ludeon-studios",
+    "count": 6
+  },
+  {
+    "name": "MINTROCKET",
+    "slug": "mintrocket",
+    "count": 6
+  },
+  {
+    "name": "Megabit Publishing",
+    "slug": "megabit-publishing",
+    "count": 6
+  },
+  {
+    "name": "Minicactus Games",
+    "slug": "minicactus-games",
+    "count": 6
+  },
+  {
+    "name": "New World Interactive",
+    "slug": "new-world-interactive",
+    "count": 6
+  },
+  {
+    "name": "Offworld Industries Ltd.",
+    "slug": "offworld-industries-ltd",
+    "count": 6
+  },
+  {
+    "name": "Pinch Games",
+    "slug": "pinch-games",
+    "count": 6
+  },
+  {
+    "name": "Pomelo Games",
+    "slug": "pomelo-games",
+    "count": 6
+  },
+  {
+    "name": "Rebound CG",
+    "slug": "rebound-cg",
+    "count": 6
+  },
+  {
+    "name": "Reverb Triple XP",
+    "slug": "reverb-triple-xp",
+    "count": 6
+  },
+  {
+    "name": "Shiver Games",
+    "slug": "shiver-games",
+    "count": 6
+  },
+  {
+    "name": "Terror Dog Studio",
+    "slug": "terror-dog-studio",
+    "count": 6
+  },
+  {
+    "name": "The Game Bakers",
+    "slug": "the-game-bakers",
+    "count": 6
+  },
+  {
+    "name": "Top Hat Studios Inc.",
+    "slug": "top-hat-studios-inc",
+    "count": 6
+  },
+  {
+    "name": "Toplitz Productions",
+    "slug": "toplitz-productions",
+    "count": 6
+  },
+  {
+    "name": "VARSAV Game Studios",
+    "slug": "varsav-game-studios",
+    "count": 6
+  },
+  {
+    "name": "Wales Interactive",
+    "slug": "wales-interactive",
+    "count": 6
+  },
+  {
+    "name": "Wings",
+    "slug": "wings",
+    "count": 6
+  },
+  {
+    "name": "ZNT Productions",
+    "slug": "znt-productions",
+    "count": 6
+  },
+  {
+    "name": "Zenva",
+    "slug": "zenva",
+    "count": 6
+  },
+  {
+    "name": "2tainment GmbH",
+    "slug": "2tainment-gmbh",
+    "count": 5
+  },
+  {
+    "name": "4Divinity",
+    "slug": "4divinity",
+    "count": 5
+  },
+  {
+    "name": "ARVORE Immersive Experiences",
+    "slug": "arvore-immersive-experiences",
+    "count": 5
+  },
+  {
+    "name": "Aeternum Game Studios S.L",
+    "slug": "aeternum-game-studios-sl",
+    "count": 5
+  },
+  {
+    "name": "Anarchy Enterprises",
+    "slug": "anarchy-enterprises",
+    "count": 5
+  },
+  {
+    "name": "Atomic Elbow",
+    "slug": "atomic-elbow",
+    "count": 5
+  },
+  {
+    "name": "Awaken Realms",
+    "slug": "awaken-realms",
+    "count": 5
+  },
+  {
+    "name": "BD Games",
+    "slug": "bd-games",
+    "count": 5
+  },
+  {
+    "name": "Battlecruiser Games",
+    "slug": "battlecruiser-games",
+    "count": 5
+  },
+  {
+    "name": "Big Fat Simulations Inc.",
+    "slug": "big-fat-simulations-inc",
+    "count": 5
+  },
+  {
+    "name": "Brinemedia",
+    "slug": "brinemedia",
+    "count": 5
+  },
+  {
+    "name": "CCS",
+    "slug": "ccs",
+    "count": 5
+  },
+  {
+    "name": "CULT Games",
+    "slug": "cult-games",
+    "count": 5
+  },
+  {
+    "name": "Chibig",
+    "slug": "chibig",
+    "count": 5
+  },
+  {
+    "name": "Crytek GmbH",
+    "slug": "crytek-gmbh",
+    "count": 5
+  },
+  {
+    "name": "DYA Games",
+    "slug": "dya-games",
+    "count": 5
+  },
+  {
+    "name": "Destructive Creations",
+    "slug": "destructive-creations",
+    "count": 5
+  },
+  {
+    "name": "DevilishGames",
+    "slug": "devilishgames",
+    "count": 5
+  },
+  {
+    "name": "EuroVideo Medien",
+    "slug": "eurovideo-medien",
+    "count": 5
+  },
+  {
+    "name": "Feardemic",
+    "slug": "feardemic",
+    "count": 5
+  },
+  {
+    "name": "Firenut Games",
+    "slug": "firenut-games",
+    "count": 5
+  },
+  {
+    "name": "Flashbulb",
+    "slug": "flashbulb",
+    "count": 5
+  },
+  {
+    "name": "Flyhigh Works",
+    "slug": "flyhigh-works",
+    "count": 5
+  },
+  {
+    "name": "Freebird Games",
+    "slug": "freebird-games",
+    "count": 5
+  },
+  {
+    "name": "Gagonfe",
+    "slug": "gagonfe",
+    "count": 5
+  },
+  {
+    "name": "Galdra Studios",
+    "slug": "galdra-studios",
+    "count": 5
+  },
+  {
+    "name": "Greensky Games",
+    "slug": "greensky-games",
+    "count": 5
+  },
+  {
+    "name": "Hawthorn Games",
+    "slug": "hawthorn-games",
+    "count": 5
+  },
+  {
+    "name": "Immanitas Entertainment GmbH",
+    "slug": "immanitas-entertainment-gmbh",
+    "count": 5
+  },
+  {
+    "name": "Joystick Ventures",
+    "slug": "joystick-ventures",
+    "count": 5
+  },
+  {
+    "name": "Just For Games",
+    "slug": "just-for-games",
+    "count": 5
+  },
+  {
+    "name": "KUNOS Simulazioni",
+    "slug": "kunos-simulazioni",
+    "count": 5
+  },
+  {
+    "name": "Landfall",
+    "slug": "landfall",
+    "count": 5
+  },
+  {
+    "name": "Lightning Games",
+    "slug": "lightning-games",
+    "count": 5
+  },
+  {
+    "name": "Lion Castle Entertainment",
+    "slug": "lion-castle-entertainment",
+    "count": 5
+  },
+  {
+    "name": "Ludosity",
+    "slug": "ludosity",
+    "count": 5
+  },
+  {
+    "name": "M2H",
+    "slug": "m2h",
+    "count": 5
+  },
+  {
+    "name": "Mad Fellows",
+    "slug": "mad-fellows",
+    "count": 5
+  },
+  {
+    "name": "Mad Mushroom",
+    "slug": "mad-mushroom",
+    "count": 5
+  },
+  {
+    "name": "Mastiff",
+    "slug": "mastiff",
+    "count": 5
+  },
+  {
+    "name": "MiClos Studio",
+    "slug": "miclos-studio",
+    "count": 5
+  },
+  {
+    "name": "Mindscape",
+    "slug": "mindscape",
+    "count": 5
+  },
+  {
+    "name": "Muse Games",
+    "slug": "muse-games",
+    "count": 5
+  },
+  {
+    "name": "MythicOwl",
+    "slug": "mythicowl",
+    "count": 5
+  },
+  {
+    "name": "NAISU",
+    "slug": "naisu",
+    "count": 5
+  },
+  {
+    "name": "Neverland Entertainment",
+    "slug": "neverland-entertainment",
+    "count": 5
+  },
+  {
+    "name": "Novabox",
+    "slug": "novabox",
+    "count": 5
+  },
+  {
+    "name": "Paul Schneider",
+    "slug": "paul-schneider",
+    "count": 5
+  },
+  {
+    "name": "Pixelsplit",
+    "slug": "pixelsplit",
+    "count": 5
+  },
+  {
+    "name": "Polyarc",
+    "slug": "polyarc",
+    "count": 5
+  },
+  {
+    "name": "Reborn Entertainment",
+    "slug": "reborn-entertainment",
+    "count": 5
+  },
+  {
+    "name": "Red Limb Studio",
+    "slug": "red-limb-studio",
+    "count": 5
+  },
+  {
+    "name": "RuneStorm",
+    "slug": "runestorm",
+    "count": 5
+  },
+  {
+    "name": "Running With Scissors",
+    "slug": "running-with-scissors",
+    "count": 5
+  },
+  {
+    "name": "SUPERHOT Team",
+    "slug": "superhot-team",
+    "count": 5
+  },
+  {
+    "name": "Screenwave Media",
+    "slug": "screenwave-media",
+    "count": 5
+  },
+  {
+    "name": "Selecta Play",
+    "slug": "selecta-play",
+    "count": 5
+  },
+  {
+    "name": "Sloclap",
+    "slug": "sloclap",
+    "count": 5
+  },
+  {
+    "name": "Star Drifters",
+    "slug": "star-drifters",
+    "count": 5
+  },
+  {
+    "name": "Stormind Games",
+    "slug": "stormind-games",
+    "count": 5
+  },
+  {
+    "name": "Tequila Works",
+    "slug": "tequila-works",
+    "count": 5
+  },
+  {
+    "name": "The Iterative Collective",
+    "slug": "the-iterative-collective",
+    "count": 5
+  },
+  {
+    "name": "TurnVex",
+    "slug": "turnvex",
+    "count": 5
+  },
+  {
+    "name": "Vincent Lade",
+    "slug": "vincent-lade",
+    "count": 5
+  },
+  {
+    "name": "Walkabout",
+    "slug": "walkabout",
+    "count": 5
+  },
+  {
+    "name": "Wise Games",
+    "slug": "wise-games",
+    "count": 5
+  },
+  {
+    "name": "Zodiac Interactive",
+    "slug": "zodiac-interactive",
+    "count": 5
+  },
+  {
+    "name": "eigoMANGA",
+    "slug": "eigomanga",
+    "count": 5
+  },
+  {
+    "name": "nDreams",
+    "slug": "ndreams",
+    "count": 5
+  },
+  {
+    "count": 4,
+    "_id": "6a1effb35cd3b2d94d10822e",
+    "facet": "publishers",
+    "name": "Battlestate Games",
+    "always_show": true,
+    "combo": true,
+    "parent": [],
+    "slug": "battlestate-games"
+  }
+]

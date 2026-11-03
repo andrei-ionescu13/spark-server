@@ -1,53 +1,53 @@
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import * as dotenv from 'dotenv';
 import express from 'express';
-import mongoose from 'mongoose';
-import { articleCategoryRoutes } from './article-category/index';
-import { articleTagRoutes } from './article-tag/index';
-import { articlesRoutes } from './article/index';
-import { authRoutes } from './auth/index';
-import { collectionsRoutes } from './collection/index';
-import { promoCodeRoutes } from './coupon/index';
-import { currencyRoutes } from './currency/index';
-import { dealsRoutes } from './deals/index';
-import { developerRoutes } from './developer';
-import { discountRoutes } from './discount/index';
-import { featureRoutes } from './feature';
-import { genreRoutes } from './genre/index';
-import { keysRoutes } from './key/index';
-import { languageRoutes } from './language/index';
+import { collectionsRoutes } from './modules/collection';
+import { currencyRoutes } from './modules/currency';
+import { dealsRoutes } from './modules/deals';
+import { developerRoutes } from './modules/product/developer';
+import { discountRoutes } from './modules/discount';
+import { languageRoutes } from './modules/internationalization/language';
+import { namespaceRoutes } from './modules/internationalization/namespace';
+import { keysRoutes } from './modules/key';
+import { featureRoutes } from './modules/product/feature';
+import { genreRoutes } from './modules/product/genre';
+import { operatingSystemRoutes } from './modules/product/operatingSystem';
+import { orderRoutes } from './modules/orders';
+import { platformRoutes } from './modules/product/platform';
+import { publisherRoutes } from './modules/product/publisher';
+import { reviewsRoutes } from './modules/review';
+import { userRoutes } from './modules/users';
+import { authRoutes } from './modules/auth';
+import { articleCategoryRoutes } from './modules/blog/article-category/index';
+import { articleTagRoutes } from './modules/blog/article-tag/index';
+import { articlesRoutes } from './modules/blog/article/index';
+import { couponRoutes } from './modules/coupon';
+import { productRoutes } from './modules/product';
+import { Mongo } from './mongo';
 import { verifyToken } from './middleware/verify-token';
-import { namespaceRoutes } from './namespace/index';
-import { operatingSystemRoutes } from './operating-system';
-import { orderRoutes } from './orders/index';
-import { platformRoutes } from './platform/index';
-import { productRoutes } from './product/index';
-import { publisherRoutes } from './publisher/index';
-import { reviewsRoutes } from './review/index';
-import { translationsLanguageRoutes } from './translations-language/index';
-import { userRoutes } from './users/index';
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 const run = async () => {
-  mongoose.connect(process.env.MONGO_URI as string);
+  try {
+    await Mongo.connect();
+    console.log('connected to db');
+  } catch (error) {
+    console.log(error);
+  }
   app.use(
     cors({
       origin: process.env.CLIENT_URL,
       credentials: true,
     }),
   );
-
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
   app.use('/public', express.static('public'));
   app.use('/', authRoutes);
-
   app.use(verifyToken);
 
   app.use((req, res, next) => {
@@ -64,18 +64,17 @@ const run = async () => {
   });
 
   app.use('/languages', languageRoutes);
+  app.use('/namespaces', namespaceRoutes);
   app.use('/articles', articlesRoutes);
+  app.use('/article-categories', articleCategoryRoutes);
+  app.use('/article-tags', articleTagRoutes);
   app.use('/operating-systems', operatingSystemRoutes);
   app.use('/developers', developerRoutes);
   app.use('/features', featureRoutes);
-  app.use('/article-categories', articleCategoryRoutes);
-  app.use('/article-tags', articleTagRoutes);
   app.use('/publishers', publisherRoutes);
   app.use('/platforms', platformRoutes);
   app.use('/currencies', currencyRoutes);
   app.use('/genres', genreRoutes);
-  app.use('/translations/languages', translationsLanguageRoutes);
-  app.use('/translations/namespaces', namespaceRoutes);
   app.use('/products', productRoutes);
   app.use('/users', userRoutes);
   app.use('/keys', keysRoutes);
@@ -83,8 +82,8 @@ const run = async () => {
   app.use('/deals', dealsRoutes);
   app.use('/reviews', reviewsRoutes);
   app.use('/discounts', discountRoutes);
-  app.use('/orders', orderRoutes);
-  app.use('/promo-codes', promoCodeRoutes);
+  // app.use('/orders', orderRoutes);
+  app.use('/coupons', couponRoutes);
 
   app.use((error, req, res, next) => {
     if (error) {

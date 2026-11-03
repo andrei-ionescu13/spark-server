@@ -1,0 +1,235 @@
+{
+  "major_aaa": [
+    {
+      "name": "Rockstar Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Rockstar_Games_Logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "CD Projekt Red",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/CD_Projekt_Red_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Naughty Dog",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Naughty_Dog_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Santa Monica Studio",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Santa_Monica_Studio_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Insomniac Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Insomniac_Games_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Ubisoft",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Ubisoft_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Electronic Arts (EA)",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Electronic_Arts_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Bethesda Game Studios",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bethesda_Game_Studios_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "BioWare",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/BioWare_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Larian Studios",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Larian_Studios_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "FromSoftware",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/FromSoftware_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Capcom",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Capcom_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Square Enix",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Square_Enix_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Bandai Namco Studios",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bandai_Namco_Studios_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Kojima Productions",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Kojima_Productions_logo.svg",
+      "logo_format": "svg"
+    }
+  ],
+  "indie_and_independent": [
+    {
+      "name": "Supergiant Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Supergiant_Games_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Team Cherry",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Team_Cherry_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "ConcernedApe",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/ConcernedApe_logo.png",
+      "logo_format": "png"
+    },
+    {
+      "name": "Motion Twin",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Motion_Twin_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Coffee Stain Studios",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Coffee_Stain_Studios_Logo_2016.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Re-Logic",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Re-Logic_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Subset Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Subset_Games_logo_black.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Playdead",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Playdead_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Hello Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Hello_Games_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Digital Extremes",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Digital_Extremes_logo.svg",
+      "logo_format": "svg"
+    }
+  ],
+  "japanese_and_korean": [
+    {
+      "name": "Nintendo",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Nintendo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Sega",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Sega_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Konami",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Konami_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Atlus",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Atlus_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "PlatinumGames",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/PlatinumGames_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Kojima Productions",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Kojima_Productions_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Nexon",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Nexon_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Shift Up",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Shift_Up_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Pearl Abyss",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Pearl_Abyss_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Krafton",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Krafton_logo.svg",
+      "logo_format": "svg"
+    }
+  ],
+  "other_notable": [
+    {
+      "name": "Obsidian Entertainment",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Obsidian_Entertainment_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Remedy Entertainment",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Remedy_Entertainment_logo_(2023-present).svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Gearbox Software",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Gearbox_Software_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Respawn Entertainment",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Respawn_Entertainment_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Bungie",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Bungie_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Arkane Studios",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Arkane_Studios_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Riot Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Riot_Games_2022_wordmark.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Valve",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Valve_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Blizzard Entertainment",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Blizzard_Entertainment_logo.svg",
+      "logo_format": "svg"
+    },
+    {
+      "name": "Epic Games",
+      "logo_url": "https://commons.wikimedia.org/wiki/Special:FilePath/Epic_Games_logo.svg",
+      "logo_format": "svg"
+    }
+  ]
+}

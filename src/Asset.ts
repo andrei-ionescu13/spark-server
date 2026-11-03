@@ -1,50 +1,123 @@
-import mongoose from 'mongoose';
-const { Schema } = mongoose;
+import * as z from 'zod';
+import { zodDomainValidationError } from './zodErrors';
+import { DomainValidationError } from './modules/blog/article/domain/status';
+import { Result } from './result';
+import { v7 as uuid7 } from 'uuid';
 
-export interface Asset {
+export interface AssetDoc {
+  _id: string;
   public_id: string;
-  version: number;
-  signature: string;
+  width: number;
+  height: number;
+  resource_type?: 'image' | 'video' | 'raw' | 'auto';
+  created_at: string;
+  url: string;
+  secure_url: string;
+  original_filename: string;
+  format: string;
+
+  // version: number;
+  // signature: string;
+  // tags: Array<string>;
+  // pages: number;
+  // bytes: number;
+  // type: string;
+  // etag: string;
+  // placeholder: boolean;
+  // access_mode: string;
+  // moderation: Array<string>;
+  // access_control: Array<string>;
+  // context: object;
+  // metadata: object;
+  // colors?: [string, number][];
+}
+
+interface AssetProps {
+  _id: string;
+  publicId: string;
   width: number;
   height: number;
   format: string;
-  resource_type?: 'image' | 'video' | 'raw' | 'auto';
-  created_at: string;
-  tags: Array<string>;
-  pages: number;
-  bytes: number;
-  type: string;
-  etag: string;
-  placeholder: boolean;
+  resourceType?: 'image' | 'video' | 'raw' | 'auto';
+  createdAt: string;
   url: string;
-  secure_url: string;
-  access_mode: string;
-  original_filename: string;
-  moderation: Array<string>;
-  access_control: Array<string>;
-  context: object;
-  metadata: object;
-  colors?: [string, number][];
+  secureUrl: string;
+  originalFilename: string;
 }
 
-export const AssetSchema = new Schema({
-  asset_id: String,
-  public_id: String,
-  version: Number,
-  version_id: String,
-  signature: String,
-  width: Number,
-  height: Number,
-  format: String,
-  resource_type: String,
-  created_at: Date,
-  tags: [String],
-  bytes: Number,
-  type: String,
-  etag: String,
-  placeholder: Boolean,
-  url: String,
-  secure_url: String,
-  original_filename: String,
-  api_key: String,
-});
+interface CreateAssetProps extends Omit<AssetProps, '_id'> {}
+
+export class Asset {
+  constructor(private props: AssetProps) {}
+
+  public static create(props: CreateAssetProps): Result<Asset, DomainValidationError> {
+    const schema = z.object({
+      publicId: z.string(),
+      width: z.number(),
+      height: z.number(),
+      format: z.string(),
+      resourceType: z.enum(['image', 'video', 'raw', 'auto']).optional(),
+      createdAt: z.string(),
+      url: z.string(),
+      secureUrl: z.string(),
+      originalFilename: z.string(),
+    });
+    const result = schema.safeParse(props);
+
+    if (result.error) {
+      console.log(result.error);
+      return Result.fail(zodDomainValidationError(result.error));
+    }
+
+    return Result.ok(
+      new Asset({
+        ...props,
+        _id: uuid7(),
+      }),
+    );
+  }
+
+  public static reconstitute(props: AssetProps) {
+    return new Asset(props);
+  }
+
+  get publicId() {
+    return this.props.publicId;
+  }
+
+  get width() {
+    return this.props.width;
+  }
+
+  get height() {
+    return this.props.height;
+  }
+
+  get format() {
+    return this.props.format;
+  }
+
+  get resourceType() {
+    return this.props.resourceType;
+  }
+
+  get createdAt() {
+    return this.props.createdAt;
+  }
+
+  get url() {
+    return this.props.url;
+  }
+
+  get secureUrl() {
+    return this.props.secureUrl;
+  }
+
+  get originalFilename() {
+    return this.props.originalFilename;
+  }
+
+  get _id() {
+    return this.props._id;
+  }
+}
