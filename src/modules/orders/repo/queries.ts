@@ -1,7 +1,7 @@
 import { OrderDto, OrderMapper } from '../orderMapper';
-import { LineItemDto, LineItemMapper } from '../lineItemMapper';
-import { LineItemDoc, OrderDoc } from '../model';
+import { OrderDoc, OrderLineItemDoc, OrderLineItemPopulateDoc } from '../model';
 import { Collection } from 'mongodb';
+import { OrderLineItemDto, OrderLineItemMapper } from '../orderLineItemMapper';
 
 type Status = 'open' | 'archived' | 'canceled';
 type PaymentStatus = 'authorized' | 'paid' | 'pending' | 'refunded' | 'expired';
@@ -21,7 +21,7 @@ interface SearchOrdersQueries {
 export interface OrderQueriesRepoI {
   getOrder: (id: string) => Promise<OrderDto | null>;
   getOrderByOrderNumber: (orderNumber: string) => Promise<OrderDto | null>;
-  getOrderItems: (orderNumber: string) => Promise<LineItemDto[]>;
+  getOrderItems: (orderNumber: string) => Promise<OrderLineItemDto[]>;
   searchOrders: (query: SearchOrdersQueries) => Promise<{ orders: OrderDto[]; count: number }>;
 }
 
@@ -44,7 +44,7 @@ export class OrderQueriesRepo implements OrderQueriesRepoI {
     return order;
   };
 
-  getOrderItems = async (orderNumber: string): Promise<LineItemDto[]> => {
+  getOrderItems = async (orderNumber: string): Promise<OrderLineItemDto[]> => {
     const pipeline = [
       {
         $match: {
@@ -66,9 +66,45 @@ export class OrderQueriesRepo implements OrderQueriesRepoI {
           product: { $arrayElemAt: ['$product', 0] },
         },
       },
+      {
+        $lookup: {
+          from: 'discounts',
+          localField: 'discount',
+          foreignField: '_id',
+          as: 'discount',
+        },
+      },
+      {
+        $unwind: {
+          path: '$discount',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'coupons',
+          localField: 'coupon',
+          foreignField: '_id',
+          as: 'coupon',
+        },
+      },
+      {
+        $unwind: {
+          path: '$coupon',
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: 'keys',
+          localField: 'keys',
+          foreignField: '_id',
+          as: 'keys',
+        },
+      },
     ];
-    const docs = await this.collection.aggregate<LineItemDoc>(pipeline).toArray();
-    return LineItemMapper.toDtoList(docs);
+    const docs = await this.collection.aggregate<OrderLineItemPopulateDoc>(pipeline).toArray();
+    return OrderLineItemMapper.toDtoList(docs);
   };
 
   searchOrders = async (

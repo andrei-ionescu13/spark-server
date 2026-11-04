@@ -1,16 +1,15 @@
 import { Collection, Document } from 'mongodb';
-import { ProductDoc } from '../model';
-import { ProductDto, ProductMapper } from '../productMapper';
+import { ProductDoc, ProductPopulatedDoc } from '../model';
+import { ProductDto, ProductMapper, ProductPopulatedDto } from '../productMapper';
 import { ReviewDto, ReviewMapper } from '../../review/reviewMapper';
 import { KeyDto } from '../../key/keyMapper';
-import path from 'path';
 
 export interface ProductQueriesRepoI {
-  getProduct: (id: string) => Promise<ProductDto | null>;
-  getProductByDeveloper: (developerId: string) => Promise<ProductDto | null>;
-  getProductByGenre: (genreId: string) => Promise<ProductDto | null>;
-  getProductByFeature: (featureId: string) => Promise<ProductDto | null>;
-  listProductsByKeyValues: (keyValue: string) => Promise<ProductDto[]>;
+  getProduct: (id: string) => Promise<ProductPopulatedDto | null>;
+  getProductByDeveloper: (developerId: string) => Promise<ProductPopulatedDto | null>;
+  getProductByGenre: (genreId: string) => Promise<ProductPopulatedDto | null>;
+  getProductByFeature: (featureId: string) => Promise<ProductPopulatedDto | null>;
+  listProductsByKeyValue: (keyValue: string) => Promise<ProductDto[]>;
   getProductByProps: (props: Array<Record<string, any>>) => Promise<ProductDto | null>;
   searchProductReviews: (id: string, query) => Promise<{ reviews: ReviewDto[]; count: number }>;
   searchProducts: (query) => Promise<{ products: ProductDto[]; count: number }>;
@@ -20,7 +19,7 @@ export interface ProductQueriesRepoI {
 export class ProductQueriesRepo implements ProductQueriesRepoI {
   constructor(private collection: Collection<ProductDoc>) {}
 
-  getProduct = async (id: string): Promise<ProductDto | null> => {
+  getProduct = async (id: string): Promise<ProductPopulatedDto | null> => {
     const pipeline: Document[] = [
       {
         $match: { _id: id },
@@ -90,13 +89,13 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
         },
       },
     ];
-    const doc = await this.collection.aggregate(pipeline).next();
+    const doc = await this.collection.aggregate<ProductPopulatedDoc>(pipeline).next();
 
     if (!doc) return null;
-    return ProductMapper.toDto(doc);
+    return ProductMapper.toPopulatedDto(doc);
   };
 
-  getProductByDeveloper = async (developerId: string): Promise<ProductDto | null> => {
+  getProductByDeveloper = async (developerId: string): Promise<ProductPopulatedDto | null> => {
     const pipeline = [
       {
         $match: { developers: developerId },
@@ -163,13 +162,13 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       },
       { $unwind: '$discount' },
     ];
-    const doc = await this.collection.aggregate(pipeline).next();
+    const doc = await this.collection.aggregate<ProductPopulatedDoc>(pipeline).next();
 
     if (!doc) return null;
-    return ProductMapper.toDto(doc);
+    return ProductMapper.toPopulatedDto(doc);
   };
 
-  getProductByGenre = async (genreId: string): Promise<ProductDto | null> => {
+  getProductByGenre = async (genreId: string): Promise<ProductPopulatedDto | null> => {
     const pipeline = [
       {
         $match: { genres: genreId },
@@ -236,13 +235,13 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       },
       { $unwind: '$discount' },
     ];
-    const doc = await this.collection.aggregate(pipeline).next();
+    const doc = await this.collection.aggregate<ProductPopulatedDoc>(pipeline).next();
 
     if (!doc) return null;
-    return ProductMapper.toDto(doc);
+    return ProductMapper.toPopulatedDto(doc);
   };
 
-  getProductByFeature = async (featureId: string): Promise<ProductDto | null> => {
+  getProductByFeature = async (featureId: string): Promise<ProductPopulatedDto | null> => {
     const pipeline = [
       {
         $match: { features: featureId },
@@ -309,13 +308,13 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       },
       { $unwind: '$discount' },
     ];
-    const doc = await this.collection.aggregate(pipeline).next();
+    const doc = await this.collection.aggregate<ProductPopulatedDoc>(pipeline).next();
 
     if (!doc) return null;
-    return ProductMapper.toDto(doc);
+    return ProductMapper.toPopulatedDto(doc);
   };
 
-  listProductsByKeyValues = async (keyValue: string): Promise<ProductDto[]> => {
+  listProductsByKeyValue = async (keyValue: string): Promise<ProductDto[]> => {
     const pipeline = [
       {
         $unwind: '$keys',
@@ -349,7 +348,7 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
         },
       },
     ];
-    const docs = await this.collection.aggregate(pipeline).toArray();
+    const docs = await this.collection.aggregate<ProductDoc>(pipeline).toArray();
 
     return ProductMapper.toDtoList(docs);
   };

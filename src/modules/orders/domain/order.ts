@@ -15,7 +15,7 @@ export interface OrderProps {
   orderNumber: string;
   paymentStatus: OrderPaymentStatus;
   fulfillmentStatus: OrderFulfillmentStatus;
-  customer: string;
+  user: string;
   createdAt: Date;
   itemCount: number;
   totalPrice: Price;
@@ -26,73 +26,16 @@ export interface OrderProps {
   stripeId: string;
 }
 
-export interface CreateOrderProps extends Omit<OrderProps, 'createdAt' | 'updatedAt' | '_id'> {}
+export interface CreateOrderProps
+  extends Omit<OrderProps, 'createdAt' | 'updatedAt' | '_id' | 'currency'> {
+  currency?: string;
+}
 
 export class Order {
   constructor(private props: OrderProps) {}
 
-  static create(props: CreateOrderProps): Result<Order, DomainValidationError> {
-    const schema = z.object({
-      _id: z.string(),
-      orderNumber: z.string(),
-      email: z.email(),
-      customer: z.string(),
-      itemCount: z.number(),
-      totalPrice: z.number(),
-      totalDiscount: z.number(),
-      currency: z.string(),
-      stripeId: z.string(),
-    });
-
-    const validation = schema.safeParse(props);
-    if (validation.error) {
-      return Result.fail(zodDomainValidationError(validation.error));
-    }
-
-    return Result.ok(
-      new Order({
-        ...props,
-        createdAt: new Date(),
-        _id: uuid7(),
-        updatedAt: null,
-      }),
-    );
-  }
-
   public static reconstitute(props: OrderProps) {
     return new Order(props);
-  }
-
-  public complete(): Result<undefined, DomainValidationError> {
-    if (this.isArchived) {
-      return Result.fail(new DomainValidationError('cannot update an archived order'));
-    }
-
-    if (this.isCanceled) {
-      return Result.fail(new DomainValidationError('cannot update a canceled order'));
-    }
-
-    this.props.paymentStatus = new OrderPaymentStatus({ value: 'paid' });
-    this.props.fulfillmentStatus = new OrderFulfillmentStatus({ value: 'fulfilled' });
-    this.props.status = new OrderStatus({ value: 'archived' });
-
-    return Result.ok();
-  }
-
-  public cancel(): Result<undefined, DomainValidationError> {
-    if (this.isArchived) {
-      return Result.fail(new DomainValidationError('cannot update an archived order'));
-    }
-
-    if (this.isCanceled) {
-      return Result.fail(new DomainValidationError('cannot update a canceled order'));
-    }
-
-    this.props.paymentStatus = new OrderPaymentStatus({ value: 'expired' });
-    this.props.fulfillmentStatus = new OrderFulfillmentStatus({ value: 'unfulfilled' });
-    this.props.status = new OrderStatus({ value: 'canceled' });
-
-    return Result.ok();
   }
 
   get _id() {
@@ -115,8 +58,8 @@ export class Order {
     return this.props.fulfillmentStatus;
   }
 
-  get customer() {
-    return this.props.customer;
+  get user() {
+    return this.props.user;
   }
 
   get createdAt() {

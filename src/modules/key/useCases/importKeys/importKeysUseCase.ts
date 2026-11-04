@@ -46,7 +46,7 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
     const keyFound = await this.keyQueriesRepo.getKeyByValue(value);
 
     if (keyFound) {
-      const productsByKeyFound = await this.productQueriesRepo.listProductsByKeyValues(value);
+      const productsByKeyFound = await this.productQueriesRepo.listProductsByKeyValue(value);
       let isSamePlatform = false;
 
       if (productsByKeyFound.length) {

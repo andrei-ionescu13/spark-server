@@ -111,16 +111,6 @@ export class Discount {
     return Result.ok();
   }
 
-  // public removeProduct(productId: string): Result<undefined, DomainValidationError> {
-  //   const index = this.props.products.findIndex((product) => product === productId);
-  //   if (index === -1) {
-  //     return Result.fail(new DomainValidationError('Product is not in this discount'));
-  //   }
-
-  //   this.props.products.splice(index, 1);
-  //   return Result.ok();
-  // }
-
   get isExpired() {
     return this.props.endDate && this.props.endDate < new Date();
   }

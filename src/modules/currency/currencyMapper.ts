@@ -9,7 +9,7 @@ export interface CurrencyDto {
 }
 
 export class CurrencyMapper {
-  static toDto(entity: Currency): CurrencyDto {
+  static toDto(entity: CurrencyDoc): CurrencyDto {
     return {
       name: entity.name,
       code: entity.code,

@@ -7,11 +7,6 @@ import { UpdateDiscountUseCase } from './updateDiscountUseCase';
 
 const discountCommandsRepo = new DiscountCommandsRepo(Mongo.getCollection('discounts'));
 const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
-const discountApplicableChecker = new DiscountApplicableChecker();
 
-const updateDiscountUseCase = new UpdateDiscountUseCase(
-  discountCommandsRepo,
-  productCommandsRepo,
-  discountApplicableChecker,
-);
+const updateDiscountUseCase = new UpdateDiscountUseCase(discountCommandsRepo, productCommandsRepo);
 export const updateDiscountController = new UpdateDiscountController(updateDiscountUseCase);

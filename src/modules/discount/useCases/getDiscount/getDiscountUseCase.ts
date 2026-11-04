@@ -1,11 +1,14 @@
 import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { DiscountDto } from '../../discountMapper';
+import { DiscountDto, DiscountPopulatedDto } from '../../discountMapper';
 import { DiscountQueriesRepoI } from '../../repo/queries';
 import { GetDiscountRequestDto } from './getDiscountRequestDto';
 
-type Response = Result<DiscountDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<
+  DiscountPopulatedDto,
+  UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound
+>;
 
 export class GetDiscountUseCase implements UseCase<GetDiscountRequestDto, Response> {
   constructor(private discountQueriesRepo: DiscountQueriesRepoI) {}

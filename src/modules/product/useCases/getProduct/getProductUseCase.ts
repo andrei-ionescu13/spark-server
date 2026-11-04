@@ -1,11 +1,11 @@
 import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { ProductDto } from '../../productMapper';
+import { ProductDto, ProductPopulatedDto } from '../../productMapper';
 import { ProductQueriesRepoI } from '../../repo/queries';
 import { GetProductRequestDto } from './getProductRequestDto';
 
-type Response = Result<ProductDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<ProductPopulatedDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class GetProductUseCase implements UseCase<GetProductRequestDto, Response> {
   constructor(private productQueriesRepo: ProductQueriesRepoI) {}

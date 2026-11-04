@@ -1,6 +1,8 @@
 import { CouponDoc } from '../coupon/model';
 import { DiscountDoc } from '../discount/model';
 import { KeyDoc } from '../key/model';
+import { Product } from '../product/domain/product';
+import { ProductDoc } from '../product/model';
 
 type Status = 'open' | 'archived' | 'canceled';
 type PaymentStatus = 'authorized' | 'paid' | 'pending' | 'refunded' | 'expired';
@@ -34,4 +36,12 @@ export interface OrderLineItemDoc {
   discount: string | null;
   coupon: string | null;
   keys: string[];
+}
+
+export interface OrderLineItemPopulateDoc
+  extends Omit<OrderLineItemDoc, 'product' | 'discount' | 'coupon' | 'keys'> {
+  product: ProductDoc;
+  discount: DiscountDoc | null;
+  coupon: CouponDoc | null;
+  keys: KeyDoc[];
 }

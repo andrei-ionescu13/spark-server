@@ -1,5 +1,15 @@
 import { AssetDoc } from '../../assets';
 import { MetaDoc } from '../../meta';
+import { DiscountDoc } from '../discount/model';
+import { Developer } from './developer/domain/developer';
+import { DeveloperDoc } from './developer/model';
+import { Feature } from './feature/domain/feature';
+import { FeatureDoc } from './feature/model';
+import { GenreDoc } from './genre/model';
+import { OperatingSystemDoc } from './operatingSystem/model';
+import { Platform } from './platform/domain/platform';
+import { PlatformDoc } from './platform/model';
+import { PublisherDoc } from './publisher/model';
 
 type Status = 'draft' | 'published' | 'archived';
 
@@ -40,4 +50,18 @@ export interface ProductDoc {
   };
   reviews: string[];
   discount: string | null;
+}
+
+export interface ProductPopulatedDoc
+  extends Omit<
+    ProductDoc,
+    'genres' | 'developers' | 'features' | 'os' | 'publisher' | 'platform' | 'discount'
+  > {
+  genres: GenreDoc[];
+  developers: DeveloperDoc[];
+  features: FeatureDoc[];
+  os: OperatingSystemDoc[];
+  publisher: PublisherDoc;
+  platform: PlatformDoc;
+  discount: DiscountDoc | null;
 }

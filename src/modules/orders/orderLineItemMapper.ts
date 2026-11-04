@@ -5,7 +5,7 @@ import { KeyDto, KeyMapper } from '../key/keyMapper';
 import { ProductDto, ProductMapper } from '../product/productMapper';
 import { OrderLineItem } from './domain/orderLineItem';
 import { Price } from './domain/price';
-import { OrderLineItemDoc } from './model';
+import { OrderLineItemDoc, OrderLineItemPopulateDoc } from './model';
 
 export interface OrderLineItemDto {
   _id: string;
@@ -48,7 +48,7 @@ export class OrderLineItemMapper {
     return docs.map((doc) => OrderLineItemMapper.toDomain(doc));
   }
 
-  static toDto(doc: OrderLineItemPopulatedDoc): OrderLineItemDto {
+  static toDto(doc: OrderLineItemPopulateDoc): OrderLineItemDto {
     return {
       _id: doc._id,
       product: ProductMapper.toDto(doc.product),
@@ -63,7 +63,7 @@ export class OrderLineItemMapper {
     };
   }
 
-  static toDtoList(docs: OrderLineItemPopulatedDoc[]): OrderLineItemDto[] {
+  static toDtoList(docs: OrderLineItemPopulateDoc[]): OrderLineItemDto[] {
     return docs.map((doc) => OrderLineItemMapper.toDto(doc));
   }
 

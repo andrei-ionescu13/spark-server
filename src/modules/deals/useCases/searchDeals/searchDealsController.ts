@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import { SearchDealsRequestDto } from './searchDealsRequestDto';
 import { SearchDealsUseCase } from './searchDealsUseCase';
 import { Controller } from '../../../../controller';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
 
 export class SearchDealsController extends Controller {
   constructor(private useCase: SearchDealsUseCase) {
@@ -10,15 +12,22 @@ export class SearchDealsController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const query = req.query;
-    const dto: SearchDealsRequestDto = {
-      keyword: query.keyword as string,
-      sortBy: query.sortBy as string,
-      sortOrder: query.sortOrder as string,
-      status: query.status as string,
-      page: query?.page ? Number.parseInt(query.page as string) : undefined,
-      limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
-    };
+    const schema = z.object({
+      keyword: z.string().optional(),
+      status: z.enum(['expired', 'active', 'scheduled']).optional(),
+      sortBy: z.string().optional(),
+      sortOrder: z.enum(['asc', 'desc']).optional(),
+      page: z.coerce.number().int().positive().optional(),
+      limit: z.coerce.number().int().positive().optional(),
+    });
+
+    const result = schema.safeParse(req.query);
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto: SearchDealsRequestDto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

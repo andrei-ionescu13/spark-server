@@ -26,7 +26,7 @@ export class Result<T, U extends Error> {
     return this.isSuccess;
   }
 
-  public isErr(): this is Result<never, U> {
+  public isErr(): this is Result<never, U> & { error: U } {
     return this.isFailure;
   }
 
@@ -51,11 +51,11 @@ export class Result<T, U extends Error> {
   }
 
   public get value(): T {
-    if (!this.isSuccess) {
+    if (this.isFailure) {
       throw new Error("Can't retrieve the value from a failed result.");
     }
 
-    return this._value;
+    return this._value as T;
   }
 
   public static getValues<T, U extends Error>(results: Result<T, U>[]): T[] {

@@ -1,7 +1,7 @@
 import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
 import { MetaDto, MetaPersistance } from '../../metaMapper';
 import { Result } from '../../result';
-import { ProductDoc } from './model';
+import { ProductDoc, ProductPopulatedDoc } from './model';
 import { Product } from './domain/product';
 import { ProductLink } from './domain/productLink';
 import { ProductMarkdown } from './domain/productMarkdown';
@@ -12,6 +12,15 @@ import { ProductStatus } from './domain/productStatus';
 import { ProductTitle } from './domain/productTitle';
 import { Meta } from '../../meta';
 import { platform } from 'os';
+import { GenreDto } from './genre/genreMapper';
+import { DeveloperDto, DeveloperMapper } from './developer/developerMapper';
+import { FeatureDto } from './feature/featureMapper';
+import { OperatingSystemDto } from './operatingSystem/operatingSystemMapper';
+import { PublisherDto, PublisherMapper } from './publisher/publisherMapper';
+import { PlatformDto, PlatformMapper } from './platform/platformMapper';
+import { DiscountDto } from '../discount/discountMapper';
+import { PublisherCommandsRepo } from './publisher/repo/commands';
+import { Platform } from './platform/domain/platform';
 
 export interface ProductDto {
   _id: string;
@@ -52,43 +61,18 @@ export interface ProductDto {
   discount: string | null;
 }
 
-interface ProductPersistance {
-  _id: string;
-  cover: AssetPersistance;
-  allImages: AssetPersistance[];
-  images: AssetPersistance[];
-  videos: string[];
-  status: 'draft' | 'published' | 'archived';
-  title: string;
-  price: number;
-  genres: string[];
-  releaseDate: Date;
-  createdAt: Date;
-  updatedAt: Date | null;
-  publisher: string;
-  platform: string;
-  developers: string[];
-  features: string[];
-  link: string | null;
-  os: string;
-  markdown: string;
-  meta: MetaPersistance;
-  minimumRequirements: string;
-  recommendedRequirements: string;
-  slug: string;
-  keys: string[];
-  rating: {
-    average: number;
-    distribution: {
-      1: number;
-      2: number;
-      3: number;
-      4: number;
-      5: number;
-    };
-  };
-  reviews: string[];
-  discount: string | null;
+export interface ProductPopulatedDto
+  extends Omit<
+    ProductDto,
+    'genres' | 'developers' | 'features' | 'os' | 'publisher' | 'platform' | 'discount'
+  > {
+  genres: GenreDto[];
+  developers: DeveloperDto[];
+  features: FeatureDto[];
+  os: OperatingSystemDto[];
+  publisher: PublisherDto;
+  platform: PlatformDto;
+  discount: DiscountDto | null;
 }
 
 export class ProductMapper {
@@ -184,6 +168,42 @@ export class ProductMapper {
 
   static toDtoList(entities: ProductDoc[]): ProductDto[] {
     return entities.map((entity) => this.toDto(entity));
+  }
+
+  static toPopulatedDto(entity: ProductPopulatedDoc): ProductPopulatedDto {
+    return {
+      _id: entity._id,
+      cover: AssetMapper.toDto(entity.cover),
+      allImages: AssetMapper.toDtoList(entity.allImages),
+      images: AssetMapper.toDtoList(entity.images),
+      videos: entity.videos,
+      genres: entity.genres,
+      releaseDate: entity.releaseDate,
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      publisher: PublisherMapper.toDto(entity.publisher),
+      platform: PlatformMapper.toDto(entity.platform),
+      developers: DeveloperMapper.toDtoList(entity.developers),
+      features: entity.features,
+      os: entity.os,
+      meta: entity.meta,
+      slug: entity.slug,
+      keys: entity.keys,
+      reviews: entity.reviews,
+      discount: entity.discount,
+      status: entity.status,
+      title: entity.title,
+      price: entity.price,
+      link: entity.link,
+      markdown: entity.markdown,
+      minimumRequirements: entity.minimumRequirements,
+      recommendedRequirements: entity.recommendedRequirements,
+      rating: entity.rating,
+    };
+  }
+
+  static toPopulatedDtoList(entities: ProductPopulatedDoc[]): ProductPopulatedDto[] {
+    return entities.map((entity) => this.toPopulatedDto(entity));
   }
 
   static toPersistance(entity: Product): ProductDoc {

@@ -27,17 +27,18 @@ export class DeleteDiscountsBulkUseCase
       return Result.fail(new UseCaseErrors.NotFound('Discount not found'));
     }
 
-    const products = await this.productCommandsRepo.getProducts(discount.products);
+    const product = await this.productCommandsRepo.getProduct(discount.product);
+    if (!product) {
+      return Result.fail(new UseCaseErrors.NotFound('Product not found'));
+    }
 
-    for (const product of products) {
-      const removeResult = product.removeDiscount();
-      if (removeResult.isErr()) {
-        return Result.fail(new UseCaseErrors.NotFound(removeResult.error.message));
-      }
+    const removeResult = product.removeDiscount();
+    if (removeResult.isErr()) {
+      return Result.fail(new UseCaseErrors.NotFound(removeResult.error.message));
     }
 
     await this.discountCommandsRepo.deleteDiscount(discountId);
-    await this.productCommandsRepo.saveMultiple(products);
+    await this.productCommandsRepo.save(product);
 
     return Result.ok();
   };

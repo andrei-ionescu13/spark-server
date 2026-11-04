@@ -36,7 +36,6 @@ export class CreateDiscountUseCase implements UseCase<CreateDiscountRequestDto, 
   constructor(
     private discountCommandsRepo: DiscountCommandsRepoI,
     private productCommandsRepo: ProductCommandsRepoI,
-    private discountApplicableChecker: DiscountApplicableChecker,
   ) {}
 
   execute = async (request: CreateDiscountRequestDto): Promise<Response> => {
@@ -52,7 +51,7 @@ export class CreateDiscountUseCase implements UseCase<CreateDiscountRequestDto, 
           return Result.fail(new UseCaseErrors.NotFound('Discount not found'));
         }
 
-        const isApplicable = await this.discountApplicableChecker.check(product, existingDiscount, {
+        const isApplicable = DiscountApplicableChecker.check(product, existingDiscount, {
           type: request.type,
           value: request.value,
         });

@@ -2,7 +2,6 @@ import { UseCaseErrors } from '../../appError';
 import { Result } from '../../result';
 import { Product } from '../product/domain/product';
 import { Discount } from './domain/discount';
-import { CreateDiscountRequestDto } from './useCases/createDiscount/createDiscountRequestDto';
 
 export namespace CreateDiscountErrors {
   export class ProductHasDiscountError extends Error {
@@ -19,21 +18,19 @@ export namespace CreateDiscountErrors {
 }
 
 export class DiscountApplicableChecker {
-  public async check(
+  public static check(
     product: Product,
     discount: Discount,
     props: {
       type: 'amount' | 'percentage';
       value: number;
     },
-  ): Promise<
-    Result<
-      Discount,
-      | CreateDiscountErrors.ProductHasDiscountError
-      | CreateDiscountErrors.ProductPriceError
-      | UseCaseErrors.DomainValidation
-      | UseCaseErrors.NotFound
-    >
+  ): Result<
+    Discount,
+    | CreateDiscountErrors.ProductHasDiscountError
+    | CreateDiscountErrors.ProductPriceError
+    | UseCaseErrors.DomainValidation
+    | UseCaseErrors.NotFound
   > {
     if (discount.isActive) {
       return Result.fail(

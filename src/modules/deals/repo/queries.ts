@@ -8,7 +8,7 @@ interface SearchDealsQueries {
   sortOrder?: 'asc' | 'desc';
   page?: number;
   limit?: number;
-  status: 'expired' | 'active' | 'scheduled';
+  status?: 'expired' | 'active' | 'scheduled';
 }
 
 export interface DealQueriesRepoI {

@@ -13,7 +13,6 @@ import { keysRoutes } from './modules/key';
 import { featureRoutes } from './modules/product/feature';
 import { genreRoutes } from './modules/product/genre';
 import { operatingSystemRoutes } from './modules/product/operatingSystem';
-import { orderRoutes } from './modules/orders';
 import { platformRoutes } from './modules/product/platform';
 import { publisherRoutes } from './modules/product/publisher';
 import { reviewsRoutes } from './modules/review';

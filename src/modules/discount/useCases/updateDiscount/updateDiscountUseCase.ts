@@ -41,7 +41,6 @@ export class UpdateDiscountUseCase implements UseCase<UpdateDiscountRequestDto, 
   constructor(
     private discountCommandsRepo: DiscountCommandsRepoI,
     private productCommandsRepo: ProductCommandsRepoI,
-    private discountApplicableChecker: DiscountApplicableChecker,
   ) {}
 
   execute = async (request: UpdateDiscountRequestDto): Promise<Response> => {
@@ -60,7 +59,7 @@ export class UpdateDiscountUseCase implements UseCase<UpdateDiscountRequestDto, 
       const discountPreviousProductId = discount.product;
 
       if (product.discount) {
-        const isApplicable = await this.discountApplicableChecker.check(product, discount, {
+        const isApplicable = DiscountApplicableChecker.check(product, discount, {
           type: request.type,
           value: request.value,
         });
