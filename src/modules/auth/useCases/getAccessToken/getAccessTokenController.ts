@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../Controller';
+import { Controller } from '../../../../controller';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 import { GetAccessTokenErrors, GetAccessTokenUseCase } from './getAccessTokenUseCase';
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 
 export class GetAccessTokenController extends Controller {
   constructor(private useCase: GetAccessTokenUseCase) {
@@ -19,7 +19,7 @@ export class GetAccessTokenController extends Controller {
       const result = await this.useCase.execute(dto);
 
       if (result.isErr()) {
-        const { error } = result;
+        const error = result.error;
 
         switch (error.constructor) {
           case GetAccessTokenErrors.RefreshTokenRequiredError:

@@ -4,7 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../../result';
-import { Asset } from '../../../../Asset';
+import { Asset } from '../../../../asset';
 
 interface PublisherProps {
   name: string;

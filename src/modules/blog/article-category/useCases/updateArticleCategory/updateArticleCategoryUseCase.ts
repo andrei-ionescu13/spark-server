@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategory } from '../../domain/articleCategory';
 import { ArticleCategoryDto } from '../../articleCategoryMapper';

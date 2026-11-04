@@ -1,5 +1,4 @@
 import { Mongo } from '../../../../../mongo';
-import { ProductModel } from '../../../model';
 import { ProductQueriesRepo } from '../../../repo/queries';
 import { FeatureCommandsRepo } from '../../repo/commands';
 import { FeatureQueriesRepo } from '../../repo/queries';

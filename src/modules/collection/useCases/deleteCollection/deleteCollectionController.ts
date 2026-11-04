@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../AppError';
-import { Controller } from '../../../../Controller';
+import { UseCaseErrors } from '../../../../appError';
+import { Controller } from '../../../../controller';
 import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
 import { DeleteCollectionUseCase } from './deleteCollectionUseCase';
 
@@ -30,8 +30,8 @@ export class DeleteCollectionController extends Controller {
         }
       }
 
-      const collection = result.value;
-      return this.ok(res, collection);
+      const id = result.value;
+      return this.ok(res, id);
     } catch (error) {
       console.log(error);
       return this.fail(res, error);

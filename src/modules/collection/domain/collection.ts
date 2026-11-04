@@ -3,9 +3,9 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../result';
-import { Meta } from '../../../Meta';
+import { Meta } from '../../../meta';
 import { CollectionTitle } from './collectionTitle';
-import { Asset } from '../../../Asset';
+import { Asset } from '../../../asset';
 import { CollectionDescription } from './collectionDescription';
 import { textUtils } from '../../../utils/textUtils';
 

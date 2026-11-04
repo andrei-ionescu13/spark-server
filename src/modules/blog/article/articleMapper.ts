@@ -1,11 +1,11 @@
-import { Meta } from '../../../Meta';
+import { Meta } from '../../../meta';
 import { Article } from './domain/article';
 import { AssetDto, AssetMapper } from '../../../assetMapper';
 import { ArticleMarkdown } from './domain/markdown';
 import { ArticleDoc, ArticlePopulatedDoc } from './model';
 import { MappingValidationError, ArticleStatus } from './domain/status';
 import { ArticleTitle } from './domain/title';
-import { Asset } from '../../../Asset';
+import { Asset } from '../../../asset';
 import { Result } from '../../../result';
 import { ArticleDescription } from './domain/description';
 import { ArticleCategory } from '../article-category/domain/articleCategory';
@@ -18,6 +18,21 @@ import { MetaDto, MetaMapper } from '../../../metaMapper';
 import { ArticleTagDto, ArticleTagMapper } from '../article-tag/articleTagMapper';
 
 export interface ArticleDto {
+  title: string;
+  description: string;
+  slug: string;
+  status: 'draft' | 'published' | 'archived';
+  category: string;
+  markdown: string;
+  cover: AssetDto;
+  meta: MetaDto;
+  createdAt: Date;
+  updatedAt: Date | null;
+  tags: string[];
+  _id: string;
+}
+
+export interface ArticlePopulatedDto {
   title: string;
   description: string;
   slug: string;
@@ -74,7 +89,28 @@ export class ArticleMapper {
     return article;
   }
 
-  static toDto(entity: ArticlePopulatedDoc): ArticleDto {
+  static toDto(entity: ArticleDoc): ArticleDto {
+    return {
+      title: entity.title,
+      description: entity.description,
+      slug: entity.slug,
+      status: entity.status,
+      category: entity.category,
+      markdown: entity.markdown,
+      cover: AssetMapper.toDto(entity.cover),
+      meta: MetaMapper.toDto(entity.meta),
+      createdAt: entity.createdAt,
+      updatedAt: entity.updatedAt,
+      tags: entity.tags,
+      _id: entity._id,
+    };
+  }
+
+  static toDtoList(entities: ArticleDoc[]): ArticleDto[] {
+    return entities.map((entity) => ArticleMapper.toDto(entity));
+  }
+
+  static toPopulatedDto(entity: ArticlePopulatedDoc): ArticlePopulatedDto {
     return {
       title: entity.title,
       description: entity.description,
@@ -91,8 +127,8 @@ export class ArticleMapper {
     };
   }
 
-  static toDtoList(entities: ArticlePopulatedDoc[]): ArticleDto[] {
-    return entities.map((entity) => ArticleMapper.toDto(entity));
+  static toPopulatedDtoList(entities: ArticlePopulatedDoc[]): ArticlePopulatedDto[] {
+    return entities.map((entity) => ArticleMapper.toPopulatedDto(entity));
   }
 
   static toPersistence(article: Article): ArticleDoc {

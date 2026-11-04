@@ -2,7 +2,7 @@ import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { PlatformDoc } from './model';
 import { Platform } from './domain/platform';
-import { Asset } from '../../../Asset';
+import { Asset } from '../../../asset';
 
 export interface PlatformDto {
   _id: string;

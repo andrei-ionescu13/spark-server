@@ -1,12 +1,11 @@
 import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
-import { DomainValidationError } from '../blog/article/domain/status';
 import { MetaDto, MetaMapper, MetaPersistance } from '../../metaMapper';
 import { Collection } from './domain/collection';
 import { CollectionDescription } from './domain/collectionDescription';
 import { CollectionTitle } from './domain/collectionTitle';
 import { CollectionDoc, CollectionPopulatedDoc } from './model';
-import { Asset } from '../../Asset';
-import { Meta } from '../../Meta';
+import { Asset } from '../../asset';
+import { Meta } from '../../meta';
 import { ProductDto, ProductMapper } from '../product/productMapper';
 
 export interface CollectionDto {

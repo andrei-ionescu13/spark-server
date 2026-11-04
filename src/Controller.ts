@@ -1,10 +1,5 @@
 import * as express from 'express';
 
-interface CustomSchema {
-  body?: Record<string, any>;
-  query?: Record<string, any>;
-}
-
 export abstract class Controller {
   protected abstract executeImpl(req: express.Request, res: express.Response): Promise<void | any>;
 

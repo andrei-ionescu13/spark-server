@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../UseCaseError';
+import { UseCaseError } from '../../../../useCaseError';
 import { AuthService } from '../../authService';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { TokenCommandsRepoI } from '../../repo/token/commands';
@@ -27,7 +27,13 @@ export namespace GetAccessTokenErrors {
   }
 }
 
-type Response = Result<string, UseCaseErrors.UnexpectedError>;
+type Response = Result<
+  string,
+  | UseCaseErrors.UnexpectedError
+  | GetAccessTokenErrors.RefreshTokenRequiredError
+  | GetAccessTokenErrors.RefreshTokenExpiredError
+  | UseCaseErrors.NotFound
+>;
 
 export class GetAccessTokenUseCase implements UseCase<GetAccessTokenRequestDto, Response> {
   constructor(

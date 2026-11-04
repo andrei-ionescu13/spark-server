@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../../AppError';
-import { Controller } from '../../../../../Controller';
+import { UseCaseErrors } from '../../../../../appError';
+import { Controller } from '../../../../../controller';
 import { DeletePublisherErrors } from '../deletePublisher/deletePublisherUseCase';
 import { DeletePublishersBulkRequestDto } from './deletePublishersBulkRequestDto';
 import { DeletePublishersBulkUseCase } from './deletePublishersBulkUseCase';

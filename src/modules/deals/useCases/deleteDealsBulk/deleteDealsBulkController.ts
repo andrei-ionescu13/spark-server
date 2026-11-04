@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { DeleteDealsBulkRequestDto } from './deleteDealsBulkRequestDto';
 import { DeleteDealsBulkUseCase } from './deleteDealsBulkUseCase';
-import { Controller } from '../../../../Controller';
+import { Controller } from '../../../../controller';
 
 export class DeleteDealsBulkController extends Controller {
   constructor(private useCase: DeleteDealsBulkUseCase) {

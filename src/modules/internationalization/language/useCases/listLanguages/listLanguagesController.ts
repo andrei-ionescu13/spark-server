@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../../Controller';
+import { Controller } from '../../../../../controller';
 import { ListLanguagesRequestDto } from './listLanguagesRequestDto';
 import { ListLanguagesUseCase } from './listLanguagesUseCase';
 
@@ -16,7 +16,7 @@ export class ListLanguagesController extends Controller {
       const result = await this.useCase.execute();
 
       if (result.isErr()) {
-        const error = result.value;
+        const error = result.error;
 
         switch (error.constructor) {
           default:

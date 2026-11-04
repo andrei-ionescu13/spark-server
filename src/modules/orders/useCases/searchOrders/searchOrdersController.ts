@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { SearchOrdersRequestDto } from './searchOrdersRequestDto';
 import { SearchOrdersUseCase } from './searchOrdersUseCase';
-import { Controller } from '../../../../Controller';
+import { Controller } from '../../../../controller';
 import * as z from 'zod';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { paramToArray } from '../../../../paramToArray';
@@ -50,7 +50,7 @@ export class SearchOrdersController extends Controller {
       const result = await this.useCase.execute(dto);
 
       if (result.isErr()) {
-        const error = result.value;
+        const error = result.error;
 
         switch (error.constructor) {
           default:

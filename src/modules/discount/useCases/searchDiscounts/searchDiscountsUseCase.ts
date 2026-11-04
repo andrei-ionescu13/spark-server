@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { DiscountDto } from '../../discountMapper';
+import { DiscountDto, DiscountPopulatedDto } from '../../discountMapper';
 import { DiscountQueriesRepoI } from '../../repo/queries';
 import { SearchDiscountsRequestDto } from './searchDiscountsRequestDto';
 
@@ -10,7 +10,7 @@ const LIMIT = 10;
 
 type Response = Result<
   {
-    discounts: DiscountDto[];
+    discounts: DiscountPopulatedDto[];
     count: number;
   },
   UseCaseErrors.UnexpectedError

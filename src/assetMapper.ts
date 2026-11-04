@@ -1,6 +1,6 @@
 import { Result } from './result';
 import { DomainValidationError } from './modules/blog/article/domain/status';
-import { Asset, AssetDoc } from './Asset';
+import { Asset, AssetDoc } from './asset';
 
 export interface AssetDto {
   publicId: string;

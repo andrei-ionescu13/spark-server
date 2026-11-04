@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { DeleteDealRequestDto } from './deleteDealRequestDto';
 import { DeleteDealUseCase } from './deleteDealUseCase';
-import { Controller } from '../../../../Controller';
-import { UseCaseErrors } from '../../../../AppError';
+import { Controller } from '../../../../controller';
+import { UseCaseErrors } from '../../../../appError';
 
 export class DeleteDealController extends Controller {
   constructor(private useCase: DeleteDealUseCase) {

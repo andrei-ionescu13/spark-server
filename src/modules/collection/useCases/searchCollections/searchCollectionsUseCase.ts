@@ -1,13 +1,13 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { CollectionDto } from '../../collectionMapper';
+import { CollectionDto, CollectionPopulatedDto } from '../../collectionMapper';
 import { CollectionQueriesRepoI } from '../../repo/queries';
 import { SearchCollectionsRequestDto } from './searchCollectionsRequestDto';
 
 type Response = Result<
   {
-    collections: CollectionDto[];
+    collections: CollectionPopulatedDto[];
     count: number;
   },
   UseCaseErrors.UnexpectedError

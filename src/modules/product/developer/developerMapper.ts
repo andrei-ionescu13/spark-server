@@ -3,7 +3,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { Result } from '../../../result';
 import { Developer } from './domain/developer';
 import { DeveloperDoc } from './model';
-import { Asset } from '../../../Asset';
+import { Asset } from '../../../asset';
 
 export interface DeveloperDto {
   _id: string;

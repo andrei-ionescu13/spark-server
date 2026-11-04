@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../AppError';
-import { Controller } from '../../../../Controller';
+import { UseCaseErrors } from '../../../../appError';
+import { Controller } from '../../../../controller';
 import { DeleteDiscountRequestDto } from './deleteDiscountRequestDto';
 import { DeleteDiscountUseCase } from './deleteDiscountUseCase';
 

@@ -1,10 +1,11 @@
 import { productServices } from '../../../product/services';
-import { UseCaseErrors } from '../../../../AppError';
-import { Result } from '../../../../Result';
+import { UseCaseErrors } from '../../../../appError';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewCommandsRepoI } from '../../repo/commands';
 import { ReviewStatus } from '../../domain/reviewStatus';
 import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';
+import { ProductCommandsRepoI } from '../../../product/repo/commands';
 
 type Response = Result<
   string,
@@ -12,7 +13,10 @@ type Response = Result<
 >;
 
 export class UpdateReviewStatusUseCase implements UseCase<UpdateReviewStatusRequestDto, Response> {
-  constructor(private reviewCommandsRepo: ReviewCommandsRepoI) {}
+  constructor(
+    private reviewCommandsRepo: ReviewCommandsRepoI,
+    private productCommandsRepo: ProductCommandsRepoI,
+  ) {}
 
   execute = async (request: UpdateReviewStatusRequestDto): Promise<Response> => {
     const { reviewId, status } = request;
@@ -30,8 +34,21 @@ export class UpdateReviewStatusUseCase implements UseCase<UpdateReviewStatusRequ
 
       const newStatus = newStatusOrError.value;
       review.updateStatus(newStatus);
-      //change this
-      await productServices.calculateRating(review.product);
+
+      const product = await this.productCommandsRepo.getProduct(review.product);
+      if (!product) {
+        return Result.fail(new UseCaseErrors.NotFound('Product not found'));
+      }
+
+      const productReviews = await this.reviewCommandsRepo.listProductReviews(product._id);
+      const ratingOrError = productServices.calculateRating(productReviews);
+      if (ratingOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(ratingOrError.error.message));
+      }
+
+      const rating = ratingOrError.value;
+      product.updateRating(rating);
+      this.productCommandsRepo.save(product);
 
       return Result.ok(review.status.value);
     } catch (error) {

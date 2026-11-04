@@ -1,14 +1,16 @@
 import { textUtils } from '../../../../utils/textUtils';
 import { Entity } from '../../../../entity';
-import { Meta } from '../../../../Meta';
+import { Meta } from '../../../../meta';
 import { ArticleMarkdown } from './markdown';
 import { DomainValidationError, ArticleStatus } from './status';
 import { ArticleTitle } from './title';
 import { v7 as uuid7 } from 'uuid';
 import { ArticleDescription } from './description';
-import { Asset } from '../../../../Asset';
+import { Asset } from '../../../../asset';
 import { ArticleCategory } from '../../article-category/domain/articleCategory';
 import { Result } from '../../../../result';
+import * as z from 'zod';
+import { zodDomainValidationError } from '../../../../zodErrors';
 
 interface ArticleProps {
   _id: string;
@@ -36,14 +38,25 @@ export class Article extends Entity<ArticleProps> {
     super(props);
   }
 
-  static create(props: CreateArticleProps) {
-    return new Article({
-      ...props,
-      slug: props.slug || textUtils.generateSlug(props.title.value),
-      _id: uuid7(),
-      createdAt: new Date(),
-      updatedAt: null,
+  static create(props: CreateArticleProps): Result<Article, DomainValidationError> {
+    const schema = z.object({
+      category: z.uuidv7(),
     });
+
+    const result = schema.safeParse(props);
+    if (result.error) {
+      return Result.fail(zodDomainValidationError(result.error));
+    }
+
+    return Result.ok(
+      new Article({
+        ...props,
+        slug: props.slug || textUtils.generateSlug(props.title.value),
+        _id: uuid7(),
+        createdAt: new Date(),
+        updatedAt: null,
+      }),
+    );
   }
 
   public static reconstitute(props: ArticleProps) {

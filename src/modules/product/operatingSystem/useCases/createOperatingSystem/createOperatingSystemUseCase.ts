@@ -1,8 +1,8 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { OperatingSystem, OperatingSystemCreateProps } from '../../domain/operatingSystem';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';

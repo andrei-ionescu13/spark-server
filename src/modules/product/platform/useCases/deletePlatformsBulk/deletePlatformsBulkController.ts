@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../../AppError';
-import { Controller } from '../../../../../Controller';
+import { UseCaseErrors } from '../../../../../appError';
+import { Controller } from '../../../../../controller';
 import { DeletePlatformErrors } from '../deletePlatform/deletePlatformUseCase';
 import { DeletePlatformsBulkRequestDto } from './deletePlatformsBulkRequestDto';
 import { DeletePlatformsBulkUseCase } from './deletePlatformsBulkUseCase';

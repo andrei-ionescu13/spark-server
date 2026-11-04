@@ -1,4 +1,4 @@
-import { AssetDoc } from '../../Asset';
+import { AssetDoc } from '../../asset';
 import { MetaDoc } from '../../meta';
 
 export interface DealDoc {

@@ -20,6 +20,28 @@ export class ProductRating extends ValueObject<ProductRatingProps> {
     super(props);
   }
 
+  static create(props: ProductRatingProps): Result<ProductRating, DomainValidationError> {
+    const schema = z.object({
+      average: z.number(),
+      distribution: z.object({
+        1: z.number(),
+        2: z.number(),
+        3: z.number(),
+        4: z.number(),
+        5: z.number(),
+      }),
+    });
+
+    const result = schema.safeParse(props);
+
+    if (result.error) {
+      console.log(result.error);
+      return Result.fail(zodDomainValidationError(result.error));
+    }
+
+    return Result.ok(new ProductRating(props));
+  }
+
   static createDefault(): ProductRating {
     return new ProductRating({
       average: 0,

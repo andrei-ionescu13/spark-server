@@ -1,4 +1,4 @@
-import { AssetDoc } from '../../../Asset';
+import { AssetDoc } from '../../../asset';
 
 export interface PublisherDoc {
   name: string;

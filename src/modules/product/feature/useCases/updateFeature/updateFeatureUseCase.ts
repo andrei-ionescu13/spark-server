@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { FeatureDto } from '../../featureMapper';
 import { FeatureDoc } from '../../model';
 import { FeatureCommandsRepoI } from '../../repo/commands';

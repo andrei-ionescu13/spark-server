@@ -1,8 +1,8 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { PublisherQueriesRepoI } from '../../repo/queries';
 import { DeletePublisherRequestDto } from './deletePublisherRequestDto';

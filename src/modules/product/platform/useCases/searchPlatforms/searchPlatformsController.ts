@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { Controller } from '../../../../../Controller';
+import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
 import { SearchPlatformsRequestDto } from './searchPlatformsRequestDto';
 import { SearchPlatformsUseCase } from './searchPlatformsUseCase';
@@ -32,7 +32,7 @@ export class SearchPlatformsController extends Controller {
       const result = await this.useCase.execute(dto);
 
       if (result.isErr()) {
-        const error = result.value;
+        const error = result.error;
 
         switch (error.constructor) {
           default:

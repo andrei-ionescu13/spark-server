@@ -62,7 +62,7 @@ export class DiscountQueriesRepo implements DiscountQueriesRepoI {
 
   getDiscount = async (id: string): Promise<DiscountPopulatedDto | null> => {
     const doc = await this.collection
-      .aggregate([
+      .aggregate<DiscountPopulatedDoc>([
         { $match: { _id: id } },
         {
           $lookup: {

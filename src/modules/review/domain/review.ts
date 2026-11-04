@@ -1,11 +1,11 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../zodErrors';
-import { ReviewContent } from '../reviewContent';
-import { ReviewRating } from '../reviewRating';
-import { ReviewStatus } from '../reviewStatus';
 import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../result';
+import { ReviewContent } from './reviewContent';
+import { ReviewRating } from './reviewRating';
+import { ReviewStatus } from './reviewStatus';
 
 interface ReviewProps {
   userName: string;

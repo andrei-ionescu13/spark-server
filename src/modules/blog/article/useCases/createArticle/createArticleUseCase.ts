@@ -1,10 +1,10 @@
 import { textUtils } from '../../../../../utils/textUtils';
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
-import { ArticleDto } from '../../articleMapper';
+import { UseCaseError } from '../../../../../useCaseError';
+import { ArticleDto, ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
 import { RequestValidationError, ArticleStatus } from '../../domain/status';
@@ -13,8 +13,8 @@ import { Article, CreateArticleProps } from '../../domain/article';
 import { ArticleTitle } from '../../domain/title';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
-import { Asset } from '../../../../../Asset';
-import { Meta } from '../../../../../Meta';
+import { Asset } from '../../../../../asset';
+import { Meta } from '../../../../../meta';
 
 export namespace CreateArticleCategoryErrors {
   export class TitleNotAvailableError extends UseCaseError {
@@ -45,7 +45,7 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
   ) {}
 
   comparePropsToArticle = (
-    props: Pick<ArticleDto, 'title' | 'slug'>,
+    props: Pick<ArticlePopulatedDto, 'title' | 'slug'>,
     article: ArticleDto,
   ): Result<void, UseCaseError> => {
     if (props.title === article.title) {
@@ -64,18 +64,18 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
     const slug = request.slug || textUtils.generateSlug(request.title);
 
     try {
-      const article = await this.articleQueriesRepo.getArticleByProps([
+      const articleFound = await this.articleQueriesRepo.getArticleByProps([
         { slug: request.slug },
         { title: request.title },
       ]);
 
-      if (article) {
+      if (articleFound) {
         const result = this.comparePropsToArticle(
           {
             slug,
             title: request.title,
           },
-          article,
+          articleFound,
         );
 
         if (result.isErr()) {
@@ -123,9 +123,14 @@ export class CreateArticleUseCase implements UseCase<CreateArticleRequestDto, Re
         category: request.category,
         tags: request.tags,
       };
-      const createdArticle = Article.create({ ...props, title, description, markdown, status });
-      this.articleCommandsRepo.save(createdArticle);
-      return Result.ok(createdArticle._id);
+      const articleOrError = Article.create({ ...props, title, description, markdown, status });
+      if (articleOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(articleOrError.error.message));
+      }
+
+      const article = articleOrError.value;
+      this.articleCommandsRepo.save(article);
+      return Result.ok(article._id);
     } catch (error) {
       return Result.fail(new UseCaseErrors.UnexpectedError(error));
     }

@@ -1,4 +1,4 @@
 export interface UpdateKeysStatusRequestDto {
   keyId: string;
-  status: string;
+  status: 'secret' | 'revealed' | 'reported';
 }

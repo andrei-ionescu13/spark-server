@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../UseCaseError';
+import { UseCaseError } from '../../../../useCaseError';
 import { Key } from '../../../key/domain/key';
 import { KeyAvailability } from '../../../key/domain/keyAvailability';
 import { KeyStatus } from '../../../key/domain/keyStatus';
@@ -68,7 +68,6 @@ export class ImportProductKeysUseCase implements UseCase<ImportProductKeysReques
     const keyStatus = statusOrError.value;
     const keyValue = valueOrError.value;
     const keyOrError = Key.create({
-      _id: uuid7(),
       availability: keyAvailability,
       product: productId,
       status: keyStatus,

@@ -1,10 +1,10 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { ProductQueriesRepoI } from '../../../product/repo/queries';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../UseCaseError';
+import { UseCaseError } from '../../../../useCaseError';
 import { Key } from '../../domain/key';
 import { KeyAvailability } from '../../domain/keyAvailability';
 import { KeyStatus } from '../../domain/keyStatus';
@@ -38,14 +38,7 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
     productId: string,
     value: string,
   ): Promise<Result<string, UseCaseErrors.NotFound | ImportKeysErrors.KeyForPlatformExists>> => {
-    const productOrError = await this.productCommandsRepo.getProduct(productId);
-
-    if (productOrError.error) {
-      return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-    }
-
-    const product = productOrError.value;
-
+    const product = await this.productCommandsRepo.getProduct(productId);
     if (!product) {
       return Result.fail(new UseCaseErrors.NotFound('Product not found'));
     }
@@ -58,9 +51,7 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
 
       if (productsByKeyFound.length) {
         for (const productByKeyFound of productsByKeyFound) {
-          if (
-            productByKeyFound.platform._id.toString() === productByKeyFound.platform._id.toString()
-          ) {
+          if (productByKeyFound.platform === productByKeyFound.platform) {
             isSamePlatform = true;
             break;
           }
@@ -89,7 +80,6 @@ export class ImportKeysUseCase implements UseCase<ImportKeysRequestDto, Response
       product: productId,
       status,
       availability,
-      _id: uuidv7(),
     });
 
     if (keyOrError.error) {

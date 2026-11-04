@@ -1,7 +1,6 @@
 import { Mongo } from '../../../../mongo';
 import { KeyCommandsRepo } from '../../../key/repo/commands';
 import { KeyQueriesRepo } from '../../../key/repo/queries';
-import { ProductRepo } from '../../productRepo';
 import { ProductCommandsRepo } from '../../repo/commands';
 import { ProductQueriesRepo } from '../../repo/queries';
 import { ImportProductKeysController } from './importProductKeysController';

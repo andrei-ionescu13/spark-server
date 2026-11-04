@@ -1,5 +1,5 @@
-import { AssetDoc } from '../../../Asset';
-import { MetaDoc } from '../../../Meta';
+import { AssetDoc } from '../../../asset';
+import { MetaDoc } from '../../../meta';
 import { ArticleCategory } from '../article-category/domain/articleCategory';
 import { ArticleCategoryDoc } from '../article-category/model';
 import { ArticleTag } from '../article-tag/domain/articleTag';

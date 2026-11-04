@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { UpdateDealRequestDto } from './updateDealRequestDto';
 import { UpdateDealUseCase } from './updateDealUseCase';
-import { Controller } from '../../../../Controller';
-import { UseCaseErrors } from '../../../../AppError';
+import { Controller } from '../../../../controller';
+import { UseCaseErrors } from '../../../../appError';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import * as z from 'zod';
 

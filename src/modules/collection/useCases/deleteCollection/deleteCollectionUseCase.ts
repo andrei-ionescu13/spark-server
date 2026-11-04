@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
@@ -7,7 +7,7 @@ import { CollectionCommandsRepoI } from '../../repo/commands';
 import { CollectionQueriesRepoI } from '../../repo/queries';
 import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
 
-type Response = Result<CollectionDto, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
+type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class DeleteCollectionUseCase implements UseCase<DeleteCollectionRequestDto, Response> {
   constructor(
@@ -28,7 +28,7 @@ export class DeleteCollectionUseCase implements UseCase<DeleteCollectionRequestD
       await this.collectionCommandsRepo.deleteCollection(collectionId);
       await this.uploaderService.delete(collection.cover.publicId);
 
-      return Result.ok(collection);
+      return Result.ok(collection._id);
     } catch (error) {
       console.log(error);
       return Result.fail(new UseCaseErrors.UnexpectedError(error));

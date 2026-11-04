@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
@@ -19,12 +19,7 @@ export class DeleteCouponsBulkUseCase implements UseCase<DeleteCouponsBulkReques
     id: string,
     couponId: string,
   ): Promise<Result<undefined, UseCaseErrors.DomainValidation | UseCaseErrors.NotFound>> => {
-    const userOrError = await this.userCommandsRepo.getUser(id);
-    if (userOrError.isErr()) {
-      return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
-    }
-
-    const user = userOrError.value;
+    const user = await this.userCommandsRepo.getUser(id);
     if (!user) {
       return Result.fail(new UseCaseErrors.NotFound('User not found'));
     }

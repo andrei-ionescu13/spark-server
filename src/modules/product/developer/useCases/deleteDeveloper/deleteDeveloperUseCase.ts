@@ -1,8 +1,8 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
 import { DeveloperQueriesRepoI } from '../../repo/queries';

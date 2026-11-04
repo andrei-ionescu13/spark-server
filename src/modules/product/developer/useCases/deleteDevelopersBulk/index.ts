@@ -1,6 +1,5 @@
 import { Mongo } from '../../../../../mongo';
 import { CloudinaryUploaderService } from '../../../../../services/uploaderService';
-import { ProductModel } from '../../../model';
 import { ProductQueriesRepo } from '../../../repo/queries';
 import { DeveloperCommandsRepo } from '../../repo/commands';
 import { DeveloperQueriesRepo } from '../../repo/queries';

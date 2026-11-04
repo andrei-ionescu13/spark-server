@@ -1,8 +1,8 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { Namespace } from '../../domain/namespace';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
@@ -33,7 +33,7 @@ export class CreateNamespaceUseCase implements UseCase<CreateNamespaceRequestDto
         return Result.fail(new CreateNamespaceErrors.NameNotAvailable());
       }
 
-      const namespaceOrError = Namespace.create({ ...props, _id: uuidv7() });
+      const namespaceOrError = Namespace.create(props);
 
       if (namespaceOrError.isErr()) {
         return Result.fail(new UseCaseErrors.DomainValidation(namespaceOrError.error.message));

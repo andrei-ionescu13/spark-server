@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { GetUserRequestDto } from './getUserRequestDto';
 import { GetUserUseCase } from './getUserUseCase';
-import { UseCaseErrors } from '../../../../AppError';
-import { Controller } from '../../../../Controller';
+import { UseCaseErrors } from '../../../../appError';
+import { Controller } from '../../../../controller';
 
 export class GetUserController extends Controller {
   constructor(private useCase: GetUserUseCase) {

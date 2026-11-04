@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../AppError';
-import { Asset } from '../../../../Asset';
-import { Meta } from '../../../../Meta';
+import { UseCaseErrors } from '../../../../appError';
+import { Asset } from '../../../../asset';
+import { Meta } from '../../../../meta';
 import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';

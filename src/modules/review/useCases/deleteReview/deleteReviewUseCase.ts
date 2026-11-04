@@ -1,5 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
-import { ProductRepoI } from '../../../product/productRepo';
+import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { productServices } from '../../../product/services';
 import { Result } from '../../../../result';
@@ -25,41 +24,35 @@ export class DeleteReviewUseCase implements UseCase<DeleteReviewRequestDto, Resp
     const { reviewId } = request;
 
     try {
-      const reviewOrError = await this.reviewCommandsRepo.getReview(reviewId);
-      if (reviewOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(reviewOrError.error.message));
-      }
-
-      const review = reviewOrError.value;
+      const review = await this.reviewCommandsRepo.getReview(reviewId);
       if (!review) {
         return Result.fail(new UseCaseErrors.NotFound('Review not found'));
       }
 
-      const productOrError = await this.productCommandsRepo.getProduct(review.product);
-      if (productOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(productOrError.error.message));
-      }
-
-      const product = productOrError.value;
+      const product = await this.productCommandsRepo.getProduct(review.product);
       if (!product) {
         return Result.fail(new UseCaseErrors.NotFound('Product not found'));
       }
 
-      const userOrError = await this.userCommandsRepo.getUser(review.user);
-      if (userOrError.isErr()) {
-        return Result.fail(new UseCaseErrors.DomainValidation(userOrError.error.message));
-      }
-
-      const user = userOrError.value;
+      const user = await this.userCommandsRepo.getUser(review.user);
       if (!user) {
         return Result.fail(new UseCaseErrors.NotFound('User not found'));
       }
 
       await this.reviewCommandsRepo.deleteReview(reviewId);
-      await productServices.calculateRating(review.product);
+
+      const productReviews = await this.reviewCommandsRepo.listProductReviews(product._id);
+      const ratingOrError = productServices.calculateRating(productReviews);
+      if (ratingOrError.isErr()) {
+        return Result.fail(new UseCaseErrors.DomainValidation(ratingOrError.error.message));
+      }
+
+      const rating = ratingOrError.value;
 
       user.removeReview(review._id);
+      product.updateRating(rating);
       product.removeReview(review._id);
+
       await this.productCommandsRepo.save(product);
       await this.userCommandsRepo.save(user);
 

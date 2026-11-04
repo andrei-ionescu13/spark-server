@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { UseCaseErrors } from '../../../../AppError';
-import { Controller } from '../../../../Controller';
+import { UseCaseErrors } from '../../../../appError';
+import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { CreateCollectionRequestDto } from './createCollectionRequestDto';
 import { CreateCollectionUseCase } from './createCollectionUseCase';
@@ -41,10 +41,7 @@ export class CreateCollectionController extends Controller {
       products: z.array(z.uuidv7()).min(1),
       slug: z.string().min(1),
       startDate: z.coerce.date(),
-      endDate: z.preprocess(
-        (value) => (value === 'null' || value === '' ? null : value),
-        z.coerce.date().nullable(),
-      ),
+      endDate: z.coerce.date().nullable(),
       meta: z.object({
         title: z.string().min(1).max(120),
         description: z.string().min(1).max(1024),

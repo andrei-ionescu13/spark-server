@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { GetDealRequestDto } from './getDealRequestDto';
 import { GetDealUseCase } from './getDealUseCase';
-import { Controller } from '../../../../Controller';
-import { UseCaseErrors } from '../../../../AppError';
+import { Controller } from '../../../../controller';
+import { UseCaseErrors } from '../../../../appError';
 
 export class GetDealController extends Controller {
   constructor(private useCase: GetDealUseCase) {

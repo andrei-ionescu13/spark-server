@@ -1,15 +1,18 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategoryQueriesRepoI } from '../../../article-category/repo/queries';
-import { ArticleDto } from '../../articleMapper';
+import { ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleQueriesRepoI } from '../../repo/queries';
 import { SearchArticlesRequestDto } from './SearchArticlesRequestDto';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
 
-type Response = Result<{ articles: ArticleDto[]; count: number }, UseCaseErrors.UnexpectedError>;
+type Response = Result<
+  { articles: ArticlePopulatedDto[]; count: number },
+  UseCaseErrors.UnexpectedError
+>;
 
 export class SearchArticlesUseCase implements UseCase<SearchArticlesRequestDto, Response> {
   constructor(

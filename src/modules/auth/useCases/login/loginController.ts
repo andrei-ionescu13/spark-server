@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { Controller } from '../../../../Controller';
+import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { LoginRequestDto } from './loginRequestDto';
 import { LoginErrors, LoginUseCase } from './loginUseCase';
@@ -30,7 +30,7 @@ export class LoginController extends Controller {
 
     try {
       const result = await this.useCase.execute(dto);
-      console.log(result);
+
       if (result.isErr()) {
         const { error } = result;
 

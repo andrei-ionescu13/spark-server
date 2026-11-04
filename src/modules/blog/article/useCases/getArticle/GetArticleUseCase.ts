@@ -1,11 +1,11 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { ArticleDto } from '../../articleMapper';
+import { ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleQueriesRepoI } from '../../repo/queries';
 import { GetArticleRequestDto } from './GetArticleRequestDto';
 
-type Response = Result<ArticleDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<ArticlePopulatedDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 
 export class GetArticleUseCase implements UseCase<GetArticleRequestDto, Response> {
   constructor(private articleQueriesRepo: ArticleQueriesRepoI) {}

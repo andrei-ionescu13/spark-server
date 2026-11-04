@@ -1,14 +1,18 @@
-import { UseCaseErrors } from '../../../../../AppError';
-import { Result } from '../../../../../Result';
+import { UseCaseErrors } from '../../../../../appError';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
-import { ArticleDto } from '../../articleMapper';
+import { UseCaseError } from '../../../../../useCaseError';
+import { ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
 import { RequestValidationError, ArticleStatus } from '../../domain/status';
 import { ArticleTitle } from '../../domain/title';
 import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
+import { Article, CreateArticleProps } from '../../domain/article';
+import { ArticleDescription } from '../../domain/description';
+import { ArticleMarkdown } from '../../domain/markdown';
+import { Meta } from '../../../../../meta';
 
 export namespace DuplicateArticleErrors {
   export class TitleNotAvailableError extends UseCaseError {
@@ -47,7 +51,7 @@ export class DuplicateArticleUseCase implements UseCase<DuplicateArticleRequestD
 
   comparePropsToArticle = (
     props: Pick<DuplicateArticleRequestDto, 'slug' | 'title'>,
-    article: ArticleDto,
+    article: ArticlePopulatedDto,
   ): Result<
     void,
     DuplicateArticleErrors.SlugNotAvailableError | DuplicateArticleErrors.TitleNotAvailableError
@@ -85,35 +89,39 @@ export class DuplicateArticleUseCase implements UseCase<DuplicateArticleRequestD
         return Result.fail(new DuplicateArticleErrors.InvalidFieldError());
       }
 
-      const statusOrError = ArticleStatus.create({ value: 'draft' });
-      const titleOrError = ArticleTitle.create({ value: props.title });
+      const statusOrError = ArticleStatus.create('draft');
+      const title = ArticleTitle.reconstitute(article.title);
+      const description = ArticleDescription.reconstitute(article.description);
+      const markdown = ArticleMarkdown.reconstitute(article.markdown);
+      const meta = Meta.reconstitute(article.meta);
 
-      const result = Result.combine([statusOrError, titleOrError]);
+      const result = Result.combine([statusOrError]);
 
       if (result.isErr()) {
         return Result.fail(new DuplicateArticleErrors.InvalidFieldError(result.error.message));
       }
 
-      const status = statusOrError._value;
-      const title = titleOrError._value;
+      const status = statusOrError.value;
 
-      const { _id, ...articlePropsRest } = article;
-      const articleProps = {
-        ...articlePropsRest,
+      const articleProps: CreateArticleProps = {
+        description,
         slug: props.slug,
         title,
         status,
-        createdAt: new Date(),
         cover: await this.uploaderService.uploadFromUrl(article.cover.url),
+        category: article.category._id,
+        markdown,
+        meta,
+        tags: article.tags.map((tag) => tag._id),
       };
 
-      const articleCreatedOrError = await this.articleCommandsRepo.createArticle(articleProps);
-
-      if (articleCreatedOrError.error) {
+      const articleCreatedOrError = Article.create(articleProps);
+      if (articleCreatedOrError.isErr()) {
         return Result.fail(new RequestValidationError(articleCreatedOrError.error.message));
       }
 
       const articleCreated = articleCreatedOrError.value;
+      await this.articleCommandsRepo.save(articleCreated);
       return Result.ok(articleCreated._id);
     } catch (error) {
       console.error(error);

@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';

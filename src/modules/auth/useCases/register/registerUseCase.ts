@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../UseCaseError';
+import { UseCaseError } from '../../../../useCaseError';
 import { RegisterRequestDto } from './registerRequestDto';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';

@@ -1,11 +1,14 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { CollectionDto } from '../../collectionMapper';
+import { CollectionDto, CollectionPopulatedDto } from '../../collectionMapper';
 import { CollectionQueriesRepoI } from '../../repo/queries';
 import { GetCollectionRequestDto } from './getCollectionRequestDto';
 
-type Response = Result<CollectionDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
+type Response = Result<
+  CollectionPopulatedDto,
+  UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound
+>;
 
 export class GetCollectionUseCase implements UseCase<GetCollectionRequestDto, Response> {
   constructor(private collectionQueriesRepo: CollectionQueriesRepoI) {}
@@ -15,9 +18,7 @@ export class GetCollectionUseCase implements UseCase<GetCollectionRequestDto, Re
 
     try {
       const collection = await this.collectionQueriesRepo.getCollection(collectionId);
-      const found = !!collection;
-
-      if (!found) {
+      if (!collection) {
         return Result.fail(new UseCaseErrors.NotFound('Collection not found'));
       }
 

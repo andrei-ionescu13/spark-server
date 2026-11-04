@@ -1,9 +1,9 @@
-import { UseCaseErrors } from '../../../../../AppError';
-import { Asset } from '../../../../../Asset';
+import { UseCaseErrors } from '../../../../../appError';
+import { Asset } from '../../../../../asset';
 import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { Article, UpdateArticleDetailsProps } from '../../domain/article';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';

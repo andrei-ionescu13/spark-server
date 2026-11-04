@@ -1,5 +1,5 @@
 import { Collection, Document, ObjectId } from 'mongodb';
-import { ArticleDto, ArticleMapper } from '../articleMapper';
+import { ArticlePopulatedDto, ArticleMapper, ArticleDto } from '../articleMapper';
 import { ArticleDoc, ArticlePopulatedDoc } from '../model';
 import { match } from 'node:assert';
 
@@ -15,11 +15,10 @@ type SearchArticlesQueries = {
 
 export interface ArticleQueriesRepoI {
   getArticleByProps: (props: Array<Record<string, unknown>>) => Promise<ArticleDto | null>;
-  getArticle: (id: string) => Promise<ArticleDto | null>;
-  listArticles: (ids: string[]) => Promise<ArticleDto[]>;
+  getArticle: (id: string) => Promise<ArticlePopulatedDto | null>;
   searchArticles: (
     query: SearchArticlesQueries,
-  ) => Promise<{ articles: ArticleDto[]; count: number }>;
+  ) => Promise<{ articles: ArticlePopulatedDto[]; count: number }>;
   getArticleByCategory: (categoryId: string) => Promise<ArticleDto | null>;
 }
 
@@ -33,7 +32,7 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
     return ArticleMapper.toDto(doc);
   };
 
-  getArticle = async (id: string): Promise<ArticleDto | null> => {
+  getArticle = async (id: string): Promise<ArticlePopulatedDto | null> => {
     const doc = await this.collection
       .aggregate<ArticlePopulatedDoc>([
         {
@@ -65,17 +64,12 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
 
     if (!doc) return null;
 
-    return ArticleMapper.toDto(doc);
-  };
-
-  listArticles = async (ids: string[]): Promise<ArticleDto[]> => {
-    const docs = await this.collection.find({ _id: { $in: ids } }).toArray();
-    return ArticleMapper.toDtoList(docs);
+    return ArticleMapper.toPopulatedDto(doc);
   };
 
   searchArticles = async (
     query: SearchArticlesQueries,
-  ): Promise<{ articles: ArticleDto[]; count: number }> => {
+  ): Promise<{ articles: ArticlePopulatedDto[]; count: number }> => {
     const {
       keyword = '',
       sortBy = 'createdAt',
@@ -136,7 +130,7 @@ export class ArticleQueriesRepo implements ArticleQueriesRepoI {
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
     return {
-      articles: ArticleMapper.toDtoList(result.articles),
+      articles: ArticleMapper.toPopulatedDtoList(result.articles),
       count: result.count,
     };
   };

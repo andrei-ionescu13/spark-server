@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { CollectionCommandsRepoI } from '../../../collection/repo/commands';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';

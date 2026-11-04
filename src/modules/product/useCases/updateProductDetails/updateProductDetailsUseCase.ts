@@ -1,5 +1,5 @@
 import { textUtils } from '../../../../utils/textUtils';
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DiscountCommandsRepoI } from '../../../discount/repo/commands';

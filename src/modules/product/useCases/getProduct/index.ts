@@ -1,5 +1,4 @@
 import { Collection } from 'mongodb';
-import { ProductRepo } from '../../productRepo';
 import { ProductQueriesRepo } from '../../repo/queries';
 import { GetProductController } from './getProductController';
 import { GetProductUseCase } from './getProductUseCase';

@@ -27,12 +27,7 @@ const calculateRating = (reviews: Review[]): Result<ProductRating, DomainValidat
       )
     : 0;
 
-  const ratingOrError = ProductRating.createDefault({ distribution, average });
-  if (ratingOrError.isErr())
-    return Result.fail(new DomainValidationError(ratingOrError.error.message));
-
-  const rating = ratingOrError.value;
-  return Result.ok(rating);
+  return ProductRating.create({ distribution, average });
 };
 
 export const productServices = {

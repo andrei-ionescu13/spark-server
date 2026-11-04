@@ -9,6 +9,7 @@ export interface ReviewCommandsRepoI {
   deleteReviews: (ids: string[]) => Promise<void>;
   getReview: (id: string) => Promise<Review | null>;
   getReviews: (ids: string[]) => Promise<Review[]>;
+  listProductReviews: (productId: string) => Promise<Review[]>;
 }
 
 export class ReviewCommandsRepo implements ReviewCommandsRepoI {
@@ -38,6 +39,12 @@ export class ReviewCommandsRepo implements ReviewCommandsRepoI {
   getReviews = async (ids: string[]): Promise<Review[]> => {
     const docs = await this.collection.find({ _id: { $in: ids } }).toArray();
     const reviews = ReviewMapper.toDomainList(docs);
+
     return reviews;
+  };
+
+  listProductReviews = async (productId: string) => {
+    const docs = await this.collection.find({ product: productId }).toArray();
+    return ReviewMapper.toDomainList(docs);
   };
 }

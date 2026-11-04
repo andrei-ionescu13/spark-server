@@ -1,5 +1,4 @@
 import { Mongo } from '../../../../../mongo';
-import { PlatformModel } from '../../model';
 import { PlatformQueriesRepo } from '../../repo/queries';
 import { GetPlatformController } from './getPlatformController';
 import { GetPlatformUseCase } from './getPlatformUseCase';

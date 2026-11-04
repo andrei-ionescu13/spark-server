@@ -1,11 +1,11 @@
-import { UseCaseErrors } from '../../../../../AppError';
+import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
-import { UseCaseError } from '../../../../../UseCaseError';
+import { UseCaseError } from '../../../../../useCaseError';
 import { UseCase } from '../../../../../useCase';
 import { Article } from '../../domain/article';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { UpdateArticleMetaRequestDto } from './updateArticleMetaRequestDto';
-import { Meta } from '../../../../../Meta';
+import { Meta } from '../../../../../meta';
 import { MetaDto, MetaMapper } from '../../../../../metaMapper';
 
 export namespace UpdateArticleMetaErrors {

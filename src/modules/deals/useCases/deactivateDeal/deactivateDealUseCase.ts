@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';

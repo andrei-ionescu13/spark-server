@@ -1,5 +1,4 @@
 import { Mongo } from '../../../../mongo';
-import { UserModel } from '../../../users/model';
 import { UserCommandsRepo } from '../../../users/repo/commands';
 import { CouponCommandsRepo } from '../../repo/commands';
 import { CouponQueriesRepo } from '../../repo/queries';

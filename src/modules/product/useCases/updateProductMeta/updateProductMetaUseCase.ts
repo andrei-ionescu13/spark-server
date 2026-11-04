@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../../../AppError';
-import { Meta } from '../../../../Meta';
+import { UseCaseErrors } from '../../../../appError';
+import { Meta } from '../../../../meta';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductCommandsRepoI } from '../../repo/commands';

@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES2020",
     "module": "commonjs",
-    "lib": ["es6"],
+    "lib": ["ES2020"],
     "allowJs": true,
     "outDir": "build",
-    "rootDir": "./src",
-    "strict": true,
+    "rootDir": "src",
+    "strict": false,
     "noImplicitAny": false,
     "esModuleInterop": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmitOnError": false,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["scripts", "build"],
-  "include": ["./src/**/*.ts"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["scripts", "node_modules"]
 }

@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
@@ -7,9 +7,9 @@ import { CreateDealProps, Deal } from '../../domain/deal';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { CreateDealRequestDto } from './createDealRequestDto';
 import { v7 as uuidv7 } from 'uuid';
-import { Asset } from '../../../../Asset';
+import { Asset } from '../../../../asset';
 import { DealDescription } from '../../domain/dealDescription';
-import { Meta } from '../../../../Meta';
+import { Meta } from '../../../../meta';
 import { DealTitle } from '../../domain/dealTitle';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError>;

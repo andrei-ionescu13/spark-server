@@ -1,4 +1,4 @@
-import { Meta, MetaDoc } from './Meta';
+import { Meta, MetaDoc } from './meta';
 
 export interface MetaDto {
   title: string;

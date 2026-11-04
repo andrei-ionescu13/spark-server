@@ -2,10 +2,10 @@ import * as z from 'zod';
 import { textUtils } from '../../../utils/textUtils';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../zodErrors';
-import { Meta } from '../../../Meta';
+import { Meta } from '../../../meta';
 import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../result';
-import { Asset } from '../../../Asset';
+import { Asset } from '../../../asset';
 import { ProductLink } from './productLink';
 import { ProductMarkdown } from './productMarkdown';
 import { ProductPrice } from './productPrice';
@@ -245,6 +245,10 @@ export class Product {
 
   public updateStatus(status: ProductStatus) {
     this.props.status = status;
+  }
+
+  public updateRating(rating: ProductRating) {
+    this.props.rating = rating;
   }
 
   get _id() {

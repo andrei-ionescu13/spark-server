@@ -1,12 +1,11 @@
-import { UseCaseErrors } from '../../../../AppError';
+import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { LineItemDto } from '../../lineItemMapper';
-import { OrderRepoI } from '../../orderRepo';
+import { OrderLineItemDto } from '../../orderLineItemMapper';
 import { OrderQueriesRepoI } from '../../repo/queries';
 import { ListOrderItemsRequestDto } from './listOrderItemsRequestDto';
 
-type Response = Result<LineItemDto[], UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
+type Response = Result<OrderLineItemDto[], UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 
 export class ListOrderItemsUseCase implements UseCase<ListOrderItemsRequestDto, Response> {
   constructor(private orderQueriesRepo: OrderQueriesRepoI) {}

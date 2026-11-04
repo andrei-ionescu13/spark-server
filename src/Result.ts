@@ -1,17 +1,17 @@
 export class Result<T, U extends Error> {
-  public isSuccess: boolean;
-  public isFailure: boolean;
-  public error?: U;
-  public _value?: T;
+  public readonly isSuccess: boolean;
+  public readonly isFailure: boolean;
+
+  public readonly error: U | undefined;
+  public readonly _value: T | undefined;
 
   private constructor(isSuccess: boolean, error?: U, value?: T) {
     if (isSuccess && error) {
-      throw new Error(`InvalidOperation: A result cannot be 
-        successful and contain an error`);
+      throw new Error('InvalidOperation: A result cannot be successful and contain an error');
     }
+
     if (!isSuccess && !error) {
-      throw new Error(`InvalidOperation: A failing result 
-        needs to contain an error message`);
+      throw new Error('InvalidOperation: A failing result needs to contain an error');
     }
 
     this.isSuccess = isSuccess;
@@ -22,12 +22,12 @@ export class Result<T, U extends Error> {
     Object.freeze(this);
   }
 
-  public isOk(): this is { isSuccess: true; error: undefined; _value: T } {
+  public isOk(): this is Result<T, never> {
     return this.isSuccess;
   }
 
-  public isErr(): this is { isSuccess: false; error: U; _value: undefined } {
-    return !this.isSuccess;
+  public isErr(): this is Result<never, U> {
+    return this.isFailure;
   }
 
   public static ok<T, U extends Error>(value?: T): Result<T, U> {
@@ -50,62 +50,15 @@ export class Result<T, U extends Error> {
     return Result.ok(results.map((result) => result.value) as unknown as T);
   }
 
+  public get value(): T {
+    if (!this.isSuccess) {
+      throw new Error("Can't retrieve the value from a failed result.");
+    }
+
+    return this._value;
+  }
+
   public static getValues<T, U extends Error>(results: Result<T, U>[]): T[] {
     return results.map((result) => result.value);
   }
-
-  public get value(): T {
-    if (!this.isSuccess) {
-      throw new Error(`Can't retrieve the value from a failed result.`);
-    }
-    return this._value;
-  }
 }
-
-// export type Either<L, A> = Left<L, A> | Right<L, A>;
-
-// export class Left<L, A> {
-//   readonly value: A | null = null;
-//   readonly error: L;
-
-//   constructor(error: L) {
-//     this.error = error;
-//   }
-
-//   isLeft(): this is Left<L, A> {
-//     return true;
-//   }
-
-//   isRight(): this is Right<L, A> {
-//     return false;
-//   }
-// }
-
-// export class Right<L, A> {
-//   readonly value: A;
-//   readonly error: null = null;
-
-//   constructor(value: A) {
-//     this.props.value = value;
-//   }
-
-//   isLeft(): this is Left<L, A> {
-//     return false;
-//   }
-
-//   isRight(): this is Right<L, A> {
-//     return true;
-//   }
-// }
-
-// export const left = <L, A>(l: L): Left<L, A> => {
-//   return new Left(l);
-// };
-
-// export const right = <L, A>(a: A): Right<L, A> => {
-//   return new Right<L, A>(a);
-// };
-
-// export function firstLeft<L, A>(results: Either<L, A>[]): Left<L, A> | undefined {
-//   return results.find((r): r is Left<L, A> => r.isLeft());
-// }
