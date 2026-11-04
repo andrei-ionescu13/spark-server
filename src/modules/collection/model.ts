@@ -1,5 +1,5 @@
 import { AssetDoc } from '../../assets';
-import { MetaDoc } from '../../metas';
+import { MetaDoc } from '../../meta';
 import { ProductDoc } from '../product/model';
 
 export interface CollectionDoc {

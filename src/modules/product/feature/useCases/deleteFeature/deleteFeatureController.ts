@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
-import { Controller } from '../../../../../controllers';
+import { Controller } from '../../../../../controller';
 import { DeleteFeatureErrors, DeleteFeatureUseCase } from './deleteFeatureUseCase';
 import { DeleteFeatureRequestDto } from './deleteFeaturerRequestDto';
 

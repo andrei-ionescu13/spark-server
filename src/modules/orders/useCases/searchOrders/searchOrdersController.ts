@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { SearchOrdersRequestDto } from './searchOrdersRequestDto';
 import { SearchOrdersUseCase } from './searchOrdersUseCase';
-import { Controller } from '../../../../controllers';
+import { Controller } from '../../../../controller';
 import * as z from 'zod';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { paramToArray } from '../../../../paramToArray';

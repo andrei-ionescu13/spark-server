@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
-import { Controller } from '../../../../../controllers';
+import { Controller } from '../../../../../controller';
 import { UpdateNamespaceRequestDto } from './updateNamespaceRequestDto';
 import { UpdateNamespaceUseCase } from './updateNamespaceUseCase';
 

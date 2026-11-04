@@ -12,7 +12,7 @@ import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
 import { Article, CreateArticleProps } from '../../domain/article';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
-import { Meta } from '../../../../../metas';
+import { Meta } from '../../../../../meta';
 
 export namespace DuplicateArticleErrors {
   export class TitleNotAvailableError extends UseCaseError {

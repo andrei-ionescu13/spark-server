@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../../controllers';
+import { Controller } from '../../../../../controller';
 import { ListDevelopersRequestDto } from './listDevelopersRequestDto';
 import { ListDevelopersUseCase } from './listDevelopersUseCase';
 

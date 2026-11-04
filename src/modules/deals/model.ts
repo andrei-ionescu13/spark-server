@@ -1,5 +1,5 @@
 import { AssetDoc } from '../../assets';
-import { MetaDoc } from '../../metas';
+import { MetaDoc } from '../../meta';
 
 export interface DealDoc {
   cover: AssetDoc;

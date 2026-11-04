@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { GetOrderRequestDto } from './getOrderRequestDto';
 import { GetOrderUseCase } from './getOrderUseCase';
-import { Controller } from '../../../../controllers';
+import { Controller } from '../../../../controller';
 import { UseCaseErrors } from '../../../../appError';
 
 export class GetOrderController extends Controller {

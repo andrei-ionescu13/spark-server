@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
-import { Controller } from '../../../../controllers';
+import { Controller } from '../../../../controller';
 import { AddCurrencyRequestDto } from './addCurrencyRequestDto';
 import { AddCurrencyErrors, AddCurrencyUseCase } from './addCurrencyUseCase';
 

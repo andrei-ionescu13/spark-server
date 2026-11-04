@@ -14,7 +14,7 @@ import { ArticleTitle } from '../../domain/title';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
 import { Asset } from '../../../../../assets';
-import { Meta } from '../../../../../metas';
+import { Meta } from '../../../../../meta';
 
 export namespace CreateArticleCategoryErrors {
   export class TitleNotAvailableError extends UseCaseError {

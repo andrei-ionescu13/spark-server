@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { CreateDealRequestDto } from './createDealRequestDto';
 import { CreateDealUseCase } from './createDealUseCase';
-import { Controller } from '../../../../controllers';
+import { Controller } from '../../../../controller';
 import * as z from 'zod';
 import { zodRequestValidationError } from '../../../../zodErrors';
 

@@ -5,7 +5,7 @@ import { UseCase } from '../../../../../useCase';
 import { Article } from '../../domain/article';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { UpdateArticleMetaRequestDto } from './updateArticleMetaRequestDto';
-import { Meta } from '../../../../../metas';
+import { Meta } from '../../../../../meta';
 import { MetaDto, MetaMapper } from '../../../../../metaMapper';
 
 export namespace UpdateArticleMetaErrors {

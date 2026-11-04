@@ -3,7 +3,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../result';
-import { Meta } from '../../../metas';
+import { Meta } from '../../../meta';
 import { CollectionTitle } from './collectionTitle';
 import { Asset } from '../../../assets';
 import { CollectionDescription } from './collectionDescription';

@@ -1,4 +1,4 @@
-import { Meta } from '../../../metas';
+import { Meta } from '../../../meta';
 import { Article } from './domain/article';
 import { AssetDto, AssetMapper } from '../../../assetMapper';
 import { ArticleMarkdown } from './domain/markdown';

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { SearchDealsRequestDto } from './searchDealsRequestDto';
 import { SearchDealsUseCase } from './searchDealsUseCase';
-import { Controller } from '../../../../controllers';
+import { Controller } from '../../../../controller';
 
 export class SearchDealsController extends Controller {
   constructor(private useCase: SearchDealsUseCase) {

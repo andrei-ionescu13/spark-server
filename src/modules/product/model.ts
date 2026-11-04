@@ -1,5 +1,5 @@
 import { AssetDoc } from '../../assets';
-import { MetaDoc } from '../../metas';
+import { MetaDoc } from '../../meta';
 
 type Status = 'draft' | 'published' | 'archived';
 
