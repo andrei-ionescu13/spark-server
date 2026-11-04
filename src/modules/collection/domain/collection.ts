@@ -5,7 +5,7 @@ import { v7 as uuid7 } from 'uuid';
 import { Result } from '../../../results';
 import { Meta } from '../../../meta';
 import { CollectionTitle } from './collectionTitle';
-import { Asset } from '../../../asset';
+import { Asset } from '../../../assets';
 import { CollectionDescription } from './collectionDescription';
 import { textUtils } from '../../../utils/textUtils';
 

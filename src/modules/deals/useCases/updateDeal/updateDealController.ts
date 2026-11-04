@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { UpdateDealRequestDto } from './updateDealRequestDto';
 import { UpdateDealUseCase } from './updateDealUseCase';
 import { Controller } from '../../../../controller';
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import * as z from 'zod';
 

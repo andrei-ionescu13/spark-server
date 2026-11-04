@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Controller } from '../../../../../controller';
 import { UpdateNamespaceRequestDto } from './updateNamespaceRequestDto';
 import { UpdateNamespaceUseCase } from './updateNamespaceUseCase';

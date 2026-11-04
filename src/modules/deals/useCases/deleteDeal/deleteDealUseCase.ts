@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';

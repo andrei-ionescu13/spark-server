@@ -1,8 +1,8 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { Genre } from '../../domain/genre';
 import { GenreDto } from '../../genreMapper';
 import { GenreCommandsRepoI } from '../../repo/commands';

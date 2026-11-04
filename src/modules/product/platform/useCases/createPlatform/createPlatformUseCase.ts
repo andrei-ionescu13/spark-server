@@ -1,11 +1,11 @@
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Platform, PlatformCreateProps } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { CreatePlatformRequestDto } from './createPlatformRequestDto';
 import { Result } from '../../../../../results';
-import { Asset } from '../../../../../asset';
+import { Asset } from '../../../../../assets';
 
 type Response = Result<Platform, UseCaseErrors.UnexpectedError>;
 

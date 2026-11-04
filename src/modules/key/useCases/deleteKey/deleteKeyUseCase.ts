@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';

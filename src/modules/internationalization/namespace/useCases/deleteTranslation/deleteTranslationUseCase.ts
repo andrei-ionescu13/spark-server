@@ -1,5 +1,5 @@
 import { basename } from 'node:path';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceCommandsRepoI } from '../../repo/commands';

@@ -1,4 +1,4 @@
-import { AssetDoc } from '../../asset';
+import { AssetDoc } from '../../assets';
 import { MetaDoc } from '../../meta';
 import { ProductDoc } from '../product/model';
 

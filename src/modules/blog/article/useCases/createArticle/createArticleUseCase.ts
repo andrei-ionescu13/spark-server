@@ -1,9 +1,9 @@
 import { textUtils } from '../../../../../utils/textUtils';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { ArticleDto, ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
@@ -13,7 +13,7 @@ import { Article, CreateArticleProps } from '../../domain/article';
 import { ArticleTitle } from '../../domain/title';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
-import { Asset } from '../../../../../asset';
+import { Asset } from '../../../../../assets';
 import { Meta } from '../../../../../meta';
 
 export namespace CreateArticleCategoryErrors {

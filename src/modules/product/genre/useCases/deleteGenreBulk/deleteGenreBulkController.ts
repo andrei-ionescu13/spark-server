@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Controller } from '../../../../../controller';
 import { DeleteGenreBulkRequestDto } from './deleteGenreBulkRequestDto';
 import { DeleteGenreBulkErrors, DeleteGenreBulkUseCase } from './deleteGenrerBulkUseCase';

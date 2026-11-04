@@ -4,7 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { Result } from '../../../../results';
 import { v7 as uuid7 } from 'uuid';
-import { Asset } from '../../../../asset';
+import { Asset } from '../../../../assets';
 
 interface DeveloperProps {
   name: string;

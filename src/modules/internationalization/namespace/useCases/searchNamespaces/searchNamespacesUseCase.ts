@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
 import { LanguageQueriesRepoI } from '../../../language/repo/queries';

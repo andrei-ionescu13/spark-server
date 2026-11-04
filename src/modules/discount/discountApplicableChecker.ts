@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../appError';
+import { UseCaseErrors } from '../../appErrors';
 import { Result } from '../../results';
 import { Product } from '../product/domain/product';
 import { Discount } from './domain/discount';

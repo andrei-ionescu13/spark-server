@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../../../appError';
-import { Asset } from '../../../../asset';
+import { UseCaseErrors } from '../../../../appErrors';
+import { Asset } from '../../../../assets';
 import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';

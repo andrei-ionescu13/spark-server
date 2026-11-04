@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { UseCase } from '../../../../../useCase';
 import { Article } from '../../domain/article';
 import { ArticleCommandsRepoI } from '../../repo/commands';

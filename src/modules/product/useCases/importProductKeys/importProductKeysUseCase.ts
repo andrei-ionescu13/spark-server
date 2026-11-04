@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../useCaseError';
+import { UseCaseError } from '../../../../useCaseErrors';
 import { Key } from '../../../key/domain/key';
 import { KeyAvailability } from '../../../key/domain/keyAvailability';
 import { KeyStatus } from '../../../key/domain/keyStatus';

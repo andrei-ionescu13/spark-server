@@ -1,10 +1,10 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { Product } from '../../../product/domain/product';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../useCaseError';
+import { UseCaseError } from '../../../../useCaseErrors';
 import { Discount, DiscountCreateProps } from '../../domain/discount';
 import { DiscountTitle } from '../../domain/discountTitle';
 import { DiscountType } from '../../domain/discountType';

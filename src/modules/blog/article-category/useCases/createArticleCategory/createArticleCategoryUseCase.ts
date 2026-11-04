@@ -1,6 +1,6 @@
 import { textUtils } from '../../../../../utils/textUtils';
-import { UseCaseErrors } from '../../../../../appError';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseErrors } from '../../../../../appErrors';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategory } from '../../domain/articleCategory';

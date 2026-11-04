@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { ListOrderItemsRequestDto } from './listOrderItemsRequestDto';
 import { ListOrderItemsUseCase } from './listOrderItemsUseCase';
 import { Controller } from '../../../../controller';
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 
 export class ListOrderItemsController extends Controller {
   constructor(private useCase: ListOrderItemsUseCase) {

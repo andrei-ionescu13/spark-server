@@ -6,7 +6,7 @@ import * as z from 'zod';
 import { Meta } from '../../../meta';
 import { Result } from '../../../results';
 import { v7 as uuid7 } from 'uuid';
-import { Asset } from '../../../asset';
+import { Asset } from '../../../assets';
 
 interface DealProps {
   _id: string;

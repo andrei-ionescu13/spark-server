@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GetOrderRequestDto } from './getOrderRequestDto';
 import { GetOrderUseCase } from './getOrderUseCase';
 import { Controller } from '../../../../controller';
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 
 export class GetOrderController extends Controller {
   constructor(private useCase: GetOrderUseCase) {

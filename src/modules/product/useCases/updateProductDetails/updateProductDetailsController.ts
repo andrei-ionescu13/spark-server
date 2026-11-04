@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
 import { UpdateProductDetailsRequestDto } from './updateProductDetailsRequestDto';
 import { UpdateProductDetailsUseCase } from './updateProductDetailsUseCase';
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import * as z from 'zod';
 
 export class UpdateProductDetailsController extends Controller {

@@ -1,4 +1,4 @@
-import { UseCaseError } from './useCaseError';
+import { UseCaseError } from './useCaseErrors';
 
 export namespace UseCaseErrors {
   export class UnexpectedError extends UseCaseError {

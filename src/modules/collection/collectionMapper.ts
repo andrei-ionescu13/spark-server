@@ -4,7 +4,7 @@ import { Collection } from './domain/collection';
 import { CollectionDescription } from './domain/collectionDescription';
 import { CollectionTitle } from './domain/collectionTitle';
 import { CollectionDoc, CollectionPopulatedDoc } from './model';
-import { Asset } from '../../asset';
+import { Asset } from '../../assets';
 import { Meta } from '../../meta';
 import { ProductDto, ProductMapper } from '../product/productMapper';
 

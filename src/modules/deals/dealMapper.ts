@@ -5,7 +5,7 @@ import { Deal } from './domain/deal';
 import { DealDescription } from './domain/dealDescription';
 import { DealTitle } from './domain/dealTitle';
 import { DealDoc } from './model';
-import { Asset } from '../../asset';
+import { Asset } from '../../assets';
 
 export interface DealDto {
   _id: string;

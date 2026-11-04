@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Controller } from '../../../../../controller';
 import { GetDeveloperRequestDto } from './getDeveloperRequestDto';
 import { GetDeveloperUseCase } from './getDeveloperUseCase';

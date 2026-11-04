@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { ArticleCommandsRepoI } from '../../../article/repo/commands';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';

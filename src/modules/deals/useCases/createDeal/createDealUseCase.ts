@@ -1,4 +1,4 @@
-import { UseCaseErrors } from '../../../../appError';
+import { UseCaseErrors } from '../../../../appErrors';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
@@ -7,7 +7,7 @@ import { CreateDealProps, Deal } from '../../domain/deal';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { CreateDealRequestDto } from './createDealRequestDto';
 import { v7 as uuidv7 } from 'uuid';
-import { Asset } from '../../../../asset';
+import { Asset } from '../../../../assets';
 import { DealDescription } from '../../domain/dealDescription';
 import { Meta } from '../../../../meta';
 import { DealTitle } from '../../domain/dealTitle';

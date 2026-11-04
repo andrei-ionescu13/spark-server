@@ -1,7 +1,7 @@
 import { textUtils } from '../../../../../utils/textUtils';
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { UseCase } from '../../../../../useCase';
 import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';

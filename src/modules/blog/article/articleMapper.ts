@@ -5,7 +5,7 @@ import { ArticleMarkdown } from './domain/markdown';
 import { ArticleDoc, ArticlePopulatedDoc } from './model';
 import { MappingValidationError, ArticleStatus } from './domain/status';
 import { ArticleTitle } from './domain/title';
-import { Asset } from '../../../asset';
+import { Asset } from '../../../assets';
 import { Result } from '../../../results';
 import { ArticleDescription } from './domain/description';
 import { ArticleCategory } from '../article-category/domain/articleCategory';

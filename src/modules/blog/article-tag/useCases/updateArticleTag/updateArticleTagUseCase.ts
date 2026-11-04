@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../../appError';
+import { UseCaseErrors } from '../../../../../appErrors';
 import { Result } from '../../../../../results';
-import { UseCaseError } from '../../../../../useCaseError';
+import { UseCaseError } from '../../../../../useCaseErrors';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCommandsRepo } from '../../../article/repo/commands';
 import { DomainValidationError } from '../../../article/domain/status';
