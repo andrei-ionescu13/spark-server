@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../appError';
 import { Product } from '../../../product/domain/product';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../useCaseError';
 import { Discount, DiscountCreateProps, DiscountUpdateProps } from '../../domain/discount';

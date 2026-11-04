@@ -1,6 +1,6 @@
 import { UseCaseErrors } from '../../../../appError';
 import { DomainValidationError } from '../../../blog/article/domain/status';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { Deal } from '../../domain/deal';
 import { DealCommandsRepoI } from '../../repo/commands';

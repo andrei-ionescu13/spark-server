@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../appError';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { DealDto } from '../../dealMapper';
 import { DealQueriesRepoI } from '../../repo/queries';

@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { ValueObject } from '../../../../valueObject';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 
 type StatusPropsValue = 'draft' | 'published' | 'archived';
 

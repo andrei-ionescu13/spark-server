@@ -1,5 +1,5 @@
 import { DomainValidationError } from '../../blog/article/domain/status';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { Discount } from '../domain/discount';
 import { DiscountMapper } from '../discountMapper';
 import { DiscountDoc } from '../model';

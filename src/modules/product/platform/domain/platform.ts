@@ -1,7 +1,7 @@
 import z from 'zod';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../../zodErrors';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { v7 as uuidv7 } from 'uuid';
 import { Asset } from '../../../../asset';
 

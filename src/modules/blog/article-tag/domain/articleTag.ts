@@ -2,7 +2,7 @@ import * as z from 'zod';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { textUtils } from '../../../../utils/textUtils';
 import { DomainValidationError } from '../../article/domain/status';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { v7 as uuid7 } from 'uuid';
 
 interface ArticleTagProps {

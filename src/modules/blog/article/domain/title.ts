@@ -2,7 +2,7 @@ import * as z from 'zod';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { DomainValidationError } from './status';
 import { ValueObject } from '../../../../valueObject';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 
 interface TitleProps {
   value: string;

@@ -1,6 +1,6 @@
 import { AssetDto, AssetMapper, AssetPersistance } from '../../assetMapper';
 import { MetaDto, MetaPersistance } from '../../metaMapper';
-import { Result } from '../../result';
+import { Result } from '../../results';
 import { ProductDoc } from './model';
 import { Product } from './domain/product';
 import { ProductLink } from './domain/productLink';

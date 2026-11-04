@@ -1,6 +1,6 @@
 import { basename } from 'node:path';
 import { UseCaseErrors } from '../../../../../appError';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { DeleteTranslationRequestDto } from './deleteTranslationRequestDto';

@@ -1,4 +1,4 @@
-import { Result } from './result';
+import { Result } from './results';
 import { DomainValidationError } from './modules/blog/article/domain/status';
 import { Asset, AssetDoc } from './asset';
 

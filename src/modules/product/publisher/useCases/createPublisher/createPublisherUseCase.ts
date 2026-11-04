@@ -1,6 +1,6 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../appError';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Publisher } from '../../domain/publisher';

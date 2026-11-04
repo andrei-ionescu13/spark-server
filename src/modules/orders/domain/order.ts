@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../../blog/article/domain/status';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { OrderFulfillmentStatus } from './orderFulfillmentStatus';
 import { OrderPaymentStatus } from './orderPaymentStatus';

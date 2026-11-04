@@ -2,7 +2,7 @@ import AdmZip from 'adm-zip';
 import fs from 'fs';
 import { join } from 'path';
 import { UseCaseErrors } from '../../../../../appError';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { TranslationServiceI } from '../../../../../services/translationService';
 import { UseCase } from '../../../../../useCase';
 import { LanguageQueriesRepoI } from '../../../language/repo/queries';

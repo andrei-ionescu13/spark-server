@@ -1,7 +1,7 @@
 import z from 'zod';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { ValueObject } from '../../../valueObject';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { zodDomainValidationError } from '../../../zodErrors';
 
 interface ProductRatingProps {

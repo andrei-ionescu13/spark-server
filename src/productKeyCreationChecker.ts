@@ -2,7 +2,7 @@ import { KeyCommandsRepoI } from './modules/key/repo/commands';
 import { KeyQueriesRepoI } from './modules/key/repo/queries';
 import { Product } from './modules/product/domain/product';
 import { ProductCommandsRepoI } from './modules/product/repo/commands';
-import { Result } from './result';
+import { Result } from './results';
 
 export class KeyForPlatformExists extends Error {
   constructor(platformId: string) {

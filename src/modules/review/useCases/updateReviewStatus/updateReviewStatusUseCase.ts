@@ -1,6 +1,6 @@
 import { productServices } from '../../../product/services';
 import { UseCaseErrors } from '../../../../appError';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { ReviewCommandsRepoI } from '../../repo/commands';
 import { ReviewStatus } from '../../domain/reviewStatus';

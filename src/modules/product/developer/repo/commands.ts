@@ -1,5 +1,5 @@
 import { Collection, ObjectId } from 'mongodb';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Developer } from '../domain/developer';
 import { DeveloperMapper } from '../developerMapper';

@@ -7,7 +7,7 @@ import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';
 import { Admin } from '../../domain/admin';
 import { AdminUsername } from '../../domain/adminUsername';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 
 export namespace RegisterErrors {
   export class UsernameTakenError extends UseCaseError {

@@ -1,6 +1,6 @@
 import { textUtils } from '../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../appError';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { DiscountCommandsRepoI } from '../../../discount/repo/commands';
 import { Product, UpdateProductDetailsProps } from '../../domain/product';

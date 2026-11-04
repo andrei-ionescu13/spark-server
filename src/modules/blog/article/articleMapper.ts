@@ -6,7 +6,7 @@ import { ArticleDoc, ArticlePopulatedDoc } from './model';
 import { MappingValidationError, ArticleStatus } from './domain/status';
 import { ArticleTitle } from './domain/title';
 import { Asset } from '../../../asset';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { ArticleDescription } from './domain/description';
 import { ArticleCategory } from '../article-category/domain/articleCategory';
 import {

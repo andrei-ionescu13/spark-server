@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../../zodErrors';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { v7 as uuid7 } from 'uuid';
 
 interface TokenProps {

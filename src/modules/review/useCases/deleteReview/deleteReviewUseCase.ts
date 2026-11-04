@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { productServices } from '../../../product/services';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { ReviewCommandsRepoI } from '../../repo/commands';

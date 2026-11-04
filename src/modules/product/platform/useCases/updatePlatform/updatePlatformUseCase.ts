@@ -4,7 +4,7 @@ import { UseCase } from '../../../../../useCase';
 import { Platform } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { UpdatePlatformRequestDto } from './updatePlatformRequestDto';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { Asset } from '../../../../../asset';
 
 type Response = Result<

@@ -1,5 +1,5 @@
 import { DomainValidationError } from '../../blog/article/domain/status';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { Key } from '../domain/key';
 import { KeyMapper } from '../keyMapper';
 import { KeyDoc } from '../model';

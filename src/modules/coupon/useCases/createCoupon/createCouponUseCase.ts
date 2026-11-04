@@ -1,6 +1,6 @@
 import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../appError';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { Coupon, CreateCouponProps } from '../../domain/coupon';

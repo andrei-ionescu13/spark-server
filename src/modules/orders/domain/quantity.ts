@@ -1,4 +1,4 @@
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { ValueObject } from '../../../valueObject';
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../../zodErrors';

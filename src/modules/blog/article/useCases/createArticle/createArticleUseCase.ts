@@ -1,6 +1,6 @@
 import { textUtils } from '../../../../../utils/textUtils';
 import { UseCaseErrors } from '../../../../../appError';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../useCaseError';

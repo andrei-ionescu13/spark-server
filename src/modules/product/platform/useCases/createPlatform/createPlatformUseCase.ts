@@ -4,7 +4,7 @@ import { UseCase } from '../../../../../useCase';
 import { Platform, PlatformCreateProps } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { CreatePlatformRequestDto } from './createPlatformRequestDto';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { Asset } from '../../../../../asset';
 
 type Response = Result<Platform, UseCaseErrors.UnexpectedError>;

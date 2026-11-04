@@ -1,7 +1,7 @@
 import { UseCaseErrors } from '../../../../appError';
 import { Asset } from '../../../../asset';
 import { Meta } from '../../../../meta';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { Collection, UpdateCollectionProps } from '../../domain/collection';

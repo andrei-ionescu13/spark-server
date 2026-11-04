@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../../appError';
-import { Result } from '../../../../../result';
+import { Result } from '../../../../../results';
 import { UseCase } from '../../../../../useCase';
 import { Namespace } from '../../domain/namespace';
 import { NamespaceCommandsRepoI } from '../../repo/commands';

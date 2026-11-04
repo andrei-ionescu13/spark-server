@@ -1,5 +1,5 @@
 import { UseCaseErrors } from '../../../../appError';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UseCase } from '../../../../useCase';
 import { Discount } from '../../domain/discount';
 import { DiscountCommandsRepoI } from '../../repo/commands';

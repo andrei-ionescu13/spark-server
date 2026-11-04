@@ -7,7 +7,7 @@ import { KeyStatus } from '../../../key/domain/keyStatus';
 import { KeyValue } from '../../../key/domain/keyValue';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { UseCaseError } from '../../../../useCaseError';

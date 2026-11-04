@@ -1,6 +1,6 @@
 import { UseCaseErrors } from '../../../../appError';
 import { DomainValidationError } from '../../../blog/article/domain/status';
-import { Result } from '../../../../result';
+import { Result } from '../../../../results';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { CreateDealProps, Deal } from '../../domain/deal';

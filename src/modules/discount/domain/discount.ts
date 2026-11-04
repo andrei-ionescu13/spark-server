@@ -4,7 +4,7 @@ import { zodDomainValidationError } from '../../../zodErrors';
 import { DiscountTitle } from './discountTitle';
 import { DiscountType } from './discountType';
 import { DiscountValue } from './discountValue';
-import { Result } from '../../../result';
+import { Result } from '../../../results';
 import { v7 as uuid7 } from 'uuid';
 
 interface DiscountProps {
