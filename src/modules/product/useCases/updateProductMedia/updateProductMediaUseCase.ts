@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Asset } from '../../../../assets';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { DomainValidationError } from '../../../blog/article/domain/status';

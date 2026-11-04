@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../../../appErrors';
-import { Result } from '../../../../results';
+import { UseCaseErrors } from '../../../../appError';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CollectionDto, CollectionPopulatedDto } from '../../collectionMapper';
 import { CollectionQueriesRepoI } from '../../repo/queries';

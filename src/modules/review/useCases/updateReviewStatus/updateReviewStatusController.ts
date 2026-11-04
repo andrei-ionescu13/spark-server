@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';

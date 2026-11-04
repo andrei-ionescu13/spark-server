@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../../../appErrors';
-import { Result } from '../../../../results';
+import { UseCaseErrors } from '../../../../appError';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyDto } from '../../keyMapper';
 import { KeyQueriesRepoI } from '../../repo/queries';

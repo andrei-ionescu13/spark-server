@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { join } from 'path';
-import { UseCaseErrors } from '../../../../../appErrors';
-import { Result } from '../../../../../results';
+import { UseCaseErrors } from '../../../../../appError';
+import { Result } from '../../../../../result';
 import { TranslationServiceI } from '../../../../../services/translationService';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';

@@ -1,10 +1,10 @@
 import { v7 as uuidv7 } from 'uuid';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { ProductQueriesRepoI } from '../../../product/repo/queries';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../useCaseErrors';
+import { UseCaseError } from '../../../../useCaseError';
 import { Key } from '../../domain/key';
 import { KeyAvailability } from '../../domain/keyAvailability';
 import { KeyStatus } from '../../domain/keyStatus';

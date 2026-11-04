@@ -4,7 +4,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { Meta } from '../../../meta';
 import { v7 as uuid7 } from 'uuid';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { Asset } from '../../../assets';
 import { ProductLink } from './productLink';
 import { ProductMarkdown } from './productMarkdown';

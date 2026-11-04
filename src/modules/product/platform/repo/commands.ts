@@ -3,7 +3,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { PlatformDoc } from '../model';
 import { Platform } from '../domain/platform';
 import { PlatformMapper } from '../platformMapper';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 
 export interface PlatformCommandsRepoI {
   save: (platform: Platform) => Promise<void>;

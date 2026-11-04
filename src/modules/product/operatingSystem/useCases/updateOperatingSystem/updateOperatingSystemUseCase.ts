@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../../appErrors';
-import { Result } from '../../../../../results';
+import { UseCaseErrors } from '../../../../../appError';
+import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../useCaseErrors';
+import { UseCaseError } from '../../../../../useCaseError';
 import { OperatingSystemDoc } from '../../model';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';

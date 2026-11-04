@@ -1,8 +1,8 @@
-import { UseCaseErrors } from '../../../../../appErrors';
-import { Result } from '../../../../../results';
+import { UseCaseErrors } from '../../../../../appError';
+import { Result } from '../../../../../result';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
-import { UseCaseError } from '../../../../../useCaseErrors';
+import { UseCaseError } from '../../../../../useCaseError';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { PlatformQueriesRepoI } from '../../repo/queries';
 import { DeletePlatformsBulkRequestDto } from './deletePlatformsBulkRequestDto';

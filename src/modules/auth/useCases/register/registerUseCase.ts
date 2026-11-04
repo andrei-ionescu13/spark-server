@@ -1,13 +1,13 @@
 import bcrypt from 'bcrypt';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../useCaseErrors';
+import { UseCaseError } from '../../../../useCaseError';
 import { RegisterRequestDto } from './registerRequestDto';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';
 import { Admin } from '../../domain/admin';
 import { AdminUsername } from '../../domain/adminUsername';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 
 export namespace RegisterErrors {
   export class UsernameTakenError extends UseCaseError {

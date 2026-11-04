@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DiscountCommandsRepoI } from '../../repo/commands';
 import { DiscountQueriesRepoI } from '../../repo/queries';

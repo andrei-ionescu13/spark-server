@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { ValueObject } from '../../../valueObject';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { zodDomainValidationError } from '../../../zodErrors';
 
 export class ReviewContent extends ValueObject<{ value: string }> {

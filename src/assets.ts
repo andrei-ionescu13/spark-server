@@ -1,7 +1,7 @@
 import * as z from 'zod';
 import { zodDomainValidationError } from './zodErrors';
 import { DomainValidationError } from './modules/blog/article/domain/status';
-import { Result } from './results';
+import { Result } from './result';
 import { v7 as uuid7 } from 'uuid';
 
 export interface AssetDoc {

@@ -2,7 +2,7 @@ import * as z from 'zod';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { LanguageCode } from './languageCode';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { v7 as uuid7 } from 'uuid';
 
 interface LanguageProps {

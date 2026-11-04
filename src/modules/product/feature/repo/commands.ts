@@ -1,5 +1,5 @@
 import { Collection } from 'mongodb';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Feature } from '../domain/feature';
 import { FeatureMapper } from '../featureMapper';

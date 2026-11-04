@@ -1,6 +1,6 @@
 import { Collection } from 'mongodb';
 import { DomainValidationError } from '../../../blog/article/domain/status';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { NamespaceDoc } from '../model';
 import { Namespace } from '../domain/namespace';
 import { NamespaceMapper } from '../namespaceMapper';

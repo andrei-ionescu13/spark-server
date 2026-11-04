@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { v7 as uuid7 } from 'uuid';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { zodDomainValidationError } from '../../../zodErrors';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { Price } from './price';

@@ -1,10 +1,10 @@
-import { UseCaseErrors } from '../../../../../appErrors';
+import { UseCaseErrors } from '../../../../../appError';
 import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Platform } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { UpdatePlatformRequestDto } from './updatePlatformRequestDto';
-import { Result } from '../../../../../results';
+import { Result } from '../../../../../result';
 import { Asset } from '../../../../../assets';
 
 type Response = Result<

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { GetUserRequestDto } from './getUserRequestDto';
 import { GetUserUseCase } from './getUserUseCase';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 
 export class GetUserController extends Controller {

@@ -8,7 +8,7 @@ import { v7 as uuid7 } from 'uuid';
 import { ArticleDescription } from './description';
 import { Asset } from '../../../../assets';
 import { ArticleCategory } from '../../article-category/domain/articleCategory';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../../../zodErrors';
 

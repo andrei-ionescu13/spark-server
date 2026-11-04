@@ -1,7 +1,7 @@
 import { TokenDoc } from '../../model';
 import { TokenMapper } from '../../tokenMapper';
 import { Token } from '../../domain/token';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { Collection } from 'mongodb';
 
 export interface TokenCommandsRepoI {

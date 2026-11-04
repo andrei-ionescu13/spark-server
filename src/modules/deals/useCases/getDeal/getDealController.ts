@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GetDealRequestDto } from './getDealRequestDto';
 import { GetDealUseCase } from './getDealUseCase';
 import { Controller } from '../../../../controller';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 
 export class GetDealController extends Controller {
   constructor(private useCase: GetDealUseCase) {

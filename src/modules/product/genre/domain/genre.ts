@@ -3,7 +3,7 @@ import { textUtils } from '../../../../utils/textUtils';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { v7 as uuid7 } from 'uuid';
 import { zodDomainValidationError } from '../../../../zodErrors';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 
 interface GenreProps {
   _id: string;

@@ -2,7 +2,7 @@ import { Collection, ObjectId } from 'mongodb';
 import { DealDoc } from '../model';
 import { Deal } from '../domain/deal';
 import { DomainValidationError } from '../../blog/article/domain/status';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { DealMapper } from '../dealMapper';
 
 export interface DealCommandsRepoI {

@@ -6,7 +6,7 @@ import { CouponType } from './couponType';
 import { CouponUserSelection } from './couponUserSelection';
 import { CouponValue } from './couponValue';
 import { CouponProductSelection } from './couponProductSelection';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { v7 as uuid7 } from 'uuid';
 
 interface CouponProps {

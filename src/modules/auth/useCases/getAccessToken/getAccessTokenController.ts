@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
 import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 import { GetAccessTokenErrors, GetAccessTokenUseCase } from './getAccessTokenUseCase';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 
 export class GetAccessTokenController extends Controller {
   constructor(private useCase: GetAccessTokenUseCase) {

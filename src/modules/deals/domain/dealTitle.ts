@@ -2,7 +2,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { ValueObject } from '../../../valueObject';
 import * as z from 'zod';
 import { zodDomainValidationError } from '../../../zodErrors';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 
 export class DealTitle extends ValueObject<{ value: string }> {
   constructor(props: { value: string }) {

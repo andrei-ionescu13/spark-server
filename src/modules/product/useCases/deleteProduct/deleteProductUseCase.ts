@@ -1,8 +1,8 @@
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { CollectionCommandsRepoI } from '../../../collection/repo/commands';
 import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { ReviewCommandsRepoI } from '../../../review/repo/commands';
 import { ReviewQueriesRepoI } from '../../../review/repo/queries';
 import { UseCase } from '../../../../useCase';

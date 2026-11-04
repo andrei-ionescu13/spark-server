@@ -3,7 +3,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { zodDomainValidationError } from '../../../../zodErrors';
 import { NamespaceTranslation } from './namespaceTranslation';
 import { v7 as uuid7 } from 'uuid';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 
 interface NamespaceProps {
   _id: string;

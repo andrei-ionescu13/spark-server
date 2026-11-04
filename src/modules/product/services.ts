@@ -1,4 +1,4 @@
-import { Result } from '../../results';
+import { Result } from '../../result';
 import { DomainValidationError } from '../blog/article/domain/status';
 import { Review } from '../review/domain/review';
 import { Product } from './domain/product';

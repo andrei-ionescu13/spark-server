@@ -1,6 +1,6 @@
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Meta } from '../../../../meta';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { UpdateProductMetaRequestDto } from './updateProductMetaRequestDto';

@@ -1,6 +1,6 @@
 import { AssetDto, AssetMapper, AssetPersistance } from '../../../assetMapper';
 import { DomainValidationError } from '../../blog/article/domain/status';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { Developer } from './domain/developer';
 import { DeveloperDoc } from './model';
 import { Asset } from '../../../assets';

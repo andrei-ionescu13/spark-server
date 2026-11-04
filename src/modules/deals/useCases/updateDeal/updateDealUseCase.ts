@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Asset } from '../../../../assets';
 import { Meta } from '../../../../meta';
-import { Result } from '../../../../results';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { Deal, UpdateDealProps } from '../../domain/deal';

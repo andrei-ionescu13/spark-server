@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../../../appErrors';
-import { Result } from '../../../../results';
+import { UseCaseErrors } from '../../../../appError';
+import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { DealCommandsRepoI } from '../../repo/commands';

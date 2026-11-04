@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { DeleteCouponRequestDto } from './deleteCouponRequestDto';
 import { DeleteCouponUseCase } from './deleteCouponUseCase';

@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { GetAdminRequestDto } from './getAdminRequestDto';
 import { GetAdminUseCase } from './getAdminUseCase';
-import { UseCaseErrors } from '../../../../appErrors';
+import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { DecodedRequest } from '../../../../decodedRequests';
+import { DecodedRequest } from '../../../../decodedRequest';
 
 export class GetAdminController extends Controller {
   constructor(private useCase: GetAdminUseCase) {

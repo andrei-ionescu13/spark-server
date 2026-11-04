@@ -4,7 +4,7 @@ import { DealDescription } from './dealDescription';
 import { DealTitle } from './dealTitle';
 import * as z from 'zod';
 import { Meta } from '../../../meta';
-import { Result } from '../../../results';
+import { Result } from '../../../result';
 import { v7 as uuid7 } from 'uuid';
 import { Asset } from '../../../assets';
 

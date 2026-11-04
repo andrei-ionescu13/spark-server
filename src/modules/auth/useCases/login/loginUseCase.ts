@@ -1,7 +1,7 @@
-import { UseCaseErrors } from '../../../../appErrors';
-import { Result } from '../../../../results';
+import { UseCaseErrors } from '../../../../appError';
+import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { UseCaseError } from '../../../../useCaseErrors';
+import { UseCaseError } from '../../../../useCaseError';
 import { LoginRequestDto } from './loginRequestDto';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { AdminCommandsRepoI } from '../../repo/admin/commands';

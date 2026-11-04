@@ -1,5 +1,5 @@
-import { UseCaseErrors } from '../../appErrors';
-import { Result } from '../../results';
+import { UseCaseErrors } from '../../appError';
+import { Result } from '../../result';
 import { Product } from '../product/domain/product';
 import { Discount } from './domain/discount';
 import { CreateDiscountRequestDto } from './useCases/createDiscount/createDiscountRequestDto';
