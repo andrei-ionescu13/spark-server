@@ -45,8 +45,18 @@ export class LoginController extends Controller {
 
       const { accessToken, refreshToken } = result.value;
 
-      res.cookie('accessToken', accessToken, { maxAge: 24 * 60 * 1000, httpOnly: true });
-      res.cookie('refreshToken', refreshToken, { maxAge: 7 * 24 * 60 * 1000, httpOnly: true });
+      res.cookie('accessToken', accessToken, {
+        maxAge: 24 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      });
+      res.cookie('refreshToken', refreshToken, {
+        maxAge: 7 * 24 * 60 * 1000,
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      });
 
       return this.ok(res, { accessToken, refreshToken });
     } catch (error) {
