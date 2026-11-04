@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { DeactivateDealUseCase } from './deactivateDealUseCase';
 import { DeactivateDealRequestDto } from './deactivateRequestDto';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { UseCaseErrors } from '../../../../appError';
 
 export class DeactivateDealController extends Controller {

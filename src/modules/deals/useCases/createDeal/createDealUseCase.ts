@@ -9,7 +9,7 @@ import { CreateDealRequestDto } from './createDealRequestDto';
 import { v7 as uuidv7 } from 'uuid';
 import { Asset } from '../../../../assets';
 import { DealDescription } from '../../domain/dealDescription';
-import { Meta } from '../../../../meta';
+import { Meta } from '../../../../metas';
 import { DealTitle } from '../../domain/dealTitle';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError>;

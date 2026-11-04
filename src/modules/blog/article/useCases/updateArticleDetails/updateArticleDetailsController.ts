@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
-import { Controller } from '../../../../../controller';
+import { Controller } from '../../../../../controllers';
 import { zodRequestValidationError } from '../../../../../zodErrors';
 import { UpdateArticleDetailsRequestDto } from './updateArticleDetailsRequestDto';
 import { UpdateArticleDetailsUseCase } from './updateArticleDetailsUseCase';

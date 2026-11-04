@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
-import { Controller } from '../../../../../controller';
+import { Controller } from '../../../../../controllers';
 import { zodRequestValidationError } from '../../../../../zodErrors';
 import { CreateGenreRequestDto } from './createGenreRequestDto';
 import { CreateGenreErrors, CreateGenreUseCase } from './createGenreUseCase';

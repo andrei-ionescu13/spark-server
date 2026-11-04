@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
-import { Controller } from '../../../../../controller';
+import { Controller } from '../../../../../controllers';
 import { ExportNamespacesUseCase } from './exportNamespacesUseCase';
 
 export class ExportNamespacesController extends Controller {

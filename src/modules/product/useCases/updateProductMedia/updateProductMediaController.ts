@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 import { UpdateProductMediaUseCase } from './updateProductMediaUseCase';
 import * as z from 'zod';

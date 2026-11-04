@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { RegisterRequestDto } from './registerRequestDto';
 import { RegisterErrors, RegisterUseCase } from './registerUseCase';
 import * as z from 'zod';

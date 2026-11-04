@@ -1,6 +1,6 @@
 import { textUtils } from '../../../../utils/textUtils';
 import { Entity } from '../../../../entity';
-import { Meta } from '../../../../meta';
+import { Meta } from '../../../../metas';
 import { ArticleMarkdown } from './markdown';
 import { DomainValidationError, ArticleStatus } from './status';
 import { ArticleTitle } from './title';

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../../controller';
+import { Controller } from '../../../../../controllers';
 import { ListGenresUseCase } from './listGenresUseCase';
 
 export class ListGenresController extends Controller {

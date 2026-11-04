@@ -5,7 +5,7 @@ import { CollectionDescription } from './domain/collectionDescription';
 import { CollectionTitle } from './domain/collectionTitle';
 import { CollectionDoc, CollectionPopulatedDoc } from './model';
 import { Asset } from '../../assets';
-import { Meta } from '../../meta';
+import { Meta } from '../../metas';
 import { ProductDto, ProductMapper } from '../product/productMapper';
 
 export interface CollectionDto {

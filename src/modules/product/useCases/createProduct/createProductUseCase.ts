@@ -27,7 +27,7 @@ import { ProductPrice } from '../../domain/productPrice';
 import { ProductMarkdown } from '../../domain/productMarkdown';
 import { ProductRequirements } from '../../domain/productRequirements';
 import { ProductLink } from '../../domain/productLink';
-import { Meta } from '../../../../meta';
+import { Meta } from '../../../../metas';
 import { ProductTitle } from '../../domain/productTitle';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 

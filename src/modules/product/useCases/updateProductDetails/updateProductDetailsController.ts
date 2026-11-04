@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { UpdateProductDetailsRequestDto } from './updateProductDetailsRequestDto';
 import { UpdateProductDetailsUseCase } from './updateProductDetailsUseCase';
 import { UseCaseErrors } from '../../../../appError';

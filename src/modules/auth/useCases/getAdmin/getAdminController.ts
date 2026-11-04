@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { GetAdminRequestDto } from './getAdminRequestDto';
 import { GetAdminUseCase } from './getAdminUseCase';
 import { UseCaseErrors } from '../../../../appError';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { DecodedRequest } from '../../../../decodedRequest';
 
 export class GetAdminController extends Controller {

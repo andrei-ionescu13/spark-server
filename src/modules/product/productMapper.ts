@@ -10,7 +10,7 @@ import { ProductRating } from './domain/productRating';
 import { ProductRequirements } from './domain/productRequirements';
 import { ProductStatus } from './domain/productStatus';
 import { ProductTitle } from './domain/productTitle';
-import { Meta } from '../../meta';
+import { Meta } from '../../metas';
 import { platform } from 'os';
 
 export interface ProductDto {

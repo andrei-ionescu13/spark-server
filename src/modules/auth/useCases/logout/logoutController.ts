@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 
 export class LogoutController extends Controller {
   executeImpl = async (req: Request, res: Response) => {

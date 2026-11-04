@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
-import { Controller } from '../../../../controller';
+import { Controller } from '../../../../controllers';
 import { CreateProductRequestDto } from './createProductRequestDto';
 import { CreateProductErrors, CreateProductUseCase } from './createProductUseCase';
 

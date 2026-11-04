@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Controller } from '../../../../../controller';
+import { Controller } from '../../../../../controllers';
 import { ListNamespacesUseCase } from './listNamespacesUseCase';
 
 export class ListNamespacesController extends Controller {
