@@ -3,6 +3,7 @@ import { Admin } from '../../domain/admin';
 import { AdminDoc } from '../../model';
 import { AdminMapper } from '../../adminMapper';
 import { Collection } from 'mongodb';
+import { Mongo } from '../../../../mongo';
 
 export interface AdminCommandsRepoI {
   save: (admin: Admin) => Promise<void>;
@@ -11,7 +12,7 @@ export interface AdminCommandsRepoI {
 }
 
 export class AdminCommandsRepo implements AdminCommandsRepoI {
-  constructor(private collection: Collection<AdminDoc>) {}
+  collection = Mongo.getCollection<AdminDoc>('admins');
 
   save = async (admin: Admin) => {
     const persistence = AdminMapper.toPersistence(admin);

@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { DealDoc } from '../model';
 import { DealDto, DealMapper } from '../dealMapper';
+import { Mongo } from '../../../mongo';
 
 interface SearchDealsQueries {
   keyword?: string;
@@ -52,7 +53,7 @@ const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
 };
 
 export class DealQueriesRepo implements DealQueriesRepoI {
-  constructor(private collection: Collection<DealDoc>) {}
+  collection = Mongo.getCollection<DealDoc>('deals');
 
   getDeal = async (id: string) => {
     const doc = await this.collection

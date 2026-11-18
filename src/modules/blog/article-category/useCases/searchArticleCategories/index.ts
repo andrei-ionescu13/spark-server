@@ -3,9 +3,7 @@ import { ArticleCategoryQueriesRepo } from '../../repo/queries';
 import { SearchArticleCategoriesController } from './searchArticleCategoriesController';
 import { SearchArticleCategoriesUseCase } from './searchArticleCategoriesUseCase';
 
-const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo(
-  Mongo.getCollection('article_categories'),
-);
+const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo();
 
 const searchArticleCategoriesUseCase = new SearchArticleCategoriesUseCase(
   articleCategoryQueriesRepo,

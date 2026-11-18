@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { DiscountDto, DiscountMapper, DiscountPopulatedDto } from '../discountMapper';
 import { DiscountDoc, DiscountPopulatedDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 type Status = 'expired' | 'active' | 'scheduled';
 
@@ -58,7 +59,7 @@ const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
 };
 
 export class DiscountQueriesRepo implements DiscountQueriesRepoI {
-  constructor(private collection: Collection<DiscountDoc>) {}
+  collection = Mongo.getCollection<DiscountDoc>('discounts');
 
   getDiscount = async (id: string): Promise<DiscountPopulatedDto | null> => {
     const doc = await this.collection

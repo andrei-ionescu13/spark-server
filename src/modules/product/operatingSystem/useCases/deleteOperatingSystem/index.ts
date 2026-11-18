@@ -5,13 +5,9 @@ import { OperatingSystemQueriesRepo } from '../../repo/queries';
 import { DeleteOperatingSystemController } from './deleteOperatingSystemController';
 import { DeleteOperatingSystemUseCase } from './deleteOperatingSystemUseCase';
 
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
-const operatingSystemCommandsRepo = new OperatingSystemCommandsRepo(
-  Mongo.getCollection('operating_systems'),
-);
-const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo(
-  Mongo.getCollection('operating_systems'),
-);
+const productCommandsRepo = new ProductCommandsRepo();
+const operatingSystemCommandsRepo = new OperatingSystemCommandsRepo();
+const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo();
 
 const deleteOperatingSystemUseCase = new DeleteOperatingSystemUseCase(
   productCommandsRepo,

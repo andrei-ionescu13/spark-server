@@ -3,6 +3,6 @@ import { NamespaceQueriesRepo } from '../../repo/queries';
 import { ListNamespacesController } from './listNamespacesController';
 import { ListNamespacesUseCase } from './listNamespacesUseCase';
 
-const namespaceQueriesRepo = new NamespaceQueriesRepo(Mongo.getCollection('namespaces'));
+const namespaceQueriesRepo = new NamespaceQueriesRepo();
 const listNamespacesUseCase = new ListNamespacesUseCase(namespaceQueriesRepo);
 export const listNamespacesController = new ListNamespacesController(listNamespacesUseCase);

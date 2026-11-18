@@ -4,8 +4,8 @@ import { ArticleTagQueriesRepo } from '../../repo/queries';
 import { UpdateArticleTagController } from './updateArticleTagController';
 import { UpdateArticleTagUseCase } from './updateArticleTagUseCase';
 
-const articleTagQueriesRepo = new ArticleTagQueriesRepo(Mongo.getCollection('article_tags'));
-const articleTagCommandsRepo = new ArticleTagCommandsRepo(Mongo.getCollection('article_tags'));
+const articleTagQueriesRepo = new ArticleTagQueriesRepo();
+const articleTagCommandsRepo = new ArticleTagCommandsRepo();
 const updateArticleTagUseCase = new UpdateArticleTagUseCase(
   articleTagQueriesRepo,
   articleTagCommandsRepo,

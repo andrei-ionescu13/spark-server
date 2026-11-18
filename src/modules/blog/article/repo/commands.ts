@@ -3,6 +3,7 @@ import { Article } from '../domain/article';
 import { ArticleMapper } from '../articleMapper';
 import { ArticleDoc } from '../model';
 import { MappingValidationError } from '../domain/status';
+import { Mongo } from '../../../../mongo';
 
 export interface ArticleCommandsRepoI {
   save: (article: Article) => Promise<void>;
@@ -13,7 +14,7 @@ export interface ArticleCommandsRepoI {
 }
 
 export class ArticleCommandsRepo implements ArticleCommandsRepoI {
-  constructor(private collection: Collection<ArticleDoc>) {}
+  collection = Mongo.getCollection<ArticleDoc>('articles');
 
   getArticle = async (id: string): Promise<Article | null> => {
     const doc = await this.collection.findOne({ _id: id });

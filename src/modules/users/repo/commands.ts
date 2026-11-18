@@ -2,6 +2,7 @@ import { Collection } from 'mongodb';
 import { UserDoc } from '../model';
 import { User } from '../domain/user';
 import { UserMapper } from '../userMapper';
+import { Mongo } from '../../../mongo';
 
 export interface UserCommandsRepoI {
   getUser: (id: string) => Promise<User | null>;
@@ -10,7 +11,7 @@ export interface UserCommandsRepoI {
 }
 
 export class UserCommandsRepo implements UserCommandsRepoI {
-  constructor(private collection: Collection<UserDoc>) {}
+  collection = Mongo.getCollection<UserDoc>('users');
 
   getUser = async (id: string): Promise<User | null> => {
     const doc = await this.collection.findOne({ _id: id });

@@ -3,6 +3,6 @@ import { ArticleQueriesRepo } from '../../repo/queries';
 import { GetArticleController } from './GetArticleController';
 import { GetArticleUseCase } from './GetArticleUseCase';
 
-const articleQueriesRepo = new ArticleQueriesRepo(Mongo.getCollection('articles'));
+const articleQueriesRepo = new ArticleQueriesRepo();
 const getArticleUseCase = new GetArticleUseCase(articleQueriesRepo);
 export const getArticleController = new GetArticleController(getArticleUseCase);

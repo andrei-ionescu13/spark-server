@@ -5,9 +5,9 @@ import { CouponQueriesRepo } from '../../repo/queries';
 import { DeleteCouponsBulkController } from './deleteCouponsBulkController';
 import { DeleteCouponsBulkUseCase } from './deleteCouponsBulkUseCase';
 
-const couponCommandsRepo = new CouponCommandsRepo(Mongo.getCollection('coupons'));
-const couponQueriesRepo = new CouponQueriesRepo(Mongo.getCollection('coupons'));
-const userCommandsRepo = new UserCommandsRepo(Mongo.getCollection('users'));
+const couponCommandsRepo = new CouponCommandsRepo();
+const couponQueriesRepo = new CouponQueriesRepo();
+const userCommandsRepo = new UserCommandsRepo();
 
 const deleteCouponsBulkUseCase = new DeleteCouponsBulkUseCase(
   couponCommandsRepo,

@@ -2,6 +2,7 @@ import { Collection, Document, ObjectId } from 'mongodb';
 import { ArticlePopulatedDto, ArticleMapper, ArticleDto } from '../articleMapper';
 import { ArticleDoc, ArticlePopulatedDoc } from '../model';
 import { match } from 'node:assert';
+import { Mongo } from '../../../../mongo';
 
 type SearchArticlesQueries = {
   keyword?: string;
@@ -23,7 +24,7 @@ export interface ArticleQueriesRepoI {
 }
 
 export class ArticleQueriesRepo implements ArticleQueriesRepoI {
-  constructor(private collection: Collection<ArticleDoc>) {}
+  collection = Mongo.getCollection<ArticleDoc>('articles');
 
   getArticleByProps = async (props: Array<Record<string, unknown>>): Promise<ArticleDto | null> => {
     const doc = await this.collection.findOne({ $or: props });

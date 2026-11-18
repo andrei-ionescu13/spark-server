@@ -3,7 +3,7 @@ import { FeatureQueriesRepo } from '../../repo/queries';
 import { ListFeaturesController } from './listFeaturesController';
 import { ListFeaturesUseCase } from './listFeaturesUseCase';
 
-const featureQueriesRepo = new FeatureQueriesRepo(Mongo.getCollection('features'));
+const featureQueriesRepo = new FeatureQueriesRepo();
 
 const listFeaturesUseCase = new ListFeaturesUseCase(featureQueriesRepo);
 

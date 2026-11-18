@@ -3,7 +3,7 @@ import { ProductCommandsRepo } from '../../repo/commands';
 import { UpdateProductMetaController } from './updateProductMetaController';
 import { UpdateProductMetaUseCase } from './updateProductMetaUseCase';
 
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
+const productCommandsRepo = new ProductCommandsRepo();
 const updateProductMetaUseCase = new UpdateProductMetaUseCase(productCommandsRepo);
 export const updateProductMetaController = new UpdateProductMetaController(
   updateProductMetaUseCase,

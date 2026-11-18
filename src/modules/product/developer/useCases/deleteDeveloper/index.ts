@@ -6,9 +6,9 @@ import { DeveloperQueriesRepo } from '../../repo/queries';
 import { DeleteDeveloperController } from './deleteDeveloperController';
 import { DeleteDeveloperUseCase } from './deleteDeveloperUseCase';
 
-const developerCommandsRepo = new DeveloperCommandsRepo(Mongo.getCollection('developers'));
-const developerQueriesRepo = new DeveloperQueriesRepo(Mongo.getCollection('developers'));
-const productQueriesRepo = new ProductQueriesRepo(Mongo.getCollection('products'));
+const developerCommandsRepo = new DeveloperCommandsRepo();
+const developerQueriesRepo = new DeveloperQueriesRepo();
+const productQueriesRepo = new ProductQueriesRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

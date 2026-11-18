@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { FeatureDto, FeatureMapper } from '../featureMapper';
 import { FeatureDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchFeaturesQueries = {
   keyword?: string;
@@ -22,7 +23,7 @@ export interface FeatureQueriesRepoI {
 }
 
 export class FeatureQueriesRepo implements FeatureQueriesRepoI {
-  constructor(private collection: Collection<FeatureDoc>) {}
+  collection = Mongo.getCollection<FeatureDoc>('features');
 
   searchFeatures = async (
     query: SearchFeaturesQueries,

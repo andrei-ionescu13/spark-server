@@ -5,8 +5,8 @@ import { CollectionQueriesRepo } from '../../repo/queries';
 import { DeleteCollectionController } from './deleteCollectionController';
 import { DeleteCollectionUseCase } from './deleteCollectionUseCase';
 
-const collectionCommandsRepo = new CollectionCommandsRepo(Mongo.getCollection('collections'));
-const collectionQueriesRepo = new CollectionQueriesRepo(Mongo.getCollection('collections'));
+const collectionCommandsRepo = new CollectionCommandsRepo();
+const collectionQueriesRepo = new CollectionQueriesRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

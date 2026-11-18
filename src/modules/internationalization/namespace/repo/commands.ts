@@ -4,6 +4,7 @@ import { Result } from '../../../../result';
 import { NamespaceDoc } from '../model';
 import { Namespace } from '../domain/namespace';
 import { NamespaceMapper } from '../namespaceMapper';
+import { Mongo } from '../../../../mongo';
 
 export interface NamespaceCommandsRepoI {
   save: (namespace: Namespace) => Promise<void>;
@@ -12,7 +13,7 @@ export interface NamespaceCommandsRepoI {
 }
 
 export class NamespaceCommandsRepo implements NamespaceCommandsRepoI {
-  constructor(private collection: Collection<NamespaceDoc>) {}
+  collection = Mongo.getCollection<NamespaceDoc>('namespaces');
 
   save = async (namespace: Namespace): Promise<void> => {
     const persistence = NamespaceMapper.toPersistance(namespace);

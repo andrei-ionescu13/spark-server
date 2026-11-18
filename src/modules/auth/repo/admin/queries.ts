@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { AdminDto, AdminMapper } from '../../adminMapper';
 import { AdminDoc } from '../../model';
+import { Mongo } from '../../../../mongo';
 
 export interface AdminQueriesRepoI {
   getAdmin: (id: string) => Promise<AdminDto | null>;
@@ -8,7 +9,7 @@ export interface AdminQueriesRepoI {
 }
 
 export class AdminQueriesRepo implements AdminQueriesRepoI {
-  constructor(private collection: Collection<AdminDoc>) {}
+  collection = Mongo.getCollection<AdminDoc>('admins');
 
   getAdmin = async (id: string): Promise<AdminDto | null> => {
     const entity = await this.collection.findOne({ _id: id });

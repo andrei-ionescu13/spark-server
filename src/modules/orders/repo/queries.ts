@@ -2,6 +2,7 @@ import { OrderDto, OrderMapper } from '../orderMapper';
 import { OrderDoc, OrderLineItemDoc, OrderLineItemPopulateDoc } from '../model';
 import { Collection } from 'mongodb';
 import { OrderLineItemDto, OrderLineItemMapper } from '../orderLineItemMapper';
+import { Mongo } from '../../../mongo';
 
 type Status = 'open' | 'archived' | 'canceled';
 type PaymentStatus = 'authorized' | 'paid' | 'pending' | 'refunded' | 'expired';
@@ -26,7 +27,7 @@ export interface OrderQueriesRepoI {
 }
 
 export class OrderQueriesRepo implements OrderQueriesRepoI {
-  constructor(private collection: Collection<OrderDoc>) {}
+  collection = Mongo.getCollection<OrderDoc>('orders');
 
   getOrder = async (id: string): Promise<OrderDto | null> => {
     const doc = await this.collection.findOne({ _id: id });

@@ -2,6 +2,7 @@ import { Collection } from 'mongodb';
 import { Language } from '../domain/language';
 import { LanguageMapper } from '../languageMapper';
 import { LanguageDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface LanguageCommandsRepoI {
   save: (language: Language) => Promise<void>;
@@ -9,7 +10,7 @@ export interface LanguageCommandsRepoI {
 }
 
 export class LanguageCommandsRepo implements LanguageCommandsRepoI {
-  constructor(private collection: Collection<LanguageDoc>) {}
+  collection = Mongo.getCollection<LanguageDoc>('languages');
 
   save = async (language: Language): Promise<void> => {
     const persistence = LanguageMapper.toPersistance(language);

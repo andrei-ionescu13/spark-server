@@ -2,6 +2,7 @@ import { Collection, ObjectId } from 'mongodb';
 import { ArticleCategory } from '../domain/articleCategory';
 import { ArticleCategoryMapper } from '../articleCategoryMapper';
 import { ArticleCategoryDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface ArticleCategoryCommandsRepoI {
   save: (articleCategory: ArticleCategory) => Promise<void>;
@@ -10,7 +11,7 @@ export interface ArticleCategoryCommandsRepoI {
 }
 
 export class ArticleCategoryCommandsRepo implements ArticleCategoryCommandsRepoI {
-  constructor(private collection: Collection<ArticleCategoryDoc>) {}
+  collection = Mongo.getCollection<ArticleCategoryDoc>('article_categories');
 
   save = async (articleCategory: ArticleCategory) => {
     const persistence = ArticleCategoryMapper.toPersistance(articleCategory);

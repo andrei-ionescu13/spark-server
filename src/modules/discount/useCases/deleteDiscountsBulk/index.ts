@@ -5,8 +5,8 @@ import { DiscountQueriesRepo } from '../../repo/queries';
 import { DeleteDiscountsBulkController } from './deleteDiscountsBulkController';
 import { DeleteDiscountsBulkUseCase } from './deleteDiscountsBulkUseCase';
 
-const discountCommandsRepo = new DiscountCommandsRepo(Mongo.getCollection('discounts'));
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
+const discountCommandsRepo = new DiscountCommandsRepo();
+const productCommandsRepo = new ProductCommandsRepo();
 
 const deleteDiscountsBulkUseCase = new DeleteDiscountsBulkUseCase(
   discountCommandsRepo,

@@ -5,8 +5,8 @@ import { NamespaceQueriesRepo } from '../../repo/queries';
 import { ExportNamespacesController } from './exportNamespacesController';
 import { ExportNamespacesUseCase } from './exportNamespacesUseCase';
 
-const namespaceQueriesRep = new NamespaceQueriesRepo(Mongo.getCollection('namespaces'));
-const languageQueriesRepo = new LanguageQueriesRepo(Mongo.getCollection('languages'));
+const namespaceQueriesRep = new NamespaceQueriesRepo();
+const languageQueriesRepo = new LanguageQueriesRepo();
 
 const translationService = new TranslationService();
 

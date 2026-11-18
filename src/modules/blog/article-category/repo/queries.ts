@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { ArticleCategoryDto, ArticleCategoryMapper } from '../articleCategoryMapper';
 import { ArticleCategoryDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchArticleCategoriesQueries = {
   keyword?: string;
@@ -24,7 +25,7 @@ export interface ArticleCategoryQueriesRepoI {
 }
 
 export class ArticleCategoryQueriesRepo implements ArticleCategoryQueriesRepoI {
-  constructor(private collection: Collection<ArticleCategoryDoc>) {}
+  collection = Mongo.getCollection<ArticleCategoryDoc>('article_categories');
 
   searchArticleCategories = async (query: SearchArticleCategoriesQueries) => {
     const { keyword = '', sortBy = 'createdAt', sortOrder = 'desc', page = 1, limit = 10 } = query;

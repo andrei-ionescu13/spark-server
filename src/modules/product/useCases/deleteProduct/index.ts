@@ -12,16 +12,16 @@ import { ProductCommandsRepo } from '../../repo/commands';
 import { DeleteProductController } from './deleteProductController';
 import { DeleteProductUseCase } from './deleteProductUseCase';
 
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
-const reviewCommandsRepo = new ReviewCommandsRepo(Mongo.getCollection('reviews'));
-const reviewQueriesRepo = new ReviewQueriesRepo(Mongo.getCollection('reviews'));
-const userCommandsRepo = new UserCommandsRepo(Mongo.getCollection('users'));
-const keyQueriesRepo = new KeyQueriesRepo(Mongo.getCollection('keys'));
-const keyCommandsRepo = new KeyCommandsRepo(Mongo.getCollection('keys'));
+const productCommandsRepo = new ProductCommandsRepo();
+const reviewCommandsRepo = new ReviewCommandsRepo();
+const reviewQueriesRepo = new ReviewQueriesRepo();
+const userCommandsRepo = new UserCommandsRepo();
+const keyQueriesRepo = new KeyQueriesRepo();
+const keyCommandsRepo = new KeyCommandsRepo();
 const uploaderService = new CloudinaryUploaderService();
-const collectionCommandsRepo = new CollectionCommandsRepo(Mongo.getCollection('collections'));
-const discountCommandsRepo = new DiscountCommandsRepo(Mongo.getCollection('discounts'));
-const couponCommandsRepo = new CouponCommandsRepo(Mongo.getCollection('coupons'));
+const collectionCommandsRepo = new CollectionCommandsRepo();
+const discountCommandsRepo = new DiscountCommandsRepo();
+const couponCommandsRepo = new CouponCommandsRepo();
 
 const deleteProductUseCase = new DeleteProductUseCase(
   productCommandsRepo,

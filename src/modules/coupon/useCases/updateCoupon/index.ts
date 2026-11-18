@@ -4,7 +4,7 @@ import { CouponCommandsRepo } from '../../repo/commands';
 import { UpdateCouponController } from './updateCouponController';
 import { UpdateCouponUseCase } from './updateCouponUseCase';
 
-const couponCommandsRepo = new CouponCommandsRepo(Mongo.getCollection('coupons'));
-const userCommandsRepo = new UserCommandsRepo(Mongo.getCollection('users'));
+const couponCommandsRepo = new CouponCommandsRepo();
+const userCommandsRepo = new UserCommandsRepo();
 const updateCouponUseCase = new UpdateCouponUseCase(couponCommandsRepo, userCommandsRepo);
 export const updateCouponController = new UpdateCouponController(updateCouponUseCase);

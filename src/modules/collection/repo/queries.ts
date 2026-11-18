@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { CollectionDto, CollectionMapper, CollectionPopulatedDto } from '../collectionMapper';
 import { CollectionDoc, CollectionPopulatedDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 type Status = 'expired' | 'active' | 'scheduled';
 
@@ -58,7 +59,7 @@ const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
 };
 
 export class CollectionQueriesRepo implements CollectionQueriesRepoI {
-  constructor(private collection: Collection<CollectionDoc>) {}
+  collection = Mongo.getCollection<CollectionDoc>('collections');
 
   getCollection = async (id: string): Promise<CollectionPopulatedDto | null> => {
     const doc = await this.collection

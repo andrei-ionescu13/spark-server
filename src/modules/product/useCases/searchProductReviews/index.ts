@@ -3,7 +3,7 @@ import { ProductQueriesRepo } from '../../repo/queries';
 import { SearchProductReviewsController } from './searchProductReviewsController';
 import { SearchProductReviewsUseCase } from './searchProductReviewsUseCase';
 
-const productQueriesRepo = new ProductQueriesRepo(Mongo.getCollection('products'));
+const productQueriesRepo = new ProductQueriesRepo();
 const searchProductReviewsUseCase = new SearchProductReviewsUseCase(productQueriesRepo);
 export const searchProductReviewsController = new SearchProductReviewsController(
   searchProductReviewsUseCase,

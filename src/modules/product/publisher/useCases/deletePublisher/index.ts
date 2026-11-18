@@ -5,8 +5,8 @@ import { PublisherQueriesRepo } from '../../repo/queries';
 import { DeletePublisherController } from './deletePublisherController';
 import { DeletePublisherUseCase } from './deletePublisherUseCase';
 
-const publisherCommandsRepo = new PublisherCommandsRepo(Mongo.getCollection('publishers'));
-const publisherQueriesRepo = new PublisherQueriesRepo(Mongo.getCollection('publishers'));
+const publisherCommandsRepo = new PublisherCommandsRepo();
+const publisherQueriesRepo = new PublisherQueriesRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

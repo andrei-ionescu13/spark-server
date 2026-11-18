@@ -6,8 +6,8 @@ import { NamespaceQueriesRepo } from '../../repo/queries';
 import { UploadNamespacesController } from './uploadNamespacesController';
 import { UploadNamespacesUseCase } from './uploadNamespacesUseCase';
 
-const namespaceQueriesRepo = new NamespaceQueriesRepo(Mongo.getCollection('namespaces'));
-const languageQueriesRepo = new LanguageQueriesRepo(Mongo.getCollection('languages'));
+const namespaceQueriesRepo = new NamespaceQueriesRepo();
+const languageQueriesRepo = new LanguageQueriesRepo();
 
 const translationService = new TranslationService();
 const uploaderService = new CloudinaryUploaderService();

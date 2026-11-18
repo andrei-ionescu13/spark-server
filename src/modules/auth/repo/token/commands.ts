@@ -3,6 +3,7 @@ import { TokenMapper } from '../../tokenMapper';
 import { Token } from '../../domain/token';
 import { Result } from '../../../../result';
 import { Collection } from 'mongodb';
+import { Mongo } from '../../../../mongo';
 
 export interface TokenCommandsRepoI {
   save: (token: Token) => Promise<void>;
@@ -10,7 +11,7 @@ export interface TokenCommandsRepoI {
 }
 
 export class TokenCommandsRepo implements TokenCommandsRepoI {
-  constructor(private collection: Collection<TokenDoc>) {}
+  collection = Mongo.getCollection<TokenDoc>('tokens');
 
   save = async (token: Token) => {
     const persistence = TokenMapper.toPersistence(token);

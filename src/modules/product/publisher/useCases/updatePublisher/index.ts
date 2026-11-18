@@ -4,7 +4,7 @@ import { PublisherCommandsRepo } from '../../repo/commands';
 import { UpdatePublisherController } from './updatePublisherController';
 import { UpdatePublisherUseCase } from './updatePublisherUseCase';
 
-const publisherCommandsRepo = new PublisherCommandsRepo(Mongo.getCollection('publishers'));
+const publisherCommandsRepo = new PublisherCommandsRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

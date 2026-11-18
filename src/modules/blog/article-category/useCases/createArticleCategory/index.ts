@@ -4,12 +4,8 @@ import { ArticleCategoryQueriesRepo } from '../../repo/queries';
 import { CreateArticleCategoryController } from './createArticleCategoryController';
 import { CreateArticleCategoryUseCase } from './createArticleCategoryUseCase';
 
-const articleCategoryCommands = new ArticleCategoryCommandsRepo(
-  Mongo.getCollection('article_categories'),
-);
-const articleCategoryQueries = new ArticleCategoryQueriesRepo(
-  Mongo.getCollection('article_categories'),
-);
+const articleCategoryCommands = new ArticleCategoryCommandsRepo();
+const articleCategoryQueries = new ArticleCategoryQueriesRepo();
 
 const createArticleCategoryUseCase = new CreateArticleCategoryUseCase(
   articleCategoryCommands,

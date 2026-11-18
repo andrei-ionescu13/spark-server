@@ -4,7 +4,7 @@ import { ProductCommandsRepo } from '../../repo/commands';
 import { UpdateProductMediaController } from './updateProductMediaController';
 import { UpdateProductMediaUseCase } from './updateProductMediaUseCase';
 
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
+const productCommandsRepo = new ProductCommandsRepo();
 const uploaderService = new CloudinaryUploaderService();
 const updateProductMediaUseCase = new UpdateProductMediaUseCase(
   productCommandsRepo,

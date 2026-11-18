@@ -4,6 +4,7 @@ import { Discount } from '../domain/discount';
 import { DiscountMapper } from '../discountMapper';
 import { DiscountDoc } from '../model';
 import { Collection } from 'mongodb';
+import { Mongo } from '../../../mongo';
 
 export interface DiscountCommandsRepoI {
   save: (discount: Discount) => Promise<void>;
@@ -13,7 +14,7 @@ export interface DiscountCommandsRepoI {
 }
 
 export class DiscountCommandsRepo implements DiscountCommandsRepoI {
-  constructor(private collection: Collection<DiscountDoc>) {}
+  collection = Mongo.getCollection<DiscountDoc>('discounts');
 
   getDiscount = async (id: string): Promise<Discount | null> => {
     const doc = await this.collection.findOne({ _id: id });

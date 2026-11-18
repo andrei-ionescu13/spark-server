@@ -4,8 +4,8 @@ import { NamespaceQueriesRepo } from '../../repo/queries';
 import { SearchNamespacesController } from './searchNamespacesController';
 import { SearchNamespacesUseCase } from './searchNamespacesUseCase';
 
-const namespaceQueriesRepo = new NamespaceQueriesRepo(Mongo.getCollection('namespaces'));
-const languageQueriesRepo = new LanguageQueriesRepo(Mongo.getCollection('languages'));
+const namespaceQueriesRepo = new NamespaceQueriesRepo();
+const languageQueriesRepo = new LanguageQueriesRepo();
 
 const searchNamespacesUseCase = new SearchNamespacesUseCase(
   namespaceQueriesRepo,

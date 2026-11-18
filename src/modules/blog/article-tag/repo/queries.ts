@@ -2,6 +2,7 @@ import { Collection, Document, ObjectId } from 'mongodb';
 import { ArticleTag } from '../domain/articleTag';
 import { ArticleTagDto, ArticleTagMapper } from '../articleTagMapper';
 import { ArticleTagDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchArticleCategoriesQueries = {
   keyword?: string;
@@ -24,7 +25,7 @@ export interface ArticleTagQueriesRepoI {
 }
 
 export class ArticleTagQueriesRepo implements ArticleTagQueriesRepoI {
-  constructor(private collection: Collection<ArticleTagDoc>) {}
+  collection = Mongo.getCollection<ArticleTagDoc>('article_tags');
 
   searchArticleCategories = async (
     query: SearchArticleCategoriesQueries,

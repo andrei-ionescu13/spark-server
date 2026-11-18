@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { GenreDto, GenreMapper } from '../genreMapper';
 import { GenreDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchGenresQueries = {
   keyword?: string;
@@ -20,7 +21,7 @@ export interface GenreQueriesRepoI {
 }
 
 export class GenreQueriesRepo implements GenreQueriesRepoI {
-  constructor(private collection: Collection<GenreDoc>) {}
+  collection = Mongo.getCollection<GenreDoc>('genres');
 
   searchGenres = async (
     query: SearchGenresQueries,

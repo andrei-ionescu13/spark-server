@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { PublisherDoc } from '../model';
 import { PublisherDto, PublisherMapper } from '../publisherMapper';
+import { Mongo } from '../../../../mongo';
 
 type SearchPublishersQueries = {
   keyword?: string;
@@ -22,7 +23,7 @@ export interface PublisherQueriesRepoI {
 }
 
 export class PublisherQueriesRepo implements PublisherQueriesRepoI {
-  constructor(private collection: Collection<PublisherDoc>) {}
+  collection = Mongo.getCollection<PublisherDoc>('publishers');
 
   searchPublishers = async (
     query: SearchPublishersQueries,

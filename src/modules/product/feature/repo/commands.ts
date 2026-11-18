@@ -4,6 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Feature } from '../domain/feature';
 import { FeatureMapper } from '../featureMapper';
 import { FeatureDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface FeatureCommandsRepoI {
   save: (feature: Feature) => Promise<void>;
@@ -12,7 +13,7 @@ export interface FeatureCommandsRepoI {
 }
 
 export class FeatureCommandsRepo implements FeatureCommandsRepoI {
-  constructor(private collection: Collection<FeatureDoc>) {}
+  collection = Mongo.getCollection<FeatureDoc>('features');
 
   save = async (feature: Feature): Promise<void> => {
     const persistence = FeatureMapper.toPersistance(feature);

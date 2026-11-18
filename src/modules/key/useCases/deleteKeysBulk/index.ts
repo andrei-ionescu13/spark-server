@@ -5,9 +5,9 @@ import { KeyQueriesRepo } from '../../repo/queries';
 import { DeleteKeysBulkController } from './deleteKeysBulkController';
 import { DeleteKeysBulkUseCase } from './deleteKeysBulkUseCase';
 
-const keyCommandsRepo = new KeyCommandsRepo(Mongo.getCollection('keys'));
-const keyQueriesRepo = new KeyQueriesRepo(Mongo.getCollection('keys'));
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
+const keyCommandsRepo = new KeyCommandsRepo();
+const keyQueriesRepo = new KeyQueriesRepo();
+const productCommandsRepo = new ProductCommandsRepo();
 
 const deleteKeysBulkUseCase = new DeleteKeysBulkUseCase(
   keyCommandsRepo,

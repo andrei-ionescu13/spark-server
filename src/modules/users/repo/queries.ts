@@ -2,6 +2,7 @@ import { Collection, ObjectId } from 'mongodb';
 import { UserDoc } from '../model';
 import { UserDto, UserMapper } from '../userMapper';
 import { ReviewDto, ReviewMapper } from '../../review/reviewMapper';
+import { Mongo } from '../../../mongo';
 
 type SearchUsersQueries = {
   keyword?: string;
@@ -29,7 +30,7 @@ export interface UserQueriesRepoI {
 }
 
 export class UserQueriesRepo implements UserQueriesRepoI {
-  constructor(private collection: Collection<UserDoc>) {}
+  collection = Mongo.getCollection<UserDoc>('users');
 
   getUser = async (id: string): Promise<UserDto | null> => {
     const doc = await this.collection.findOne({ _id: id });

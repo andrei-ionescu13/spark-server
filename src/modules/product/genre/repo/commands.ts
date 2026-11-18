@@ -4,6 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Genre } from '../domain/genre';
 import { GenreMapper } from '../genreMapper';
 import { GenreDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface GenreCommandsRepoI {
   save: (genre: Genre) => Promise<void>;
@@ -12,7 +13,7 @@ export interface GenreCommandsRepoI {
 }
 
 export class GenreCommandsRepo implements GenreCommandsRepoI {
-  constructor(private collection: Collection<GenreDoc>) {}
+  collection = Mongo.getCollection<GenreDoc>('genres');
 
   save = async (genre: Genre): Promise<void> => {
     const persistence = GenreMapper.toPersistance(genre);

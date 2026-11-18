@@ -5,8 +5,8 @@ import { ArticleQueriesRepo } from '../../repo/queries';
 import { CreateArticleController } from './createArticleController';
 import { CreateArticleUseCase } from './createArticleUseCase';
 
-const articleCommandsRepo = new ArticleCommandsRepo(Mongo.getCollection('articles'));
-const articleQueriesRepo = new ArticleQueriesRepo(Mongo.getCollection('articles'));
+const articleCommandsRepo = new ArticleCommandsRepo();
+const articleQueriesRepo = new ArticleQueriesRepo();
 
 const cloudinaryUploaderService = new CloudinaryUploaderService();
 

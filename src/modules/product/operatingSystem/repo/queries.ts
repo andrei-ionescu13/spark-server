@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { OperatingSystemDoc } from '../model';
 import { OperatingSystemDto, OperatingSystemMapper } from '../operatingSystemMapper';
+import { Mongo } from '../../../../mongo';
 
 type SearchOperatingSystemsQueries = {
   keyword?: string;
@@ -24,7 +25,7 @@ export interface OperatingSystemQueriesRepoI {
 }
 
 export class OperatingSystemQueriesRepo implements OperatingSystemQueriesRepoI {
-  constructor(private collection: Collection<OperatingSystemDoc>) {}
+  collection = Mongo.getCollection<OperatingSystemDoc>('operating_systems');
 
   searchOperatingSystems = async (
     query: SearchOperatingSystemsQueries,

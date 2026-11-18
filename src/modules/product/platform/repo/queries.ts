@@ -1,4 +1,4 @@
-import { Collection, ObjectId } from 'mongodb';
+import { Mongo } from '../../../../mongo';
 import { PlatformDoc } from '../model';
 import { PlatformDto, PlatformMapper } from '../platformMapper';
 
@@ -22,7 +22,7 @@ export interface PlatformQueriesRepoI {
 }
 
 export class PlatformQueriesRepo implements PlatformQueriesRepoI {
-  constructor(private collection: Collection<PlatformDoc>) {}
+  collection = Mongo.getCollection<PlatformDoc>('platforms');
 
   searchPlatforms = async (
     query: SearchPlatformsQueries,

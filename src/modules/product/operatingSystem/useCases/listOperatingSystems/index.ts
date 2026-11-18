@@ -3,9 +3,7 @@ import { OperatingSystemQueriesRepo } from '../../repo/queries';
 import { ListOperatingSystemsController } from './listOperatingSystemsController';
 import { ListOperatingSystemsUseCase } from './listOperatingSystemsUseCase';
 
-const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo(
-  Mongo.getCollection('operating_systems'),
-);
+const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo();
 
 const listOperatingSystemsUseCase = new ListOperatingSystemsUseCase(operatingSystemQueriesRepo);
 

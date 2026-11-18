@@ -4,12 +4,8 @@ import { OperatingSystemQueriesRepo } from '../../repo/queries';
 import { UpdateOperatingSystemController } from './updateOperatingSystemController';
 import { UpdateOperatingSystemUseCase } from './updateOperatingSystemUseCase';
 
-const operatingSystemCommandsRepo = new OperatingSystemCommandsRepo(
-  Mongo.getCollection('operating_systems'),
-);
-const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo(
-  Mongo.getCollection('operating_systems'),
-);
+const operatingSystemCommandsRepo = new OperatingSystemCommandsRepo();
+const operatingSystemQueriesRepo = new OperatingSystemQueriesRepo();
 
 const updateOperatingSystemUseCase = new UpdateOperatingSystemUseCase(
   operatingSystemCommandsRepo,

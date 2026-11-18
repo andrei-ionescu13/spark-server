@@ -2,6 +2,7 @@ import { Collection } from 'mongodb';
 import { ArticleTag } from '../domain/articleTag';
 import { ArticleTagMapper } from '../articleTagMapper';
 import { ArticleTagDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface ArticleTagCommandsRepoI {
   save: (articleTag: ArticleTag) => Promise<void>;
@@ -10,7 +11,7 @@ export interface ArticleTagCommandsRepoI {
 }
 
 export class ArticleTagCommandsRepo implements ArticleTagCommandsRepoI {
-  constructor(private collection: Collection<ArticleTagDoc>) {}
+  collection = Mongo.getCollection<ArticleTagDoc>('article_tags');
 
   save = async (articleTag: ArticleTag) => {
     const persistence = ArticleTagMapper.toPersistance(articleTag);

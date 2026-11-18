@@ -4,6 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { PublisherDoc } from '../model';
 import { Publisher } from '../domain/publisher';
 import { PublisherMapper } from '../publisherMapper';
+import { Mongo } from '../../../../mongo';
 
 export interface PublisherCommandsRepoI {
   save: (publisher: Publisher) => Promise<void>;
@@ -12,7 +13,7 @@ export interface PublisherCommandsRepoI {
 }
 
 export class PublisherCommandsRepo implements PublisherCommandsRepoI {
-  constructor(private collection: Collection<PublisherDoc>) {}
+  collection = Mongo.getCollection<PublisherDoc>('publishers');
 
   save = async (publisher: Publisher): Promise<void> => {
     const persistence = PublisherMapper.toPersistance(publisher);

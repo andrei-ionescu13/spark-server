@@ -4,8 +4,8 @@ import { FeatureQueriesRepo } from '../../repo/queries';
 import { UpdateFeatureController } from './updateFeatureController';
 import { UpdateFeatureUseCase } from './updateFeatureUseCase';
 
-const featureCommandsRepo = new FeatureCommandsRepo(Mongo.getCollection('features'));
-const featureQueriesRepo = new FeatureQueriesRepo(Mongo.getCollection('features'));
+const featureCommandsRepo = new FeatureCommandsRepo();
+const featureQueriesRepo = new FeatureQueriesRepo();
 
 const updateFeatureUseCase = new UpdateFeatureUseCase(featureCommandsRepo, featureQueriesRepo);
 

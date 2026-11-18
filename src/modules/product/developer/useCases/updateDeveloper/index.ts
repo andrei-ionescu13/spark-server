@@ -4,7 +4,7 @@ import { DeveloperCommandsRepo } from '../../repo/commands';
 import { UpdateDeveloperController } from './updateDeveloperController';
 import { UpdateDeveloperUseCase } from './updateDeveloperUseCase';
 
-const developerCommandsRepo = new DeveloperCommandsRepo(Mongo.getCollection('developers'));
+const developerCommandsRepo = new DeveloperCommandsRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

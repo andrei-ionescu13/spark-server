@@ -4,7 +4,7 @@ import { CollectionCommandsRepo } from '../../repo/commands';
 import { UpdateCollectionController } from './updateCollectionController';
 import { UpdateCollectionUseCase } from './updateCollectionUseCase';
 
-const collectionCommandsRepo = new CollectionCommandsRepo(Mongo.getCollection('collections'));
+const collectionCommandsRepo = new CollectionCommandsRepo();
 const uploaderService = new CloudinaryUploaderService();
 
 const updateCollectionUseCase = new UpdateCollectionUseCase(

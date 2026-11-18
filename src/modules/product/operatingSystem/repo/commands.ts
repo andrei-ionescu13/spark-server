@@ -3,6 +3,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { OperatingSystemDoc } from '../model';
 import { OperatingSystem } from '../domain/operatingSystem';
 import { OperatingSystemMapper } from '../operatingSystemMapper';
+import { Mongo } from '../../../../mongo';
 
 export interface OperatingSystemCommandsRepoI {
   save: (operatingSystem: OperatingSystem) => Promise<void>;
@@ -11,7 +12,7 @@ export interface OperatingSystemCommandsRepoI {
 }
 
 export class OperatingSystemCommandsRepo implements OperatingSystemCommandsRepoI {
-  constructor(private collection: Collection<OperatingSystemDoc>) {}
+  collection = Mongo.getCollection<OperatingSystemDoc>('operating_systems');
 
   save = async (operatingSystem: OperatingSystem): Promise<void> => {
     const persistence = OperatingSystemMapper.toPersistance(operatingSystem);

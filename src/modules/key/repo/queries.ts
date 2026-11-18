@@ -1,6 +1,6 @@
-import { Collection } from 'mongodb';
 import { KeyDto, KeyMapper } from '../keyMapper';
 import { KeyDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 type SearchKeysQueries = {
   keyword?: string;
@@ -22,7 +22,7 @@ export interface KeyQueriesRepoI {
 }
 
 export class KeyQueriesRepo implements KeyQueriesRepoI {
-  constructor(private collection: Collection<KeyDoc>) {}
+  collection = Mongo.getCollection<KeyDoc>('keys');
 
   getKey = async (id: string): Promise<KeyDto | null> => {
     const doc = await this.collection.findOne({ _id: id });

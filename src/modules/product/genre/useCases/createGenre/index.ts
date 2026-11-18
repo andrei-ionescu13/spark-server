@@ -4,8 +4,8 @@ import { GenreQueriesRepo } from '../../repo/queries';
 import { CreateGenreController } from './createGenreController';
 import { CreateGenreUseCase } from './createGenreUseCase';
 
-const genreCommandsRepo = new GenreCommandsRepo(Mongo.getCollection('genres'));
-const genreQueriesRepo = new GenreQueriesRepo(Mongo.getCollection('genres'));
+const genreCommandsRepo = new GenreCommandsRepo();
+const genreQueriesRepo = new GenreQueriesRepo();
 
 const createGenreUseCase = new CreateGenreUseCase(genreCommandsRepo, genreQueriesRepo);
 

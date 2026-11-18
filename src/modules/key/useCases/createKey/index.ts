@@ -7,8 +7,8 @@ import { KeyQueriesRepo } from '../../repo/queries';
 import { CreateKeyController } from './createKeyController';
 import { CreateKeyUseCase } from './createKeyUseCase';
 
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
-const keyCommandsRepo = new KeyCommandsRepo(Mongo.getCollection('keys'));
+const productCommandsRepo = new ProductCommandsRepo();
+const keyCommandsRepo = new KeyCommandsRepo();
 const productKeyCreationChecker = new ProductKeyCreationChecker(
   productCommandsRepo,
   keyCommandsRepo,

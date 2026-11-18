@@ -5,8 +5,8 @@ import { TokenCommandsRepo } from '../../repo/token/commands';
 import { LoginController } from './loginController';
 import { LoginUseCase } from './loginUseCase';
 
-const adminCommandsRepo = new AdminCommandsRepo(Mongo.getCollection('admins'));
-const tokenCommandsRepo = new TokenCommandsRepo(Mongo.getCollection('token'));
+const adminCommandsRepo = new AdminCommandsRepo();
+const tokenCommandsRepo = new TokenCommandsRepo();
 
 const authService = new AuthService();
 

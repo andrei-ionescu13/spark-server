@@ -3,6 +3,6 @@ import { PublisherQueriesRepo } from '../../repo/queries';
 import { SearchPublishersController } from './searchPublishersController';
 import { SearchPublishersUseCase } from './searchPublishersUseCase';
 
-const publisherQueriesRepo = new PublisherQueriesRepo(Mongo.getCollection('publishers'));
+const publisherQueriesRepo = new PublisherQueriesRepo();
 const searchPublishersUseCase = new SearchPublishersUseCase(publisherQueriesRepo);
 export const searchPublishersController = new SearchPublishersController(searchPublishersUseCase);

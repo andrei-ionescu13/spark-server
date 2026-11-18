@@ -5,9 +5,9 @@ import { ReviewCommandsRepo } from '../../repo/commands';
 import { DeleteReviewController } from './deleteReviewController';
 import { DeleteReviewUseCase } from './deleteReviewUseCase';
 
-const reviewCommandsRepo = new ReviewCommandsRepo(Mongo.getCollection('reviews'));
-const productCommandsRepo = new ProductCommandsRepo(Mongo.getCollection('products'));
-const userCommandsRepo = new UserCommandsRepo(Mongo.getCollection('users'));
+const reviewCommandsRepo = new ReviewCommandsRepo();
+const productCommandsRepo = new ProductCommandsRepo();
+const userCommandsRepo = new UserCommandsRepo();
 
 const deleteReviewUseCase = new DeleteReviewUseCase(
   reviewCommandsRepo,

@@ -5,8 +5,8 @@ import { DealQueriesRepo } from '../../repo/queries';
 import { DeleteDealController } from './deleteDealController';
 import { DeleteDealUseCase } from './deleteDealUseCase';
 
-const dealCommandsRepo = new DealCommandsRepo(Mongo.getCollection('deals'));
-const dealQueriesRepo = new DealQueriesRepo(Mongo.getCollection('deals'));
+const dealCommandsRepo = new DealCommandsRepo();
+const dealQueriesRepo = new DealQueriesRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

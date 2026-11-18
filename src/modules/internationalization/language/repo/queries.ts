@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { LanguageDto, LanguageMapper } from '../languageMapper';
 import { LanguageDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchLanguagesQueries = {
   keyword?: string;
@@ -19,7 +20,7 @@ export interface LanguageQueriesRepoI {
 }
 
 export class LanguageQueriesRepo implements LanguageQueriesRepoI {
-  constructor(private collection: Collection<LanguageDoc>) {}
+  collection = Mongo.getCollection<LanguageDoc>('languages');
 
   searchLanguages = async (
     query: SearchLanguagesQueries,

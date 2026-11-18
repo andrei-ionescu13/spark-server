@@ -4,6 +4,6 @@ import { GetProductController } from './getProductController';
 import { GetProductUseCase } from './getProductUseCase';
 import { Mongo } from '../../../../mongo';
 
-const productQueriesRepo = new ProductQueriesRepo(Mongo.getCollection('products'));
+const productQueriesRepo = new ProductQueriesRepo();
 const getProductUseCase = new GetProductUseCase(productQueriesRepo);
 export const getProductController = new GetProductController(getProductUseCase);

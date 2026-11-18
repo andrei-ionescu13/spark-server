@@ -5,8 +5,8 @@ import { TokenCommandsRepo } from '../../repo/token/commands';
 import { GetAccessTokenController } from './getAccessTokenController';
 import { GetAccessTokenUseCase } from './getAccessTokenUseCase';
 
-const adminQueriesRepo = new AdminQueriesRepo(Mongo.getCollection('admins'));
-const tokenCommandsRepo = new TokenCommandsRepo(Mongo.getCollection('token'));
+const adminQueriesRepo = new AdminQueriesRepo();
+const tokenCommandsRepo = new TokenCommandsRepo();
 
 const authService = new AuthService();
 

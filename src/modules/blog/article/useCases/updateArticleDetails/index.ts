@@ -4,7 +4,7 @@ import { ArticleCommandsRepo } from '../../repo/commands';
 import { UpdateArticleDetailsController } from './updateArticleDetailsController';
 import { UpdateArticleDetailsUseCase } from './updateArticleDetailsUseCase';
 
-const articleCommandsRepo = new ArticleCommandsRepo(Mongo.getCollection('articles'));
+const articleCommandsRepo = new ArticleCommandsRepo();
 const uploaderService = new CloudinaryUploaderService();
 const updateArticleDetailsUseCase = new UpdateArticleDetailsUseCase(
   articleCommandsRepo,

@@ -3,7 +3,7 @@ import { NamespaceCommandsRepo } from '../../repo/commands';
 import { CreateTranslationController } from './createTranslationController';
 import { CreateTranslationUseCase } from './createTranslationUseCase';
 
-const namespaceCommandsRepo = new NamespaceCommandsRepo(Mongo.getCollection('namespaces'));
+const namespaceCommandsRepo = new NamespaceCommandsRepo();
 const createTranslationUseCase = new CreateTranslationUseCase(namespaceCommandsRepo);
 export const createTranslationController = new CreateTranslationController(
   createTranslationUseCase,

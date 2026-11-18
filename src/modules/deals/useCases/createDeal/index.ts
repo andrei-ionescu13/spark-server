@@ -4,7 +4,7 @@ import { DealCommandsRepo } from '../../repo/commands';
 import { CreateDealController } from './createDealController';
 import { CreateDealUseCase } from './createDealUseCase';
 
-const dealCommandsRepo = new DealCommandsRepo(Mongo.getCollection('deals'));
+const dealCommandsRepo = new DealCommandsRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

@@ -3,6 +3,7 @@ import { ProductDoc, ProductPopulatedDoc } from '../model';
 import { ProductDto, ProductMapper, ProductPopulatedDto } from '../productMapper';
 import { ReviewDto, ReviewMapper } from '../../review/reviewMapper';
 import { KeyDto } from '../../key/keyMapper';
+import { Mongo } from '../../../mongo';
 
 export interface ProductQueriesRepoI {
   getProduct: (id: string) => Promise<ProductPopulatedDto | null>;
@@ -17,7 +18,7 @@ export interface ProductQueriesRepoI {
 }
 
 export class ProductQueriesRepo implements ProductQueriesRepoI {
-  constructor(private collection: Collection<ProductDoc>) {}
+  collection = Mongo.getCollection<ProductDoc>('products');
 
   getProduct = async (id: string): Promise<ProductPopulatedDto | null> => {
     const pipeline: Document[] = [
@@ -491,7 +492,7 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-    console.log(result.products);
+
     return {
       count: result.count,
       products: ProductMapper.toDtoList(result.products),

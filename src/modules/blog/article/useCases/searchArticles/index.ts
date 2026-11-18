@@ -4,10 +4,8 @@ import { ArticleQueriesRepo } from '../../repo/queries';
 import { SearchArticlesController } from './SearchArticlesController';
 import { SearchArticlesUseCase } from './SearchArticlesUseCase';
 
-const articleQueriesRepo = new ArticleQueriesRepo(Mongo.getCollection('articles'));
-const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo(
-  Mongo.getCollection('article_categories'),
-);
+const articleQueriesRepo = new ArticleQueriesRepo();
+const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo();
 
 const searchArticlesUseCase = new SearchArticlesUseCase(
   articleQueriesRepo,

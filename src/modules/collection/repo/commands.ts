@@ -3,6 +3,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { CollectionMapper } from '../collectionMapper';
 import { CollectionDoc } from '../model';
 import { Collection } from '../domain/collection';
+import { Mongo } from '../../../mongo';
 
 export interface CollectionCommandsRepoI {
   save: (collection: Collection) => Promise<void>;
@@ -12,7 +13,7 @@ export interface CollectionCommandsRepoI {
 }
 
 export class CollectionCommandsRepo implements CollectionCommandsRepoI {
-  constructor(private collection: CollectionMongo<CollectionDoc>) {}
+  collection = Mongo.getCollection<CollectionDoc>('collections');
 
   save = async (collection: Collection): Promise<void> => {
     const persistence = CollectionMapper.toPersistance(collection);

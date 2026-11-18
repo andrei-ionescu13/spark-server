@@ -1,3 +1,4 @@
+import { Mongo } from '../../../../mongo';
 import { NamespaceDoc } from '../model';
 import { NamespaceDto, NamespaceMapper } from '../namespaceMapper';
 import { Collection } from 'mongodb';
@@ -32,7 +33,7 @@ export interface NamespaceQueriesRepoI {
 }
 
 export class NamespaceQueriesRepo implements NamespaceQueriesRepoI {
-  constructor(private collection: Collection<NamespaceDoc>) {}
+  collection = Mongo.getCollection<NamespaceDoc>('namespaces');
 
   getNamespaceByName = async (name: string): Promise<NamespaceDto | null> => {
     const doc = await this.collection.findOne({ name });

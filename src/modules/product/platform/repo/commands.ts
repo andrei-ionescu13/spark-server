@@ -4,6 +4,7 @@ import { PlatformDoc } from '../model';
 import { Platform } from '../domain/platform';
 import { PlatformMapper } from '../platformMapper';
 import { Result } from '../../../../result';
+import { Mongo } from '../../../../mongo';
 
 export interface PlatformCommandsRepoI {
   save: (platform: Platform) => Promise<void>;
@@ -12,7 +13,7 @@ export interface PlatformCommandsRepoI {
 }
 
 export class PlatformCommandsRepo implements PlatformCommandsRepoI {
-  constructor(private collection: Collection<PlatformDoc>) {}
+  collection = Mongo.getCollection<PlatformDoc>('platforms');
 
   save = async (platform: Platform): Promise<void> => {
     const persistence = PlatformMapper.toPersistance(platform);

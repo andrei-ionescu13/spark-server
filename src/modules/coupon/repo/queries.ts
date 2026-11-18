@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { CouponDto, CouponMapper } from '../couponMapper';
 import { CouponDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 interface SearchCouponsQueries {
   keyword?: string;
@@ -52,7 +53,8 @@ const buildIntervalQuery = (status?: 'expired' | 'active' | 'scheduled') => {
 };
 
 export class CouponQueriesRepo implements CouponQueriesRepoI {
-  constructor(private collection: Collection<CouponDoc>) {}
+  collection = Mongo.getCollection<CouponDoc>('coupons');
+
   getCoupon = async (id: string): Promise<CouponDto | null> => {
     const doc = await this.collection
       .aggregate([

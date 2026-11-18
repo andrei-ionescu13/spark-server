@@ -4,6 +4,7 @@ import { Deal } from '../domain/deal';
 import { DomainValidationError } from '../../blog/article/domain/status';
 import { Result } from '../../../result';
 import { DealMapper } from '../dealMapper';
+import { Mongo } from '../../../mongo';
 
 export interface DealCommandsRepoI {
   save: (deal: Deal) => Promise<void>;
@@ -13,7 +14,7 @@ export interface DealCommandsRepoI {
 }
 
 export class DealCommandsRepo implements DealCommandsRepoI {
-  constructor(private collection: Collection<DealDoc>) {}
+  collection = Mongo.getCollection<DealDoc>('deals');
 
   save = async (deal: Deal) => {
     const persistence = DealMapper.toPersistence(deal);

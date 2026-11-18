@@ -5,9 +5,9 @@ import { GenreQueriesRepo } from '../../repo/queries';
 import { DeleteGenreBulkController } from './deleteGenreBulkController';
 import { DeleteGenreBulkUseCase } from './deleteGenrerBulkUseCase';
 
-const productQueriesRepo = new ProductQueriesRepo(Mongo.getCollection('products'));
-const genreCommandsRepo = new GenreCommandsRepo(Mongo.getCollection('genres'));
-const genreQueriesRepo = new GenreQueriesRepo(Mongo.getCollection('genres'));
+const productQueriesRepo = new ProductQueriesRepo();
+const genreCommandsRepo = new GenreCommandsRepo();
+const genreQueriesRepo = new GenreQueriesRepo();
 
 const deleteGenreBulkUseCase = new DeleteGenreBulkUseCase(
   productQueriesRepo,

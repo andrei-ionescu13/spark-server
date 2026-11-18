@@ -4,8 +4,8 @@ import { LanguageQueriesRepo } from '../../repo/queries';
 import { DeleteLanguageController } from './deleteLanguageController';
 import { DeleteLanguageUseCase } from './deleteLanguageUseCase';
 
-const languageCommandsRepo = new LanguageCommandsRepo(Mongo.getCollection('languages'));
-const languageQueriesRepo = new LanguageQueriesRepo(Mongo.getCollection('languages'));
+const languageCommandsRepo = new LanguageCommandsRepo();
+const languageQueriesRepo = new LanguageQueriesRepo();
 
 const deleteLanguageUseCase = new DeleteLanguageUseCase(languageCommandsRepo, languageQueriesRepo);
 

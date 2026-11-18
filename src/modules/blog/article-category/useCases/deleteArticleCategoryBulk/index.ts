@@ -5,13 +5,9 @@ import { ArticleCategoryQueriesRepo } from '../../repo/queries';
 import { DeleteArticleCategoryBulkController } from './deleteArticleCategoryBulkController';
 import { DeleteArticleCategoryBulkUseCase } from './deleteArticleCategoryBulkUseCase';
 
-const articleQueriesRepo = new ArticleQueriesRepo(Mongo.getCollection('articles'));
-const articleCategoryCommandsRepo = new ArticleCategoryCommandsRepo(
-  Mongo.getCollection('article_categories'),
-);
-const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo(
-  Mongo.getCollection('article_categories'),
-);
+const articleQueriesRepo = new ArticleQueriesRepo();
+const articleCategoryCommandsRepo = new ArticleCategoryCommandsRepo();
+const articleCategoryQueriesRepo = new ArticleCategoryQueriesRepo();
 
 const deleteArticleCategoryBulkUseCase = new DeleteArticleCategoryBulkUseCase(
   articleQueriesRepo,

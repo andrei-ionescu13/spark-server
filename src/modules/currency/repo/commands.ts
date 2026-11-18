@@ -1,3 +1,4 @@
+import { Mongo } from '../../../mongo';
 import { CurrencyMapper } from '../currencyMapper';
 import { Currency } from '../domain/currency';
 import { CurrencyDoc } from '../model';
@@ -9,7 +10,7 @@ export interface CurrencyCommandsRepoI {
 }
 
 export class CurrencyCommandsRepo implements CurrencyCommandsRepoI {
-  constructor(private collection: Collection<CurrencyDoc>) {}
+  collection = Mongo.getCollection<CurrencyDoc>('currencies');
 
   save = async (currency: Currency): Promise<void> => {
     const persistence = CurrencyMapper.toPersistance(currency);

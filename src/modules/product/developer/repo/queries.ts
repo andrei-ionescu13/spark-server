@@ -1,6 +1,7 @@
 import { Collection, ObjectId } from 'mongodb';
 import { DeveloperDto, DeveloperMapper } from '../developerMapper';
 import { DeveloperDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 type SearchDevelopersQueries = {
   keyword?: string;
@@ -22,7 +23,7 @@ export interface DeveloperQueriesRepoI {
 }
 
 export class DeveloperQueriesRepo implements DeveloperQueriesRepoI {
-  constructor(private collection: Collection<DeveloperDoc>) {}
+  collection = Mongo.getCollection<DeveloperDoc>('developers');
 
   searchDevelopers = async (
     query: SearchDevelopersQueries,

@@ -3,6 +3,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { ProductDoc } from '../model';
 import { Product } from '../domain/product';
 import { ProductMapper } from '../productMapper';
+import { Mongo } from '../../../mongo';
 
 export interface ProductCommandsRepoI {
   getProduct: (id: string) => Promise<Product | null>;
@@ -23,7 +24,7 @@ export interface ProductCommandsRepoI {
 }
 
 export class ProductCommandsRepo implements ProductCommandsRepoI {
-  constructor(private collection: Collection<ProductDoc>) {}
+  collection = Mongo.getCollection<ProductDoc>('products');
 
   listAll = async () => {
     const docs = await this.collection.find({}).toArray();

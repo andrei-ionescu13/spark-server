@@ -1,6 +1,7 @@
 import { Collection } from 'mongodb';
 import { CurrencyDto, CurrencyMapper } from '../currencyMapper';
 import { CurrencyDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 type SearchCurrenciesQueries = {
   keyword?: string;
@@ -22,7 +23,7 @@ export interface CurrencyQueriesRepoI {
 }
 
 export class CurrencyQueriesRepo implements CurrencyQueriesRepoI {
-  constructor(private collection: Collection<CurrencyDoc>) {}
+  collection = Mongo.getCollection<CurrencyDoc>('currencies');
 
   getCurrencyByCode = async (code: string): Promise<CurrencyDto | null> => {
     const doc = await this.collection.findOne({ code });

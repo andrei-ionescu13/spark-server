@@ -4,7 +4,7 @@ import { PlatformCommandsRepo } from '../../repo/commands';
 import { UpdatePlatformController } from './updatePlatformController';
 import { UpdatePlatformUseCase } from './updatePlatformUseCase';
 
-const platformCommandsRepo = new PlatformCommandsRepo(Mongo.getCollection('platforms'));
+const platformCommandsRepo = new PlatformCommandsRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

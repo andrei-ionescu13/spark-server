@@ -4,6 +4,7 @@ import { Key } from '../domain/key';
 import { KeyMapper } from '../keyMapper';
 import { KeyDoc } from '../model';
 import { Collection } from 'mongodb';
+import { Mongo } from '../../../mongo';
 
 export interface KeyCommandsRepoI {
   save: (key: Key) => Promise<void>;
@@ -13,7 +14,7 @@ export interface KeyCommandsRepoI {
 }
 
 export class KeyCommandsRepo implements KeyCommandsRepoI {
-  constructor(private collection: Collection<KeyDoc>) {}
+  collection = Mongo.getCollection<KeyDoc>('keys');
 
   save = async (key: Key): Promise<void> => {
     const persistence = KeyMapper.toPersistance(key);

@@ -4,6 +4,7 @@ import { DomainValidationError } from '../../blog/article/domain/status';
 import { Coupon } from '../domain/coupon';
 import { CouponMapper } from '../couponMapper';
 import { CouponDoc } from '../model';
+import { Mongo } from '../../../mongo';
 
 export interface CouponCommandsRepoI {
   save: (coupon: Coupon) => Promise<void>;
@@ -13,7 +14,7 @@ export interface CouponCommandsRepoI {
 }
 
 export class CouponCommandsRepo implements CouponCommandsRepoI {
-  constructor(private collection: Collection<CouponDoc>) {}
+  collection = Mongo.getCollection<CouponDoc>('coupons');
 
   save = async (coupon: Coupon) => {
     const persistence = CouponMapper.toPersistance(coupon);

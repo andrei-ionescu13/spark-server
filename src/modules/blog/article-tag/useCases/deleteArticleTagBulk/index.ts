@@ -5,9 +5,9 @@ import { ArticleTagQueriesRepo } from '../../repo/queries';
 import { DeleteArticleTagBulkController } from './deleteArticleTagBulkController';
 import { DeleteArticleTagBulkUseCase } from './deleteArticleTagBulkUseCase';
 
-const articleCommandsRepo = new ArticleCommandsRepo(Mongo.getCollection('articles'));
-const articleTagQueriesRepo = new ArticleTagQueriesRepo(Mongo.getCollection('article_tags'));
-const articleTagCommandsRepo = new ArticleTagCommandsRepo(Mongo.getCollection('article_tags'));
+const articleCommandsRepo = new ArticleCommandsRepo();
+const articleTagQueriesRepo = new ArticleTagQueriesRepo();
+const articleTagCommandsRepo = new ArticleTagCommandsRepo();
 const deleteArticleTagBulkUseCase = new DeleteArticleTagBulkUseCase(
   articleCommandsRepo,
   articleTagQueriesRepo,

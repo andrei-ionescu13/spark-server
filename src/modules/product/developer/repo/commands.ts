@@ -4,6 +4,7 @@ import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Developer } from '../domain/developer';
 import { DeveloperMapper } from '../developerMapper';
 import { DeveloperDoc } from '../model';
+import { Mongo } from '../../../../mongo';
 
 export interface DeveloperCommandsRepoI {
   save: (developer: Developer) => Promise<void>;
@@ -12,7 +13,7 @@ export interface DeveloperCommandsRepoI {
 }
 
 export class DeveloperCommandsRepo implements DeveloperCommandsRepoI {
-  constructor(private collection: Collection<DeveloperDoc>) {}
+  collection = Mongo.getCollection<DeveloperDoc>('developers');
 
   save = async (developer: Developer): Promise<void> => {
     const persistence = DeveloperMapper.toPersistance(developer);

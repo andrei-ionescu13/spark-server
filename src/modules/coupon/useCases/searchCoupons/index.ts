@@ -3,7 +3,7 @@ import { CouponQueriesRepo } from '../../repo/queries';
 import { SearchCouponsController } from './searchCouponsController';
 import { SearchCouponsUseCase } from './searchCouponsUseCase';
 
-const couponQueriesRepo = new CouponQueriesRepo(Mongo.getCollection('coupons'));
+const couponQueriesRepo = new CouponQueriesRepo();
 
 const searchCouponsUseCase = new SearchCouponsUseCase(couponQueriesRepo);
 

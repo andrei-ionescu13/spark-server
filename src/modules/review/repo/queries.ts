@@ -1,3 +1,4 @@
+import { Mongo } from '../../../mongo';
 import { ReviewDoc } from '../model';
 import { ReviewDto, ReviewMapper } from '../reviewMapper';
 import { Collection } from 'mongodb';
@@ -21,7 +22,7 @@ export interface ReviewQueriesRepoI {
 }
 
 export class ReviewQueriesRepo implements ReviewQueriesRepoI {
-  constructor(private collection: Collection<ReviewDoc>) {}
+  collection = Mongo.getCollection<ReviewDoc>('reviews');
 
   getReview = async (id: string): Promise<ReviewDto | null> => {
     const doc = await this.collection

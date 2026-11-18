@@ -5,9 +5,9 @@ import { FeatureQueriesRepo } from '../../repo/queries';
 import { DeleteFeatureBulkController } from './deleteFeatureBulkController';
 import { DeleteFeatureBulkUseCase } from './deleteFeaturerBulkUseCase';
 
-const productQueriesRepo = new ProductQueriesRepo(Mongo.getCollection('products'));
-const featureCommandsRepo = new FeatureCommandsRepo(Mongo.getCollection('features'));
-const featureQueriesRepo = new FeatureQueriesRepo(Mongo.getCollection('features'));
+const productQueriesRepo = new ProductQueriesRepo();
+const featureCommandsRepo = new FeatureCommandsRepo();
+const featureQueriesRepo = new FeatureQueriesRepo();
 
 const deleteFeatureBulkUseCase = new DeleteFeatureBulkUseCase(
   productQueriesRepo,

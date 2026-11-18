@@ -5,8 +5,8 @@ import { PlatformQueriesRepo } from '../../repo/queries';
 import { DeletePlatformController } from './deletePlatformController';
 import { DeletePlatformUseCase } from './deletePlatformUseCase';
 
-const platformCommandsRepo = new PlatformCommandsRepo(Mongo.getCollection('platforms'));
-const platformQueriesRepo = new PlatformQueriesRepo(Mongo.getCollection('platforms'));
+const platformCommandsRepo = new PlatformCommandsRepo();
+const platformQueriesRepo = new PlatformQueriesRepo();
 
 const uploaderService = new CloudinaryUploaderService();
 

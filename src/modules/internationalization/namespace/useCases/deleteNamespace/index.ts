@@ -4,8 +4,8 @@ import { NamespaceQueriesRepo } from '../../repo/queries';
 import { DeleteNamespaceController } from './deleteNamespaceController';
 import { DeleteNamespaceUseCase } from './deleteNamespaceUseCase';
 
-const namespaceCommandsRepo = new NamespaceCommandsRepo(Mongo.getCollection('namespaces'));
-const namespaceQueriesRepo = new NamespaceQueriesRepo(Mongo.getCollection('namespaces'));
+const namespaceCommandsRepo = new NamespaceCommandsRepo();
+const namespaceQueriesRepo = new NamespaceQueriesRepo();
 
 const deleteNamespaceUseCase = new DeleteNamespaceUseCase(
   namespaceCommandsRepo,

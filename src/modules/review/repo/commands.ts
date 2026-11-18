@@ -2,6 +2,7 @@ import { ReviewDoc } from '../model';
 import { Review } from '../domain/review';
 import { ReviewMapper } from '../reviewMapper';
 import { Collection } from 'mongodb';
+import { Mongo } from '../../../mongo';
 
 export interface ReviewCommandsRepoI {
   save: (review: Review) => Promise<void>;
@@ -13,7 +14,7 @@ export interface ReviewCommandsRepoI {
 }
 
 export class ReviewCommandsRepo implements ReviewCommandsRepoI {
-  constructor(private collection: Collection<ReviewDoc>) {}
+  collection = Mongo.getCollection<ReviewDoc>('reviews');
 
   save = async (review: Review): Promise<void> => {
     const persistence = ReviewMapper.toPersistance(review);
