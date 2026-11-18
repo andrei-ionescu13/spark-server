@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
-import { GetUserRequestDto } from './getUserRequestDto';
+import * as z from 'zod';
 import { GetUserUseCase } from './getUserUseCase';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  userId: z.uuidv7(),
+});
+
+export type GetUserRequestDto = z.infer<typeof schema>;
 
 export class GetUserController extends Controller {
   constructor(private useCase: GetUserUseCase) {
@@ -11,9 +18,16 @@ export class GetUserController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetUserRequestDto = {
+    const result = schema.safeParse({
       userId: req.params.userId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

@@ -3,13 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategoryDto } from '../../articleCategoryMapper';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
-import { ListArticleCategoriesRequestDto } from './listArticleCategoriesRequestDto';
 
 type Response = Result<ArticleCategoryDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListArticleCategoriesUseCase
-  implements UseCase<ListArticleCategoriesRequestDto, Response>
-{
+export class ListArticleCategoriesUseCase implements UseCase<undefined, Response> {
   constructor(private articleCategoryQueriesRepo: ArticleCategoryQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

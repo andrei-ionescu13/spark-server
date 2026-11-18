@@ -4,11 +4,10 @@ import { UseCase } from '../../../../../useCase';
 import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagDto } from '../../articleTagMapper';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
-import { ListArticleTagsRequestDto } from './listArticleTagsRequestDto';
 
 type Response = Result<ArticleTagDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListArticleTagsUseCase implements UseCase<ListArticleTagsRequestDto, Response> {
+export class ListArticleTagsUseCase implements UseCase<undefined, Response> {
   constructor(private articleTagQueriesRepo: ArticleTagQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

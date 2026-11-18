@@ -47,6 +47,10 @@ export class CouponMapper {
     return coupon;
   }
 
+  static toDomainList(entities: CouponDoc[]): Coupon[] {
+    return entities.map((entity) => CouponMapper.toDomain(entity));
+  }
+
   static toDto(entity: any): CouponDto {
     return {
       _id: entity._id,

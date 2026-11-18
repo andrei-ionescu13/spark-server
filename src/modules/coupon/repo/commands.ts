@@ -9,6 +9,7 @@ export interface CouponCommandsRepoI {
   save: (coupon: Coupon) => Promise<void>;
   getCoupon: (id: string) => Promise<Coupon | null>;
   deleteCoupon: (id: string) => Promise<void>;
+  listCouponsByProductId: (productId: string) => Promise<Coupon[]>;
 }
 
 export class CouponCommandsRepo implements CouponCommandsRepoI {
@@ -29,5 +30,10 @@ export class CouponCommandsRepo implements CouponCommandsRepoI {
 
   deleteCoupon = async (id: string) => {
     await this.collection.deleteOne({ _id: id });
+  };
+
+  listCouponsByProductId = async (productId: string) => {
+    const docs = await this.collection.find({ product: productId }).toArray();
+    return CouponMapper.toDomainList(docs);
   };
 }

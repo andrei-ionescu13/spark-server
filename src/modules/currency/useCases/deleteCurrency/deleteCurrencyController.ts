@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { DeleteCurrencyRequestDto } from './deleteCurrencyRequestDto';
 import { DeleteCurrencyUseCase } from './deleteCurrencyUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  currencyId: z.uuidv7(),
+});
+
+export type DeleteCurrencyRequestDto = z.infer<typeof schema>;
 
 export class DeleteCurrencyController extends Controller {
   constructor(private useCase: DeleteCurrencyUseCase) {
@@ -11,9 +18,16 @@ export class DeleteCurrencyController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteCurrencyRequestDto = {
+    const result = schema.safeParse({
       currencyId: req.params.currencyId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

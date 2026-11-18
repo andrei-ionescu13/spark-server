@@ -1,11 +1,18 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { DeleteArticleCategoryRequestDto } from './deleteArticleCategoryRequestDto';
 import {
   DeleteArticleCategoryErrors,
   DeleteArticleCategoryUseCase,
 } from './deleteArticleCategoryUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  articleCategoryId: z.string(),
+});
+
+export type DeleteArticleCategoryRequestDto = z.infer<typeof schema>;
 
 export class DeleteArticleCategoryController extends Controller {
   constructor(private useCase: DeleteArticleCategoryUseCase) {
@@ -14,9 +21,15 @@ export class DeleteArticleCategoryController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteArticleCategoryRequestDto = {
+    const result = schema.safeParse({
       articleCategoryId: req.params.articleCategoryId,
-    };
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

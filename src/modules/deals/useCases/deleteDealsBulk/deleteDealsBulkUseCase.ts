@@ -4,7 +4,7 @@ import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { DealQueriesRepoI } from '../../repo/queries';
-import { DeleteDealsBulkRequestDto } from './deleteDealsBulkRequestDto';
+import { DeleteDealsBulkRequestDto } from './deleteDealsBulkController';
 
 type Response = Result<void, UseCaseErrors.UnexpectedError>;
 

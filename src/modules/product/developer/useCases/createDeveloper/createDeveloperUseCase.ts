@@ -5,7 +5,7 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Developer } from '../../domain/developer';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
-import { CreateDeveloperRequestDto } from './createDeveloperRequestDto';
+import { CreateDeveloperRequestDto } from './createDeveloperController';
 import { Asset } from '../../../../../assets';
 
 type Response = Result<Developer, UseCaseErrors.UnexpectedError>;

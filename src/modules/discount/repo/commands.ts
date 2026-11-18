@@ -9,6 +9,7 @@ export interface DiscountCommandsRepoI {
   save: (discount: Discount) => Promise<void>;
   deleteDiscount: (id: string) => Promise<void>;
   getDiscount: (id: string) => Promise<Discount | null>;
+  deleteDiscountsByProductId: (productId: string) => Promise<void>;
 }
 
 export class DiscountCommandsRepo implements DiscountCommandsRepoI {
@@ -29,5 +30,9 @@ export class DiscountCommandsRepo implements DiscountCommandsRepoI {
   save = async (discount: Discount): Promise<void> => {
     const persistence = DiscountMapper.toPersistance(discount);
     await this.collection.updateOne({ _id: discount._id }, { $set: persistence }, { upsert: true });
+  };
+
+  deleteDiscountsByProductId = async (productId: string): Promise<void> => {
+    await this.collection.deleteMany({ product: productId });
   };
 }

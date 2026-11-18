@@ -1,10 +1,9 @@
 import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { GetUserRequestDto } from '../../../users/useCases/getUser/getUserRequestDto';
 import { AdminDto } from '../../adminMapper';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
-import { GetAdminRequestDto } from './getAdminRequestDto';
+import { GetAdminRequestDto } from './getAdminController';
 
 type Response = Result<AdminDto, UseCaseErrors.UnexpectedError>;
 
@@ -13,6 +12,7 @@ export class GetAdminUseCase implements UseCase<GetAdminRequestDto, Response> {
 
   execute = async (request: GetAdminRequestDto): Promise<Response> => {
     const { user } = request;
+
     try {
       const admin = await this.adminQueriesRepo.getAdmin(user.adminId);
 

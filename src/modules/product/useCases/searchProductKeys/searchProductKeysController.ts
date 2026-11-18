@@ -1,7 +1,18 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
-import { SearchProductKeysRequestDto } from './searchProductKeysRequestDto';
 import { SearchProductKeysUseCase } from './searchProductKeysUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  productId: z.uuidv7(),
+  keyword: z.string().optional(),
+  status: z.string().optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+});
+
+export type SearchProductKeysRequestDto = z.infer<typeof schema>;
 
 export class SearchProductKeysController extends Controller {
   constructor(private useCase: SearchProductKeysUseCase) {
@@ -11,13 +22,20 @@ export class SearchProductKeysController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const query = req.query;
-    const dto: SearchProductKeysRequestDto = {
+    const result = schema.safeParse({
       productId: req.params.productId,
       keyword: query.keyword as string,
       status: query.status as string,
-      page: query?.page ? Number.parseInt(query.page as string) : undefined,
-      limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
-    };
+      page: query.page,
+      limit: query.limit,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

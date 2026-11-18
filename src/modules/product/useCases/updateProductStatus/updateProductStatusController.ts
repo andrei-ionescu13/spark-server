@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { UpdateProductStatusRequestDto } from './updateProductStatusRequestDto';
 import { UpdateProductStatusUseCase } from './updateProductStatusUseCase';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import z from 'zod';
+
+const schema = z.object({
+  productId: z.uuidv7(),
+  status: z.enum(['draft', 'published', 'archived']),
+});
+
+export type UpdateProductStatusRequestDto = z.infer<typeof schema>;
 
 export class UpdateProductStatusController extends Controller {
   constructor(private useCase: UpdateProductStatusUseCase) {
@@ -13,11 +19,6 @@ export class UpdateProductStatusController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      productId: z.uuidv7(),
-      status: z.enum(['draft', 'published', 'archived']),
-    });
-
     const result = schema.safeParse({
       productId: req.params.productId,
       status: req.body.status,
@@ -27,7 +28,7 @@ export class UpdateProductStatusController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateProductStatusRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

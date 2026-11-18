@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductStatus } from '../../domain/productStatus';
 import { ProductCommandsRepoI } from '../../repo/commands';
-import { UpdateProductStatusRequestDto } from './updateProductStatusRequestDto';
+import { UpdateProductStatusRequestDto } from './updateProductStatusController';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

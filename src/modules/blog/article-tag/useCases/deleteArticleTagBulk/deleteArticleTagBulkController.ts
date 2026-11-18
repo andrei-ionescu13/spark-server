@@ -1,10 +1,15 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { DeleteArticleTagBulkRequestDto } from './deleteArticleTagBulkRequestDto';
 import {
   DeleteArticleTagBulkErrors,
   DeleteArticleTagBulkUseCase,
 } from './deleteArticleTagBulkUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({ ids: z.array(z.uuidv7()) });
+
+export type DeleteArticleTagBulkRequestDto = z.infer<typeof schema>;
 
 export class DeleteArticleTagBulkController extends Controller {
   constructor(private useCase: DeleteArticleTagBulkUseCase) {
@@ -13,9 +18,15 @@ export class DeleteArticleTagBulkController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteArticleTagBulkRequestDto = {
+    const result = schema.safeParse({
       ids: req.body.ids,
-    };
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

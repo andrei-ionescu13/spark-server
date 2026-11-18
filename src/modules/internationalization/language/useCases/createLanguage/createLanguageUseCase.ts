@@ -5,7 +5,7 @@ import { UseCase } from '../../../../../useCase';
 import { Language } from '../../domain/language';
 import { LanguageCode } from '../../domain/languageCode';
 import { LanguageCommandsRepoI } from '../../repo/commands';
-import { CreateLanguageRequestDto } from './createLanguageRequestDto';
+import { CreateLanguageRequestDto } from './createLanguageController';
 
 type Response = Result<Language, UseCaseErrors.UnexpectedError>;
 

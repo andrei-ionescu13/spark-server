@@ -1,7 +1,14 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
-import { DeleteProductRequestDto } from './deleteProductRequestDto';
 import { DeleteProductUseCase } from './deleteProductUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  productId: z.uuidv7(),
+});
+
+export type DeleteProductRequestDto = z.infer<typeof schema>;
 
 export class DeleteProductController extends Controller {
   constructor(private useCase: DeleteProductUseCase) {
@@ -10,9 +17,16 @@ export class DeleteProductController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteProductRequestDto = {
+    const result = schema.safeParse({
       productId: req.params.productId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

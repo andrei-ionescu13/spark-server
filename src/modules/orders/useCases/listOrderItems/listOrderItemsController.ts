@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
-import { ListOrderItemsRequestDto } from './listOrderItemsRequestDto';
 import { ListOrderItemsUseCase } from './listOrderItemsUseCase';
 import { Controller } from '../../../../controller';
 import { UseCaseErrors } from '../../../../appError';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  orderNumber: z.string(),
+});
+
+export type ListOrderItemsRequestDto = z.infer<typeof schema>;
 
 export class ListOrderItemsController extends Controller {
   constructor(private useCase: ListOrderItemsUseCase) {
@@ -11,9 +18,16 @@ export class ListOrderItemsController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: ListOrderItemsRequestDto = {
+    const result = schema.safeParse({
       orderNumber: req.params.orderNumber,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

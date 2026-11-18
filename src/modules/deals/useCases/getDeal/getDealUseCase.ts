@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DealDto } from '../../dealMapper';
 import { DealQueriesRepoI } from '../../repo/queries';
-import { GetDealRequestDto } from './getDealRequestDto';
+import { GetDealRequestDto } from './getDealController';
 
 type Response = Result<DealDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

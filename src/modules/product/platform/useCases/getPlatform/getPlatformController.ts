@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { GetPlatformRequestDto } from './getPlatformRequestDto';
 import { GetPlatformUseCase } from './getPlatformUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  platformId: z.uuidv7(),
+});
+
+export type GetPlatformRequestDto = z.infer<typeof schema>;
 
 export class GetPlatformController extends Controller {
   constructor(private useCase: GetPlatformUseCase) {
@@ -11,7 +18,16 @@ export class GetPlatformController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetPlatformRequestDto = { platformId: req.params.platformId };
+    const result = schema.safeParse({
+      platformId: req.params.platformId,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

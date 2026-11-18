@@ -3,8 +3,7 @@ import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DiscountCommandsRepoI } from '../../repo/commands';
-import { DiscountQueriesRepoI } from '../../repo/queries';
-import { DeleteDiscountsBulkRequestDto } from './deleteDiscountsBulkRequestDto';
+import { DeleteDiscountsBulkRequestDto } from './deleteDiscountsBulkController';
 
 type Response = Result<
   undefined,

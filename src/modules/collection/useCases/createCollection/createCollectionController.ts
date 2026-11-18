@@ -3,8 +3,29 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { CreateCollectionRequestDto } from './createCollectionRequestDto';
 import { CreateCollectionUseCase } from './createCollectionUseCase';
+
+const schema = z.object({
+  title: z.string().min(1),
+  coverFile: z.object({
+    originalname: z.string(),
+    mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+    size: z.number().max(5_000_000_000),
+    buffer: z.instanceof(Buffer),
+  }),
+  description: z.string().min(1),
+  products: z.array(z.uuidv7()).min(1),
+  slug: z.string().min(1),
+  startDate: z.coerce.date(),
+  endDate: z.coerce.date().nullable(),
+  meta: z.object({
+    title: z.string().min(1).max(120),
+    description: z.string().min(1).max(1024),
+    keywords: z.array(z.string()).min(1),
+  }),
+});
+
+export type CreateCollectionRequestDto = z.infer<typeof schema>;
 
 export class CreateCollectionController extends Controller {
   constructor(private useCase: CreateCollectionUseCase) {
@@ -29,26 +50,6 @@ export class CreateCollectionController extends Controller {
       },
     };
 
-    const schema = z.object({
-      title: z.string().min(1),
-      coverFile: z.object({
-        originalname: z.string(),
-        mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-        size: z.number().max(5_000_000_000),
-        buffer: z.instanceof(Buffer),
-      }),
-      description: z.string().min(1),
-      products: z.array(z.uuidv7()).min(1),
-      slug: z.string().min(1),
-      startDate: z.coerce.date(),
-      endDate: z.coerce.date().nullable(),
-      meta: z.object({
-        title: z.string().min(1).max(120),
-        description: z.string().min(1).max(1024),
-        keywords: z.array(z.string()).min(1),
-      }),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
@@ -56,7 +57,7 @@ export class CreateCollectionController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreateCollectionRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

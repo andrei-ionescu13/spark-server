@@ -6,7 +6,7 @@ import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { ReviewCommandsRepoI } from '../../repo/commands';
 import { Review } from '../../domain/review';
-import { DeleteReviewRequestDto } from './deleteReviewRequestDto';
+import { DeleteReviewRequestDto } from './deleteReviewController';
 
 type Response = Result<
   Review,

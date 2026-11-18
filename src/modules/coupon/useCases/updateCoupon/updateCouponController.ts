@@ -3,8 +3,56 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { UpdateCouponRequestDto } from './updateCouponRequestDto';
 import { UpdateCouponUseCase } from './updateCouponUseCase';
+
+const schema = z
+  .object({
+    couponId: z.uuidv7(),
+    code: z.string().min(3),
+    endDate: z.coerce
+      .date()
+      .refine((date) => date > new Date(), { message: 'End date must be in the future' })
+      .nullable(),
+    startDate: z.coerce.date(),
+    type: z.enum(['amount', 'percentage']),
+    value: z.coerce.number().positive(),
+  })
+  .superRefine(({ endDate, startDate }, ctx) => {
+    if (endDate && startDate > endDate) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Start date must be before end date',
+        path: ['startDate'],
+      });
+    }
+  })
+  .and(
+    z.discriminatedUnion('productSelection', [
+      z.object({
+        productSelection: z.literal('selected'),
+        products: z.array(z.string()).min(1),
+      }),
+      z.object({
+        productSelection: z.literal('general'),
+        products: z.null(),
+      }),
+    ]),
+  )
+  .and(
+    z.discriminatedUnion('userSelection', [
+      z.object({
+        userSelection: z.literal('selected'),
+        users: z.array(z.string()).min(1),
+      }),
+      z.object({
+        userSelection: z.literal('general'),
+        users: z.null(),
+      }),
+    ]),
+  );
+
+export type UpdateCouponRequestDto = z.infer<typeof schema>;
+
 export class UpdateCouponController extends Controller {
   constructor(private useCase: UpdateCouponUseCase) {
     super();
@@ -26,58 +74,12 @@ export class UpdateCouponController extends Controller {
       userSelection: body.userSelection,
     };
 
-    const schema = z
-      .object({
-        couponId: z.uuidv7(),
-        code: z.string().min(3),
-        endDate: z.coerce
-          .date()
-          .refine((date) => date > new Date(), { message: 'End date must be in the future' })
-          .nullable(),
-        startDate: z.coerce.date(),
-        type: z.enum(['amount', 'percentage']),
-        value: z.coerce.number().positive(),
-      })
-      .superRefine(({ endDate, startDate }, ctx) => {
-        if (endDate && startDate > endDate) {
-          ctx.addIssue({
-            code: 'custom',
-            message: 'Start date must be before end date',
-            path: ['startDate'],
-          });
-        }
-      })
-      .and(
-        z.discriminatedUnion('productSelection', [
-          z.object({
-            productSelection: z.literal('selected'),
-            products: z.array(z.string()).min(1),
-          }),
-          z.object({
-            productSelection: z.literal('general'),
-            products: z.null(),
-          }),
-        ]),
-      )
-      .and(
-        z.discriminatedUnion('userSelection', [
-          z.object({
-            userSelection: z.literal('selected'),
-            users: z.array(z.string()).min(1),
-          }),
-          z.object({
-            userSelection: z.literal('general'),
-            users: z.null(),
-          }),
-        ]),
-      );
-
     const result = schema.safeParse(input);
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateCouponRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

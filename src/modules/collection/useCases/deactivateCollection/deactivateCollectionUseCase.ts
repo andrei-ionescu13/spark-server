@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { Collection } from '../../domain/collection';
 import { CollectionCommandsRepoI } from '../../repo/commands';
-import { DeactivateCollectionRequestDto } from './deactivateCollectionRequestDto';
+import { DeactivateCollectionRequestDto } from './deactivateCollectionController';
 
 type Response = Result<Collection, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

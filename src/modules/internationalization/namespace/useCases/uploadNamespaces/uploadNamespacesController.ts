@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { UploadNamespacesRequestDto } from './uploadNamespacesRequestDto';
 import { UploadNamespacesUseCase } from './uploadNamespacesUseCase';
 
 export class UploadNamespacesController extends Controller {
@@ -10,10 +9,8 @@ export class UploadNamespacesController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: UploadNamespacesRequestDto = {};
-
     try {
-      const result = await this.useCase.execute(dto);
+      const result = await this.useCase.execute();
 
       if (result.isErr()) {
         const error = result.error;

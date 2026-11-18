@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DiscountDto, DiscountPopulatedDto } from '../../discountMapper';
 import { DiscountQueriesRepoI } from '../../repo/queries';
-import { GetDiscountRequestDto } from './getDiscountRequestDto';
+import { GetDiscountRequestDto } from './getDiscountController';
 
 type Response = Result<
   DiscountPopulatedDto,

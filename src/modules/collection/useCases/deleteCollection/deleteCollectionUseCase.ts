@@ -2,10 +2,9 @@ import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
-import { CollectionDto } from '../../collectionMapper';
 import { CollectionCommandsRepoI } from '../../repo/commands';
 import { CollectionQueriesRepoI } from '../../repo/queries';
-import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
+import { DeleteCollectionRequestDto } from './deleteCollectionController';
 
 type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

@@ -6,7 +6,7 @@ import { Deal } from '../../domain/deal';
 import { DealDto } from '../../dealMapper';
 import { DealCommandsRepoI } from '../../repo/commands';
 import { DealQueriesRepoI } from '../../repo/queries';
-import { DeleteDealRequestDto } from './deleteDealRequestDto';
+import { DeleteDealRequestDto } from './deleteDealController';
 
 type Response = Result<DealDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

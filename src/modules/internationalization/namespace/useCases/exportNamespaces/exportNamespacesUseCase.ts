@@ -7,12 +7,11 @@ import { TranslationServiceI } from '../../../../../services/translationService'
 import { UseCase } from '../../../../../useCase';
 import { LanguageQueriesRepoI } from '../../../language/repo/queries';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { ExportNamespacesRequestDto } from './exportNamespacesRequestDto';
 
 type Response = Result<{ directoryPath: string; filePath: string }, UseCaseErrors.UnexpectedError>;
 
 //to do use archiver instead and stream the file
-export class ExportNamespacesUseCase implements UseCase<ExportNamespacesRequestDto, Response> {
+export class ExportNamespacesUseCase implements UseCase<undefined, Response> {
   constructor(
     private namespaceQueriesRepo: NamespaceQueriesRepoI,
     private languageQueriesRepoI: LanguageQueriesRepoI,

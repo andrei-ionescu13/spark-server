@@ -3,8 +3,15 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateArticleTagRequestDto } from './updateArticleTagRequestDto';
 import { UpdateArticleTagErrors, UpdateArticleTagUseCase } from './updateArticleTagUseCase';
+
+const schema = z.object({
+  articleTagId: z.uuidv7(),
+  name: z.string(),
+  slug: z.string(),
+});
+
+export type UpdateArticleTagRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleTagController extends Controller {
   constructor(private useCase: UpdateArticleTagUseCase) {
@@ -13,12 +20,6 @@ export class UpdateArticleTagController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleTagId: z.string(),
-      name: z.string(),
-      slug: z.string(),
-    });
-
     const result = schema.safeParse({
       ...req.body,
       articleTagId: req.params.articleTagId,
@@ -28,7 +29,7 @@ export class UpdateArticleTagController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleTagRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

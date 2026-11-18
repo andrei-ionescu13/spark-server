@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductDto } from '../../productMapper';
 import { ProductQueriesRepoI } from '../../repo/queries';
-import { SearchProductsRequestDto } from './searchProductsRequestDto';
+import { SearchProductsRequestDto } from './searchProductsController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

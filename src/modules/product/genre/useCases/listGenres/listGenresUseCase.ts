@@ -3,11 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { GenreDto } from '../../genreMapper';
 import { GenreQueriesRepoI } from '../../repo/queries';
-import { ListGenresRequestDto } from './listGenresRequestDto';
 
 type Response = Result<GenreDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListGenresUseCase implements UseCase<ListGenresRequestDto, Response> {
+export class ListGenresUseCase implements UseCase<undefined, Response> {
   constructor(private genreQueriesRepo: GenreQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

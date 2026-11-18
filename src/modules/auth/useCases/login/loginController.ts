@@ -2,8 +2,14 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { LoginRequestDto } from './loginRequestDto';
 import { LoginErrors, LoginUseCase } from './loginUseCase';
+
+const schema = z.object({
+  username: z.string(),
+  password: z.string(),
+});
+
+export type LoginRequestDto = z.infer<typeof schema>;
 
 export class LoginController extends Controller {
   constructor(private useCase: LoginUseCase) {
@@ -12,11 +18,6 @@ export class LoginController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      username: z.string(),
-      password: z.string(),
-    });
-
     const validation = schema.safeParse({
       password: req.body.password,
       username: req.body.username,

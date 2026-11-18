@@ -1,8 +1,17 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { UpdateFeatureRequestDto } from './updateFeatureRequestDto';
 import { UpdateFeatureErrors, UpdateFeatureUseCase } from './updateFeatureUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  featureId: z.uuidv7(),
+  name: z.string(),
+  slug: z.string(),
+});
+
+export type UpdateFeatureRequestDto = z.infer<typeof schema>;
 
 export class UpdateFeatureController extends Controller {
   constructor(private useCase: UpdateFeatureUseCase) {
@@ -12,12 +21,19 @@ export class UpdateFeatureController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const body = req.body;
-    const dto: UpdateFeatureRequestDto = {
+
+    const result = schema.safeParse({
       featureId: req.params.featureId,
       name: body.name,
       slug: body.slug,
-    };
+    });
 
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
     try {
       const result = await this.useCase.execute(dto);
 

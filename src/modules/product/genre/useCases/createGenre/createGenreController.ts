@@ -3,8 +3,14 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreateGenreRequestDto } from './createGenreRequestDto';
 import { CreateGenreErrors, CreateGenreUseCase } from './createGenreUseCase';
+
+const schema = z.object({
+  name: z.string().min(3),
+  slug: z.string().optional(),
+});
+
+export type CreateGenreRequestDto = z.infer<typeof schema>;
 
 export class CreateGenreController extends Controller {
   constructor(private useCase: CreateGenreUseCase) {
@@ -13,11 +19,6 @@ export class CreateGenreController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string().min(3),
-      slug: z.string().optional(),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,
@@ -27,7 +28,7 @@ export class CreateGenreController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreateGenreRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

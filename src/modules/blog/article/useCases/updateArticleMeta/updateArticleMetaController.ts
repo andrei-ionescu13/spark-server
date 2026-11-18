@@ -3,8 +3,16 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateArticleMetaRequestDto } from './updateArticleMetaRequestDto';
 import { UpdateArticleMetaErrors, UpdateArticleMetaUseCase } from './updateArticleMetaUseCase';
+
+const schema = z.object({
+  articleId: z.string(),
+  title: z.string().min(1).max(120),
+  description: z.string().min(1).max(1024),
+  keywords: z.array(z.string().min(1)).min(1),
+});
+
+export type UpdateArticleMetaRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleMetaController extends Controller {
   constructor(private useCase: UpdateArticleMetaUseCase) {
@@ -13,20 +21,13 @@ export class UpdateArticleMetaController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleId: z.string(),
-      title: z.string().min(1).max(120),
-      description: z.string().min(1).max(1024),
-      keywords: z.array(z.string().min(1)).min(1),
-    });
-
     const result = schema.safeParse({ ...req.body, articleId: req.params.articleId });
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleMetaRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

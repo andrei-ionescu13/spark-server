@@ -3,14 +3,13 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PublisherDto } from '../../publisherMapper';
 import { PublisherQueriesRepoI } from '../../repo/queries';
-import { ListPublishersRequestDto } from './listPublishersRequestDto';
 
 type Response = Result<PublisherDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListPublishersUseCase implements UseCase<ListPublishersRequestDto, Response> {
+export class ListPublishersUseCase implements UseCase<undefined, Response> {
   constructor(private publisherQueriesRepo: PublisherQueriesRepoI) {}
 
-  execute = async (request: ListPublishersRequestDto): Promise<Response> => {
+  execute = async (): Promise<Response> => {
     try {
       const publishers = await this.publisherQueriesRepo.listPublishers();
       return Result.ok(publishers);

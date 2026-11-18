@@ -3,11 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceDto } from '../../namespaceMapper';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { ListNamespacesRequestDto } from './listNamespacesRequestDto';
 
 type Response = Result<NamespaceDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListNamespacesUseCase implements UseCase<ListNamespacesRequestDto, Response> {
+export class ListNamespacesUseCase implements UseCase<undefined, Response> {
   constructor(private namespaceQueriesRepo: NamespaceQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

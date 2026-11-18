@@ -2,8 +2,15 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
 import { DuplicateArticleErrors, DuplicateArticleUseCase } from './duplicateArticleUseCase';
+
+const schema = z.object({
+  articleId: z.string(),
+  slug: z.string(),
+  title: z.string().min(12).max(120),
+});
+
+export type DuplicateArticleRequestDto = z.infer<typeof schema>;
 
 export class DuplicateArticleController extends Controller {
   constructor(private useCase: DuplicateArticleUseCase) {
@@ -12,14 +19,9 @@ export class DuplicateArticleController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleId: z.string(),
-      slug: z.string(),
-      title: z.string().min(12).max(120),
-    });
-
     const result = schema.safeParse({
-      ...req.body,
+      slug: req.body.slug,
+      title: req.body.title,
       articleId: req.params.articleId,
     });
 
@@ -27,7 +29,7 @@ export class DuplicateArticleController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: DuplicateArticleRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

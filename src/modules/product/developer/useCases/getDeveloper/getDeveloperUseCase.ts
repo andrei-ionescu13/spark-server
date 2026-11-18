@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { DeveloperDto } from '../../developerMapper';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
-import { GetDeveloperRequestDto } from './getDeveloperRequestDto';
+import { GetDeveloperRequestDto } from './getDeveloperController';
 
 type Response = Result<DeveloperDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

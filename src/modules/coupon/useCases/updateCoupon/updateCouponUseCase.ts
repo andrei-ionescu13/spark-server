@@ -9,7 +9,7 @@ import { CouponType } from '../../domain/couponType';
 import { CouponUserSelection } from '../../domain/couponUserSelection';
 import { CouponValue } from '../../domain/couponValue';
 import { CouponCommandsRepoI } from '../../repo/commands';
-import { UpdateCouponRequestDto } from './updateCouponRequestDto';
+import { UpdateCouponRequestDto } from './updateCouponController';
 
 type Response = Result<Coupon, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

@@ -10,7 +10,7 @@ import { ProductPrice } from '../../domain/productPrice';
 import { ProductRequirements } from '../../domain/productRequirements';
 import { ProductTitle } from '../../domain/productTitle';
 import { ProductCommandsRepoI } from '../../repo/commands';
-import { UpdateProductDetailsRequestDto } from './updateProductDetailsRequestDto';
+import { UpdateProductDetailsRequestDto } from './updateProductDetailsController';
 
 export namespace UpdateProductDetailsErrors {
   export class DiscountNotExpired extends Error {

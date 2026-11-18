@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductDto, ProductPopulatedDto } from '../../productMapper';
 import { ProductQueriesRepoI } from '../../repo/queries';
-import { GetProductRequestDto } from './getProductRequestDto';
+import { GetProductRequestDto } from './getProductController';
 
 type Response = Result<ProductPopulatedDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

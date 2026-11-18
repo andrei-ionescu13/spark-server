@@ -4,7 +4,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { UseCase } from '../../../../../useCase';
 import { Article } from '../../domain/article';
 import { ArticleCommandsRepoI } from '../../repo/commands';
-import { UpdateArticleMetaRequestDto } from './updateArticleMetaRequestDto';
+import { UpdateArticleMetaRequestDto } from './updateArticleMetaController';
 import { Meta } from '../../../../../meta';
 import { MetaDto, MetaMapper } from '../../../../../metaMapper';
 

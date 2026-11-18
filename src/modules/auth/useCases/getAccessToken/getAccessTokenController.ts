@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
-import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
 import { GetAccessTokenErrors, GetAccessTokenUseCase } from './getAccessTokenUseCase';
 import { UseCaseErrors } from '../../../../appError';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  refreshToken: z.string(),
+});
+
+export type GetAccessTokenRequestDto = z.infer<typeof schema>;
 
 export class GetAccessTokenController extends Controller {
   constructor(private useCase: GetAccessTokenUseCase) {
@@ -11,9 +18,15 @@ export class GetAccessTokenController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetAccessTokenRequestDto = {
+    const validation = schema.safeParse({
       refreshToken: req.cookies.refreshToken,
-    };
+    });
+
+    if (validation.error) {
+      return this.forbidden(res, zodRequestValidationError(validation.error).message);
+    }
+
+    const dto = validation.data;
 
     try {
       const result = await this.useCase.execute(dto);

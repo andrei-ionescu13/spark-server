@@ -3,11 +3,17 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateArticleCategoryRequestDto } from './updateArticleCategoryRequestDto';
 import {
   UpdateArticleCategoryErrors,
   UpdateArticleCategoryUseCase,
 } from './updateArticleCategoryUseCase';
+
+const schema = z.object({
+  articleId: z.uuidv7(),
+  category: z.uuidv7(),
+});
+
+export type UpdateArticleCategoryRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleCategoryController extends Controller {
   constructor(private useCase: UpdateArticleCategoryUseCase) {
@@ -16,11 +22,6 @@ export class UpdateArticleCategoryController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleId: z.uuidv7(),
-      category: z.uuidv7(),
-    });
-
     const result = schema.safeParse({
       articleId: req.params.articleId,
       category: req.body.category,
@@ -30,7 +31,7 @@ export class UpdateArticleCategoryController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleCategoryRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

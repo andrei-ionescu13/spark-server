@@ -1,10 +1,26 @@
 import { Request, Response } from 'express';
-import { SearchOrdersRequestDto } from './searchOrdersRequestDto';
 import { SearchOrdersUseCase } from './searchOrdersUseCase';
 import { Controller } from '../../../../controller';
 import * as z from 'zod';
 import { zodRequestValidationError } from '../../../../zodErrors';
 import { paramToArray } from '../../../../paramToArray';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  status: z.array(z.enum(['open', 'archived', 'canceled'])).optional(),
+  paymentStatus: z
+    .array(z.enum(['authorized', 'paid', 'pending', 'refunded', 'expired']))
+    .optional(),
+  fulfillmentStatus: z
+    .array(z.enum(['fulfilled', 'unfulfilled', 'partially fulfilled']))
+    .optional(),
+  page: z.coerce.number().optional(),
+  limit: z.coerce.number().max(36).optional(),
+});
+
+export type SearchOrdersRequestDto = z.infer<typeof schema>;
 
 export class SearchOrdersController extends Controller {
   constructor(private useCase: SearchOrdersUseCase) {
@@ -14,20 +30,6 @@ export class SearchOrdersController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const query = req.query;
-    const schema = z.object({
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      status: z.array(z.enum(['open', 'archived', 'canceled'])).optional(),
-      paymentStatus: z
-        .array(z.enum(['authorized', 'paid', 'pending', 'refunded', 'expired']))
-        .optional(),
-      fulfillmentStatus: z
-        .array(z.enum(['fulfilled', 'unfulfilled', 'partially fulfilled']))
-        .optional(),
-      page: z.coerce.number().optional(),
-      limit: z.coerce.number().max(36).optional(),
-    });
 
     const validation = schema.safeParse({
       keyword: query.keyword,
@@ -44,7 +46,7 @@ export class SearchOrdersController extends Controller {
       return this.forbidden(res, zodRequestValidationError(validation.error).message);
     }
 
-    const dto: SearchOrdersRequestDto = validation.data;
+    const dto = validation.data;
 
     try {
       const result = await this.useCase.execute(dto);

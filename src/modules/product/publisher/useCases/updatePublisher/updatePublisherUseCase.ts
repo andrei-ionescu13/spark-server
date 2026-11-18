@@ -3,7 +3,7 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Publisher } from '../../domain/publisher';
 import { PublisherCommandsRepoI } from '../../repo/commands';
-import { UpdatePublisherRequestDto } from './updatePublisherRequestDto';
+import { UpdatePublisherRequestDto } from './updatePublisherController';
 import { Result } from '../../../../../result';
 import { Asset } from '../../../../../assets';
 

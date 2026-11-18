@@ -3,8 +3,15 @@ import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
 import { CreateArticleCategoryErrors } from '../createArticleCategory/createArticleCategoryUseCase';
-import { UpdateArticleCategoryRequestDto } from './updateArticleCategoryRequestDto';
 import { UpdateArticleCategoryUseCase } from './updateArticleCategoryUseCase';
+
+const schema = z.object({
+  articleCategoryId: z.uuidv7(),
+  name: z.string(),
+  slug: z.string(),
+});
+
+export type UpdateArticleCategoryRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleCategoryController extends Controller {
   constructor(private useCase: UpdateArticleCategoryUseCase) {
@@ -13,12 +20,6 @@ export class UpdateArticleCategoryController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleCategoryId: z.uuidv7(),
-      name: z.string(),
-      slug: z.string(),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,
@@ -30,7 +31,7 @@ export class UpdateArticleCategoryController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleCategoryRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

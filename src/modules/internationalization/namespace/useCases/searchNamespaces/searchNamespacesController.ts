@@ -2,8 +2,23 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { SearchNamespacesRequestDto } from './searchNamespacesRequestDto';
 import { SearchNamespacesUseCase } from './searchNamespacesUseCase';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+  languageCodes: z.preprocess((val) => {
+    if (val === undefined) return undefined;
+    if (typeof val === 'string') return [val];
+    if (Array.isArray(val)) return val;
+    return undefined;
+  }, z.array(z.string().min(2).max(2)).optional()),
+});
+
+export type SearchNamespacesRequestDto = z.infer<typeof schema>;
 
 export class SearchNamespacesController extends Controller {
   constructor(private useCase: SearchNamespacesUseCase) {
@@ -22,27 +37,13 @@ export class SearchNamespacesController extends Controller {
       languageCodes: query?.languageCodes,
     };
 
-    const schema = z.object({
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-      languageCodes: z.preprocess((val) => {
-        if (val === undefined) return undefined;
-        if (typeof val === 'string') return [val];
-        if (Array.isArray(val)) return val;
-        return undefined;
-      }, z.array(z.string().min(2).max(2)).optional()),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchNamespacesRequestDto = result.data;
+    const dto = result.data;
     try {
       const result = await this.useCase.execute(dto);
 

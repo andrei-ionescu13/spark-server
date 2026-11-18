@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleQueriesRepoI } from '../../repo/queries';
-import { GetArticleRequestDto } from './GetArticleRequestDto';
+import { GetArticleRequestDto } from './GetArticleController';
 
 type Response = Result<ArticlePopulatedDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

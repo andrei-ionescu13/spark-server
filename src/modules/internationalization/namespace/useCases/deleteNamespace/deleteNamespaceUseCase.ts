@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { DeleteNamespaceRequestDto } from './deleteNamespaceRequestDto';
+import { DeleteNamespaceRequestDto } from './deleteNamespaceController';
 
 type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

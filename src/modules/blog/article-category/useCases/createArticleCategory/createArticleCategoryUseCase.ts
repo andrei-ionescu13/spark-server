@@ -6,8 +6,7 @@ import { UseCase } from '../../../../../useCase';
 import { ArticleCategory } from '../../domain/articleCategory';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
-import { CreateArticleCategoryRequestDto } from './createArticleCategoryRequestDto';
-import { v7 as uuid7 } from 'uuid';
+import { CreateArticleCategoryRequestDto } from './createArticleCategoryController';
 
 export namespace CreateArticleCategoryErrors {
   export class NameNotAvailableError extends UseCaseError {

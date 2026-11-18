@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PublisherDto } from '../../publisherMapper';
 import { PublisherQueriesRepoI } from '../../repo/queries';
-import { SearchPublishersRequestDto } from './searchPublishersRequestDto';
+import { SearchPublishersRequestDto } from './searchPublishersController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

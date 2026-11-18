@@ -1,10 +1,36 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
 import { UpdateProductMediaUseCase } from './updateProductMediaUseCase';
 import * as z from 'zod';
 import { toArray } from '../../../../utils/toArray';
+
+const schema = z.object({
+  coverFile: z
+    .object({
+      originalname: z.string(),
+      mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+      size: z.number().max(5_000_000_000),
+      buffer: z.instanceof(Buffer),
+    })
+    .optional(),
+  allImageFiles: z
+    .array(
+      z.object({
+        originalname: z.string(),
+        mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+        size: z.number().max(5_000_000_000),
+        buffer: z.instanceof(Buffer),
+      }),
+    )
+    .optional(),
+  productId: z.uuidv7(),
+  videos: z.preprocess(toArray, z.array(z.string()).min(1)),
+  images: z.preprocess(toArray, z.array(z.string()).min(1)),
+  allImages: z.preprocess(toArray, z.array(z.string()).min(1)),
+});
+
+export type UpdateProductMediaRequestDto = z.infer<typeof schema>;
 
 export class UpdateProductMediaController extends Controller {
   constructor(private useCase: UpdateProductMediaUseCase) {
@@ -23,31 +49,6 @@ export class UpdateProductMediaController extends Controller {
       allImageFiles: req.files?.['allImageFiles[]'],
     };
 
-    const schema = z.object({
-      coverFile: z
-        .object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000_000),
-          buffer: z.instanceof(Buffer),
-        })
-        .optional(),
-      allImageFiles: z
-        .array(
-          z.object({
-            originalname: z.string(),
-            mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-            size: z.number().max(5_000_000_000),
-            buffer: z.instanceof(Buffer),
-          }),
-        )
-        .optional(),
-      productId: z.uuidv7(),
-      videos: z.preprocess(toArray, z.array(z.string()).min(1)),
-      images: z.preprocess(toArray, z.array(z.string()).min(1)),
-      allImages: z.preprocess(toArray, z.array(z.string()).min(1)),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
@@ -55,7 +56,7 @@ export class UpdateProductMediaController extends Controller {
       return this.forbidden(res, result.error.message);
     }
 
-    const dto: UpdateProductMediaRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

@@ -6,7 +6,7 @@ import { ArticleCategory } from '../../domain/articleCategory';
 import { ArticleCategoryDto } from '../../articleCategoryMapper';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
-import { UpdateArticleCategoryRequestDto } from './updateArticleCategoryRequestDto';
+import { UpdateArticleCategoryRequestDto } from './updateArticleCategoryController';
 
 export namespace UpdateArticleCategoryErrors {
   export class NameNotAvailableError extends UseCaseError {

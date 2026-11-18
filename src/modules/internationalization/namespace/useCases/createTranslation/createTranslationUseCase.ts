@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { Namespace } from '../../domain/namespace';
 import { NamespaceTranslation } from '../../domain/namespaceTranslation';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
-import { CreateTranslationRequestDto } from './createTranslationRequestDto';
+import { CreateTranslationRequestDto } from './createTranslationController';
 
 export namespace CreateTranslationErrors {
   export class KeyIsUserError extends UseCaseError {

@@ -6,7 +6,7 @@ import { UseCase } from '../../../../useCase';
 import { DomainValidationError } from '../../../blog/article/domain/status';
 import { Product, UpdateProductMediaProps } from '../../domain/product';
 import { ProductCommandsRepoI } from '../../repo/commands';
-import { UpdateProductMediaRequestDto } from './updateProductMediaRequestDto';
+import { UpdateProductMediaRequestDto } from './updateProductMediaController';
 
 type Response = Result<void, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

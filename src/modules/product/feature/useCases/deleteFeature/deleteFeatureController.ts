@@ -2,7 +2,14 @@ import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { DeleteFeatureErrors, DeleteFeatureUseCase } from './deleteFeatureUseCase';
-import { DeleteFeatureRequestDto } from './deleteFeaturerRequestDto';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  featureId: z.uuidv7(),
+});
+
+export type DeleteFeatureRequestDto = z.infer<typeof schema>;
 
 export class DeleteFeatureController extends Controller {
   constructor(private useCase: DeleteFeatureUseCase) {
@@ -11,9 +18,16 @@ export class DeleteFeatureController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteFeatureRequestDto = {
+    const result = schema.safeParse({
       featureId: req.params.featureId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

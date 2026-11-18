@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
-import { SearchOperatingSystemsRequestDto } from './searchOperatingSystemsRequestDto';
+import { SearchOperatingSystemsRequestDto } from './searchOperatingSystemsController';
 
 type Response = Result<
   { operatingSystems: OperatingSystemDto[]; count: number },

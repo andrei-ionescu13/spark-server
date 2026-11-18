@@ -2,8 +2,17 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { SearchDevelopersRequestDto } from './searchDevelopersRequestDto';
 import { SearchDevelopersUseCase } from './searchDevelopersUseCase';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+});
+
+export type SearchDevelopersRequestDto = z.infer<typeof schema>;
 
 export class SearchDevelopersController extends Controller {
   constructor(private useCase: SearchDevelopersUseCase) {
@@ -12,21 +21,13 @@ export class SearchDevelopersController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-    });
-
     const result = schema.safeParse(req.query);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchDevelopersRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

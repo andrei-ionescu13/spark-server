@@ -1,10 +1,17 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { DeleteArticleCategoryBulkRequestDto } from './deleteArticleCategoryBulkRequestDto';
 import {
   DeleteArticleCategoryBulkErrors,
   DeleteArticleCategoryBulkUseCase,
 } from './deleteArticleCategoryBulkUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  ids: z.array(z.uuidv7()),
+});
+
+export type DeleteArticleCategoryBulkRequestDto = z.infer<typeof schema>;
 
 export class DeleteArticleCategoryBulkController extends Controller {
   constructor(private useCase: DeleteArticleCategoryBulkUseCase) {
@@ -13,9 +20,15 @@ export class DeleteArticleCategoryBulkController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteArticleCategoryBulkRequestDto = {
+    const result = schema.safeParse({
       ids: req.body.ids,
-    };
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

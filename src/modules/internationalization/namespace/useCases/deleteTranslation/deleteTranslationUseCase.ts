@@ -3,7 +3,7 @@ import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
-import { DeleteTranslationRequestDto } from './deleteTranslationRequestDto';
+import { DeleteTranslationRequestDto } from './deleteTranslationController';
 
 type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

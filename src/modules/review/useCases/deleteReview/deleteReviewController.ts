@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { DeleteReviewRequestDto } from './deleteReviewRequestDto';
+import * as z from 'zod';
 import { DeleteReviewUseCase } from './deleteReviewUseCase';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  reviewId: z.uuidv7(),
+});
+
+export type DeleteReviewRequestDto = z.infer<typeof schema>;
 
 export class DeleteReviewController extends Controller {
   constructor(private useCase: DeleteReviewUseCase) {
@@ -11,9 +18,16 @@ export class DeleteReviewController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteReviewRequestDto = {
+    const result = schema.safeParse({
       reviewId: req.params.reviewId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

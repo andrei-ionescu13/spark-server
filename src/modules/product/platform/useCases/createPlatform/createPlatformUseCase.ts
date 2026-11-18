@@ -3,7 +3,7 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Platform, PlatformCreateProps } from '../../domain/platform';
 import { PlatformCommandsRepoI } from '../../repo/commands';
-import { CreatePlatformRequestDto } from './createPlatformRequestDto';
+import { CreatePlatformRequestDto } from './createPlatformController';
 import { Result } from '../../../../../result';
 import { Asset } from '../../../../../assets';
 

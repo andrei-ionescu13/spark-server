@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCategoryDto } from '../../articleCategoryMapper';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
-import { SearchArticleCategoriesRequestDto } from './searchArticleCategoriesRequestDto';
+import { SearchArticleCategoriesRequestDto } from './searchArticleCategoriesController';
 
 type Response = Result<
   { categories: ArticleCategoryDto[]; count: number },

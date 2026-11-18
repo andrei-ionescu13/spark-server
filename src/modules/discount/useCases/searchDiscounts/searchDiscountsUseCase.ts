@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DiscountDto, DiscountPopulatedDto } from '../../discountMapper';
 import { DiscountQueriesRepoI } from '../../repo/queries';
-import { SearchDiscountsRequestDto } from './searchDiscountsRequestDto';
+import { SearchDiscountsRequestDto } from './searchDiscountsController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UserQueriesRepoI } from '../../repo/queries';
 import { UserDto } from '../../userMapper';
-import { GetUserRequestDto } from './getUserRequestDto';
+import { GetUserRequestDto } from './getUserController';
 
 type Response = Result<UserDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

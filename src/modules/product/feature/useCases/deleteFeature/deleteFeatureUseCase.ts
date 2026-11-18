@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
-import { DeleteFeatureRequestDto } from './deleteFeaturerRequestDto';
+import { DeleteFeatureRequestDto } from './deleteFeatureController';
 
 export namespace DeleteFeatureErrors {
   export class FeatureInUse extends UseCaseError {

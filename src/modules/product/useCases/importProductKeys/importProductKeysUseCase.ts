@@ -10,8 +10,7 @@ import { KeyCommandsRepoI } from '../../../key/repo/commands';
 import { KeyQueriesRepoI } from '../../../key/repo/queries';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { ProductQueriesRepoI } from '../../repo/queries';
-import { ImportProductKeysRequestDto } from './importProductKeysRequestDto';
-import { v7 as uuid7 } from 'uuid';
+import { ImportProductKeysRequestDto } from './importProductKeysController';
 
 export namespace ImportProductKeysErrors {
   export class KeyForPlatformExists extends UseCaseError {

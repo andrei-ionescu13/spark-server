@@ -8,7 +8,7 @@ import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
 import { RequestValidationError, ArticleStatus } from '../../domain/status';
 import { ArticleTitle } from '../../domain/title';
-import { DuplicateArticleRequestDto } from './duplicateArticleRequestDto';
+import { DuplicateArticleRequestDto } from './duplicateArticleController';
 import { Article, CreateArticleProps } from '../../domain/article';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';

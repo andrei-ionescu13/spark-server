@@ -2,8 +2,26 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateArticleDetailsRequestDto } from './updateArticleDetailsRequestDto';
 import { UpdateArticleDetailsUseCase } from './updateArticleDetailsUseCase';
+
+const schema = z.object({
+  articleId: z.string(),
+  description: z.string().min(1).max(120),
+  slug: z.string(),
+  title: z.string().min(1).max(120),
+  markdown: z.string().min(1).max(1024),
+  file: z
+    .object({
+      originalname: z.string(),
+      mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+      size: z.number().max(5_000_000_000),
+      buffer: z.instanceof(Buffer),
+    })
+    .optional(),
+  cover: z.string().optional(),
+});
+
+export type UpdateArticleDetailsRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleDetailsController extends Controller {
   constructor(private useCase: UpdateArticleDetailsUseCase) {
@@ -18,30 +36,13 @@ export class UpdateArticleDetailsController extends Controller {
       file: req.file,
     };
 
-    const schema = z.object({
-      articleId: z.string(),
-      description: z.string().min(1).max(120),
-      slug: z.string(),
-      title: z.string().min(1).max(120),
-      markdown: z.string().min(1).max(1024),
-      file: z
-        .object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000_000),
-          buffer: z.instanceof(Buffer),
-        })
-        .optional(),
-      cover: z.string().optional(),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleDetailsRequestDto = result.data;
+    const dto = result.data;
     try {
       const result = await this.useCase.execute(dto);
 

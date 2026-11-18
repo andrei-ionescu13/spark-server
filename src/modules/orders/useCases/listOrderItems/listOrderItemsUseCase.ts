@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { OrderLineItemDto } from '../../orderLineItemMapper';
 import { OrderQueriesRepoI } from '../../repo/queries';
-import { ListOrderItemsRequestDto } from './listOrderItemsRequestDto';
+import { ListOrderItemsRequestDto } from './listOrderItemsController';
 
 type Response = Result<OrderLineItemDto[], UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

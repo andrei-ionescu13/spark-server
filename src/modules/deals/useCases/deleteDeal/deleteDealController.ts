@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
-import { DeleteDealRequestDto } from './deleteDealRequestDto';
 import { DeleteDealUseCase } from './deleteDealUseCase';
 import { Controller } from '../../../../controller';
 import { UseCaseErrors } from '../../../../appError';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  dealId: z.uuidv7(),
+});
+
+export type DeleteDealRequestDto = z.infer<typeof schema>;
 
 export class DeleteDealController extends Controller {
   constructor(private useCase: DeleteDealUseCase) {
@@ -11,9 +18,16 @@ export class DeleteDealController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteDealRequestDto = {
-      dealId: req.params.dealId,
-    };
+    const result = schema.safeParse({
+      dealId: req.params.couponId,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

@@ -3,8 +3,23 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdatePlatformRequestDto } from './updatePlatformRequestDto';
 import { UpdatePlatformUseCase } from './updatePlatformUseCase';
+
+const schema = z.object({
+  name: z.string().min(3),
+  platformId: z.string(),
+  url: z.url(),
+  logoFile: z
+    .object({
+      originalname: z.string(),
+      mimetype: z.enum(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml']),
+      size: z.number().max(5_000_000_000),
+      buffer: z.instanceof(Buffer),
+    })
+    .optional(),
+});
+
+export type UpdatePlatformRequestDto = z.infer<typeof schema>;
 
 export class UpdatePlatformController extends Controller {
   constructor(private useCase: UpdatePlatformUseCase) {
@@ -13,19 +28,6 @@ export class UpdatePlatformController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string().min(3),
-      platformId: z.string(),
-      url: z.url(),
-      logoFile: z
-        .object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/svg+xml']),
-          size: z.number().max(5_000_000_000),
-          buffer: z.instanceof(Buffer),
-        })
-        .optional(),
-    });
     const result = schema.safeParse({
       name: req.body.name,
       platformId: req.params.platformId,
@@ -37,7 +39,7 @@ export class UpdatePlatformController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdatePlatformRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

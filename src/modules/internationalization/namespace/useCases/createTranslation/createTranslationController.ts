@@ -1,8 +1,18 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { CreateTranslationRequestDto } from './createTranslationRequestDto';
 import { CreateTranslationErrors, CreateTranslationUseCase } from './createTranslationUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z
+  .object({
+    namespaceId: z.uuidv7(),
+    key: z.string(),
+  })
+  .catchall(z.string());
+
+export type CreateTranslationRequestDto = z.infer<typeof schema>;
 
 export class CreateTranslationController extends Controller {
   constructor(private useCase: CreateTranslationUseCase) {
@@ -11,11 +21,18 @@ export class CreateTranslationController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: CreateTranslationRequestDto = {
+    const result = schema.safeParse({
+      ...req.body,
       namespaceId: req.params.namespaceId,
       key: req.body.key,
-      ...req.body,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

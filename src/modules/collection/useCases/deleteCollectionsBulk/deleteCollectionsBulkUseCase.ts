@@ -4,7 +4,7 @@ import { UploaderService } from '../../../../services/uploaderService';
 import { UseCase } from '../../../../useCase';
 import { CollectionCommandsRepoI } from '../../repo/commands';
 import { CollectionQueriesRepoI } from '../../repo/queries';
-import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkRequestDto';
+import { DeleteCollectionsBulkRequestDto } from './deleteCollectionsBulkController';
 
 type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

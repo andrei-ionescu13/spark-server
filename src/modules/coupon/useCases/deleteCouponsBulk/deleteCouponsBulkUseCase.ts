@@ -4,7 +4,7 @@ import { UseCase } from '../../../../useCase';
 import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { CouponCommandsRepoI } from '../../repo/commands';
 import { CouponQueriesRepoI } from '../../repo/queries';
-import { DeleteCouponsBulkRequestDto } from './deleteCouponsBulkRequestDto';
+import { DeleteCouponsBulkRequestDto } from './deleteCouponsBulkController';
 
 type Response = Result<undefined, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

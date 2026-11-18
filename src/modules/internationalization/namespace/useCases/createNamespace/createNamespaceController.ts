@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { CreateNamespaceRequestDto } from './createNamespaceRequestDto';
 import { CreateNamespaceErrors, CreateNamespaceUseCase } from './createNamespaceUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  name: z.string(),
+});
+
+export type CreateNamespaceRequestDto = z.infer<typeof schema>;
 
 export class CreateNamespaceController extends Controller {
   constructor(private useCase: CreateNamespaceUseCase) {
@@ -11,9 +18,16 @@ export class CreateNamespaceController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: CreateNamespaceRequestDto = {
+    const result = schema.safeParse({
       name: req.body.name,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

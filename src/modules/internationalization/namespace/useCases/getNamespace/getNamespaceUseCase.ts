@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceDto } from '../../namespaceMapper';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { GetNamespaceRequestDto } from './getNamespaceRequestDto';
+import { GetNamespaceRequestDto } from './getNamespaceController';
 
 type Response = Result<NamespaceDto, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

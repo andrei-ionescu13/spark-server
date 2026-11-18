@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
-import { SearchArticleTagsRequestDto } from './searchArticleTagsRequestDto';
+import { SearchArticleTagsRequestDto } from './searchArticleTagsController';
 
 type Response = Result<{ tags: ArticleTag[]; count: number }, UseCaseErrors.UnexpectedError>;
 

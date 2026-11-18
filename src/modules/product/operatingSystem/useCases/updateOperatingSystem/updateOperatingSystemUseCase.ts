@@ -6,7 +6,7 @@ import { OperatingSystemDoc } from '../../model';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
-import { UpdateOperatingSystemRequestDto } from './updateOperatingSystemRequestDto';
+import { UpdateOperatingSystemRequestDto } from './updateOperatingSystemController';
 
 export namespace UpdateOperatingSystemErrors {
   export class NameNotAvailableError extends UseCaseError {

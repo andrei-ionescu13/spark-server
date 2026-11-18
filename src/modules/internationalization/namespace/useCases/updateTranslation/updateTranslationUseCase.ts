@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { NamespaceTranslation } from '../../domain/namespaceTranslation';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
-import { UpdateTranslationRequestDto } from './updateTranslationRequestDto';
+import { UpdateTranslationRequestDto } from './updateTranslationController';
 
 type Response = Result<
   string,

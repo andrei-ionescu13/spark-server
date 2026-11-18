@@ -3,7 +3,7 @@ import { Meta } from '../../../../meta';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ProductCommandsRepoI } from '../../repo/commands';
-import { UpdateProductMetaRequestDto } from './updateProductMetaRequestDto';
+import { UpdateProductMetaRequestDto } from './updateProductMetaController';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

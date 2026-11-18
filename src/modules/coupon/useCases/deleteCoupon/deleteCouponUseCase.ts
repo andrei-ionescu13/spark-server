@@ -5,7 +5,7 @@ import { UserCommandsRepoI } from '../../../users/repo/commands';
 import { CouponDto } from '../../couponMapper';
 import { CouponCommandsRepoI } from '../../repo/commands';
 import { CouponQueriesRepoI } from '../../repo/queries';
-import { DeleteCouponRequestDto } from './deleteCouponRequestDto';
+import { DeleteCouponRequestDto } from './deleteCouponController';
 
 type Response = Result<
   CouponDto,

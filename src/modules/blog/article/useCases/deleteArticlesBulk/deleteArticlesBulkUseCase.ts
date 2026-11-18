@@ -2,7 +2,7 @@ import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { ArticleCommandsRepoI } from '../../repo/commands';
-import { DeleteArticlesBulkRequestDto } from './deleteArticlesBulkRequestDto';
+import { DeleteArticlesBulkRequestDto } from './deleteArticlesBulkController';
 
 type Response = Result<void, UseCaseErrors.UnexpectedError>;
 

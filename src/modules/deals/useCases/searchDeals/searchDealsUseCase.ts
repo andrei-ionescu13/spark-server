@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { DealDto } from '../../dealMapper';
 import { DealQueriesRepoI } from '../../repo/queries';
-import { SearchDealsRequestDto } from './searchDealsRequestDto';
+import { SearchDealsRequestDto } from './searchDealsController';
 
 type Response = Result<{ deals: DealDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 

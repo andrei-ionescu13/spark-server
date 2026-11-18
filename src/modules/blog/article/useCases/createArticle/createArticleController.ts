@@ -2,8 +2,30 @@ import { Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreateArticleRequestDto } from './createArticleRequestDto';
 import { CreateArticleCategoryErrors, CreateArticleUseCase } from './createArticleUseCase';
+
+const schema = z.object({
+  tags: z.array(z.string().min(1)).min(1),
+  description: z.string().min(1).max(120),
+  meta: z.object({
+    title: z.string().min(1).max(120),
+    description: z.string().min(1).max(1024),
+    keywords: z.array(z.string()).min(1),
+  }),
+  shouldPublish: z.coerce.boolean(),
+  category: z.string(),
+  slug: z.string().optional(),
+  title: z.string().min(1).max(120),
+  markdown: z.string().min(1).max(1024),
+  coverFile: z.object({
+    originalname: z.string(),
+    mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+    size: z.number().max(5_000_000_000),
+    buffer: z.instanceof(Buffer),
+  }),
+});
+
+export type CreateArticleRequestDto = z.infer<typeof schema>;
 
 export class CreateArticleController extends Controller {
   constructor(private useCase: CreateArticleUseCase) {
@@ -12,34 +34,13 @@ export class CreateArticleController extends Controller {
   }
 
   executeImpl = async (req: any, res: Response) => {
-    const schema = z.object({
-      tags: z.array(z.string().min(1)).min(1),
-      description: z.string().min(1).max(120),
-      meta: z.object({
-        title: z.string().min(1).max(120),
-        description: z.string().min(1).max(1024),
-        keywords: z.array(z.string()).min(1),
-      }),
-      shouldPublish: z.coerce.boolean(),
-      category: z.string(),
-      slug: z.string().optional(),
-      title: z.string().min(1).max(120),
-      markdown: z.string().min(1).max(1024),
-      coverFile: z.object({
-        originalname: z.string(),
-        mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-        size: z.number().max(5_000_000_000),
-        buffer: z.instanceof(Buffer),
-      }),
-    });
-
     const result = schema.safeParse({ ...req.body, coverFile: req.file });
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreateArticleRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

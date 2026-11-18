@@ -7,7 +7,7 @@ import { Feature } from '../../domain/feature';
 import { FeatureDto } from '../../featureMapper';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
-import { CreateFeatureRequestDto } from './createFeatureRequestDto';
+import { CreateFeatureRequestDto } from './createFeatureController';
 
 export namespace CreateFeatureErrors {
   export class NameNotAvailableError extends UseCaseError {

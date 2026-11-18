@@ -7,7 +7,7 @@ import { OperatingSystem, OperatingSystemCreateProps } from '../../domain/operat
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
-import { CreateOperatingSystemRequestDto } from './createOperatingSystemRequestDto';
+import { CreateOperatingSystemRequestDto } from './createOperatingSystemController';
 import { textUtils } from '../../../../../utils/textUtils';
 
 export namespace CreateOperatingSystemErrors {

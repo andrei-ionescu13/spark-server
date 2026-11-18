@@ -2,7 +2,7 @@ import { UseCaseErrors } from '../../../../appError';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewQueriesRepoI } from '../../repo/queries';
-import { SearchReviewsRequestDto } from './searchReviewsRequestDto';
+import { SearchReviewsRequestDto } from './searchReviewsController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

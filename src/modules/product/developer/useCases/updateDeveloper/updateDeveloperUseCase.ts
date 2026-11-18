@@ -5,7 +5,7 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Developer } from '../../domain/developer';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
-import { UpdateDeveloperRequestDto } from './updateDeveloperRequestDto';
+import { UpdateDeveloperRequestDto } from './updateDeveloperController';
 
 type Response = Result<
   Developer,

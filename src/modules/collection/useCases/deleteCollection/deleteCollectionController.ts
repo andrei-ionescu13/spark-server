@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { DeleteCollectionRequestDto } from './deleteCollectionRequestDto';
 import { DeleteCollectionUseCase } from './deleteCollectionUseCase';
+import { zodRequestValidationError } from '../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  collectionId: z.uuidv7(),
+});
+
+export type DeleteCollectionRequestDto = z.infer<typeof schema>;
 
 export class DeleteCollectionController extends Controller {
   constructor(private useCase: DeleteCollectionUseCase) {
@@ -11,9 +18,16 @@ export class DeleteCollectionController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteCollectionRequestDto = {
+    const result = schema.safeParse({
       collectionId: req.params.collectionId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

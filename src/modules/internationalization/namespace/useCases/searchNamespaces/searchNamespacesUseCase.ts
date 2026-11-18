@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageQueriesRepoI } from '../../../language/repo/queries';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { SearchNamespacesRequestDto } from './searchNamespacesRequestDto';
+import { SearchNamespacesRequestDto } from './searchNamespacesController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

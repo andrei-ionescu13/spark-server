@@ -2,10 +2,8 @@ import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
-import { DiscountDto } from '../../discountMapper';
 import { DiscountCommandsRepoI } from '../../repo/commands';
-import { DiscountQueriesRepoI } from '../../repo/queries';
-import { DeleteDiscountRequestDto } from './deleteDiscountRequestDto';
+import { DeleteDiscountRequestDto } from './deleteDiscountController';
 
 type Response = Result<
   string,

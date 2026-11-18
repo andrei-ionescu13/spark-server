@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ArticleQueriesRepoI } from '../../../article/repo/queries';
 import { ArticleCategoryCommandsRepoI } from '../../repo/commands';
 import { ArticleCategoryQueriesRepoI } from '../../repo/queries';
-import { DeleteArticleCategoryBulkRequestDto } from './deleteArticleCategoryBulkRequestDto';
+import { DeleteArticleCategoryBulkRequestDto } from './deleteArticleCategoryBulkController';
 
 export namespace DeleteArticleCategoryBulkErrors {
   export class ArticleCategoryInUse extends UseCaseError {

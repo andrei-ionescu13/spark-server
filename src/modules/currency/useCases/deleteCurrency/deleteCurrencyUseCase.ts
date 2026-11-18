@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CurrencyCommandsRepoI } from '../../repo/commands';
 import { CurrencyQueriesRepoI } from '../../repo/queries';
-import { DeleteCurrencyRequestDto } from './deleteCurrencyRequestDto';
+import { DeleteCurrencyRequestDto } from './deleteCurrencyController';
 
 type Response = Result<undefined, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

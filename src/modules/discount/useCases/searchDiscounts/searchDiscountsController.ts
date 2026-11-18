@@ -2,8 +2,18 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { SearchDiscountsRequestDto } from './searchDiscountsRequestDto';
 import { SearchDiscountsUseCase } from './searchDiscountsUseCase';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+  status: z.enum(['expired', 'active', 'scheduled']).optional(),
+});
+
+export type SearchDiscountsRequestDto = z.infer<typeof schema>;
 
 export class SearchDiscountsController extends Controller {
   constructor(private useCase: SearchDiscountsUseCase) {
@@ -13,22 +23,14 @@ export class SearchDiscountsController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const query = req.query;
-    const schema = z.object({
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-      status: z.enum(['expired', 'active', 'scheduled']).optional(),
-    });
-
     const result = schema.safeParse(query);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchDiscountsRequestDto = result.data;
+    const dto = result.data;
+
     try {
       const result = await this.useCase.execute(dto);
 

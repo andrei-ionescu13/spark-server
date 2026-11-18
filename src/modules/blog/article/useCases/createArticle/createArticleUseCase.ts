@@ -7,14 +7,14 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ArticleDto, ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleCommandsRepoI } from '../../repo/commands';
 import { ArticleQueriesRepoI } from '../../repo/queries';
-import { RequestValidationError, ArticleStatus } from '../../domain/status';
-import { CreateArticleRequestDto } from './createArticleRequestDto';
+import { ArticleStatus } from '../../domain/status';
 import { Article, CreateArticleProps } from '../../domain/article';
 import { ArticleTitle } from '../../domain/title';
 import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
 import { Asset } from '../../../../../assets';
 import { Meta } from '../../../../../meta';
+import { CreateArticleRequestDto } from './createArticleController';
 
 export namespace CreateArticleCategoryErrors {
   export class TitleNotAvailableError extends UseCaseError {

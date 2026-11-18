@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { ListDevelopersRequestDto } from './listDevelopersRequestDto';
 import { ListDevelopersUseCase } from './listDevelopersUseCase';
 
 export class ListDevelopersController extends Controller {
@@ -10,10 +9,8 @@ export class ListDevelopersController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: ListDevelopersRequestDto = {};
-
     try {
-      const result = await this.useCase.execute(dto);
+      const result = await this.useCase.execute();
 
       if (result.isErr()) {
         const error = result.error;

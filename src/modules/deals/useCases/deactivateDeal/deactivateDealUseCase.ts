@@ -4,7 +4,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { Deal } from '../../domain/deal';
 import { DealCommandsRepoI } from '../../repo/commands';
-import { DeactivateDealRequestDto } from './deactivateRequestDto';
+import { DeactivateDealRequestDto } from './deactivateDealController';
 
 type Response = Result<Deal, UseCaseErrors.UnexpectedError>;
 

@@ -3,13 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { OperatingSystemDto } from '../../operatingSystemMapper';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
-import { ListOperatingSystemsRequestDto } from './listOperatingSystemsRequestDto';
 
 type Response = Result<OperatingSystemDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListOperatingSystemsUseCase
-  implements UseCase<ListOperatingSystemsRequestDto, Response>
-{
+export class ListOperatingSystemsUseCase implements UseCase<undefined, Response> {
   constructor(private operatingSystemQueriesRepo: OperatingSystemQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

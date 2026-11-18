@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { DeletePlatformRequestDto } from './deletePlatformRequestDto';
 import { DeletePlatformErrors, DeletePlatformUseCase } from './deletePlatformUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  platformId: z.uuidv7(),
+});
+
+export type DeletePlatformRequestDto = z.infer<typeof schema>;
 
 export class DeletePlatformController extends Controller {
   constructor(private useCase: DeletePlatformUseCase) {
@@ -11,9 +18,16 @@ export class DeletePlatformController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeletePlatformRequestDto = {
+    const result = schema.safeParse({
       platformId: req.params.platformId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

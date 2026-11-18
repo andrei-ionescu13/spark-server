@@ -6,8 +6,7 @@ import { UseCase } from '../../../../../useCase';
 import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
-import { CreateArticleTagRequestDto } from './createArticleTagRequestDto';
-import { v7 as uuidv7 } from 'uuid';
+import { CreateArticleTagRequestDto } from './createArticleTagController';
 
 export namespace CreateArticleTagErrors {
   export class NameNotAvailableError extends UseCaseError {

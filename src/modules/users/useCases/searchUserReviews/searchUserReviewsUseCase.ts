@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewDto } from '../../../review/reviewMapper';
 import { UserQueriesRepoI } from '../../repo/queries';
-import { SearchUserReviewsRequestDto } from './searchUserReviewsRequestDto';
+import { SearchUserReviewsRequestDto } from './searchUserReviewsController';
 
 type Response = Result<{ reviews: ReviewDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 

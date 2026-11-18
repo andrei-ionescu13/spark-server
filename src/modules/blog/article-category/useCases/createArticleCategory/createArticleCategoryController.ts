@@ -2,11 +2,17 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreateArticleCategoryRequestDto } from './createArticleCategoryRequestDto';
 import {
   CreateArticleCategoryErrors,
   CreateArticleCategoryUseCase,
 } from './createArticleCategoryUseCase';
+
+const schema = z.object({
+  name: z.string(),
+  slug: z.string().optional(),
+});
+
+export type CreateArticleCategoryRequestDto = z.infer<typeof schema>;
 
 export class CreateArticleCategoryController extends Controller {
   constructor(private useCase: CreateArticleCategoryUseCase) {
@@ -15,11 +21,6 @@ export class CreateArticleCategoryController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string(),
-      slug: z.string().optional(),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,
@@ -29,7 +30,7 @@ export class CreateArticleCategoryController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreateArticleCategoryRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

@@ -1,7 +1,13 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { DeleteArticlesBulkRequestDto } from './deleteArticlesBulkRequestDto';
 import { DeleteArticlesBulkUseCase } from './deleteArticlesBulkUseCase';
+import * as z from 'zod';
+
+const schema = z.object({
+  ids: z.array(z.string()),
+});
+
+export type DeleteArticlesBulkRequestDto = z.infer<typeof schema>;
 
 export class DeleteArticlesBulkController extends Controller {
   constructor(private useCase: DeleteArticlesBulkUseCase) {
@@ -10,7 +16,7 @@ export class DeleteArticlesBulkController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteArticlesBulkRequestDto = { ids: req.body.ids };
+    const dto = { ids: req.body.ids };
 
     try {
       const result = await this.useCase.execute(dto);

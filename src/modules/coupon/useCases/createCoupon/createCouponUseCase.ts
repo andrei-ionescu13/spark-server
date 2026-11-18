@@ -9,7 +9,7 @@ import { CouponType } from '../../domain/couponType';
 import { CouponUserSelection } from '../../domain/couponUserSelection';
 import { CouponValue } from '../../domain/couponValue';
 import { CouponCommandsRepoI } from '../../repo/commands';
-import { CreateCouponRequestDto } from './createCouponRequestDto';
+import { CreateCouponRequestDto } from './createCouponController';
 import { CouponProductSelection } from '../../domain/couponProductSelection';
 
 type Response = Result<Coupon, UseCaseErrors.UnexpectedError | UseCaseErrors.ValidationError>;

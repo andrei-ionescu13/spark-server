@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../useCaseError';
 import { AuthService } from '../../authService';
 import { AdminQueriesRepoI } from '../../repo/admin/queries';
 import { TokenCommandsRepoI } from '../../repo/token/commands';
-import { GetAccessTokenRequestDto } from './getAccessTokenRequestDto';
+import { GetAccessTokenRequestDto } from './getAccessTokenController';
 
 export namespace GetAccessTokenErrors {
   export class RefreshTokenRequiredError extends UseCaseError {

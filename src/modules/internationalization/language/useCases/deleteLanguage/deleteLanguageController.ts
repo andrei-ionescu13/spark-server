@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { DeleteLanguageRequestDto } from './deleteLanguageRequestDto';
 import { DeleteLanguageUseCase } from './deleteLanguageUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  languageId: z.uuidv7(),
+});
+
+export type DeleteLanguageRequestDto = z.infer<typeof schema>;
 
 export class DeleteLanguageController extends Controller {
   constructor(private useCase: DeleteLanguageUseCase) {
@@ -11,9 +18,16 @@ export class DeleteLanguageController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteLanguageRequestDto = {
+    const result = schema.safeParse({
       languageId: req.params.languageId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

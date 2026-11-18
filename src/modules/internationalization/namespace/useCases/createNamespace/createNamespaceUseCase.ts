@@ -6,7 +6,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { Namespace } from '../../domain/namespace';
 import { NamespaceCommandsRepoI } from '../../repo/commands';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { CreateNamespaceRequestDto } from './createNamespaceRequestDto';
+import { CreateNamespaceRequestDto } from './createNamespaceController';
 
 export namespace CreateNamespaceErrors {
   export class NameNotAvailable extends UseCaseError {

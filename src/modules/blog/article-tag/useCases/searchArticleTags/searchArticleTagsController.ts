@@ -2,8 +2,17 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { SearchArticleTagsRequestDto } from './searchArticleTagsRequestDto';
 import { SearchArticleCategoriesUseCase } from './searchArticleTagsUseCase';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+});
+
+export type SearchArticleTagsRequestDto = z.infer<typeof schema>;
 
 export class SearchArticleCategoriesController extends Controller {
   constructor(private useCase: SearchArticleCategoriesUseCase) {
@@ -12,21 +21,13 @@ export class SearchArticleCategoriesController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-    });
-
     const result = schema.safeParse(req.query);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchArticleTagsRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

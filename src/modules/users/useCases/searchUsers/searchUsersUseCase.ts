@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { UserQueriesRepoI } from '../../repo/queries';
 import { UserDto } from '../../userMapper';
-import { SearchUsersRequestDto } from './searchUsersRequestDto';
+import { SearchUsersRequestDto } from './searchUsersController';
 
 type Response = Result<{ users: UserDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 

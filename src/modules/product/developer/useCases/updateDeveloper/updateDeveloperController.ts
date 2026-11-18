@@ -3,8 +3,23 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateDeveloperRequestDto } from './updateDeveloperRequestDto';
 import { UpdateDeveloperUseCase } from './updateDeveloperUseCase';
+
+const schema = z.object({
+  slug: z.string(),
+  name: z.string().min(3),
+  developerId: z.string(),
+  logoFile: z
+    .object({
+      originalname: z.string(),
+      mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
+      size: z.number().max(5_000_000_000),
+      buffer: z.instanceof(Buffer),
+    })
+    .optional(),
+});
+
+export type UpdateDeveloperRequestDto = z.infer<typeof schema>;
 
 export class UpdateDeveloperController extends Controller {
   constructor(private useCase: UpdateDeveloperUseCase) {
@@ -13,20 +28,6 @@ export class UpdateDeveloperController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      slug: z.string(),
-      name: z.string().min(3),
-      developerId: z.string(),
-      logoFile: z
-        .object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
-          size: z.number().max(5_000_000_000),
-          buffer: z.instanceof(Buffer),
-        })
-        .optional(),
-    });
-
     const result = schema.safeParse({
       developerId: req.params.developerId,
       name: req.body.name,
@@ -39,7 +40,7 @@ export class UpdateDeveloperController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateDeveloperRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

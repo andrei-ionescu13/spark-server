@@ -16,7 +16,7 @@ export class CollectionCommandsRepo implements CollectionCommandsRepoI {
 
   save = async (collection: Collection): Promise<void> => {
     const persistence = CollectionMapper.toPersistance(collection);
-    console.log(persistence);
+
     await this.collection.updateOne(
       { _id: collection._id },
       { $set: persistence },

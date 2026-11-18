@@ -8,7 +8,7 @@ import { Deal, UpdateDealProps } from '../../domain/deal';
 import { DealDescription } from '../../domain/dealDescription';
 import { DealTitle } from '../../domain/dealTitle';
 import { DealCommandsRepoI } from '../../repo/commands';
-import { UpdateDealRequestDto } from './updateDealRequestDto';
+import { UpdateDealRequestDto } from './updateDealController';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

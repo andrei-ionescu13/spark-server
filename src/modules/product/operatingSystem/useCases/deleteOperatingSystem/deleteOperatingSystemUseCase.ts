@@ -4,7 +4,7 @@ import { UseCase } from '../../../../../useCase';
 import { ProductCommandsRepoI } from '../../../repo/commands';
 import { OperatingSystemCommandsRepoI } from '../../repo/commands';
 import { OperatingSystemQueriesRepoI } from '../../repo/queries';
-import { DeleteOperatingSystemRequestDto } from './deleteOperatingSystemrRequestDto';
+import { DeleteOperatingSystemRequestDto } from './deleteOperatingSystemController';
 
 type Response = Result<string, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

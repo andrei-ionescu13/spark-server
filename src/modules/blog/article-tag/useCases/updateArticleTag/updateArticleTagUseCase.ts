@@ -7,7 +7,7 @@ import { DomainValidationError } from '../../../article/domain/status';
 import { ArticleTag } from '../../domain/articleTag';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
-import { UpdateArticleTagRequestDto } from './updateArticleTagRequestDto';
+import { UpdateArticleTagRequestDto } from './updateArticleTagController';
 
 export namespace UpdateArticleTagErrors {
   export class NameNotAvailableError extends UseCaseError {

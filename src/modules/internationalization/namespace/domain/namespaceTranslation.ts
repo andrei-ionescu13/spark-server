@@ -6,7 +6,7 @@ import { zodDomainValidationError } from '../../../../zodErrors';
 
 interface NamespaceTranslationProps {
   key: string;
-  [key: string]: string;
+  [x: string]: string;
 }
 
 export class NamespaceTranslation extends ValueObject<NamespaceTranslationProps> {

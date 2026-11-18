@@ -19,17 +19,14 @@ import { Product, ProductCreateProps } from '../../domain/product';
 import { PublisherQueriesRepoI } from '../../publisher/repo/queries';
 import { ProductCommandsRepoI } from '../../repo/commands';
 import { ProductQueriesRepoI } from '../../repo/queries';
-import { CreateProductRequestDto } from './createProductRequestDto';
-import { ProductStatus } from '../../domain/productStatus';
+import { CreateProductRequestDto } from './createProductController';
 import { Asset } from '../../../../assets';
-import { ProductRating } from '../../domain/productRating';
 import { ProductPrice } from '../../domain/productPrice';
 import { ProductMarkdown } from '../../domain/productMarkdown';
 import { ProductRequirements } from '../../domain/productRequirements';
 import { ProductLink } from '../../domain/productLink';
 import { Meta } from '../../../../meta';
 import { ProductTitle } from '../../domain/productTitle';
-import { DomainValidationError } from '../../../blog/article/domain/status';
 
 export namespace CreateProductErrors {
   export class KeyForPlatformExists extends UseCaseError {

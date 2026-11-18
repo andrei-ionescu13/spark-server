@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { Discount } from '../../domain/discount';
 import { DiscountCommandsRepoI } from '../../repo/commands';
-import { DeactivateDiscountRequestDto } from './deactivateDiscountRequestDto';
+import { DeactivateDiscountRequestDto } from './deactivateDiscountController';
 
 type Response = Result<Discount, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

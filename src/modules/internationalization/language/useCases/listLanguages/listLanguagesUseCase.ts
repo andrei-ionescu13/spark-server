@@ -3,11 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageDto } from '../../languageMapper';
 import { LanguageQueriesRepoI } from '../../repo/queries';
-import { ListLanguagesRequestDto } from './listLanguagesRequestDto';
 
 type Response = Result<LanguageDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListLanguagesUseCase implements UseCase<ListLanguagesRequestDto, Response> {
+export class ListLanguagesUseCase implements UseCase<undefined, Response> {
   constructor(private languageQueriesRepo: LanguageQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

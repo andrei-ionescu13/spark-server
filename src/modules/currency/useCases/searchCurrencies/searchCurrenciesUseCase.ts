@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CurrencyDto } from '../../currencyMapper';
 import { CurrencyQueriesRepoI } from '../../repo/queries';
-import { SearchCurrenciesRequestDto } from './searchCurrenciesRequestDto';
+import { SearchCurrenciesRequestDto } from './searchCurrenciesController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

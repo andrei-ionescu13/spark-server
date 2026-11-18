@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
-import { RegisterRequestDto } from './registerRequestDto';
 import { RegisterErrors, RegisterUseCase } from './registerUseCase';
 import * as z from 'zod';
 import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1),
+});
+
+export type RegisterRequestDto = z.infer<typeof schema>;
 
 export class RegisterController extends Controller {
   constructor(private useCase: RegisterUseCase) {
@@ -12,18 +18,16 @@ export class RegisterController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      username: z.string().min(1),
-      password: z.string().min(1),
+    const validation = schema.safeParse({
+      password: req.body.password,
+      username: req.body.username,
     });
 
-    const result = schema.safeParse({ password: req.body.password, username: req.body.username });
-
-    if (result.error) {
-      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    if (validation.error) {
+      return this.forbidden(res, zodRequestValidationError(validation.error).message);
     }
 
-    const dto: RegisterRequestDto = result.data;
+    const dto = validation.data;
 
     try {
       const result = await this.useCase.execute(dto);

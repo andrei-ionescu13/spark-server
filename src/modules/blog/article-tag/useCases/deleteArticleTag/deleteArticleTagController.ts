@@ -1,7 +1,12 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { DeleteArticleTagRequestDto } from './deleteArticleTagRequestDto';
 import { DeleteArticleTagErrors, DeleteArticleTagUseCase } from './deleteArticleTagUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({ articleTagId: z.uuidv7() });
+
+export type DeleteArticleTagRequestDto = z.infer<typeof schema>;
 
 export class DeleteArticleTagController extends Controller {
   constructor(private useCase: DeleteArticleTagUseCase) {
@@ -10,9 +15,15 @@ export class DeleteArticleTagController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteArticleTagRequestDto = {
+    const result = schema.safeParse({
       articleTagId: req.params.articleTagId,
-    };
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

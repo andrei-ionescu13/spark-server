@@ -4,7 +4,7 @@ import { UseCase } from '../../../../../useCase';
 import { ArticleCategoryQueriesRepoI } from '../../../article-category/repo/queries';
 import { ArticlePopulatedDto } from '../../articleMapper';
 import { ArticleQueriesRepoI } from '../../repo/queries';
-import { SearchArticlesRequestDto } from './SearchArticlesRequestDto';
+import { SearchArticlesRequestDto } from './SearchArticlesController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

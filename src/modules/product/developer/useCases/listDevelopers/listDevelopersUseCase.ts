@@ -3,14 +3,13 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { DeveloperDto } from '../../developerMapper';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
-import { ListDevelopersRequestDto } from './listDevelopersRequestDto';
 
 type Response = Result<DeveloperDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListDevelopersUseCase implements UseCase<ListDevelopersRequestDto, Response> {
+export class ListDevelopersUseCase implements UseCase<undefined, Response> {
   constructor(private developerQueriesRepo: DeveloperQueriesRepoI) {}
 
-  execute = async (request: ListDevelopersRequestDto): Promise<Response> => {
+  execute = async (): Promise<Response> => {
     try {
       const developers = await this.developerQueriesRepo.listDevelopers();
       return Result.ok(developers);

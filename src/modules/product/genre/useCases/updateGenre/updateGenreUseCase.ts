@@ -6,7 +6,7 @@ import { GenreDto } from '../../genreMapper';
 import { GenreDoc } from '../../model';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';
-import { UpdateGenreRequestDto } from './updateGenreRequestDto';
+import { UpdateGenreRequestDto } from './updateGenreController';
 
 export namespace UpdateGenreErrors {
   export class NameNotAvailableError extends UseCaseError {

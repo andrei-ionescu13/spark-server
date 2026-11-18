@@ -7,11 +7,10 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { LanguageQueriesRepo } from '../../../language/repo/queries';
 import { NamespaceQueriesRepoI } from '../../repo/queries';
-import { UploadNamespacesRequestDto } from './uploadNamespacesRequestDto';
 
 type Response = Result<undefined, UseCaseErrors.UnexpectedError>;
 
-export class UploadNamespacesUseCase implements UseCase<UploadNamespacesRequestDto, Response> {
+export class UploadNamespacesUseCase implements UseCase<undefined, Response> {
   constructor(
     private namespaceQueriesRepo: NamespaceQueriesRepoI,
     private languageQueriesRepo: LanguageQueriesRepo,
@@ -19,7 +18,7 @@ export class UploadNamespacesUseCase implements UseCase<UploadNamespacesRequestD
     private uploaderService: UploaderService,
   ) {}
 
-  execute = async (request: UploadNamespacesRequestDto): Promise<Response> => {
+  execute = async (): Promise<Response> => {
     try {
       const languages = await this.languageQueriesRepo.listLanguages();
       const namespaces = await this.namespaceQueriesRepo.listNamespaces();

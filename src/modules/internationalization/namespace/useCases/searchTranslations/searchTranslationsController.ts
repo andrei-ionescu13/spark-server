@@ -2,8 +2,24 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { SearchTranslationsRequestDto } from './searchTranslationsRequestDto';
 import { SearchTranslationsUseCase } from './searchTranslationsUseCase';
+
+const schema = z.object({
+  namespaceId: z.string(),
+  keyword: z.string().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+  languageCodes: z.preprocess((val) => {
+    if (val === undefined) return undefined;
+    if (typeof val === 'string') return [val];
+    if (Array.isArray(val)) return val;
+    return undefined;
+  }, z.array(z.string().min(2).max(2)).optional()),
+});
+
+export type SearchTranslationsRequestDto = z.infer<typeof schema>;
 
 export class SearchTranslationsController extends Controller {
   constructor(private useCase: SearchTranslationsUseCase) {
@@ -23,28 +39,13 @@ export class SearchTranslationsController extends Controller {
       languageCodes: query?.languageCodes,
     };
 
-    const schema = z.object({
-      namespaceId: z.string(),
-      keyword: z.string().optional(),
-      sortBy: z.string().optional(),
-      sortOrder: z.enum(['asc', 'desc']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-      languageCodes: z.preprocess((val) => {
-        if (val === undefined) return undefined;
-        if (typeof val === 'string') return [val];
-        if (Array.isArray(val)) return val;
-        return undefined;
-      }, z.array(z.string().min(2).max(2)).optional()),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchTranslationsRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

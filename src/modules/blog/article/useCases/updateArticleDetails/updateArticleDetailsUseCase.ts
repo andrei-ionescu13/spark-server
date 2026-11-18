@@ -9,7 +9,7 @@ import { ArticleDescription } from '../../domain/description';
 import { ArticleMarkdown } from '../../domain/markdown';
 import { ArticleTitle } from '../../domain/title';
 import { ArticleCommandsRepoI } from '../../repo/commands';
-import { UpdateArticleDetailsRequestDto } from './updateArticleDetailsRequestDto';
+import { UpdateArticleDetailsRequestDto } from './updateArticleDetailsController';
 
 export namespace UpdateArticleDetailsErrors {
   export class ArchivedArticleError extends UseCaseError {

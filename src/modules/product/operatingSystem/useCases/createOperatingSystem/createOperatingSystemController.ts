@@ -3,11 +3,17 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreateOperatingSystemRequestDto } from './createOperatingSystemRequestDto';
 import {
   CreateOperatingSystemErrors,
   CreateOperatingSystemUseCase,
 } from './createOperatingSystemUseCase';
+
+const schema = z.object({
+  name: z.string().min(3),
+  slug: z.string().optional(),
+});
+
+export type CreateOperatingSystemRequestDto = z.infer<typeof schema>;
 
 export class CreateOperatingSystemController extends Controller {
   constructor(private useCase: CreateOperatingSystemUseCase) {
@@ -16,11 +22,6 @@ export class CreateOperatingSystemController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string().min(3),
-      slug: z.string().optional(),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,

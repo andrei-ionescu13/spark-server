@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ArticleCommandsRepoI } from '../../../article/repo/commands';
 import { ArticleTagCommandsRepoI } from '../../repo/commands';
 import { ArticleTagQueriesRepoI } from '../../repo/queries';
-import { DeleteArticleTagRequestDto } from './deleteArticleTagRequestDto';
+import { DeleteArticleTagRequestDto } from './deleteArticleTagController';
 
 export namespace DeleteArticleTagErrors {
   export class ArticleTagInUse extends UseCaseError {

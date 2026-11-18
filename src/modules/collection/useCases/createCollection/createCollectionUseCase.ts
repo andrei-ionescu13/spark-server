@@ -8,7 +8,7 @@ import { Collection, CollectionCreateProps } from '../../domain/collection';
 import { CollectionDescription } from '../../domain/collectionDescription';
 import { CollectionTitle } from '../../domain/collectionTitle';
 import { CollectionCommandsRepoI } from '../../repo/commands';
-import { CreateCollectionRequestDto } from './createCollectionRequestDto';
+import { CreateCollectionRequestDto } from './createCollectionController';
 
 type Response = Result<Collection, UseCaseErrors.ValidationError | UseCaseErrors.UnexpectedError>;
 

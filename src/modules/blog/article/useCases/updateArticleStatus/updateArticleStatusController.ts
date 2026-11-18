@@ -3,8 +3,14 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { UpdateArticleStatusRequestDto } from './updateArticleStatusRequestDto';
 import { UpdateArticleStatusUseCase } from './updateArticleStatusUseCase';
+
+const schema = z.object({
+  articleId: z.string(),
+  status: z.enum(['draft', 'published', 'archived']),
+});
+
+export type UpdateArticleStatusRequestDto = z.infer<typeof schema>;
 
 export class UpdateArticleStatusController extends Controller {
   constructor(private useCase: UpdateArticleStatusUseCase) {
@@ -13,18 +19,13 @@ export class UpdateArticleStatusController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      articleId: z.string(),
-      status: z.enum(['draft', 'published', 'archived']),
-    });
-
     const result = schema.safeParse({ articleId: req.params.articleId, status: req.body.status });
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateArticleStatusRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

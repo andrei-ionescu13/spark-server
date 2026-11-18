@@ -5,7 +5,7 @@ import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../useCaseError';
 import { PublisherCommandsRepoI } from '../../repo/commands';
 import { PublisherQueriesRepoI } from '../../repo/queries';
-import { DeletePublishersBulkRequestDto } from './deletePublishersBulkRequestDto';
+import { DeletePublishersBulkRequestDto } from './deletePublishersBulkController';
 
 export namespace DeletePublishersBulkErrors {
   export class PublisherIsUsed extends UseCaseError {

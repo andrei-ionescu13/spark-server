@@ -6,7 +6,7 @@ import { UseCaseError } from '../../../../useCaseError';
 import { Currency } from '../../domain/currency';
 import { CurrencyCommandsRepoI } from '../../repo/commands';
 import { CurrencyQueriesRepoI } from '../../repo/queries';
-import { AddCurrencyRequestDto } from './addCurrencyRequestDto';
+import { AddCurrencyRequestDto } from './addCurrencyController';
 
 export namespace AddCurrencyErrors {
   export class TitleNotAvailableError extends UseCaseError {

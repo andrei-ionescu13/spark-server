@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PlatformDto } from '../../platformMapper';
 import { PlatformQueriesRepoI } from '../../repo/queries';
-import { GetPlatformRequestDto } from './getPlatformRequestDto';
+import { GetPlatformRequestDto } from './getPlatformController';
 
 type Response = Result<PlatformDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

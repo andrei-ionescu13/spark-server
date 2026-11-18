@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PlatformDto } from '../../platformMapper';
 import { PlatformQueriesRepoI } from '../../repo/queries';
-import { SearchPlatformsRequestDto } from './searchPlatformsRequestDto';
+import { SearchPlatformsRequestDto } from './searchPlatformsController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

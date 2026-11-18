@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { GetReviewRequestDto } from './getReviewRequestDto';
+import * as z from 'zod';
 import { GetReviewUseCase } from './getReviewUseCase';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  reviewId: z.uuidv7(),
+});
+
+export type GetReviewRequestDto = z.infer<typeof schema>;
 
 export class GetReviewController extends Controller {
   constructor(private useCase: GetReviewUseCase) {
@@ -11,7 +18,16 @@ export class GetReviewController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetReviewRequestDto = { reviewId: req.params.reviewId };
+    const result = schema.safeParse({
+      reviewId: req.params.reviewId,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

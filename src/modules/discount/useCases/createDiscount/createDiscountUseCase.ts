@@ -10,7 +10,7 @@ import { DiscountTitle } from '../../domain/discountTitle';
 import { DiscountType } from '../../domain/discountType';
 import { DiscountValue } from '../../domain/discountValue';
 import { DiscountCommandsRepoI } from '../../repo/commands';
-import { CreateDiscountRequestDto } from './createDiscountRequestDto';
+import { CreateDiscountRequestDto } from './createDiscountController';
 import { DiscountApplicableChecker } from '../../discountApplicableChecker';
 
 export namespace CreateDiscountErrors {

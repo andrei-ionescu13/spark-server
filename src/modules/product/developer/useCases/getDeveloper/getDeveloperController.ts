@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { GetDeveloperRequestDto } from './getDeveloperRequestDto';
 import { GetDeveloperUseCase } from './getDeveloperUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  developerId: z.uuidv7(),
+});
+
+export type GetDeveloperRequestDto = z.infer<typeof schema>;
 
 export class GetDeveloperController extends Controller {
   constructor(private useCase: GetDeveloperUseCase) {
@@ -11,7 +18,16 @@ export class GetDeveloperController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetDeveloperRequestDto = { developerId: req.params.developerId };
+    const result = schema.safeParse({
+      developerId: req.params.developerId,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

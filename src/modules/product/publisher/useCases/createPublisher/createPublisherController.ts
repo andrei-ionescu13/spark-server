@@ -3,8 +3,19 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreatePublisherRequestDto } from './createPublisherRequestDto';
 import { CreatePublisherUseCase } from './createPublisherUseCase';
+
+const schema = z.object({
+  name: z.string().min(3),
+  logoFile: z.object({
+    originalname: z.string(),
+    mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
+    size: z.number().max(5_000_000_000),
+    buffer: z.instanceof(Buffer),
+  }),
+});
+
+export type CreatePublisherRequestDto = z.infer<typeof schema>;
 
 export class CreatePublisherController extends Controller {
   constructor(private useCase: CreatePublisherUseCase) {
@@ -13,16 +24,6 @@ export class CreatePublisherController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string().min(3),
-      logoFile: z.object({
-        originalname: z.string(),
-        mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/svg+xml']),
-        size: z.number().max(5_000_000_000),
-        buffer: z.instanceof(Buffer),
-      }),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,
@@ -33,7 +34,7 @@ export class CreatePublisherController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreatePublisherRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

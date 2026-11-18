@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../../controller';
-import { ListLanguagesRequestDto } from './listLanguagesRequestDto';
 import { ListLanguagesUseCase } from './listLanguagesUseCase';
 
 export class ListLanguagesController extends Controller {
@@ -10,8 +9,6 @@ export class ListLanguagesController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: ListLanguagesRequestDto = {};
-
     try {
       const result = await this.useCase.execute();
 

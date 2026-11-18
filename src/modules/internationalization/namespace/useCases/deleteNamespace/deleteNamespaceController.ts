@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { DeleteNamespaceRequestDto } from './deleteNamespaceRequestDto';
 import { DeleteNamespaceUseCase } from './deleteNamespaceUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  namespaceId: z.uuidv7(),
+});
+
+export type DeleteNamespaceRequestDto = z.infer<typeof schema>;
 
 export class DeleteNamespaceController extends Controller {
   constructor(private useCase: DeleteNamespaceUseCase) {
@@ -11,9 +18,16 @@ export class DeleteNamespaceController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteNamespaceRequestDto = {
+    const result = schema.safeParse({
       namespaceId: req.params.namespaceId,
-    };
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

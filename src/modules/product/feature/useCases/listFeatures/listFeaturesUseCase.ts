@@ -3,11 +3,10 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { FeatureDto } from '../../featureMapper';
 import { FeatureQueriesRepoI } from '../../repo/queries';
-import { ListFeaturesRequestDto } from './listFeaturesRequestDto';
 
 type Response = Result<FeatureDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListFeaturesUseCase implements UseCase<ListFeaturesRequestDto, Response> {
+export class ListFeaturesUseCase implements UseCase<undefined, Response> {
   constructor(private featureQueriesRepo: FeatureQueriesRepoI) {}
 
   execute = async (): Promise<Response> => {

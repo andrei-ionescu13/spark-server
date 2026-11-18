@@ -8,7 +8,7 @@ import { Collection, UpdateCollectionProps } from '../../domain/collection';
 import { CollectionDescription } from '../../domain/collectionDescription';
 import { CollectionTitle } from '../../domain/collectionTitle';
 import { CollectionCommandsRepoI } from '../../repo/commands';
-import { UpdateCollectionRequestDto } from './updateCollectionRequestDto';
+import { UpdateCollectionRequestDto } from './updateCollectionController';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

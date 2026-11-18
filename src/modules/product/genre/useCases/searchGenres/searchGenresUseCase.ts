@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { GenreDto } from '../../genreMapper';
 import { GenreQueriesRepoI } from '../../repo/queries';
-import { SearchGenresRequestDto } from './searchGenresRequestDto';
+import { SearchGenresRequestDto } from './searchGenresController';
 
 type Response = Result<{ genres: GenreDto[]; count: number }, UseCaseErrors.UnexpectedError>;
 

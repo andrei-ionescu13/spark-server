@@ -3,14 +3,13 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PlatformDto } from '../../platformMapper';
 import { PlatformQueriesRepoI } from '../../repo/queries';
-import { ListPlatformsRequestDto } from './listPlatformsRequestDto';
 
 type Response = Result<PlatformDto[], UseCaseErrors.UnexpectedError>;
 
-export class ListPlatformsUseCase implements UseCase<ListPlatformsRequestDto, Response> {
+export class ListPlatformsUseCase implements UseCase<undefined, Response> {
   constructor(private platformQueriesRepo: PlatformQueriesRepoI) {}
 
-  execute = async (request: ListPlatformsRequestDto): Promise<Response> => {
+  execute = async (): Promise<Response> => {
     try {
       const platforms = await this.platformQueriesRepo.listPlatforms();
       return Result.ok(platforms);

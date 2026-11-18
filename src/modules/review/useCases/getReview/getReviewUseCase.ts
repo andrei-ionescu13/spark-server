@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewQueriesRepoI } from '../../repo/queries';
 import { ReviewDto } from '../../reviewMapper';
-import { GetReviewRequestDto } from './getReviewRequestDto';
+import { GetReviewRequestDto } from './getReviewController';
 
 type Response = Result<ReviewDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

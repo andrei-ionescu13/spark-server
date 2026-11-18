@@ -1,7 +1,20 @@
 import { Request, Response } from 'express';
 import { Controller } from '../../../../controller';
-import { SearchProductReviewsRequestDto } from './searchProductReviewsRequestDto';
 import { SearchProductReviewsUseCase } from './searchProductReviewsUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  productId: z.uuidv7(),
+  keyword: z.string().optional(),
+  status: z.string().optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+  sortBy: z.string().optional(),
+  sortOrder: z.enum(['asc', 'desc']).optional(),
+});
+
+export type SearchProductReviewsRequestDto = z.infer<typeof schema>;
 
 export class SearchProductReviewsController extends Controller {
   constructor(private useCase: SearchProductReviewsUseCase) {
@@ -11,15 +24,21 @@ export class SearchProductReviewsController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const query = req.query;
-    const dto: SearchProductReviewsRequestDto = {
+    const result = schema.safeParse({
       productId: req.params.productId,
-      keyword: query.keyword as string,
-      sortBy: query.sortBy as string,
-      sortOrder: query.sortOrder as string,
-      status: query.status as string,
-      page: query?.page ? Number.parseInt(query.page as string) : undefined,
-      limit: query?.limit ? Number.parseInt(query.limit as string) : undefined,
-    };
+      keyword: query.keyword,
+      sortBy: query.sortBy,
+      sortOrder: query.sortOrder,
+      status: query.status,
+      page: query.page,
+      limit: query.limit,
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

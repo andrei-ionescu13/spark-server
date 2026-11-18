@@ -4,7 +4,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { ReviewCommandsRepoI } from '../../repo/commands';
 import { ReviewStatus } from '../../domain/reviewStatus';
-import { UpdateReviewStatusRequestDto } from './updateReviewStatusRequestDto';
+import { UpdateReviewStatusRequestDto } from './updateReviewStatusController';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 
 type Response = Result<

@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyDto } from '../../../key/keyMapper';
 import { ProductQueriesRepoI } from '../../repo/queries';
-import { SearchProductKeysRequestDto } from './searchProductKeysRequestDto';
+import { SearchProductKeysRequestDto } from './searchProductKeysController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

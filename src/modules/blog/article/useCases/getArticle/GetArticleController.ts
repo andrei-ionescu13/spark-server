@@ -1,8 +1,13 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { GetArticleRequestDto } from './GetArticleRequestDto';
 import { GetArticleUseCase } from './GetArticleUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({ articleId: z.uuidv7() });
+
+export type GetArticleRequestDto = z.infer<typeof schema>;
 
 export class GetArticleController extends Controller {
   constructor(private useCase: GetArticleUseCase) {
@@ -11,7 +16,15 @@ export class GetArticleController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetArticleRequestDto = { articleId: req.params.articleId };
+    const result = schema.safeParse({
+      articleId: req.params.articleId,
+    });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
@@ -28,7 +41,7 @@ export class GetArticleController extends Controller {
         }
       }
 
-      const value = result._value;
+      const value = result.value;
 
       return this.ok(res, value);
     } catch (error) {

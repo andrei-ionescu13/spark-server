@@ -3,8 +3,29 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { UpdateDiscountRequestDto } from './updateDiscountRequestDto';
 import { UpdateDiscountErrors, UpdateDiscountUseCase } from './updateDiscountUseCase';
+
+const schema = z
+  .object({
+    discountId: z.uuidv7(),
+    endDate: z.coerce.date().nullable(),
+    product: z.uuidv7(),
+    startDate: z.coerce.date(),
+    title: z.string().min(1),
+    type: z.enum(['amount', 'percentage']),
+    value: z.number().min(1),
+  })
+  .superRefine((data, ctx) => {
+    if (data.endDate && data.startDate >= data.endDate) {
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Start date must be before end date',
+        path: ['startDate'],
+      });
+    }
+  });
+
+export type UpdateDiscountRequestDto = z.infer<typeof schema>;
 
 export class UpdateDiscountController extends Controller {
   constructor(private useCase: UpdateDiscountUseCase) {
@@ -13,26 +34,6 @@ export class UpdateDiscountController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z
-      .object({
-        discountId: z.uuidv7(),
-        endDate: z.coerce.date().nullable(),
-        product: z.uuidv7(),
-        startDate: z.coerce.date(),
-        title: z.string().min(1),
-        type: z.enum(['amount', 'percentage']),
-        value: z.number().min(1),
-      })
-      .superRefine((data, ctx) => {
-        if (data.endDate && data.startDate >= data.endDate) {
-          ctx.addIssue({
-            code: 'custom',
-            message: 'Start date must be before end date',
-            path: ['startDate'],
-          });
-        }
-      });
-
     const result = schema.safeParse({ ...req.body, discountId: req.params.discountId });
 
     if (result.error) {
@@ -40,7 +41,7 @@ export class UpdateDiscountController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateDiscountRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

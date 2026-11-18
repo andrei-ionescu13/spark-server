@@ -6,7 +6,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
 import { DeveloperCommandsRepoI } from '../../repo/commands';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
-import { DeleteDeveloperRequestDto } from './deleteDeveloperRequestDto';
+import { DeleteDeveloperRequestDto } from './deleteDeveloperController';
 
 export namespace DeleteDeveloperErrors {
   export class DeveloperIsUsed extends UseCaseError {

@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
-import { GetPublisherRequestDto } from './getPublisherRequestDto';
 import { GetPublisherUseCase } from './getPublisherUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+
+const schema = z.object({
+  publisherId: z.uuidv7(),
+});
+
+export type GetPublisherRequestDto = z.infer<typeof schema>;
 
 export class GetPublisherController extends Controller {
   constructor(private useCase: GetPublisherUseCase) {
@@ -11,7 +18,16 @@ export class GetPublisherController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: GetPublisherRequestDto = { publisherId: req.params.publisherId };
+    const result = schema.safeParse({
+      publisherId: req.params.publisherId,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

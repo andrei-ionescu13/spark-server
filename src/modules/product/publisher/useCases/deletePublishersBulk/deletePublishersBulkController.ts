@@ -2,8 +2,15 @@ import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { DeletePublisherErrors } from '../deletePublisher/deletePublisherUseCase';
-import { DeletePublishersBulkRequestDto } from './deletePublishersBulkRequestDto';
 import { DeletePublishersBulkUseCase } from './deletePublishersBulkUseCase';
+import { zodRequestValidationError } from '../../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  publisherId: z.array(z.uuidv7()),
+});
+
+export type DeletePublishersBulkRequestDto = z.infer<typeof schema>;
 
 export class DeletePublishersBulkController extends Controller {
   constructor(private useCase: DeletePublishersBulkUseCase) {
@@ -12,7 +19,16 @@ export class DeletePublishersBulkController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeletePublishersBulkRequestDto = { ids: req.body.ids };
+    const result = schema.safeParse({
+      ids: req.body.ids,
+    });
+
+    if (result.error) {
+      console.log(result.error);
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

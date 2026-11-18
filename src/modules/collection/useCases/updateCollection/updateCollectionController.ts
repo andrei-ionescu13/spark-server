@@ -3,8 +3,35 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { UpdateCollectionRequestDto } from './updateCollectionRequestDto';
 import { UpdateCollectionUseCase } from './updateCollectionUseCase';
+
+const schema = z.object({
+  collectionId: z.uuidv7(),
+  title: z.string().min(1),
+  coverFile: z
+    .object({
+      originalname: z.string(),
+      mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
+      size: z.number().max(5_000_000_000),
+      buffer: z.instanceof(Buffer),
+    })
+    .optional(),
+  description: z.string().min(1),
+  products: z.array(z.uuidv7()).min(1),
+  slug: z.string().min(1),
+  startDate: z.coerce.date(),
+  endDate: z.preprocess(
+    (value) => (value === 'null' || value === '' ? null : value),
+    z.coerce.date().nullable(),
+  ),
+  meta: z.object({
+    title: z.string().min(1).max(120),
+    description: z.string().min(1).max(1024),
+    keywords: z.array(z.string()).min(1),
+  }),
+});
+
+export type UpdateCollectionRequestDto = z.infer<typeof schema>;
 
 export class UpdateCollectionController extends Controller {
   constructor(private useCase: UpdateCollectionUseCase) {
@@ -30,39 +57,13 @@ export class UpdateCollectionController extends Controller {
       },
     };
 
-    const schema = z.object({
-      collectionId: z.uuidv7(),
-      title: z.string().min(1),
-      coverFile: z
-        .object({
-          originalname: z.string(),
-          mimetype: z.enum(['image/png', 'image/jpeg', 'image/jpg', 'image/webp']),
-          size: z.number().max(5_000_000_000),
-          buffer: z.instanceof(Buffer),
-        })
-        .optional(),
-      description: z.string().min(1),
-      products: z.array(z.uuidv7()).min(1),
-      slug: z.string().min(1),
-      startDate: z.coerce.date(),
-      endDate: z.preprocess(
-        (value) => (value === 'null' || value === '' ? null : value),
-        z.coerce.date().nullable(),
-      ),
-      meta: z.object({
-        title: z.string().min(1).max(120),
-        description: z.string().min(1).max(1024),
-        keywords: z.array(z.string()).min(1),
-      }),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateCollectionRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

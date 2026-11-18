@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { Coupon } from '../../domain/coupon';
 import { CouponCommandsRepoI } from '../../repo/commands';
-import { DeactivateCouponRequestDto } from './deactivateCouponRequestDto';
+import { DeactivateCouponRequestDto } from './deactivateCouponController';
 
 type Response = Result<Coupon, UseCaseErrors.UnexpectedError>;
 

@@ -1,4 +1,3 @@
-import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../../appError';
 import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
@@ -7,7 +6,7 @@ import { Genre } from '../../domain/genre';
 import { GenreDto } from '../../genreMapper';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';
-import { CreateGenreRequestDto } from './createGenreRequestDto';
+import { CreateGenreRequestDto } from './createGenreController';
 
 export namespace CreateGenreErrors {
   export class NameNotAvailableError extends UseCaseError {

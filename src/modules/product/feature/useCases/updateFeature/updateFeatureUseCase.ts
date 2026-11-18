@@ -6,7 +6,7 @@ import { FeatureDto } from '../../featureMapper';
 import { FeatureDoc } from '../../model';
 import { FeatureCommandsRepoI } from '../../repo/commands';
 import { FeatureQueriesRepoI } from '../../repo/queries';
-import { UpdateFeatureRequestDto } from './updateFeatureRequestDto';
+import { UpdateFeatureRequestDto } from './updateFeatureController';
 
 export namespace UpdateFeatureErrors {
   export class NameNotAvailableError extends UseCaseError {

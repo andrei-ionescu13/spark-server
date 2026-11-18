@@ -5,7 +5,7 @@ import { UploaderService } from '../../../../../services/uploaderService';
 import { UseCase } from '../../../../../useCase';
 import { Publisher } from '../../domain/publisher';
 import { PublisherCommandsRepoI } from '../../repo/commands';
-import { CreatePublisherRequestDto } from './createPublisherRequestDto';
+import { CreatePublisherRequestDto } from './createPublisherController';
 import { Asset } from '../../../../../assets';
 
 type Response = Result<Publisher, UseCaseErrors.UnexpectedError>;

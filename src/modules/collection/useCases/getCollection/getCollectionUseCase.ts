@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CollectionDto, CollectionPopulatedDto } from '../../collectionMapper';
 import { CollectionQueriesRepoI } from '../../repo/queries';
-import { GetCollectionRequestDto } from './getCollectionRequestDto';
+import { GetCollectionRequestDto } from './getCollectionController';
 
 type Response = Result<
   CollectionPopulatedDto,

@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { CouponDto } from '../../couponMapper';
 import { CouponQueriesRepoI } from '../../repo/queries';
-import { SearchCouponsRequestDto } from './searchCouponsRequestDto';
+import { SearchCouponsRequestDto } from './searchCouponsController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

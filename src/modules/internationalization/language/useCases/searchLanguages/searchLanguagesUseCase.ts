@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageDto } from '../../languageMapper';
 import { LanguageQueriesRepoI } from '../../repo/queries';
-import { SearchLanguagesRequestDto } from './searchLanguagesRequestDto';
+import { SearchLanguagesRequestDto } from './searchLanguagesController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

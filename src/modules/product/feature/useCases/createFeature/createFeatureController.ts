@@ -3,8 +3,14 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../../appError';
 import { Controller } from '../../../../../controller';
 import { zodRequestValidationError } from '../../../../../zodErrors';
-import { CreateFeatureRequestDto } from './createFeatureRequestDto';
 import { CreateFeatureErrors, CreateFeatureUseCase } from './createFeatureUseCase';
+
+const schema = z.object({
+  name: z.string().min(3),
+  slug: z.string().optional(),
+});
+
+export type CreateFeatureRequestDto = z.infer<typeof schema>;
 
 export class CreateFeatureController extends Controller {
   constructor(private useCase: CreateFeatureUseCase) {
@@ -13,11 +19,6 @@ export class CreateFeatureController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      name: z.string().min(3),
-      slug: z.string().optional(),
-    });
-
     const result = schema.safeParse({
       name: req.body.name,
       slug: req.body.slug,
@@ -27,7 +28,7 @@ export class CreateFeatureController extends Controller {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: CreateFeatureRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { LanguageCommandsRepoI } from '../../repo/commands';
 import { LanguageQueriesRepoI } from '../../repo/queries';
-import { DeleteLanguagesBulkRequestDto } from './deleteLanguagesBulkRequestDto';
+import { DeleteLanguagesBulkRequestDto } from './deleteLanguagesBulkController';
 
 type Response = Result<undefined, UseCaseErrors.NotFound | UseCaseErrors.UnexpectedError>;
 

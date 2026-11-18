@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { DeveloperDto } from '../../developerMapper';
 import { DeveloperQueriesRepoI } from '../../repo/queries';
-import { SearchDevelopersRequestDto } from './searchDevelopersRequestDto';
+import { SearchDevelopersRequestDto } from './searchDevelopersController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;

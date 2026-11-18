@@ -5,7 +5,7 @@ import { UseCaseError } from '../../../../../useCaseError';
 import { ProductQueriesRepoI } from '../../../repo/queries';
 import { GenreCommandsRepoI } from '../../repo/commands';
 import { GenreQueriesRepoI } from '../../repo/queries';
-import { DeleteGenreBulkRequestDto } from './deleteGenreBulkRequestDto';
+import { DeleteGenreBulkRequestDto } from './deleteGenreBulkController';
 
 export namespace DeleteGenreBulkErrors {
   export class GenreIsUsed extends UseCaseError {
