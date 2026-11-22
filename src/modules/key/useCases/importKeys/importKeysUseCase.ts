@@ -1,4 +1,3 @@
-import { v7 as uuidv7 } from 'uuid';
 import { UseCaseErrors } from '../../../../appError';
 import { ProductCommandsRepoI } from '../../../product/repo/commands';
 import { ProductQueriesRepoI } from '../../../product/repo/queries';
@@ -11,7 +10,7 @@ import { KeyStatus } from '../../domain/keyStatus';
 import { KeyValue } from '../../domain/keyValue';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { KeyQueriesRepoI } from '../../repo/queries';
-import { ImportKeysRequestDto } from './importKeysRequestDto';
+import { ImportKeysRequestDto } from './importKeysController';
 
 export namespace ImportKeysErrors {
   export class KeyForPlatformExists extends UseCaseError {

@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ProductQueriesRepo } from '../src/modules/product/repo/queries';
-import { ProductCommandsRepo } from '../src/modules/product/repo/commands';
-import { Mongo } from '../src/mongo';
-import { KeyCommandsRepo } from '../src/modules/key/repo/commands';
-import { Key } from '../src/modules/key/domain/key';
-import { KeyAvailability } from '../src/modules/key/domain/keyAvailability';
-import { KeyStatus } from '../src/modules/key/domain/keyStatus';
-import { KeyValue } from '../src/modules/key/domain/keyValue';
+import { ProductQueriesRepo } from '../modules/product/repo/queries';
+import { ProductCommandsRepo } from '../modules/product/repo/commands';
+import { Mongo } from '../mongo';
+import { KeyCommandsRepo } from '../modules/key/repo/commands';
+import { Key } from '../modules/key/domain/key';
+import { KeyAvailability } from '../modules/key/domain/keyAvailability';
+import { KeyStatus } from '../modules/key/domain/keyStatus';
+import { KeyValue } from '../modules/key/domain/keyValue';
 
 export const generateKeys = async () => {
   const productRepo = new ProductCommandsRepo(Mongo.getCollection('products'));

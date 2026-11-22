@@ -7,7 +7,7 @@ import { zodRequestValidationError } from '../../../../../zodErrors';
 import * as z from 'zod';
 
 const schema = z.object({
-  publisherId: z.array(z.uuidv7()),
+  ids: z.array(z.uuidv7()),
 });
 
 export type DeletePublishersBulkRequestDto = z.infer<typeof schema>;

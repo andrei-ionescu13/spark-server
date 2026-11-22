@@ -1,8 +1,16 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { CreateKeyRequestDto } from './createKeyRequestDto';
 import { CreateKeyErrors, CreateKeyUseCase } from './createKeyUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  productId: z.uuidv7(),
+  value: z.string(),
+});
+
+export type CreateKeyRequestDto = z.infer<typeof schema>;
 
 export class CreateKeyController extends Controller {
   constructor(private useCase: CreateKeyUseCase) {
@@ -11,10 +19,13 @@ export class CreateKeyController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: CreateKeyRequestDto = {
-      productId: req.body.productId,
-      value: req.body.key,
-    };
+    const result = schema.safeParse({ productId: req.body.productId, value: req.body.key });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

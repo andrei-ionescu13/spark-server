@@ -3,8 +3,14 @@ import * as z from 'zod';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { UpdateKeysStatusRequestDto } from './updateKeysStatusRequestDto';
 import { UpdateKeysStatusUseCase } from './updateKeysStatusUseCase';
+
+const schema = z.object({
+  keyId: z.string(),
+  status: z.enum(['secret', 'revealed', 'reported']),
+});
+
+export type UpdateKeysStatusRequestDto = z.infer<typeof schema>;
 
 export class UpdateKeysStatusController extends Controller {
   constructor(private useCase: UpdateKeysStatusUseCase) {
@@ -13,18 +19,13 @@ export class UpdateKeysStatusController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const schema = z.object({
-      keyId: z.string(),
-      status: z.enum(['secret', 'revealed', 'reported']),
-    });
-
     const result = schema.safeParse({ keyId: req.params.keyId, status: req.body.status });
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: UpdateKeysStatusRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

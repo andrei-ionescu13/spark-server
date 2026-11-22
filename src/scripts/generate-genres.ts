@@ -1,7 +1,7 @@
-import { Genre } from '../src/modules/product/genre/domain/genre';
-import { GenreCommandsRepo } from '../src/modules/product/genre/repo/commands';
-import { Mongo } from '../src/mongo';
-import { Result } from '../src/result';
+import { Genre } from '../modules/product/genre/domain/genre';
+import { GenreCommandsRepo } from '../modules/product/genre/repo/commands';
+import { Mongo } from '../mongo';
+import { Result } from '../result';
 
 const genresMock = [
   '1980s',

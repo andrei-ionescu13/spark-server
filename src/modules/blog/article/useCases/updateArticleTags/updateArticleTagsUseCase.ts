@@ -4,7 +4,7 @@ import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../useCaseError';
 import { ArticleTagQueriesRepoI } from '../../../article-tag/repo/queries';
 import { ArticleCommandsRepoI } from '../../repo/commands';
-import { UpdateArticleTagsRequestDto } from './updateArticleTagsRequestDto';
+import { UpdateArticleTagsRequestDto } from './updateArticleTagsController';
 
 export namespace UpdateArticleTagsErrors {
   export class ArchivedArticleError extends UseCaseError {

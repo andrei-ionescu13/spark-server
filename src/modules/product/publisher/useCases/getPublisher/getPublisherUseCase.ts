@@ -3,7 +3,7 @@ import { Result } from '../../../../../result';
 import { UseCase } from '../../../../../useCase';
 import { PublisherDto } from '../../publisherMapper';
 import { PublisherQueriesRepoI } from '../../repo/queries';
-import { GetPublisherRequestDto } from './getPublisherRequestDto';
+import { GetPublisherRequestDto } from './getPublisherController';
 
 type Response = Result<PublisherDto, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

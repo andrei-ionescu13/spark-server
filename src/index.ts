@@ -25,7 +25,7 @@ import { couponRoutes } from './modules/coupon';
 import { productRoutes } from './modules/product';
 import { Mongo } from './mongo';
 import { verifyToken } from './middleware/verify-token';
-import { generateDeal } from '../scripts/generate-deal';
+import { generateDeal } from './scripts/generate-deal';
 
 const app = express();
 const port = process.env.PORT || 3001;

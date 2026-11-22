@@ -1,22 +1,22 @@
-import { Asset } from '../src/assets';
-import { Meta } from '../src/Meta';
-import { LanguageQueriesRepo } from '../src/modules/internationalization/language/repo/queries';
-import { Price } from '../src/modules/orders/domain/price';
-import { DeveloperQueriesRepo } from '../src/modules/product/developer/repo/queries';
-import { Product, ProductCreateProps } from '../src/modules/product/domain/product';
-import { ProductMarkdown } from '../src/modules/product/domain/productMarkdown';
-import { ProductRequirements } from '../src/modules/product/domain/productRequirements';
-import { ProductTitle } from '../src/modules/product/domain/productTitle';
-import { FeatureQueriesRepo } from '../src/modules/product/feature/repo/queries';
-import { GenreQueriesRepo } from '../src/modules/product/genre/repo/queries';
-import { OperatingSystemQueriesRepo } from '../src/modules/product/operatingSystem/repo/queries';
-import { PlatformQueriesRepo } from '../src/modules/product/platform/repo/queries';
-import { PublisherQueriesRepo } from '../src/modules/product/publisher/repo/queries';
-import { ProductCommandsRepo } from '../src/modules/product/repo/commands';
-import { ProductQueriesRepo } from '../src/modules/product/repo/queries';
-import { Mongo } from '../src/mongo';
-import { Result } from '../src/result';
-import { CloudinaryUploaderService } from '../src/services/uploaderService';
+import { Asset } from '../assets';
+import { Meta } from '../Meta';
+import { LanguageQueriesRepo } from '../modules/internationalization/language/repo/queries';
+import { Price } from '../modules/orders/domain/price';
+import { DeveloperQueriesRepo } from '../modules/product/developer/repo/queries';
+import { Product, ProductCreateProps } from '../modules/product/domain/product';
+import { ProductMarkdown } from '../modules/product/domain/productMarkdown';
+import { ProductRequirements } from '../modules/product/domain/productRequirements';
+import { ProductTitle } from '../modules/product/domain/productTitle';
+import { FeatureQueriesRepo } from '../modules/product/feature/repo/queries';
+import { GenreQueriesRepo } from '../modules/product/genre/repo/queries';
+import { OperatingSystemQueriesRepo } from '../modules/product/operatingSystem/repo/queries';
+import { PlatformQueriesRepo } from '../modules/product/platform/repo/queries';
+import { PublisherQueriesRepo } from '../modules/product/publisher/repo/queries';
+import { ProductCommandsRepo } from '../modules/product/repo/commands';
+import { ProductQueriesRepo } from '../modules/product/repo/queries';
+import { Mongo } from '../mongo';
+import { Result } from '../result';
+import { CloudinaryUploaderService } from '../services/uploaderService';
 
 const products = [
   {

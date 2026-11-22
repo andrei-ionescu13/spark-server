@@ -5,7 +5,7 @@ import { UseCase } from '../../../../../useCase';
 import { UseCaseError } from '../../../../../useCaseError';
 import { PlatformCommandsRepoI } from '../../repo/commands';
 import { PlatformQueriesRepoI } from '../../repo/queries';
-import { DeletePlatformsBulkRequestDto } from './deletePlatformsBulkRequestDto';
+import { DeletePlatformsBulkRequestDto } from './deletePlatformsBulkController';
 
 export namespace DeletePlatformsBulkErrors {
   export class PlatformIsUsed extends UseCaseError {

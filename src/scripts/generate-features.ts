@@ -1,7 +1,7 @@
-import { Feature } from '../src/modules/product/feature/domain/feature';
-import { FeatureCommandsRepo } from '../src/modules/product/feature/repo/commands';
-import { Mongo } from '../src/mongo';
-import { Result } from '../src/result';
+import { Feature } from '../modules/product/feature/domain/feature';
+import { FeatureCommandsRepo } from '../modules/product/feature/repo/commands';
+import { Mongo } from '../mongo';
+import { Result } from '../result';
 
 const featuresMock = [
   'Singleplayer',

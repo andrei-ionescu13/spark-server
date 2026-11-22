@@ -1,8 +1,20 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { ImportKeysRequestDto } from './importKeysRequestDto';
 import { ImportKeysErrors, ImportKeysUseCase } from './importKeysUseCase';
+import { zodRequestValidationError } from '../../../../zodErrors';
+import * as z from 'zod';
+
+const schema = z.object({
+  keysFile: z.object({
+    originalname: z.string(),
+    mimetype: z.enum(['application/json']),
+    size: z.number().max(5_000_000_000),
+    buffer: z.instanceof(Buffer),
+  }),
+});
+
+export type ImportKeysRequestDto = z.infer<typeof schema>;
 
 export class ImportKeysController extends Controller {
   constructor(private useCase: ImportKeysUseCase) {
@@ -11,10 +23,13 @@ export class ImportKeysController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: ImportKeysRequestDto = {
-      keysFile: req.file as Express.Multer.File,
-    };
+    const result = schema.safeParse({ keysFile: req.file });
 
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
     try {
       const result = await this.useCase.execute(dto);
 

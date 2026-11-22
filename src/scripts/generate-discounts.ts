@@ -1,10 +1,10 @@
-import { ProductCommandsRepo } from '../src/modules/product/repo/commands';
-import { DiscountCommandsRepo } from '../src/modules/discount/repo/commands';
-import { DiscountApplicableChecker } from '../src/modules/discount/discountApplicableChecker';
-import { Discount, DiscountCreateProps } from '../src/modules/discount/domain/discount';
-import { DiscountType } from '../src/modules/discount/domain/discountType';
-import { DiscountValue } from '../src/modules/discount/domain/discountValue';
-import { DiscountTitle } from '../src/modules/discount/domain/discountTitle';
+import { ProductCommandsRepo } from '../modules/product/repo/commands';
+import { DiscountCommandsRepo } from '../modules/discount/repo/commands';
+import { DiscountApplicableChecker } from '../modules/discount/discountApplicableChecker';
+import { Discount, DiscountCreateProps } from '../modules/discount/domain/discount';
+import { DiscountType } from '../modules/discount/domain/discountType';
+import { DiscountValue } from '../modules/discount/domain/discountValue';
+import { DiscountTitle } from '../modules/discount/domain/discountTitle';
 
 export const generateDiscounts = async () => {
   const productCommandsRepo = new ProductCommandsRepo();

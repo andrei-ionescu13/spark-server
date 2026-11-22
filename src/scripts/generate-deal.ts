@@ -1,11 +1,11 @@
-import { ProductQueriesRepo } from '../src/modules/product/repo/queries';
-import { DealCommandsRepo } from '../src/modules/deals/repo/commands';
-import { Asset } from '../src/assets';
-import { CloudinaryUploaderService } from '../src/services/uploaderService';
-import { Meta } from '../src/meta';
-import { CreateDealProps, Deal } from '../src/modules/deals/domain/deal';
-import { DealDescription } from '../src/modules/deals/domain/dealDescription';
-import { DealTitle } from '../src/modules/deals/domain/dealTitle';
+import { ProductQueriesRepo } from '../modules/product/repo/queries';
+import { DealCommandsRepo } from '../modules/deals/repo/commands';
+import { Asset } from '../assets';
+import { CloudinaryUploaderService } from '../services/uploaderService';
+import { Meta } from '../meta';
+import { CreateDealProps, Deal } from '../modules/deals/domain/deal';
+import { DealDescription } from '../modules/deals/domain/dealDescription';
+import { DealTitle } from '../modules/deals/domain/dealTitle';
 
 export const generateDeal = async () => {
   const productQueriesRepo = new ProductQueriesRepo();

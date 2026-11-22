@@ -1,10 +1,10 @@
 import fs from 'node:fs';
-import { PublisherCommandsRepo } from '../src/modules/product/publisher/repo/commands';
-import { Mongo } from '../src/mongo';
-import { CloudinaryUploaderService } from '../src/services/uploaderService';
+import { PublisherCommandsRepo } from '../modules/product/publisher/repo/commands';
+import { Mongo } from '../mongo';
+import { CloudinaryUploaderService } from '../services/uploaderService';
 import { Asset } from '../src/Asset';
-import { Publisher } from '../src/modules/product/publisher/domain/publisher';
-import { Result } from '../src/result';
+import { Publisher } from '../modules/product/publisher/domain/publisher';
+import { Result } from '../result';
 
 const publishersMock = [
   'Paradox Interactive',

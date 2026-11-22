@@ -10,8 +10,7 @@ import { KeyAvailability } from '../../domain/keyAvailability';
 import { KeyStatus } from '../../domain/keyStatus';
 import { KeyValue } from '../../domain/keyValue';
 import { KeyCommandsRepoI } from '../../repo/commands';
-import { KeyQueriesRepoI } from '../../repo/queries';
-import { CreateKeyRequestDto } from './createKeyRequestDto';
+import { CreateKeyRequestDto } from './createKeyController';
 import { ProductKeyCreationChecker } from '../../../../productKeyCreationChecker';
 
 export namespace CreateKeyErrors {

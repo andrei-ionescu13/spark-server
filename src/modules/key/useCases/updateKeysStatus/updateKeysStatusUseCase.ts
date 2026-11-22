@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyStatus } from '../../domain/keyStatus';
 import { KeyCommandsRepoI } from '../../repo/commands';
-import { UpdateKeysStatusRequestDto } from './updateKeysStatusRequestDto';
+import { UpdateKeysStatusRequestDto } from './updateKeysStatusController';
 
 type Response = Result<string, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

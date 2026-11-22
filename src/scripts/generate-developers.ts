@@ -1,10 +1,10 @@
 import fs from 'node:fs';
-import { DeveloperCommandsRepo } from '../src/modules/product/developer/repo/commands';
-import { Mongo } from '../src/mongo';
-import { CloudinaryUploaderService } from '../src/services/uploaderService';
+import { DeveloperCommandsRepo } from '../modules/product/developer/repo/commands';
+import { Mongo } from '../mongo';
+import { CloudinaryUploaderService } from '../services/uploaderService';
 import { Asset } from '../src/Asset';
-import { Result } from '../src/result';
-import { Developer } from '../src/modules/product/developer/domain/developer';
+import { Result } from '../result';
+import { Developer } from '../modules/product/developer/domain/developer';
 
 const developersMock = [
   'NIS America Inc.',

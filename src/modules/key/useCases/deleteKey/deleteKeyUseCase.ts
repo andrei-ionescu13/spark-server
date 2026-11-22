@@ -4,7 +4,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyCommandsRepoI } from '../../repo/commands';
 import { KeyQueriesRepoI } from '../../repo/queries';
-import { DeleteKeyRequestDto } from './deleteKeyRequestDto';
+import { DeleteKeyRequestDto } from './deleteKeyController';
 
 type Response = Result<undefined, UseCaseErrors.UnexpectedError | UseCaseErrors.NotFound>;
 

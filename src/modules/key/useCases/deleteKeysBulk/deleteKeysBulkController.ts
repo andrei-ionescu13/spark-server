@@ -1,8 +1,15 @@
 import { Request, Response } from 'express';
 import { UseCaseErrors } from '../../../../appError';
 import { Controller } from '../../../../controller';
-import { DeleteKeysBulkRequestDto } from './deleteKeysBulkRequestDto';
 import { DeleteKeysBulkUseCase } from './deleteKeysBulkUseCase';
+import * as z from 'zod';
+import { zodRequestValidationError } from '../../../../zodErrors';
+
+const schema = z.object({
+  keyIds: z.array(z.uuidv7()),
+});
+
+export type DeleteKeysBulkRequestDto = z.infer<typeof schema>;
 
 export class DeleteKeysBulkController extends Controller {
   constructor(private useCase: DeleteKeysBulkUseCase) {
@@ -11,9 +18,13 @@ export class DeleteKeysBulkController extends Controller {
   }
 
   executeImpl = async (req: Request, res: Response) => {
-    const dto: DeleteKeysBulkRequestDto = {
-      keyIds: req.body.ids,
-    };
+    const result = schema.safeParse({ keyIds: req.body.ids });
+
+    if (result.error) {
+      return this.forbidden(res, zodRequestValidationError(result.error).message);
+    }
+
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);
