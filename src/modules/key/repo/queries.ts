@@ -55,9 +55,7 @@ export class KeyQueriesRepo implements KeyQueriesRepoI {
             $regex: keyword,
             $options: 'i',
           },
-          ...(status && {
-            status: status,
-          }),
+          ...(status && { status }),
         },
       },
       {
@@ -79,7 +77,12 @@ export class KeyQueriesRepo implements KeyQueriesRepoI {
                 as: 'product',
               },
             },
-            { $unwind: '$product' },
+            {
+              $unwind: {
+                path: '$product',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
           ],
         },
       },
@@ -93,7 +96,7 @@ export class KeyQueriesRepo implements KeyQueriesRepoI {
       },
     ];
     const [result] = await this.collection.aggregate(pipeline).toArray();
-
+    console.log(result);
     return {
       count: result.count,
       keys: KeyMapper.toDtoList(result.keys),

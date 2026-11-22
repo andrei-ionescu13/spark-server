@@ -2,8 +2,16 @@ import { Request, Response } from 'express';
 import * as z from 'zod';
 import { Controller } from '../../../../controller';
 import { zodRequestValidationError } from '../../../../zodErrors';
-import { SearchKeysRequestDto } from './searchKeysRequestDto';
 import { SearchKeysUseCase } from './searchKeysUseCase';
+
+const schema = z.object({
+  keyword: z.string().optional(),
+  status: z.enum(['secret', 'revealed', 'reported']).optional(),
+  page: z.coerce.number().int().positive().optional(),
+  limit: z.coerce.number().int().positive().optional(),
+});
+
+export type SearchKeysRequestDto = z.infer<typeof schema>;
 
 export class SearchKeysController extends Controller {
   constructor(private useCase: SearchKeysUseCase) {
@@ -20,20 +28,13 @@ export class SearchKeysController extends Controller {
       limit: query?.limit,
     };
 
-    const schema = z.object({
-      keyword: z.string().optional(),
-      status: z.enum(['secret', 'revealed', 'reported']).optional(),
-      page: z.coerce.number().int().positive().optional(),
-      limit: z.coerce.number().int().positive().optional(),
-    });
-
     const result = schema.safeParse(input);
 
     if (result.error) {
       return this.forbidden(res, zodRequestValidationError(result.error).message);
     }
 
-    const dto: SearchKeysRequestDto = result.data;
+    const dto = result.data;
 
     try {
       const result = await this.useCase.execute(dto);

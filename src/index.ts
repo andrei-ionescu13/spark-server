@@ -25,6 +25,7 @@ import { couponRoutes } from './modules/coupon';
 import { productRoutes } from './modules/product';
 import { Mongo } from './mongo';
 import { verifyToken } from './middleware/verify-token';
+import { generateDeal } from '../scripts/generate-deal';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -42,6 +43,7 @@ const run = async () => {
       credentials: true,
     }),
   );
+  // generateDeal();
   app.use(cookieParser());
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());

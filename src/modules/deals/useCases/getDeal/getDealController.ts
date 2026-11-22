@@ -19,7 +19,7 @@ export class GetDealController extends Controller {
 
   executeImpl = async (req: Request, res: Response) => {
     const result = schema.safeParse({
-      dealId: req.params.couponId,
+      dealId: req.params.dealId,
     });
 
     if (result.error) {

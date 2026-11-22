@@ -15,6 +15,7 @@ export interface ProductQueriesRepoI {
   searchProductReviews: (id: string, query) => Promise<{ reviews: ReviewDto[]; count: number }>;
   searchProducts: (query) => Promise<{ products: ProductDto[]; count: number }>;
   searchProductKeys: (id: string, query) => Promise<{ keys: KeyDto[]; count: number }>;
+  listAllProducts: () => Promise<ProductDto[]>;
 }
 
 export class ProductQueriesRepo implements ProductQueriesRepoI {
@@ -568,4 +569,9 @@ export class ProductQueriesRepo implements ProductQueriesRepoI {
       keys: result.keys,
     };
   };
+
+  async listAllProducts() {
+    const products = await this.collection.find({}).toArray();
+    return ProductMapper.toDtoList(products);
+  }
 }

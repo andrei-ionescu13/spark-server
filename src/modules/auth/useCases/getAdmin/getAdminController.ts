@@ -18,7 +18,7 @@ export class GetAdminController extends Controller {
 
   executeImpl = async (req: DecodedRequest, res: Response) => {
     const validation = schema.safeParse({
-      user: req.user,
+      user: req.user.adminId,
     });
 
     if (validation.error) {

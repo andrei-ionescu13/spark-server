@@ -3,7 +3,7 @@ import { Result } from '../../../../result';
 import { UseCase } from '../../../../useCase';
 import { KeyDto } from '../../keyMapper';
 import { KeyQueriesRepoI } from '../../repo/queries';
-import { SearchKeysRequestDto } from './searchKeysRequestDto';
+import { SearchKeysRequestDto } from './searchKeysController';
 
 const MAX_LIMIT = 36;
 const LIMIT = 10;
@@ -27,7 +27,6 @@ export class SearchKeysUseCase implements UseCase<SearchKeysRequestDto, Response
 
     try {
       const searchResult = await this.keyQueriesRepo.searchKeys(query);
-
       return Result.ok(searchResult);
     } catch (error) {
       console.log(error);

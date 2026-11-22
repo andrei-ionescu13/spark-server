@@ -1,4 +1,4 @@
-import { Asset } from '../src/Asset';
+import { Asset } from '../src/assets';
 import { Meta } from '../src/Meta';
 import { LanguageQueriesRepo } from '../src/modules/internationalization/language/repo/queries';
 import { Price } from '../src/modules/orders/domain/price';
@@ -25091,8 +25091,6 @@ const getRandom = (start, end) => Math.floor(Math.random() * (end - start + 1)) 
 
 export const generateProducts = async () => {
   try {
-    Mongo.getCollection('products').updateMany({}, { $set: { status: 'published' } });
-    return;
     const developerRepo = new DeveloperQueriesRepo(Mongo.getCollection('developers'));
     const publisherRepo = new PublisherQueriesRepo(Mongo.getCollection('publishers'));
     const platformRepo = new PlatformQueriesRepo(Mongo.getCollection('platforms'));
